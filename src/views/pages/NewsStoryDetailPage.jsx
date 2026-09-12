@@ -1,14 +1,16 @@
 import React from 'react';
 import { useParams, Link } from 'react-router-dom';
-import { newsItems } from '../data/siteData';
+// ─── MVC: View ─── detail via Controller ─────────────────────────────────────
+import { useStoryDetailController } from '../../controllers/useContentControllers.js';
 import { ArrowLeft, Calendar, Clock, Sparkles } from 'lucide-react';
 import PlaceholderMedia from '../components/PlaceholderMedia';
 import SEO from '../components/SEO';
 
 export default function NewsStoryDetailPage() {
-  const { slug } = useParams();
+  // CONTROLLER (uses NewsModel internally)
+  const { story: found, slug } = useStoryDetailController();
 
-  const story = newsItems.find((n) => n.slug === slug || n.id === slug) || newsItems[0];
+  const story = found || { title: 'Story not found', excerpt: '', slug, content: '' };
 
   return (
     <div className="max-w-4xl mx-auto px-4 sm:px-6 md:px-8 py-8 space-y-8 font-sans pb-16">

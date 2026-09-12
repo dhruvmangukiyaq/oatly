@@ -1,10 +1,13 @@
 import React, { useState } from 'react';
-import { SUSTAINABILITY_PLAN } from '../data/oatlyData';
+// ─── MVC: View ─── data via Model ────────────────────────────────────────────
+import ContentModel from '../../models/contentModel.js';
 import { Leaf, ArrowRight, CheckCircle2, AlertTriangle, ShieldCheck, Sparkles, Scale } from 'lucide-react';
 
 export default function SustainabilityPage() {
   const [activePillar, setActivePillar] = useState(0);
   const [calcVolume, setCalcVolume] = useState(1); // liters per week
+  // MODEL
+  const SUSTAINABILITY_PLAN = ContentModel.getSustainabilityPlan();
 
   // CO2e comparison factors (kg CO2e per liter)
   const oatCO2 = 0.49;

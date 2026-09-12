@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
-import { NEWS_DATA } from '../data/oatlyData';
+// ─── MVC: View ─── data via Model ────────────────────────────────────────────
+import NewsModel from '../../models/newsModel.js';
 import { Newspaper, Calendar, Clock, ArrowRight, Sparkles } from 'lucide-react';
 
 export default function NewsPage({ onSelectArticle }) {
@@ -7,6 +8,8 @@ export default function NewsPage({ onSelectArticle }) {
 
   const types = ['All', 'Initiative', 'Stories', 'Collaborations'];
 
+  // MODEL
+  const NEWS_DATA = NewsModel.getAllNews();
   const filteredNews = NEWS_DATA.filter((n) => {
     if (selectedType === 'All') return true;
     return n.type.toLowerCase().includes(selectedType.toLowerCase());

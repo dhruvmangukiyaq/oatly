@@ -1,35 +1,45 @@
-import React, { useState, useEffect } from 'react';
+import React, { useEffect } from 'react';
 import { BrowserRouter, Routes, Route, useLocation } from 'react-router-dom';
 import { HelmetProvider } from 'react-helmet-async';
 
-// Shared Layout Components
-import Navbar from './components/Navbar';
-import Footer from './components/Footer';
+// ─── MVC WIRING ─────────────────────────────────────────────────────────────
+// Model    → src/models/*.js      (pure JavaScript data + business logic)
+// View     → src/views/**/*.jsx   (React presentation only, receives props)
+// Controller → src/controllers/*.js (pure JavaScript hooks bridging Model→View)
+// This file (App.jsx) is the composition root: it calls the Controller and
+// passes Model data down to Views via props. Views never import Models directly
+// except via Controllers where local filtering is needed.
 
-// Interactive Modals
-import SearchModal from './components/SearchModal';
-import ProductModal from './components/ProductModal';
-import RecipeModal from './components/RecipeModal';
-import ArticleModal from './components/ArticleModal';
+import { useAppController } from './controllers/useAppController.js';
 
-// Pages
-import HomePage from './pages/HomePage';
-import ProductsPage from './pages/ProductsPage';
-import CategoryProductsPage from './pages/CategoryProductsPage';
-import TastebudsPage from './pages/TastebudsPage';
-import LookBookVol3Page from './pages/LookBookVol3Page';
-import RecipeDetailPage from './pages/RecipeDetailPage';
-import LookBookAW25Page from './pages/LookBookAW25Page';
-import LookBookSS25Page from './pages/LookBookSS25Page';
-import FutureOfTastePage from './pages/FutureOfTastePage';
-import NewsPage from './pages/NewsPage';
-import NewsStoryDetailPage from './pages/NewsStoryDetailPage';
-import SustainabilityPage from './pages/SustainabilityPage';
-import SustainabilitySubPage from './pages/SustainabilitySubPage';
-import HealthPage from './pages/HealthPage';
-import ContactPage from './pages/ContactPage';
-import LegalPage from './pages/LegalPage';
-import PrivacyPolicyPage from './pages/PrivacyPolicyPage';
+// Shared Layout Views
+import Navbar from './views/components/Navbar';
+import Footer from './views/components/Footer';
+
+// Interactive Modal Views
+import SearchModal from './views/components/SearchModal';
+import ProductModal from './views/components/ProductModal';
+import RecipeModal from './views/components/RecipeModal';
+import ArticleModal from './views/components/ArticleModal';
+
+// Page Views
+import HomePage from './views/pages/HomePage';
+import ProductsPage from './views/pages/ProductsPage';
+import CategoryProductsPage from './views/pages/CategoryProductsPage';
+import TastebudsPage from './views/pages/TastebudsPage';
+import LookBookVol3Page from './views/pages/LookBookVol3Page';
+import RecipeDetailPage from './views/pages/RecipeDetailPage';
+import LookBookAW25Page from './views/pages/LookBookAW25Page';
+import LookBookSS25Page from './views/pages/LookBookSS25Page';
+import FutureOfTastePage from './views/pages/FutureOfTastePage';
+import NewsPage from './views/pages/NewsPage';
+import NewsStoryDetailPage from './views/pages/NewsStoryDetailPage';
+import SustainabilityPage from './views/pages/SustainabilityPage';
+import SustainabilitySubPage from './views/pages/SustainabilitySubPage';
+import HealthPage from './views/pages/HealthPage';
+import ContactPage from './views/pages/ContactPage';
+import LegalPage from './views/pages/LegalPage';
+import PrivacyPolicyPage from './views/pages/PrivacyPolicyPage';
 
 // Scroll to top helper
 function ScrollToTop() {
@@ -50,10 +60,21 @@ function ScrollToTop() {
 }
 
 export default function App() {
-  const [searchOpen, setSearchOpen] = useState(false);
-  const [selectedProduct, setSelectedProduct] = useState(null);
-  const [selectedRecipe, setSelectedRecipe] = useState(null);
-  const [selectedArticle, setSelectedArticle] = useState(null);
+  // CONTROLLER: all UI selection state lives here (not in Views)
+  const {
+    searchOpen,
+    openSearch,
+    closeSearch,
+    selectedProduct,
+    selectProduct,
+    clearProduct,
+    selectedRecipe,
+    selectRecipe,
+    clearRecipe,
+    selectedArticle,
+    selectArticle,
+    clearArticle,
+  } = useAppController();
 
   return (
     <HelmetProvider>
@@ -62,7 +83,7 @@ export default function App() {
         <div className="min-h-screen bg-graph-paper border-[8px] border-[#466874] text-oatly-black selection:bg-oatly-yellow selection:text-oatly-black font-sans p-5">
           <div className="max-w-[1480px] mx-auto bg-[#FFFEF8] border-[1.5px] border-black flex flex-col min-h-[calc(100vh-58px)]">
           {/* Navigation Bar */}
-          <Navbar onOpenSearch={() => setSearchOpen(true)} />
+          <Navbar onOpenSearch={openSearch} />
 
           {/* Main Content Router */}
           <main className="flex-grow">
@@ -72,9 +93,9 @@ export default function App() {
                 path="/"
                 element={
                   <HomePage
-                    onSelectProduct={(p) => setSelectedProduct(p)}
-                    onSelectRecipe={(r) => setSelectedRecipe(r)}
-                    onSelectArticle={(a) => setSelectedArticle(a)}
+                    onSelectProduct={selectProduct}
+                    onSelectRecipe={selectRecipe}
+                    onSelectArticle={selectArticle}
                   />
                 }
               />
@@ -84,7 +105,7 @@ export default function App() {
                 path="/products"
                 element={
                   <ProductsPage
-                    onSelectProduct={(p) => setSelectedProduct(p)}
+                    onSelectProduct={selectProduct}
                   />
                 }
               />
@@ -98,7 +119,7 @@ export default function App() {
                 path="/recipes"
                 element={
                   <TastebudsPage
-                    onSelectRecipe={(r) => setSelectedRecipe(r)}
+                    onSelectRecipe={selectRecipe}
                   />
                 }
               />
@@ -124,7 +145,7 @@ export default function App() {
                 path="/news"
                 element={
                   <NewsPage
-                    onSelectArticle={(a) => setSelectedArticle(a)}
+                    onSelectArticle={selectArticle}
                   />
                 }
               />
@@ -192,23 +213,23 @@ export default function App() {
           {/* Modals */}
           <SearchModal
             isOpen={searchOpen}
-            onClose={() => setSearchOpen(false)}
-            onSelectProduct={(p) => setSelectedProduct(p)}
+            onClose={closeSearch}
+            onSelectProduct={selectProduct}
           />
 
           <ProductModal
             product={selectedProduct}
-            onClose={() => setSelectedProduct(null)}
+            onClose={clearProduct}
           />
 
           <RecipeModal
             recipe={selectedRecipe}
-            onClose={() => setSelectedRecipe(null)}
+            onClose={clearRecipe}
           />
 
           <ArticleModal
             article={selectedArticle}
-            onClose={() => setSelectedArticle(null)}
+            onClose={clearArticle}
           />
 
         </div>

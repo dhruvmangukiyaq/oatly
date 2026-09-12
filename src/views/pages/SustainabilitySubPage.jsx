@@ -1,14 +1,17 @@
 import React from 'react';
 import { useLocation, Link } from 'react-router-dom';
-import { sustainabilityData } from '../data/siteData';
+// ─── MVC: View ─── data via Model ────────────────────────────────────────────
+import ContentModel from '../../models/contentModel.js';
 import PlaceholderMedia from '../components/PlaceholderMedia';
 import FlatCard from '../components/FlatCard';
 import SEO from '../components/SEO';
-import { IMAGES, CARDS } from '../models/homepage';
+import { IMAGES, CARDS } from '../../models/homepage';
 import { ArrowLeft, Leaf, CheckCircle2 } from 'lucide-react';
 
 export default function SustainabilitySubPage() {
   const { pathname } = useLocation();
+  // MODEL
+  const sustainabilityData = ContentModel.getSustainabilityData();
 
   let subData = sustainabilityData.sections.who;
   if (pathname.includes('sustainability-plan/climate-footprint')) {

@@ -1,29 +1,17 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { Search, X, ArrowRight, Sparkles } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { PRODUCTS_DATA, RECIPES_DATA, NEWS_DATA } from '../data/oatlyData';
 import { Link } from 'react-router-dom';
+// ─── MVC: View ──────────────────────────────────────────────────────────────
+// Search state + results come from the Controller (which uses SearchModel).
+import { useSearchController } from '../../controllers/useSearchController.js';
 
 export default function SearchModal({ isOpen, onClose, onSelectProduct }) {
-  const [query, setQuery] = useState('');
+  // CONTROLLER
+  const { query, setQuery, results, popularSearches } = useSearchController();
+  const { products: filteredProducts, recipes: filteredRecipes, news: filteredNews } = results;
 
   if (!isOpen) return null;
-
-  const filteredProducts = PRODUCTS_DATA.filter(p => 
-    p.name.toLowerCase().includes(query.toLowerCase()) || 
-    p.category.toLowerCase().includes(query.toLowerCase()) ||
-    p.description.toLowerCase().includes(query.toLowerCase())
-  );
-
-  const filteredRecipes = RECIPES_DATA.filter(r => 
-    r.title.toLowerCase().includes(query.toLowerCase()) || 
-    r.category.toLowerCase().includes(query.toLowerCase())
-  );
-
-  const filteredNews = NEWS_DATA.filter(n => 
-    n.title.toLowerCase().includes(query.toLowerCase()) || 
-    n.type.toLowerCase().includes(query.toLowerCase())
-  );
 
   return (
     <AnimatePresence>
@@ -69,7 +57,7 @@ export default function SearchModal({ isOpen, onClose, onSelectProduct }) {
               <div className="text-center py-8">
                 <div className="font-hand text-xl text-oatly-black mb-2">Popular Searches:</div>
                 <div className="flex flex-wrap justify-center gap-2 max-w-md mx-auto">
-                  {['Barista Edition', 'Cold Foam', 'Oatgurt', 'Ice Cream', 'Carbon Footprint', 'LOOK BOOK VOL 3'].map(tag => (
+                  {popularSearches.map(tag => (
                     <button
                       key={tag}
                       onClick={() => setQuery(tag)}
@@ -127,10 +115,10 @@ export default function SearchModal({ isOpen, onClose, onSelectProduct }) {
                           onClick={onClose}
                           className="p-3 bg-white border-2 border-oatly-black shadow-brutal-sm hover:bg-oatly-cream flex items-center gap-3 group"
                         >
-                          <img src={r.image} alt={r.title} className="w-12 h-12 object-cover border border-oatly-black" />
+                          <img src={r.image} alt={r.title || r.name} className="w-12 h-12 object-cover border border-oatly-black" />
                           <div>
-                            <div className="font-extrabold text-sm uppercase group-hover:text-oatly-blue">{r.title}</div>
-                            <div className="text-xs text-gray-600 font-mono">{r.lookbook} • {r.time}</div>
+                            <div className="font-extrabold text-sm uppercase group-hover:text-oatly-blue">{r.title || r.name}</div>
+                            <div className="text-xs text-gray-600 font-mono">{r.lookbook || r.collection} • {r.time || r.prepTime}</div>
                           </div>
                         </Link>
                       ))}

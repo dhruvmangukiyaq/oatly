@@ -2,14 +2,17 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { ArrowRight, Sparkles, BookOpen, Quote, ChevronRight } from 'lucide-react';
-import {
-  LOOK_BOOK_VOL_3_HERO,
-  LOOK_BOOK_VOL_3_RECIPES,
-  EDITORIAL_SECTION,
-  NEXT_COLLECTION_TEASER
-} from '../data/lookBookVol3Data';
+// ─── MVC: View ─── data via Controller/Model ─────────────────────────────────
+import { useLookBookVol3Controller } from '../../controllers/useContentControllers.js';
 
 export default function LookBookVol3Page() {
+  // CONTROLLER
+  const {
+    hero: LOOK_BOOK_VOL_3_HERO,
+    recipes: LOOK_BOOK_VOL_3_RECIPES,
+    editorial: EDITORIAL_SECTION,
+    nextTeaser: NEXT_COLLECTION_TEASER,
+  } = useLookBookVol3Controller();
   return (
     <div className="space-y-16 md:space-y-24 font-sans pb-16">
       

@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 import FlatCard from '../components/FlatCard';
 import VideoCard from '../components/VideoCard';
 import SEO from '../components/SEO';
-import { IMAGES, CARDS } from '../models/homepage';
+import { IMAGES, CARDS } from '../../models/homepage';
 
 // ─── VIEW fragments (MVC: View) ─────────────────────────────────────────────
 

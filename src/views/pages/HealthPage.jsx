@@ -1,9 +1,12 @@
 import React, { useState } from 'react';
-import { NUTRITION_FACTS } from '../data/oatlyData';
+// ─── MVC: View ─── data via Model ────────────────────────────────────────────
+import ContentModel from '../../models/contentModel.js';
 import { ChevronDown, ChevronUp, Heart, CheckCircle2, ShieldAlert, Sparkles, HelpCircle } from 'lucide-react';
 
 export default function HealthPage() {
   const [openFact, setOpenFact] = useState(1);
+  // MODEL
+  const NUTRITION_FACTS = ContentModel.getNutritionFacts();
 
   return (
     <div className="max-w-7xl mx-auto px-4 sm:px-6 md:px-8 py-8 space-y-12 font-sans pb-16">

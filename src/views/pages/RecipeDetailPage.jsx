@@ -1,13 +1,15 @@
 import React, { useState } from 'react';
 import { useParams, Link } from 'react-router-dom';
-import { LOOK_BOOK_VOL_3_RECIPES } from '../data/lookBookVol3Data';
+// ─── MVC: View ─── detail via Controller ─────────────────────────────────────
+import { useRecipeDetailController } from '../../controllers/useContentControllers.js';
 import { ArrowLeft, Clock, ChefHat, Sparkles, Check, Bookmark } from 'lucide-react';
 
 export default function RecipeDetailPage() {
-  const { slug } = useParams();
+  // CONTROLLER (uses RecipeModel internally)
+  const { recipe: found } = useRecipeDetailController();
   const [checkedIngredients, setCheckedIngredients] = useState({});
 
-  const recipe = LOOK_BOOK_VOL_3_RECIPES.find((r) => r.slug === slug) || LOOK_BOOK_VOL_3_RECIPES[0];
+  const recipe = found || { name: 'Recipe not found', ingredients: [], instructions: [] };
 
   const toggleIngredient = (idx) => {
     setCheckedIngredients((prev) => ({

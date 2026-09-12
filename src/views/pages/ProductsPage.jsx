@@ -1,56 +1,26 @@
-import React, { useState, useEffect } from 'react';
-import { useSearchParams } from 'react-router-dom';
-import { PRODUCTS_DATA } from '../data/oatlyData';
+import React from 'react';
 import ProductCard from '../components/ProductCard';
-import { Sparkles, Search, Filter } from 'lucide-react';
+import { Search, Filter } from 'lucide-react';
+// ─── MVC: View ──────────────────────────────────────────────────────────────
+// Presentation only. All filtering/URL logic lives in the Controller,
+// all data access lives in the Model.
+import { useProductsController } from '../../controllers/useProductsController.js';
 
 export default function ProductsPage({ onSelectProduct }) {
-  const [searchParams, setSearchParams] = useSearchParams();
-  const categoryParam = searchParams.get('category');
-  
-  const [selectedCategory, setSelectedCategory] = useState(categoryParam || 'All');
-  const [searchQuery, setSearchQuery] = useState('');
-
-  useEffect(() => {
-    if (categoryParam) {
-      setSelectedCategory(categoryParam);
-    } else {
-      setSelectedCategory('All');
-    }
-  }, [categoryParam]);
-
-  const categories = [
-    'All',
-    'Cold Foam',
-    'Soft Serve',
-    'Spread',
-    'Cooking',
-    'Chilled Oat Drinks',
-    'Oat Drink',
-    'Oatgurt',
-    'Ice Cream'
-  ];
-
-  const filteredProducts = PRODUCTS_DATA.filter((p) => {
-    const matchesCategory = selectedCategory === 'All' || p.category === selectedCategory || p.subCategory === selectedCategory;
-    const matchesSearch = p.name.toLowerCase().includes(searchQuery.toLowerCase()) || 
-                          p.tagline.toLowerCase().includes(searchQuery.toLowerCase()) ||
-                          p.description.toLowerCase().includes(searchQuery.toLowerCase());
-    return matchesCategory && matchesSearch;
-  });
-
-  const handleCategoryClick = (cat) => {
-    setSelectedCategory(cat);
-    if (cat === 'All') {
-      setSearchParams({});
-    } else {
-      setSearchParams({ category: cat });
-    }
-  };
+  // CONTROLLER
+  const {
+    categories,
+    selectedCategory,
+    searchQuery,
+    setSearchQuery,
+    filteredProducts,
+    handleCategoryClick,
+    resetFilters,
+  } = useProductsController();
 
   return (
     <div className="max-w-7xl mx-auto px-4 sm:px-6 md:px-8 py-8 space-y-10 font-sans pb-16">
-      
+
       {/* Header Banner */}
       <div className="bg-oatly-yellow border-4 border-oatly-black p-8 md:p-12 shadow-brutal-xl relative overflow-hidden">
         <div className="max-w-3xl space-y-4">
@@ -66,10 +36,10 @@ export default function ProductsPage({ onSelectProduct }) {
 
       {/* Filter Bar & Search */}
       <div className="space-y-4">
-        
+
         {/* Search & Counter */}
         <div className="flex flex-col sm:flex-row items-center justify-between gap-4 bg-white border-2 border-oatly-black p-4 shadow-brutal">
-          
+
           <div className="relative w-full sm:w-80">
             <Search className="w-5 h-5 absolute left-3 top-1/2 -translate-y-1/2 text-gray-500" />
             <input
@@ -113,7 +83,7 @@ export default function ProductsPage({ onSelectProduct }) {
           <div className="font-display font-black text-2xl uppercase text-oatly-black">NO OAT PRODUCTS FOUND</div>
           <p className="text-sm text-gray-600 mt-2 font-mono">Try clearing your search query or selecting another category.</p>
           <button
-            onClick={() => { setSelectedCategory('All'); setSearchQuery(''); setSearchParams({}); }}
+            onClick={resetFilters}
             className="btn-oatly mt-4 text-xs py-2 px-6"
           >
             RESET FILTERS
@@ -130,13 +100,6 @@ export default function ProductsPage({ onSelectProduct }) {
           ))}
         </div>
       )}
-
-      {/* Note about direct URLs / code comment requirement */}
-      {/* 
-        Note: Image URLs are currently using high quality Unsplash placeholders matching 
-        exact Oatly product aspect ratios. Real CDN asset URLs from Oatly can be swapped in 
-        by updating src/data/oatlyData.js
-      */}
 
     </div>
   );

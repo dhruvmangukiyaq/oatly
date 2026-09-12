@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { useSearchParams } from 'react-router-dom';
-import { RECIPES_DATA } from '../data/oatlyData';
+// ─── MVC: View ──────────────────────────────────────────────────────────────
+// Data comes from the Model (recipeModel.js) via local filtering.
+import RecipeModel from '../../models/recipeModel.js';
 import { Sparkles, Clock, ChefHat, BookOpen, ArrowRight } from 'lucide-react';
 
 export default function TastebudsPage({ onSelectRecipe }) {
@@ -19,6 +21,8 @@ export default function TastebudsPage({ onSelectRecipe }) {
   const lookbooks = ['All', 'LOOK BOOK VOL. 3', 'LOOK BOOK A/W 25', 'LOOK BOOK S/S 25', 'Future Of Taste'];
   const categories = ['All', 'Drinks', 'Breakfast', 'Savory Meals'];
 
+  // MODEL
+  const RECIPES_DATA = RecipeModel.getFeaturedRecipes();
   const filteredRecipes = RECIPES_DATA.filter((r) => {
     const matchesLookbook = selectedLookbook === 'All' || r.lookbook === selectedLookbook;
     const matchesCategory = selectedCategory === 'All' || r.category === selectedCategory;

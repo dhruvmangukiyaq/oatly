@@ -1,16 +1,20 @@
 import React from 'react';
 import { useParams, Link } from 'react-router-dom';
-import { productCategories } from '../data/siteData';
 import { ArrowLeft, Sparkles, Filter, Leaf } from 'lucide-react';
 import PlaceholderMedia from '../components/PlaceholderMedia';
 import SEO from '../components/SEO';
+// ─── MVC: View ──────────────────────────────────────────────────────────────
+// Data + lookup via Model/Controller, not raw data imports.
+import ProductModel from '../../models/productModel.js';
+import { useCategoryProductsController } from '../../controllers/useProductsController.js';
 
 export default function CategoryProductsPage() {
   const { category } = useParams();
+  // CONTROLLER
+  const { category: currentCategoryRaw, products } = useCategoryProductsController(category);
+  const allCategories = ProductModel.getProductCategories();
 
-  const currentCategory = productCategories.find(
-    (c) => c.slug === category || c.id === category
-  ) || productCategories[0];
+  const currentCategory = currentCategoryRaw || allCategories[0];
 
   return (
     <div className="max-w-7xl mx-auto px-4 sm:px-6 md:px-8 py-8 space-y-10 font-sans pb-16">
@@ -43,7 +47,7 @@ export default function CategoryProductsPage() {
 
       {/* Product Category Navigation Pills */}
       <div className="flex flex-wrap gap-2">
-        {productCategories.map((cat) => (
+        {allCategories.map((cat) => (
           <Link
             key={cat.id}
             to={`/products/${cat.slug}`}
