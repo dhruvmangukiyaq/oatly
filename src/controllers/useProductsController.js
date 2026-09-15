@@ -1,10 +1,11 @@
 // ─── CONTROLLER (MVC) ───────────────────────────────────────────────────────
 // Products page logic: filtering by category + search query + URL sync.
-// Pure JavaScript (React hooks + Model, no JSX).
+// Data comes from the Model (async Express API). No JSX.
 
-import { useState, useEffect, useMemo } from 'react';
+import { useState, useEffect } from 'react';
 import { useSearchParams } from 'react-router-dom';
 import ProductModel from '../models/productModel.js';
+import { useApiData } from '../hooks/useApiData.js';
 
 export function useProductsController() {
   const [searchParams, setSearchParams] = useSearchParams();
@@ -17,14 +18,10 @@ export function useProductsController() {
     setSelectedCategory(categoryParam || 'All');
   }, [categoryParam]);
 
-  const categories = useMemo(() => ProductModel.getProductCategoryNames(), []);
-
-  const filteredProducts = useMemo(
-    () =>
-      ProductModel.filterProducts({
-        category: selectedCategory,
-        query: searchQuery,
-      }),
+  // MODEL (async API)
+  const categories = useApiData(() => ProductModel.getProductCategoryNames(), []);
+  const filteredProducts = useApiData(
+    () => ProductModel.filterProducts({ category: selectedCategory, query: searchQuery }),
     [selectedCategory, searchQuery]
   );
 
@@ -52,12 +49,13 @@ export function useProductsController() {
 }
 
 export function useCategoryProductsController(categorySlug) {
-  const category = ProductModel.getCategoryBySlug(categorySlug);
-  const products = useMemo(
-    () => ProductModel.getProductsByCategorySlug(categorySlug),
-    [categorySlug]
-  );
-  return { category, products };
+  // MODEL (async API)
+  const data = useApiData(() => ProductModel.getCategoryBySlug(categorySlug).then(async (category) => {
+    if (!category) return { category: null, products: [] };
+    const products = await ProductModel.getProductsByCategorySlug(categorySlug);
+    return { category, products };
+  }), [categorySlug]);
+  return data || { category: null, products: null };
 }
 
 export default useProductsController;

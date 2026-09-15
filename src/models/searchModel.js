@@ -1,30 +1,24 @@
-// ─── MODEL (MVC) ────────────────────────────────────────────────────────────
-// Unified search across Products / Recipes / News.
-// Pure JavaScript — no JSX, no React.
+// ─── MODEL (MVC, async over API) ────────────────────────────────────────────
+// Unified search across Products / Recipes / News via the backend.
 
-import { filterProducts } from './productModel.js';
-import { searchRecipes } from './recipeModel.js';
-import { searchNews } from './newsModel.js';
+import { fetchSearch } from '../api/search.js';
 
-export const POPULAR_SEARCHES = [
-  'Barista Edition',
-  'Cold Foam',
-  'Oatgurt',
-  'Ice Cream',
-  'Carbon Footprint',
-  'LOOK BOOK VOL 3',
-];
+export async function getPopularSearches() {
+  const data = await fetchSearch('');
+  return data?.popular || [];
+}
 
-export function searchAll(query = '') {
+export async function searchAll(query = '') {
   const q = query.trim();
   if (!q) return { products: [], recipes: [], news: [] };
+  const data = await fetchSearch(q);
   return {
-    products: filterProducts({ category: 'All', query: q }),
-    recipes: searchRecipes(q),
-    news: searchNews(q),
+    products: data?.products || [],
+    recipes: data?.recipes || [],
+    news: data?.news || [],
   };
 }
 
-const SearchModel = { searchAll, POPULAR_SEARCHES };
+const SearchModel = { searchAll, getPopularSearches };
 
 export default SearchModel;

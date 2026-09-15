@@ -2,7 +2,7 @@
 
 A React + Vite frontend inspired by [Oatly.com](https://www.oatly.com) — product showcase, recipes / look-books, news & initiatives, sustainability hub, health FAQ, contact / legal pages.
 
-Built with a clean **MVC structure** — `models` (data + logic) → `controllers` (hooks) → `views` (presentation only).
+Built with full-stack MVC — React frontend (`src/`: api → models → controllers → components/pages) + Express backend (`server/`: routes → controllers → models). UI and functionality unchanged, only the organization.
 
 > 🥛 Fictional / educational clone for learning purposes. Not affiliated with Oatly AB.
 
@@ -65,40 +65,32 @@ Built with a clean **MVC structure** — `models` (data + logic) → `controller
 ```
 oatly/
 ├── index.html              # Title, meta, Google Fonts
-├── vite.config.js          # Vite + React plugin
+├── vite.config.js          # Vite + React plugin + /api proxy → Express
 ├── tailwind.config.js      # Oatly colors, fonts, brutal shadows
 ├── postcss.config.js
 ├── public/                 # Static assets
-├── src/
+├── server/                 # Express MVC backend (Node.js, port 8901)
+│   ├── server.js           # Entry point (also serves ../dist in production)
+│   ├── models/             # Data + pure query functions (no HTTP)
+│   ├── controllers/        # Req/res handlers (no business logic)
+│   ├── routes/             # Routers mounted under /api
+│   └── README.md           # Endpoint table
+├── src/                    # React frontend (one file per page/component)
 │   ├── main.jsx            # React root
-│   ├── App.jsx             # Composition root + Router + Modals
-│   ├── index.css           # Tailwind + custom utilities
-│   ├── models/             # Pure JS business logic (no JSX)
-│   │   ├── productModel.js
-│   │   ├── recipeModel.js
-│   │   ├── newsModel.js
-│   │   ├── contentModel.js
-│   │   ├── searchModel.js
-│   │   ├── navigationModel.js
-│   │   └── homepage.js
+│   ├── App.jsx             # Composition root (providers, layout, modals)
+│   ├── api/                # HTTP client for the backend (fetch layer)
+│   ├── models/             # Async data-access over src/api (same names)
 │   ├── controllers/        # Hooks bridging Model → View
-│   │   ├── useAppController.js
-│   │   ├── useProductsController.js
-│   │   ├── useContentControllers.js
-│   │   └── useSearchController.js
-│   ├── views/
-│   │   ├── components/     # Navbar, Footer, Modals, Cards, SEO
-│   │   └── pages/          # Home, Products, Tastebuds, News, etc. (17 pages)
-│   ├── data/               # Static content
-│   │   ├── oatlyData.js
-│   │   ├── siteData.js
-│   │   └── lookBookVol3Data.js
+│   ├── hooks/              # Shared hooks (useApiData)
+│   ├── components/         # Navbar, Footer, Modals, Cards, SEO (one each)
+│   ├── pages/              # Home, Products, LookBooks, News, etc. (one each)
+│   ├── routes/             # Route definitions (AppRoutes)
+│   ├── styles/             # All CSS
 │   └── assets/
 └── dist/                   # Production build output
 ```
 
-**MVC Rule followed in code:**
-`View` never imports `Model` directly for global state — `App.jsx` calls Controller hooks and passes data via props.
+**MVC flow:** `View (pages/components)` → `Controller (hooks)` → `Model (async)` → `API (fetch)` → `Express (routes → controllers → models → data)`. UI, design and functionality are unchanged — only the organization changed.
 
 ---
 
@@ -111,18 +103,20 @@ oatly/
 ### 2. Install
 ```bash
 npm install
+npm run server:install   # one-time: Express backend deps
 ```
 
-### 3. Run dev server
+### 3. Run backend + frontend (two terminals)
 ```bash
-npm run dev
+npm run server   # Express API → http://localhost:8901
+npm run dev      # Vite dev server → http://localhost:5173 (proxies /api)
 ```
 Open http://localhost:5173
 
 ### 4. Build for production
 ```bash
-npm run build
-npm run preview
+npm run build    # frontend → dist/
+npm run server   # serves both API + dist on http://localhost:8901
 ```
 
 ### 5. Lint
@@ -138,7 +132,7 @@ npm run lint
  /                                          Home
  /products                                  All Products
  /products/:category                        e.g. /products/oat-drink
- /recipes                                   Tastebuds hub
+ /recipes                                   → redirects to Look Book Vol. 3
  /recipes/look-book-vol-3                   Look Book Vol 3
  /recipes/look-book-vol-3/:slug             Recipe detail
  /recipes/look-book-autumn-winter-2025      AW25 Look Book
@@ -168,9 +162,9 @@ boxShadow: { brutal:'4px 4px 0px 0px #111111', ... }
 **Fonts — `index.html`:**
 Fredoka (hand), Outfit (sans), Space Grotesk (display), Special Elite + Courier Prime (typewriter accents)
 
-**Add new product / recipe:** edit `src/data/oatlyData.js` or `lookBookVol3Data.js`, logic auto-picks via models.
+**Add new product / recipe:** edit the dataset in `server/models/data/` (single source of truth) — both API and UI pick it up.
 
-**Add new page:** 1) create `src/views/pages/MyPage.jsx` 2) add `<Route path="/my-page">` in `src/App.jsx` 3) add link in `navigationModel.js`.
+**Add new page:** 1) create `src/pages/MyPage.jsx` 2) add `<Route path="/my-page">` in `src/routes/AppRoutes.jsx` 3) add link in `server/models/navigationModel.js`.
 
 ---
 
@@ -179,6 +173,8 @@ Fredoka (hand), Outfit (sans), Space Grotesk (display), Special Elite + Courier 
 | Command | Description |
 |---------|-------------|
 | `npm run dev` | Start Vite dev server with HMR |
+| `npm run server` | Start Express API backend (port 8901) |
+| `npm run server:install` | One-time backend dep install |
 | `npm run build` | Production build to `dist/` |
 | `npm run preview` | Preview production build locally |
 | `npm run lint` | Run Oxlint |

@@ -1,36 +1,43 @@
-// ─── MODEL (MVC) ────────────────────────────────────────────────────────────
-// Pure JavaScript data-access layer for Sustainability + Health + Homepage.
+// ─── MODEL (MVC, async over API) ────────────────────────────────────────────
+// Same function names as before — now backed by the Express backend.
 
-import { SUSTAINABILITY_PLAN, NUTRITION_FACTS } from '../data/oatlyData.js';
-import { sustainabilityData, siteMeta } from '../data/siteData.js';
-import { IMAGES, CARDS } from './homepage.js';
+import {
+  fetchPlan,
+  fetchSustainability,
+  fetchNutrition,
+  fetchFutureOfTaste,
+  fetchHome,
+} from '../api/content.js';
 
-export function getSustainabilityPlan() {
-  return SUSTAINABILITY_PLAN;
+export async function getSustainabilityPlan() {
+  return fetchPlan();
 }
 
-export function getSustainabilityData() {
-  return sustainabilityData;
+export async function getSustainabilityData() {
+  return fetchSustainability();
 }
 
-export function getSustainabilitySection(key) {
-  return sustainabilityData.sections[key] || null;
+export async function getSustainabilitySection(key) {
+  const data = await fetchSustainability();
+  return data?.sections?.[key] || null;
 }
 
-export function getNutritionFacts() {
-  return NUTRITION_FACTS;
+export async function getNutritionFacts() {
+  return fetchNutrition();
 }
 
-export function getSiteMeta() {
-  return siteMeta;
+export async function getFutureOfTaste() {
+  return fetchFutureOfTaste();
 }
 
-export function getHomepageCards() {
-  return CARDS;
+export async function getHomepageCards() {
+  const data = await fetchHome();
+  return data?.cards || {};
 }
 
-export function getHomepageImages() {
-  return IMAGES;
+export async function getHomepageImages() {
+  const data = await fetchHome();
+  return data?.images || {};
 }
 
 const ContentModel = {
@@ -38,7 +45,7 @@ const ContentModel = {
   getSustainabilityData,
   getSustainabilitySection,
   getNutritionFacts,
-  getSiteMeta,
+  getFutureOfTaste,
   getHomepageCards,
   getHomepageImages,
 };

@@ -1,44 +1,31 @@
 import React, { useEffect } from 'react';
-import { BrowserRouter, Routes, Route, Navigate, useLocation } from 'react-router-dom';
+import { BrowserRouter, useLocation } from 'react-router-dom';
 import { HelmetProvider } from 'react-helmet-async';
 
-// ─── MVC WIRING ─────────────────────────────────────────────────────────────
-// Model    → src/models/*.js      (pure JavaScript data + business logic)
-// View     → src/views/**/*.jsx   (React presentation only, receives props)
-// Controller → src/controllers/*.js (pure JavaScript hooks bridging Model→View)
-// This file (App.jsx) is the composition root: it calls the Controller and
-// passes Model data down to Views via props. Views never import Models directly
-// except via Controllers where local filtering is needed.
+// ─── APP COMPOSITION ROOT ───────────────────────────────────────────────────
+// Frontend structure:
+//   src/api/         → HTTP client for the Express backend (fetch/axios layer)
+//   src/models/      → async data-access over src/api (same names as before)
+//   src/controllers/ → React hooks bridging Model → View
+//   src/components/  → shared UI (one file per component)
+//   src/pages/       → one file per page
+//   src/routes/      → route definitions (AppRoutes)
+//   src/styles/      → all CSS
+//   src/assets/      → static assets
+//   server/          → Express MVC backend (models/controllers/routes)
 
 import { useAppController } from './controllers/useAppController.js';
+import AppRoutes from './routes/AppRoutes';
 
-// Shared Layout Views
-import Navbar from './views/components/Navbar';
-import Footer from './views/components/Footer';
+// Shared Layout Components
+import Navbar from './components/Navbar';
+import Footer from './components/Footer';
 
-// Interactive Modal Views
-import SearchModal from './views/components/SearchModal';
-import ProductModal from './views/components/ProductModal';
-import RecipeModal from './views/components/RecipeModal';
-import ArticleModal from './views/components/ArticleModal';
-
-// Page Views
-import HomePage from './views/pages/HomePage';
-import ProductsPage from './views/pages/ProductsPage';
-import CategoryProductsPage from './views/pages/CategoryProductsPage';
-import LookBookVol3Page from './views/pages/LookBookVol3Page';
-import RecipeDetailPage from './views/pages/RecipeDetailPage';
-import LookBookAW25Page from './views/pages/LookBookAW25Page';
-import LookBookSS25Page from './views/pages/LookBookSS25Page';
-import FutureOfTastePage from './views/pages/FutureOfTastePage';
-import NewsPage from './views/pages/NewsPage';
-import NewsStoryDetailPage from './views/pages/NewsStoryDetailPage';
-import SustainabilityPage from './views/pages/SustainabilityPage';
-import SustainabilitySubPage from './views/pages/SustainabilitySubPage';
-import HealthPage from './views/pages/HealthPage';
-import ContactPage from './views/pages/ContactPage';
-import LegalPage from './views/pages/LegalPage';
-import PrivacyPolicyPage from './views/pages/PrivacyPolicyPage';
+// Interactive Modal Components
+import SearchModal from './components/SearchModal';
+import ProductModal from './components/ProductModal';
+import RecipeModal from './components/RecipeModal';
+import ArticleModal from './components/ArticleModal';
 
 // Scroll to top helper
 function ScrollToTop() {
@@ -86,132 +73,11 @@ export default function App() {
 
           {/* Main Content Router */}
           <main className="flex-grow">
-            <Routes>
-              {/* Home */}
-              <Route
-                path="/"
-                element={
-                  <HomePage
-                    onSelectProduct={selectProduct}
-                    onSelectRecipe={selectRecipe}
-                    onSelectArticle={selectArticle}
-                  />
-                }
-              />
-
-              {/* Products Routes */}
-              <Route
-                path="/products"
-                element={
-                  <ProductsPage
-                    onSelectProduct={selectProduct}
-                  />
-                }
-              />
-              <Route
-                path="/products/:category"
-                element={
-                  <CategoryProductsPage
-                    onSelectProduct={selectProduct}
-                  />
-                }
-              />
-
-              {/* Recipes & Tastebuds Routes */}
-              {/* TASTEBUDS lands directly on LOOK BOOK VOL. 3 (latest book) */}
-              <Route
-                path="/recipes"
-                element={<Navigate to="/recipes/look-book-vol-3" replace />}
-              />
-              <Route
-                path="/recipes/look-book-vol-3"
-                element={<LookBookVol3Page />}
-              />
-              <Route
-                path="/recipes/look-book-vol-3/:slug"
-                element={<RecipeDetailPage />}
-              />
-              <Route
-                path="/recipes/look-book-autumn-winter-2025/:slug"
-                element={<RecipeDetailPage />}
-              />
-              <Route
-                path="/recipes/look-book-spring-summer-2025/:slug"
-                element={<RecipeDetailPage />}
-              />
-              <Route
-                path="/recipes/look-book-autumn-winter-2025"
-                element={<LookBookAW25Page />}
-              />
-              <Route
-                path="/recipes/look-book-spring-summer-2025"
-                element={<LookBookSS25Page />}
-              />
-
-              {/* News & Initiatives Routes */}
-              <Route
-                path="/news"
-                element={
-                  <NewsPage
-                    onSelectArticle={selectArticle}
-                  />
-                }
-              />
-              <Route
-                path="/things-we-do/:slug"
-                element={<NewsStoryDetailPage />}
-              />
-              <Route
-                path="/things-we-do/initiatives/future-of-taste"
-                element={<FutureOfTastePage />}
-              />
-
-              {/* Sustainability Hub & Sub-pages */}
-              <Route
-                path="/sustainability"
-                element={<SustainabilityPage />}
-              />
-              <Route
-                path="/oatly-who"
-                element={<SustainabilitySubPage />}
-              />
-              <Route
-                path="/oatly-who/sustainability-plan"
-                element={<SustainabilitySubPage />}
-              />
-              <Route
-                path="/oatly-who/sustainability-plan/climate-footprint-product-label"
-                element={<SustainabilitySubPage />}
-              />
-              <Route
-                path="/sustainability/climate-solutions-company"
-                element={<SustainabilitySubPage />}
-              />
-
-              {/* Health & Nutrition FAQ */}
-              <Route
-                path="/health"
-                element={<HealthPage />}
-              />
-              <Route
-                path="/random-answers/17-facts-about-oatly-and-nutrition"
-                element={<HealthPage />}
-              />
-
-              {/* Contact, Legal & Privacy */}
-              <Route
-                path="/contact"
-                element={<ContactPage />}
-              />
-              <Route
-                path="/legal"
-                element={<LegalPage />}
-              />
-              <Route
-                path="/legal/privacy-policy"
-                element={<PrivacyPolicyPage />}
-              />
-            </Routes>
+            <AppRoutes
+              selectProduct={selectProduct}
+              selectRecipe={selectRecipe}
+              selectArticle={selectArticle}
+            />
           </main>
 
           {/* Shared Footer */}
