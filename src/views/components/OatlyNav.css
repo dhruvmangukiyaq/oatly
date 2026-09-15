@@ -1,0 +1,307 @@
+/* ==========================================================================
+   OATLY HEADER + NAV — polish layer (spec §§3–4, 6)
+   --------------------------------------------------------------------------
+   SCOPE: visual styling ONLY. DOM order/positions are unchanged:
+     toolbar: Home icon (left) | spacer | FAQ BIZ Globe X (right)
+     nav row: PRODUCTS TASTEBUDS NEWS SUSTAINABILITY HEALTH (same order)
+   TOKENS (defined in src/index.css :root — referenced here, not redefined):
+     colors  → --spec-ink/canvas/border/surface/focus/blush/harvest/mint
+     spacing → --space-* (4px grid), --max-width, --card-padding, --element-gap
+     fonts   → --font-ui / --font-display (+ .font-ui-spec utility)
+   BEM: .oatly-header, .oatly-toolbar__*, .oatly-navrow__*, .oatly-drop__*
+   RULES HONOURED: no gradients, no blurry shadows, radius 0–2px,
+   red #E43E39 never used here (errors only).
+   ========================================================================== */
+
+/* --- Header shell: sticky, white, 1px divider (spec §4) --- */
+.oatly-header {
+  position: sticky;
+  top: 0;
+  z-index: 50;
+  background: var(--spec-canvas);
+  color: var(--spec-ink);
+  border-bottom: 1px solid var(--spec-border);
+  font-family: var(--font-ui);
+}
+
+/* --- Toolbar row (utility strip, same items/order as before) --- */
+.oatly-toolbar {
+  display: flex;
+  align-items: stretch;
+  justify-content: space-between;
+  background: var(--spec-canvas);
+  border-bottom: 1px solid var(--spec-border);
+}
+
+.oatly-toolbar__home {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: var(--space-40);
+  border-right: 1px solid var(--spec-border);
+  color: var(--spec-ink);
+  text-decoration: none;
+}
+
+.oatly-toolbar__home:hover {
+  background: var(--spec-surface);
+}
+
+.oatly-toolbar__spacer {
+  flex: 1;
+  min-width: 0;
+  cursor: pointer;
+}
+
+.oatly-toolbar__utils {
+  display: flex;
+  align-items: stretch;
+  border-left: 1px solid var(--spec-border);
+}
+
+.oatly-toolbar__link,
+.oatly-toolbar__btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0 var(--space-16);
+  min-height: var(--space-40);
+  font-family: var(--font-ui);
+  font-size: 0.875rem;
+  line-height: 1;
+  letter-spacing: 0.02em;
+  text-transform: uppercase;
+  font-weight: 400;
+  color: var(--spec-ink);
+  text-decoration: none;
+  background: none;
+  border: none;
+  border-left: 1px solid var(--spec-border);
+  cursor: pointer;
+  white-space: nowrap;
+}
+
+.oatly-toolbar__link:first-child,
+.oatly-toolbar__btn:first-child {
+  border-left: none;
+}
+
+.oatly-toolbar__link:hover,
+.oatly-toolbar__btn:hover {
+  background: var(--spec-surface);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+/* --- Nav row: ~48px bar, 0 24px padding, centred 5 items (spec §4) ---
+   Position relative = anchor for the FULL-WIDTH dropdown panel below. */
+.oatly-navrow {
+  background: var(--spec-canvas);
+  position: relative;
+}
+
+.oatly-navrow__list {
+  display: flex;
+  align-items: stretch;
+  justify-content: space-between;
+  max-width: var(--max-width);
+  margin: 0 auto;
+  padding: 0 var(--space-24);
+  min-height: var(--space-48);
+  list-style: none;
+}
+
+.oatly-navrow__item {
+  /* Static so the dropdown panel positions against the full nav row,
+     not against the single tab label (full-width panel requirement). */
+  position: static;
+  display: flex;
+  align-items: stretch;
+}
+
+.oatly-navrow__link {
+  display: inline-flex;
+  align-items: center;
+  padding: 0 var(--space-16);
+  font-family: var(--font-ui);
+  font-size: 0.875rem;
+  font-weight: 400;
+  line-height: 1;
+  letter-spacing: 0.02em;
+  text-transform: uppercase;
+  color: var(--spec-ink);
+  text-decoration: none;
+  white-space: nowrap;
+  position: relative;
+}
+
+/* Subtle hover marker: thin underline sweep (no flashy effects) */
+.oatly-navrow__link::after {
+  content: '';
+  position: absolute;
+  left: var(--space-16);
+  right: var(--space-16);
+  bottom: var(--space-8);
+  height: 2px;
+  background: var(--spec-ink);
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform 0.15s ease;
+}
+
+.oatly-navrow__link:hover::after,
+.oatly-navrow__item--open .oatly-navrow__link::after {
+  transform: scaleX(1);
+}
+
+.oatly-navrow__item--open .oatly-navrow__link {
+  background: var(--spec-surface);
+}
+
+/* --- Dropdown panel: FULL-WIDTH plain text list (reference: oatly.com) ---
+   - Spans edge-to-edge of the nav bar (left:0 right:0 of .oatly-navrow)
+   - Absolute overlay: covers page content below, never pushes it down
+   - Solid canvas background, flat (no shadow, no radius)
+   - Single-column vertical stack, left-aligned, generous spacing
+   - Plain names only: no descriptions, no arrows, no dividers */
+.oatly-drop {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  right: 0;
+  background: var(--spec-canvas);
+  border-top: 1px solid var(--spec-border);
+  border-bottom: 1px solid var(--spec-border);
+  border-radius: 0;
+  z-index: 60;
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(-4px);
+  transition: opacity 0.15s ease, transform 0.15s ease, visibility 0.15s;
+}
+
+.oatly-navrow__item--open .oatly-drop {
+  opacity: 1;
+  visibility: visible;
+  transform: translateY(0);
+}
+
+.oatly-drop__inner {
+  max-width: var(--max-width);
+  margin: 0 auto;
+  padding: var(--space-32) var(--space-24);
+}
+
+.oatly-drop__list {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-24);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  text-align: left;
+}
+
+.oatly-drop__link {
+  display: block;
+  padding: var(--space-4) 0;
+  font-family: var(--font-ui);
+  font-size: 0.875rem;
+  font-weight: 500;
+  line-height: 1;
+  letter-spacing: 0.02em;
+  text-transform: uppercase;
+  color: var(--spec-ink);
+  text-decoration: none;
+}
+
+.oatly-drop__link:hover {
+  text-decoration: underline;
+  text-underline-offset: 4px;
+}
+
+/* --- Mobile drawer: same 5 items, same order, expand/collapse (§6) --- */
+.oatly-mobile {
+  display: none;
+  border-top: 1px solid var(--spec-border);
+  background: var(--spec-canvas);
+}
+
+.oatly-mobile--open { display: block; }
+
+.oatly-mobile__list {
+  list-style: none;
+  margin: 0;
+  padding: var(--space-8) var(--space-24) var(--space-24);
+}
+
+.oatly-mobile__section {
+  border-bottom: 1px solid var(--spec-border);
+}
+
+.oatly-mobile__row {
+  display: flex;
+  align-items: center;
+  width: 100%;
+  padding: var(--space-16) 0;
+  font-family: var(--font-ui);
+  font-size: 0.875rem;
+  letter-spacing: 0.02em;
+  text-transform: uppercase;
+  line-height: 1;
+  color: var(--spec-ink);
+  background: none;
+  border: none;
+  cursor: pointer;
+  text-align: left;
+  text-decoration: none;
+}
+
+.oatly-mobile__caret {
+  margin-left: auto;
+  transition: transform 0.15s ease;
+}
+
+.oatly-mobile__section--open .oatly-mobile__caret {
+  transform: rotate(180deg);
+}
+
+.oatly-mobile__sublist {
+  list-style: none;
+  margin: 0 0 var(--space-16);
+  padding: 0;
+  display: grid;
+  gap: var(--space-8);
+}
+
+.oatly-mobile__sublink {
+  display: block;
+  padding: var(--space-12) var(--space-16);
+  background: var(--spec-surface);
+  border: 1px solid var(--spec-border);
+  border-radius: 2px;
+  font-size: 0.875rem;
+  text-transform: uppercase;
+  letter-spacing: 0.02em;
+  color: var(--spec-ink);
+  text-decoration: none;
+}
+
+/* Desktop nav collapses under 900px; hamburger lives in toolbar */
+.oatly-toolbar__menu {
+  display: none;
+}
+
+@media (max-width: 900px) {
+  .oatly-navrow { display: none; }
+  .oatly-toolbar__menu { display: inline-flex; }
+  .oatly-mobile--open { display: block; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .oatly-drop,
+  .oatly-navrow__link::after,
+  .oatly-mobile__caret {
+    transition: none;
+  }
+}

@@ -41,20 +41,22 @@ function Dots({ variant = 'b1', aspectRatio = '1/1', className = '', fill = fals
   );
 }
 
+// Badge palette mirrors FlatCard/VideoCard (spec §5): one consistent NEWS gold.
 const TAG_COLORS = {
-  'NEWS': 'bg-[#F8DC9A] text-black',
-  'PRODUCTS': 'bg-[#DBDBDB] text-black',
-  'TASTEBUDS': 'bg-[#F4C2D4] text-black',
-  'SUSTAINABILITY': 'bg-[#B9A6D6] text-black',
-  'HEALTH': 'bg-[#F6D2D2] text-black',
-  'OTHER': 'bg-[#B8CFE2] text-black',
+  'NEWS': 'bg-[#FDCF85] text-black',
+  'PRODUCTS': 'bg-[#F5F5F5] text-black',
+  'TASTEBUDS': 'bg-[#F8C8D8] text-black',
+  'SUSTAINABILITY': 'bg-[#B8D4C8] text-black',
+  'HEALTH': 'bg-[#F8C8D8] text-black',
+  'OTHER': 'bg-[#F5F5F5] text-black',
 };
 
-// Designed (non-photo) card: HOW TO MAKE MATCHA.
+// Designed (non-photo) card: HOW TO MAKE MATCHA. Paint-only polish (spec §5):
+// 1px #C6C6C6 border, 2px radius, hover lift + soft shadow; same DOM/content.
 function MatchaCard() {
   const c = CARDS.matcha;
   return (
-    <Link to={c.linkTo} className="group block bg-white border-2 border-black overflow-hidden">
+    <Link to={c.linkTo} className="group block bg-white border border-[#C6C6C6] rounded-[2px] overflow-hidden transition-transform duration-150 hover:-translate-y-0.5 hover:shadow-[0_4px_8px_rgba(0,0,0,0.05)] hover:border-black">
       <div className="relative overflow-hidden bg-white" style={{ aspectRatio: c.aspectRatio }}>
         <div className="w-full h-full flex flex-col items-center justify-between px-6 pt-8 pb-6 text-center">
           <div className="font-display font-black uppercase leading-[0.95] tracking-tight text-[clamp(2rem,3.4vw,3.4rem)]">
@@ -68,9 +70,9 @@ function MatchaCard() {
           <img src={IMAGES.matchaCarton} alt="Oat Drink Matcha carton" className="h-[46%] object-contain" />
         </div>
       </div>
-      <div className="bg-white border-t-2 border-black px-3 min-h-[44px] flex items-center justify-between gap-3">
-        <div className="font-mono font-bold text-[13px] uppercase text-black tracking-tight leading-tight truncate" title={c.title}>{c.title}</div>
-        <span className={`${TAG_COLORS[c.tag]} px-2 py-[3px] text-[11px] font-mono font-bold uppercase whitespace-nowrap flex-shrink-0 leading-none self-center`}>{c.tag}</span>
+      <div className="bg-white border-t border-[#C6C6C6] px-3 min-h-[44px] flex items-center justify-between gap-3">
+        <div className="font-body-spec font-bold text-[13px] uppercase text-black tracking-tight leading-tight truncate" title={c.title}>{c.title}</div>
+        <span className={`${TAG_COLORS[c.tag]} px-2 py-[3px] text-[11px] font-body-spec font-bold uppercase whitespace-nowrap flex-shrink-0 leading-none self-center`}>{c.tag}</span>
       </div>
     </Link>
   );
@@ -88,14 +90,16 @@ export default function HomePage() {
           {/* BAND 1 — hero + pee | look book vol.3 tall */}
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-3 items-stretch">
             <div className="flex flex-col gap-3">
+              {/* HERO — exact text/layout kept; type-only polish (spec §3.2):
+                  display stack (Girdo Black Pro → Anton), compact lh 1.1 */}
               <div className="text-center px-2 sm:px-6 py-8 md:py-12">
-                <h1 className="font-mono font-bold uppercase text-black tracking-tight leading-[1.3] text-[20px] sm:text-[23px] lg:text-[26px] max-w-2xl mx-auto">
+                <h1 className="font-display-spec font-bold uppercase text-black tracking-tight leading-[1.1] text-[20px] sm:text-[23px] lg:text-[26px] max-w-2xl mx-auto">
                   WE EXIST TO MAKE IT EASIER FOR PEOPLE TO LIVE HEALTHIER LIVES WITHOUT RECKLESSLY TAXING THE PLANET'S RESOURCES IN THE PROCESS.
                 </h1>
                 <div className="mt-8 flex justify-center">
                   <Link
                     to="/sustainability/climate-solutions-company"
-                    className="inline-block border-2 border-black bg-white px-6 py-2.5 font-mono text-[14px] font-bold uppercase tracking-wide shadow-[3px_3px_0_#111] hover:bg-[#F8DC9A] transition-colors"
+                    className="inline-block border border-black rounded-[2px] bg-white px-6 py-2.5 font-ui-spec font-bold shadow-[2px_2px_0_#000] hover:bg-[#F5F5F5] transition-colors"
                   >
                     READ MORE →
                   </Link>

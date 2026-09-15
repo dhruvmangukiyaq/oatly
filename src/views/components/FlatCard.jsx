@@ -1,21 +1,26 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 
+// Badge palette (spec §5 — visual polish only, same tags/order):
+// - ALL "NEWS" badges share one consistent gold (#FDCF85 Harvest Butter)
+// - Other tags use spec pastels/surface sparingly; ink text keeps contrast
 const TAG_COLORS = {
-  'NEWS': 'bg-[#F8DC9A] text-black',
-  'PRODUCTS': 'bg-[#DBDBDB] text-black',
-  'TASTEBUDS': 'bg-[#F4C2D4] text-black',
-  'SUSTAINABILITY': 'bg-[#B9A6D6] text-black',
-  'HEALTH': 'bg-[#F6D2D2] text-black',
-  'OTHER': 'bg-[#B8CFE2] text-black',
+  'NEWS': 'bg-[#FDCF85] text-black',
+  'PRODUCTS': 'bg-[#F5F5F5] text-black',
+  'TASTEBUDS': 'bg-[#F8C8D8] text-black',
+  'SUSTAINABILITY': 'bg-[#B8D4C8] text-black',
+  'HEALTH': 'bg-[#F8C8D8] text-black',
+  'OTHER': 'bg-[#F5F5F5] text-black',
 };
 
 /**
  * FlatCard - Matches oatly.com homepage card style:
- * - Thin black border around whole card
+ * - Subtle 1px #C6C6C6 border, 2px radius (spec §5 — was 2px black)
  * - Full-bleed image background
- * - White footer bar with title left + colored pill right
+ * - White footer bar with title left + gold badge right
  * - Optional large overlay text / custom overlay on image
+ * - Hover: gentle -2px lift + soft shadow (spec §5), border darkens
+ * DOM/order/content unchanged — paint only.
  */
 export default function FlatCard({
   title,
@@ -42,7 +47,7 @@ export default function FlatCard({
 
   if (children) {
     return (
-      <Link to={linkTo} className={`group block bg-white border-2 border-black overflow-hidden ${className}`}>
+      <Link to={linkTo} className={`group block bg-white border border-[#C6C6C6] rounded-[2px] overflow-hidden transition-transform duration-150 hover:-translate-y-0.5 hover:shadow-[0_4px_8px_rgba(0,0,0,0.05)] hover:border-black ${className}`}>
         {children}
       </Link>
     );
@@ -51,7 +56,7 @@ export default function FlatCard({
   return (
     <Link
       to={linkTo}
-      className={`group ${isFill || stretchCol ? 'flex flex-col h-full' : 'block'} bg-white border-2 border-black overflow-hidden ${className}`}
+      className={`group ${isFill || stretchCol ? 'flex flex-col h-full' : 'block'} bg-white border border-[#C6C6C6] rounded-[2px] overflow-hidden transition-transform duration-150 hover:-translate-y-0.5 hover:shadow-[0_4px_8px_rgba(0,0,0,0.05)] hover:border-black ${className}`}
     >
       {/* Full-bleed Image */}
       <div className={`relative overflow-hidden bg-[#EFECE5] ${isFill ? 'flex-1 min-h-[320px]' : ''}`} style={isFill ? undefined : { aspectRatio }}>
@@ -75,14 +80,14 @@ export default function FlatCard({
       </div>
 
       {/* White Footer Bar — fixed identical height on every card */}
-      <div className={`bg-white border-t-2 border-black px-3 min-h-[44px] flex items-center justify-between gap-3 ${stretchCol ? 'mt-auto' : ''}`}>
+      <div className={`bg-white border-t border-[#C6C6C6] px-3 min-h-[44px] flex items-center justify-between gap-3 ${stretchCol ? 'mt-auto' : ''}`}>
         <div
-          className="font-mono font-bold text-[13px] uppercase text-black tracking-tight leading-tight truncate"
+          className="font-body-spec font-bold text-[13px] uppercase text-black tracking-tight leading-tight truncate"
           title={displayTitle}
         >
           {displayTitle}
         </div>
-        <span className={`${tagColor} px-2 py-[3px] text-[11px] font-mono font-bold uppercase whitespace-nowrap flex-shrink-0 leading-none self-center`}>
+        <span className={`${tagColor} px-2 py-[3px] text-[11px] font-body-spec font-bold uppercase whitespace-nowrap flex-shrink-0 leading-none self-center`}>
           {displayTag}
         </span>
       </div>

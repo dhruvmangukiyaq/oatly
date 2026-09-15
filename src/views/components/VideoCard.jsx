@@ -1,19 +1,23 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 
+// Badge palette (spec §5 — visual polish only, same tags/order):
+// ALL "NEWS" badges share one consistent gold (#FDCF85 Harvest Butter).
 const TAG_COLORS = {
-  'NEWS': 'bg-[#F8DC9A] text-black',
-  'PRODUCTS': 'bg-[#DBDBDB] text-black',
-  'TASTEBUDS': 'bg-[#F4C2D4] text-black',
-  'SUSTAINABILITY': 'bg-[#B9A6D6] text-black',
-  'HEALTH': 'bg-[#F6D2D2] text-black',
-  'OTHER': 'bg-[#B8CFE2] text-black',
+  'NEWS': 'bg-[#FDCF85] text-black',
+  'PRODUCTS': 'bg-[#F5F5F5] text-black',
+  'TASTEBUDS': 'bg-[#F8C8D8] text-black',
+  'SUSTAINABILITY': 'bg-[#B8D4C8] text-black',
+  'HEALTH': 'bg-[#F8C8D8] text-black',
+  'OTHER': 'bg-[#F5F5F5] text-black',
 };
 
 /**
  * VideoCard (View) — same frame + footer bar as FlatCard, but plays the real
  * Oatly Vimeo footage (muted autoplay loop, like oatly.com) with the official
  * video poster underneath as instant fallback.
+ * Polish (spec §5): 1px #C6C6C6 border, 2px radius, -2px hover lift + soft
+ * shadow. DOM/order/content unchanged.
  */
 export default function VideoCard({
   title,
@@ -34,7 +38,7 @@ export default function VideoCard({
   return (
     <Link
       to={linkTo}
-      className={`group ${isFill ? 'flex flex-col' : 'block'} bg-white border-2 border-black overflow-hidden ${className}`}
+      className={`group ${isFill ? 'flex flex-col' : 'block'} bg-white border border-[#C6C6C6] rounded-[2px] overflow-hidden transition-transform duration-150 hover:-translate-y-0.5 hover:shadow-[0_4px_8px_rgba(0,0,0,0.05)] hover:border-black ${className}`}
     >
       <div className={`relative overflow-hidden bg-[#EFECE5] ${isFill ? 'flex-1 min-h-[320px]' : ''}`} style={isFill ? undefined : { aspectRatio }}>
         {imageSrc ? (
@@ -59,14 +63,14 @@ export default function VideoCard({
         ) : null}
       </div>
 
-      <div className="bg-white border-t-2 border-black px-3 min-h-[44px] flex items-center justify-between gap-3">
+      <div className="bg-white border-t border-[#C6C6C6] px-3 min-h-[44px] flex items-center justify-between gap-3">
         <div
-          className="font-mono font-bold text-[13px] uppercase text-black tracking-tight leading-tight truncate"
+          className="font-body-spec font-bold text-[13px] uppercase text-black tracking-tight leading-tight truncate"
           title={title}
         >
           {title}
         </div>
-        <span className={`${tagColor} px-2 py-[3px] text-[11px] font-mono font-bold uppercase whitespace-nowrap flex-shrink-0 leading-none self-center`}>
+        <span className={`${tagColor} px-2 py-[3px] text-[11px] font-body-spec font-bold uppercase whitespace-nowrap flex-shrink-0 leading-none self-center`}>
           {tag}
         </span>
       </div>

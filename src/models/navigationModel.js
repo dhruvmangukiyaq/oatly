@@ -1,6 +1,9 @@
 // ─── MODEL (MVC) ────────────────────────────────────────────────────────────
 // Navigation structure. Previously hardcoded inside Navbar view —
 // now owned by the Model so Controllers/Views stay dumb.
+//
+// Spec mapping (5 top-level sections):
+//   PRODUCTS (8 links) | TASTEBUDS (4) | NEWS (7) | SUSTAINABILITY (4) | HEALTH (direct link)
 
 export const NAV_ITEMS = [
   {
@@ -19,7 +22,7 @@ export const NAV_ITEMS = [
   },
   {
     name: 'TASTEBUDS',
-    path: '/recipes',
+    path: '/recipes/look-book-vol-3',
     dropdown: [
       { name: 'LOOK BOOK VOL. 3', path: '/recipes/look-book-vol-3', desc: 'Latest seasonal oat formulas' },
       { name: 'LOOK BOOK A/W 25', path: '/recipes/look-book-autumn-winter-2025', desc: 'Cozy autumn and winter sips' },
@@ -33,9 +36,10 @@ export const NAV_ITEMS = [
     dropdown: [
       { name: 'Pee for the Planet', path: '/things-we-do/pee-for-the-planet', desc: 'Scandinavian nutrient recycling' },
       { name: 'Oatly x AVAVAV', path: '/things-we-do/oatly-x-avavav', desc: 'Runway fashion made from oats' },
-      { name: 'Canadian F.A.R.M.', path: '/things-we-do/how-do-you-say-f-a-r-m-in-canadian', desc: 'Regenerative oat farming movement' },
-      { name: 'Last First Dates', path: '/things-we-do/last-first-dates', desc: 'Dating culture & plant milk survey' },
+      { name: 'How Do You Say F.A.R.M. in Canadian', path: '/things-we-do/how-do-you-say-f-a-r-m-in-canadian', desc: 'Regenerative oat farming movement' },
+      { name: 'Last first dates', path: '/things-we-do/last-first-dates', desc: 'Dating culture & plant milk survey' },
       { name: 'EF Pro Bikers', path: '/things-we-do/ef-pro-cycling', desc: 'Tour de France fueled by oats' },
+      { name: 'Tastes like Miami', path: '/things-we-do/tastes-like-miami', desc: 'Art Basel cafecito culture' },
       { name: 'Oatly x Nespresso', path: '/things-we-do/nespresso', desc: 'Home cafe pod perfection' },
     ],
   },
@@ -44,11 +48,12 @@ export const NAV_ITEMS = [
     path: '/sustainability',
     dropdown: [
       { name: 'Oatly Who?', path: '/oatly-who', desc: 'Our mission and origin story' },
-      { name: 'Sustainability Plan', path: '/oatly-who/sustainability-plan', desc: '4-pillar climate reduction strategy' },
-      { name: 'Product Climate Footprint', path: '/oatly-who/sustainability-plan/climate-footprint-product-label', desc: 'Transparent CO2e labeling' },
-      { name: 'Climate Solutions Company', path: '/sustainability/climate-solutions-company', desc: 'Why we exist as a company' },
+      { name: "Oatly's Sustainability Plan", path: '/oatly-who/sustainability-plan', desc: '4-pillar climate reduction strategy' },
+      { name: 'Product climate footprint', path: '/oatly-who/sustainability-plan/climate-footprint-product-label', desc: 'Transparent CO2e labeling' },
+      { name: "We're a climate solutions company", path: '/sustainability/climate-solutions-company', desc: 'Why we exist as a company' },
     ],
   },
+  // HEALTH has no dropdown — single direct link per spec.
   { name: 'HEALTH', path: '/health', dropdown: null },
 ];
 

@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import { BrowserRouter, Routes, Route, useLocation } from 'react-router-dom';
+import { BrowserRouter, Routes, Route, Navigate, useLocation } from 'react-router-dom';
 import { HelmetProvider } from 'react-helmet-async';
 
 // ─── MVC WIRING ─────────────────────────────────────────────────────────────
@@ -26,7 +26,6 @@ import ArticleModal from './views/components/ArticleModal';
 import HomePage from './views/pages/HomePage';
 import ProductsPage from './views/pages/ProductsPage';
 import CategoryProductsPage from './views/pages/CategoryProductsPage';
-import TastebudsPage from './views/pages/TastebudsPage';
 import LookBookVol3Page from './views/pages/LookBookVol3Page';
 import RecipeDetailPage from './views/pages/RecipeDetailPage';
 import LookBookAW25Page from './views/pages/LookBookAW25Page';
@@ -111,17 +110,18 @@ export default function App() {
               />
               <Route
                 path="/products/:category"
-                element={<CategoryProductsPage />}
+                element={
+                  <CategoryProductsPage
+                    onSelectProduct={selectProduct}
+                  />
+                }
               />
 
               {/* Recipes & Tastebuds Routes */}
+              {/* TASTEBUDS lands directly on LOOK BOOK VOL. 3 (latest book) */}
               <Route
                 path="/recipes"
-                element={
-                  <TastebudsPage
-                    onSelectRecipe={selectRecipe}
-                  />
-                }
+                element={<Navigate to="/recipes/look-book-vol-3" replace />}
               />
               <Route
                 path="/recipes/look-book-vol-3"
@@ -129,6 +129,14 @@ export default function App() {
               />
               <Route
                 path="/recipes/look-book-vol-3/:slug"
+                element={<RecipeDetailPage />}
+              />
+              <Route
+                path="/recipes/look-book-autumn-winter-2025/:slug"
+                element={<RecipeDetailPage />}
+              />
+              <Route
+                path="/recipes/look-book-spring-summer-2025/:slug"
                 element={<RecipeDetailPage />}
               />
               <Route

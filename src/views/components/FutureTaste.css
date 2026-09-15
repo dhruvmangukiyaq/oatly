@@ -1,0 +1,241 @@
+/* ==========================================================================
+   FUTURE OF TASTE — mirrors oatly.com/things-we-do/initiatives/future-of-taste:
+   breadcrumb → globe hero → red report title → editors letter → collage →
+   table of contents → 5 trend sections → stamp.
+   TOKENS (src/index.css): --spec-*, --space-*, --font-ui, --font-chunky
+   (Titan One ≈ Oatly's rounded Toni Nouveau headlines). Report red #ED1C24
+   matches Oatly's headline accent (not an error state).
+   BEM: .fot, .fot-hero__*, .fot-letter__*, .fot-toc__*, .fot-trend__*
+   ========================================================================== */
+
+.fot {
+  background: var(--spec-canvas);
+  color: var(--spec-ink);
+}
+
+.fot__inner {
+  max-width: var(--max-width);
+  margin: 0 auto;
+  padding: var(--space-24);
+}
+
+/* --- Breadcrumb: Home > NEWS > CURRENT --- */
+.fot-crumb__list {
+  display: flex;
+  align-items: center;
+  gap: var(--space-8);
+  margin: 0 0 var(--space-24);
+  padding: 0;
+  list-style: none;
+  overflow-x: auto;
+  white-space: nowrap;
+}
+
+.fot-crumb__sep {
+  font-size: 0.875rem;
+  user-select: none;
+}
+
+.fot-crumb__link,
+.fot-crumb__current {
+  display: inline-flex;
+  align-items: center;
+  font-family: var(--font-ui);
+  font-size: 0.875rem;
+  font-weight: 400;
+  line-height: 1;
+  letter-spacing: 0.02em;
+  text-transform: uppercase;
+  color: var(--spec-ink);
+}
+
+.fot-crumb__link {
+  text-decoration: none;
+}
+
+.fot-crumb__link:hover {
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+/* --- Hero: globe, badge, kicker, red title, subtitle --- */
+.fot-hero {
+  text-align: center;
+  padding: var(--space-40) 0 var(--space-48);
+  border-bottom: 1px solid var(--spec-ink);
+}
+
+.fot-hero__globe {
+  display: block;
+  width: min(420px, 70%);
+  height: auto;
+  margin: 0 auto var(--space-16);
+}
+
+.fot-hero__badge {
+  font-family: var(--font-ui);
+  font-size: 1rem;
+  line-height: 1.5;
+}
+
+.fot-hero__kicker {
+  margin: var(--space-16) 0;
+  font-family: var(--font-ui);
+  font-size: 0.875rem;
+  letter-spacing: 0.02em;
+  text-transform: uppercase;
+}
+
+.fot-hero__title {
+  margin: 0 auto;
+  max-width: 16ch;
+  font-family: var(--font-chunky);
+  font-weight: 400;
+  font-size: clamp(2.5rem, 6vw, 5rem);
+  line-height: 1;
+  text-transform: uppercase;
+  color: #ed1c24;
+}
+
+.fot-hero__subtitle {
+  margin: var(--space-16) auto 0;
+  max-width: 52ch;
+  font-family: var(--font-ui);
+  font-size: 1rem;
+  line-height: 1.5;
+}
+
+/* --- Editors letter --- */
+.fot-letter {
+  max-width: 62ch;
+  margin: 0 auto;
+  padding: var(--space-48) 0;
+}
+
+.fot-letter__stamp {
+  display: block;
+  width: 90px;
+  height: auto;
+  margin: 0 auto var(--space-16);
+}
+
+.fot-letter__heading {
+  font-family: var(--font-chunky);
+  font-weight: 400;
+  font-size: 1.75rem;
+  text-transform: uppercase;
+}
+
+.fot-letter__byline {
+  margin: var(--space-8) 0 var(--space-24);
+  font-family: var(--font-ui);
+  font-size: 0.875rem;
+}
+
+.fot-letter p {
+  font-family: var(--font-ui);
+  font-size: 1rem;
+  line-height: 1.6;
+  margin: 0 0 var(--space-16);
+}
+
+.fot-letter__collage {
+  display: block;
+  width: 100%;
+  height: auto;
+  margin: var(--space-32) 0;
+}
+
+/* --- Table of contents --- */
+.fot-toc {
+  max-width: 62ch;
+  margin: 0 auto;
+  padding: 0 0 var(--space-48);
+}
+
+.fot-toc__heading {
+  font-family: var(--font-chunky);
+  font-weight: 400;
+  font-size: 2rem;
+  text-transform: uppercase;
+  margin: 0 0 var(--space-16);
+}
+
+.fot-toc__list {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.fot-toc__item {
+  border-bottom: 1px dashed var(--spec-ink);
+  padding: var(--space-12) 0;
+}
+
+.fot-toc__kicker {
+  display: block;
+  font-family: var(--font-ui);
+  font-size: 0.875rem;
+  color: #ed1c24;
+}
+
+.fot-toc__link {
+  font-family: var(--font-chunky);
+  font-weight: 400;
+  font-size: 1.25rem;
+  text-transform: uppercase;
+  color: var(--spec-ink);
+  text-decoration: none;
+}
+
+.fot-toc__link:hover {
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+/* --- Trend sections: kicker, title, tagline, paragraphs, image --- */
+.fot-trend {
+  max-width: 62ch;
+  margin: 0 auto;
+  padding: var(--space-48) 0;
+  border-top: 1px solid var(--spec-ink);
+}
+
+.fot-trend__kicker {
+  font-family: var(--font-ui);
+  font-size: 0.875rem;
+  color: #ed1c24;
+}
+
+.fot-trend__title {
+  margin: var(--space-8) 0 var(--space-16);
+  font-family: var(--font-chunky);
+  font-weight: 400;
+  font-size: clamp(1.75rem, 4vw, 2.75rem);
+  line-height: 1;
+  text-transform: uppercase;
+}
+
+.fot-trend__tagline {
+  font-family: var(--font-ui);
+  font-size: 1.125rem;
+  font-weight: 700;
+  line-height: 1.4;
+  margin: 0 0 var(--space-16);
+}
+
+.fot-trend p {
+  font-family: var(--font-ui);
+  font-size: 1rem;
+  line-height: 1.6;
+  margin: 0 0 var(--space-16);
+}
+
+.fot-trend__img {
+  display: block;
+  width: 100%;
+  height: auto;
+  aspect-ratio: 4 / 5;
+  object-fit: cover;
+  margin-top: var(--space-24);
+}

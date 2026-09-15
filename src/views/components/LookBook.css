@@ -1,0 +1,336 @@
+/* ==========================================================================
+   LOOK BOOK VOL. 3 — mirrors oatly.com/recipes/look-book-vol-3 top to bottom:
+   breadcrumb → blackletter logo → intro (handwritten text + hero photo) →
+   18 recipe cards → article → collage → sink photo → trends → portraits →
+   previous-collection teaser.
+   TOKENS (src/index.css): --spec-*, --space-*, --font-ui, --font-serif
+   (Tinny Serif Pro → Georgia, article heading). No new colors introduced.
+   BEM: .lb3, .lb3-crumb__*, .lb3-grid, .lb3-card__*, .lb3-article__* ...
+   ========================================================================== */
+
+.lb3 {
+  background: var(--spec-canvas);
+  color: var(--spec-ink);
+}
+
+.lb3__inner {
+  max-width: var(--max-width);
+  margin: 0 auto;
+  padding: var(--space-24);
+}
+
+/* --- Breadcrumb: Home icon > LOOK BOOK VOL. 3 | OATLY --- */
+.lb3-crumb__list {
+  display: flex;
+  align-items: center;
+  gap: var(--space-8);
+  margin: 0 0 var(--space-24);
+  padding: 0;
+  list-style: none;
+  overflow-x: auto;
+  white-space: nowrap;
+}
+
+.lb3-crumb__sep {
+  font-size: 0.875rem;
+  user-select: none;
+}
+
+.lb3-crumb__link,
+.lb3-crumb__current {
+  display: inline-flex;
+  align-items: center;
+  font-family: var(--font-ui);
+  font-size: 0.875rem;
+  font-weight: 400;
+  line-height: 1;
+  letter-spacing: 0.02em;
+  text-transform: uppercase;
+  color: var(--spec-ink);
+}
+
+.lb3-crumb__link {
+  text-decoration: none;
+}
+
+.lb3-crumb__link:hover {
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+/* --- Giant blackletter hero logo (official Oatly SVG, full width) --- */
+.lb3-logo {
+  display: block;
+  width: 100%;
+  height: auto;
+  margin: var(--space-32) 0 var(--space-48);
+}
+
+/* --- Intro: handwritten text (left) + hero drink photo (right) --- */
+.lb3-intro {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--space-48);
+  align-items: start;
+  margin-bottom: var(--space-80);
+}
+
+.lb3-intro__text {
+  width: 100%;
+  height: auto;
+  display: block;
+}
+
+.lb3-intro__photo {
+  width: 100%;
+  height: auto;
+  display: block;
+  aspect-ratio: 3 / 4;
+  object-fit: cover;
+}
+
+/* --- Collection header: tag + serif title + intro (A/W 25, S/S 25) --- */
+.lb3-colhead {
+  margin-bottom: var(--space-40);
+}
+
+.lb3-tag {
+  display: inline-block;
+  padding: var(--space-8) var(--space-12);
+  font-family: var(--font-ui);
+  font-size: 0.875rem;
+  font-weight: 400;
+  line-height: 1;
+  letter-spacing: 0.02em;
+  text-transform: uppercase;
+  color: var(--spec-canvas);
+  margin-bottom: var(--space-16);
+}
+
+/* Oatly collection theme colors (secondaryRed / primaryBlue on oatly.com) */
+.lb3-tag--red { background: #ed1c24; }
+.lb3-tag--blue { background: #0050ff; }
+.lb3-tag--black { background: var(--spec-ink); }
+
+.lb3-coltitle {
+  margin: 0 0 var(--space-16);
+  font-family: var(--font-serif);
+  font-size: clamp(2rem, 5vw, 4rem);
+  line-height: 1;
+  color: var(--spec-ink);
+}
+
+.lb3-colintro {
+  margin: 0;
+  max-width: 70ch;
+  font-family: var(--font-ui);
+  font-size: 1rem;
+  line-height: 1.6;
+}
+
+/* Collection hero banner (refill / SS25 horizontal artwork) */
+.lb3-hero {
+  display: block;
+  width: 100%;
+  height: auto;
+  margin-bottom: var(--space-48);
+}
+/* --- Recipe grid: borderless image + tag + plain title --- */
+.lb3-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+  gap: var(--space-48) var(--space-32);
+  margin: 0 0 var(--space-80);
+  padding: 0;
+  list-style: none;
+}
+
+.lb3-card {
+  display: block;
+  color: var(--spec-ink);
+  text-decoration: none;
+}
+
+.lb3-card__media {
+  aspect-ratio: 1 / 1;
+  overflow: hidden;
+  background: var(--spec-surface);
+}
+
+.lb3-card__img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.lb3-card__name {
+  margin: var(--space-8) 0 0;
+  font-family: var(--font-ui);
+  font-size: 1rem;
+  font-weight: 500;
+  line-height: 1.4;
+  color: var(--spec-ink);
+}
+
+.lb3-card__tag {
+  margin: var(--space-12) 0 0;
+  font-family: var(--font-ui);
+  font-size: 0.75rem;
+  letter-spacing: 0.02em;
+  text-transform: uppercase;
+  opacity: 0.7;
+}
+
+.lb3-card:hover .lb3-card__name {
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+/* --- Article: centred serif heading + narrow body column --- */
+.lb3-article {
+  margin-bottom: var(--space-80);
+}
+
+.lb3-article__heading {
+  margin: 0 auto var(--space-32);
+  max-width: 20ch;
+  font-family: var(--font-serif);
+  font-size: clamp(2rem, 5vw, 4.5rem);
+  line-height: 0.9;
+  text-align: center;
+  text-transform: uppercase;
+  white-space: pre-line;
+}
+
+.lb3-article__body {
+  margin: 0 auto;
+  max-width: 62ch;
+  font-family: var(--font-ui);
+  font-size: 1rem;
+  line-height: 1.6;
+}
+
+.lb3-article__body p {
+  margin: 0 0 var(--space-16);
+}
+
+.lb3-article__author {
+  margin: var(--space-24) auto 0;
+  max-width: 62ch;
+  font-family: var(--font-ui);
+  font-size: 0.875rem;
+  letter-spacing: 0.02em;
+  text-transform: uppercase;
+}
+
+/* --- Full-width images (collage, sink) --- */
+.lb3-wide {
+  display: block;
+  width: 100%;
+  height: auto;
+  margin-bottom: var(--space-80);
+}
+
+.lb3-bleed {
+  width: 100%;
+  margin-bottom: var(--space-80);
+}
+
+.lb3-bleed img {
+  display: block;
+  width: 100%;
+  height: auto;
+  aspect-ratio: 16 / 9;
+  object-fit: cover;
+}
+
+/* --- Trends: photo + stacked trend stories --- */
+.lb3-trends {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--space-48);
+  align-items: start;
+  margin-bottom: var(--space-80);
+}
+
+.lb3-trends__photo {
+  width: 100%;
+  height: auto;
+  display: block;
+  aspect-ratio: 1 / 1;
+  object-fit: cover;
+}
+
+.lb3-trend {
+  margin-bottom: var(--space-32);
+}
+
+.lb3-trend__title {
+  margin: 0 0 var(--space-8);
+  font-family: var(--font-ui);
+  font-size: 1.125rem;
+  font-weight: 700;
+  line-height: 1.3;
+}
+
+.lb3-trend__text {
+  margin: 0;
+  font-family: var(--font-ui);
+  font-size: 1rem;
+  line-height: 1.6;
+}
+
+/* --- Portrait pair --- */
+.lb3-portraits {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--space-32);
+  margin-bottom: var(--space-80);
+}
+
+.lb3-portraits img {
+  display: block;
+  width: 100%;
+  height: auto;
+  aspect-ratio: 4 / 5;
+  object-fit: cover;
+}
+
+/* --- Previous collection teaser --- */
+.lb3-prev {
+  display: block;
+  margin-bottom: var(--space-48);
+  padding: var(--space-40) var(--space-24);
+  background: var(--spec-surface);
+  border: 1px solid var(--spec-border);
+  border-radius: 2px;
+  color: var(--spec-ink);
+  text-decoration: none;
+  text-align: center;
+}
+
+.lb3-prev__label {
+  display: block;
+  font-family: var(--font-ui);
+  font-size: 0.875rem;
+  letter-spacing: 0.02em;
+  text-transform: uppercase;
+  margin-bottom: var(--space-8);
+}
+
+.lb3-prev__title {
+  display: block;
+  font-family: var(--font-ui);
+  font-size: 1.5rem;
+  font-weight: 700;
+  text-transform: uppercase;
+}
+
+@media (max-width: 900px) {
+  .lb3-intro,
+  .lb3-trends,
+  .lb3-portraits {
+    grid-template-columns: 1fr;
+  }
+}

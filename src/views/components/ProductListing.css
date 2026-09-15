@@ -1,0 +1,176 @@
+/* ==========================================================================
+   PRODUCT LISTING — breadcrumb + filter bar + product grid
+   (reference: oatly.com products/category pages)
+   --------------------------------------------------------------------------
+   Reused by /products (ALL PRODUCTS) and every /products/:category page —
+   only the active tab + grid items change. Header/nav untouched.
+   TOKENS (defined in src/index.css :root): --spec-*, --space-*, --font-ui,
+   --max-width. No new fonts or colors introduced.
+   BEM: .plist, .plist-crumb__*, .plist-filter__*, .plist-grid, .plist-card__*
+   ========================================================================== */
+
+.plist {
+  background: var(--spec-canvas);
+}
+
+.plist__inner {
+  max-width: var(--max-width);
+  margin: 0 auto;
+  padding: var(--space-24);
+}
+
+/* --- 1. BREADCRUMB: Home icon > PRODUCTS > CURRENT (top-left) --- */
+.plist-crumb__list {
+  display: flex;
+  align-items: center;
+  gap: var(--space-8);
+  margin: 0 0 var(--space-24);
+  padding: 0;
+  list-style: none;
+  overflow-x: auto;
+  white-space: nowrap;
+}
+
+.plist-crumb__sep {
+  color: var(--spec-ink);
+  font-size: 0.875rem;
+  user-select: none;
+}
+
+.plist-crumb__link,
+.plist-crumb__current {
+  display: inline-flex;
+  align-items: center;
+  font-family: var(--font-ui);
+  font-size: 0.875rem;
+  font-weight: 400;
+  line-height: 1;
+  letter-spacing: 0.02em;
+  text-transform: uppercase;
+  color: var(--spec-ink);
+}
+
+.plist-crumb__link {
+  text-decoration: none;
+}
+
+.plist-crumb__link:hover {
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+/* --- 2. FILTER BAR: single left-aligned row, active tab gets gray box --- */
+.plist-filter {
+  margin-bottom: var(--space-40);
+  overflow-x: auto;
+}
+
+.plist-filter__list {
+  display: flex;
+  align-items: center;
+  gap: var(--space-8);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  white-space: nowrap;
+  min-width: max-content;
+}
+
+.plist-filter__link {
+  display: inline-block;
+  padding: var(--space-8) var(--space-12);
+  font-family: var(--font-ui);
+  font-size: 0.875rem;
+  font-weight: 400;
+  line-height: 1;
+  letter-spacing: 0.02em;
+  text-transform: uppercase;
+  color: var(--spec-ink);
+  text-decoration: none;
+  background: none;
+}
+
+.plist-filter__link:hover {
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+.plist-filter__link--active {
+  background: var(--spec-surface);
+}
+
+/* --- 3. GRID: generous whitespace, wraps to fewer columns on mobile --- */
+.plist-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+  gap: var(--space-48) var(--space-32);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+/* --- 4. CARD: borderless image + plain small label, left-aligned --- */
+.plist-card {
+  background: none;
+  border: none;
+  padding: 0;
+  text-align: left;
+  cursor: pointer;
+  color: var(--spec-ink);
+}
+
+button.plist-card {
+  font: inherit;
+}
+
+.plist-card__media {
+  aspect-ratio: 1 / 1;
+  overflow: hidden;
+  background: var(--spec-canvas);
+}
+
+.plist-card__img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.plist-card__name {
+  margin: var(--space-12) 0 0;
+  font-family: var(--font-ui);
+  font-size: 0.875rem;
+  font-weight: 400;
+  line-height: 1.5;
+  color: var(--spec-ink);
+}
+
+.plist-card:hover .plist-card__name {
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+/* Non-interactive variant (no quick-view handler passed) */
+.plist-card--static {
+  cursor: default;
+}
+
+.plist-card--static:hover .plist-card__name {
+  text-decoration: none;
+}
+
+/* Empty category fallback */
+.plist-empty {
+  padding: var(--space-48) 0;
+  font-family: var(--font-ui);
+  font-size: 0.875rem;
+  text-transform: uppercase;
+  letter-spacing: 0.02em;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .plist-card,
+  .plist-card__name {
+    transition: none;
+  }
+}

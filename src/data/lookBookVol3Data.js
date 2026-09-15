@@ -7,7 +7,7 @@ export const LOOK_BOOK_VOL_3_HERO = {
   author: "Oatly Global Taste Lab",
   role: "Curated by Chef & Beverage Innovation Team",
   // TODO: Swap in real licensed image file here (e.g., /assets/lookbook-vol3-hero.jpg)
-  heroImage: "https://placehold.co/800x1066/002766/FAF8F5?text=LOOK+BOOK+VOL.+3+HERO+(PORTRAIT+3:4)"
+  heroImage: "https://a.storyblok.com/f/107921/1920x2546/614724c22d/lookbook_header.webp"
 };
 
 export const LOOK_BOOK_VOL_3_RECIPES = [
@@ -18,9 +18,7 @@ export const LOOK_BOOK_VOL_3_RECIPES = [
     collection: 'LOOK BOOK VOL. 3',
     tagline: 'Juicy Kyoho grapes blended with Oatly Cold Foam and jasmine tea.',
     prepTime: '5 mins',
-    difficulty: 'Easy',
-    // TODO: Swap in real licensed image file here
-    image: 'https://placehold.co/600x600/FF5C8D/FFFFFF?text=The+Grape+Cooler+(1:1)',
+    difficulty: 'Easy',    image: 'https://a.storyblok.com/f/217844/1920x1920/a2a776e1b3/grape_cooler.png/m/1200x0/filters:quality(75):format(webp)',
     ingredients: [
       '150ml Oatly Barista Edition',
       '50ml Brewed Jasmine Green Tea (chilled)',
@@ -43,9 +41,7 @@ export const LOOK_BOOK_VOL_3_RECIPES = [
     collection: 'LOOK BOOK VOL. 3',
     tagline: 'Tropical ripe papaya, hydrated basil seeds, and velvety Oatgurt.',
     prepTime: '8 mins',
-    difficulty: 'Easy',
-    // TODO: Swap in real licensed image file here
-    image: 'https://placehold.co/600x600/FF7E36/FFFFFF?text=Papaya+%26+Basil+Seed+(1:1)',
+    difficulty: 'Easy',    image: 'https://a.storyblok.com/f/217844/1920x1920/0995d3161c/papaya_and_basil_seed_smoothie.png/m/1200x0/filters:quality(75):format(webp)',
     ingredients: [
       '1 cup Ripe Papaya chunks',
       '150ml Oatly Oatgurt Plain',
@@ -67,9 +63,7 @@ export const LOOK_BOOK_VOL_3_RECIPES = [
     collection: 'LOOK BOOK VOL. 3',
     tagline: 'Smoky Lapsang Souchong tea swirled with Okinawa black sugar syrup.',
     prepTime: '10 mins',
-    difficulty: 'Medium',
-    // TODO: Swap in real licensed image file here
-    image: 'https://placehold.co/600x600/111111/FCEB50?text=Teas+%26+Black+Sugar+(1:1)',
+    difficulty: 'Medium',    image: 'https://a.storyblok.com/f/217844/1920x1920/0518ab61ae/teas_-_black_sugar.png/m/1200x0/filters:quality(75):format(webp)',
     ingredients: [
       '200ml Oatly Barista Edition',
       '100ml Strong Lapsang Souchong Black Tea',
@@ -90,9 +84,7 @@ export const LOOK_BOOK_VOL_3_RECIPES = [
     collection: 'LOOK BOOK VOL. 3',
     tagline: 'Umami-rich fermented koji caramel stirred into dark oat chocolate.',
     prepTime: '12 mins',
-    difficulty: 'Medium',
-    // TODO: Swap in real licensed image file here
-    image: 'https://placehold.co/600x600/002766/FFFFFF?text=Koji+Caramel+Choc+(1:1)',
+    difficulty: 'Medium',    image: 'https://a.storyblok.com/f/217844/1920x1920/0acb86aeea/koji_caramel_hot_choc.png/m/1200x0/filters:quality(75):format(webp)',
     ingredients: [
       '250ml Oatly Barista Edition',
       '40g Dark 70% Swiss Chocolate chips',
@@ -112,9 +104,7 @@ export const LOOK_BOOK_VOL_3_RECIPES = [
     collection: 'LOOK BOOK VOL. 3',
     tagline: 'Smoky toasted marshmallow syrup with double espresso and oat microfoam.',
     prepTime: '6 mins',
-    difficulty: 'Easy',
-    // TODO: Swap in real licensed image file here
-    image: 'https://placehold.co/600x600/FF7E36/111111?text=Campfire+Latte+(1:1)',
+    difficulty: 'Easy',    image: 'https://a.storyblok.com/f/217844/1920x1920/22cb46401b/campfire_latte.png/m/1200x0/filters:quality(75):format(webp)',
     ingredients: [
       '180ml Oatly Barista Edition',
       '2 shots Espresso',
@@ -134,9 +124,7 @@ export const LOOK_BOOK_VOL_3_RECIPES = [
     collection: 'LOOK BOOK VOL. 3',
     tagline: 'Floral osmanthus flower syrup, bubbly tonic water, and cold brew.',
     prepTime: '4 mins',
-    difficulty: 'Easy',
-    // TODO: Swap in real licensed image file here
-    image: 'https://placehold.co/600x600/FCEB50/111111?text=Osmanthus+Cold+Brew+(1:1)',
+    difficulty: 'Easy',    image: 'https://a.storyblok.com/f/217844/1920x1920/7032796d95/osmanthus_cold_brew_tonic.png/m/1200x0/filters:quality(75):format(webp)',
     ingredients: [
       '100ml Cold Brew Coffee concentrate',
       '120ml Premium Tonic Water',
@@ -156,9 +144,7 @@ export const LOOK_BOOK_VOL_3_RECIPES = [
     collection: 'LOOK BOOK VOL. 3',
     tagline: 'Delicate Silver Needle white tea infused with citrus pomelo and white choc oat foam.',
     prepTime: '10 mins',
-    difficulty: 'Medium',
-    // TODO: Swap in real licensed image file here
-    image: 'https://placehold.co/600x600/8CD7A9/111111?text=Pomelo+White+Tea+(1:1)',
+    difficulty: 'Medium',    image: 'https://a.storyblok.com/f/217844/1920x1920/90798ea94d/pomelo_-_white_tea_-_chocolate.png/m/1200x0/filters:quality(75):format(webp)',
     ingredients: [
       '150ml Brewed Silver Needle White Tea',
       '30g Fresh Pomelo segments',
@@ -176,9 +162,7 @@ export const LOOK_BOOK_VOL_3_RECIPES = [
     collection: 'LOOK BOOK VOL. 3',
     tagline: 'Roasted Yerba Mate infused with natural cola spice and Oatly Barista.',
     prepTime: '8 mins',
-    difficulty: 'Easy',
-    // TODO: Swap in real licensed image file here
-    image: 'https://placehold.co/600x600/111111/FFFFFF?text=Mate+Cola+Latte+(1:1)',
+    difficulty: 'Easy',    image: 'https://a.storyblok.com/f/217844/1920x1920/49cb896c44/mate_cola_latte.png/m/1200x0/filters:quality(75):format(webp)',
     ingredients: [
       '150ml Oatly Barista Edition',
       '100ml Strong Roasted Yerba Mate brew',
@@ -197,9 +181,7 @@ export const LOOK_BOOK_VOL_3_RECIPES = [
     collection: 'LOOK BOOK VOL. 3',
     tagline: 'Aromatic coconut-infused fig leaf syrup layered with Uji ceremonial matcha.',
     prepTime: '7 mins',
-    difficulty: 'Medium',
-    // TODO: Swap in real licensed image file here
-    image: 'https://placehold.co/600x600/8CD7A9/002766?text=Fig+Leaf+Matcha+(1:1)',
+    difficulty: 'Medium',    image: 'https://a.storyblok.com/f/217844/1920x1920/eb9748cb14/fig_leaf_matcha.png/m/1200x0/filters:quality(75):format(webp)',
     ingredients: [
       '2g Uji Ceremonial Matcha',
       '60ml Warm water',
@@ -219,9 +201,7 @@ export const LOOK_BOOK_VOL_3_RECIPES = [
     collection: 'LOOK BOOK VOL. 3',
     tagline: 'Fermented pineapple peel tepache softened with smooth Oatly cream.',
     prepTime: '5 mins',
-    difficulty: 'Easy',
-    // TODO: Swap in real licensed image file here
-    image: 'https://placehold.co/600x600/FCEB50/002766?text=Oat+Tepache+(1:1)',
+    difficulty: 'Easy',    image: 'https://a.storyblok.com/f/217844/1920x1920/c834b85b19/oat_tepache.png/m/1200x0/filters:quality(75):format(webp)',
     ingredients: [
       '150ml Housemade Pineapple Tepache',
       '50ml Oatly Whippable Cooking Cream (lightly frothed)',
@@ -240,9 +220,7 @@ export const LOOK_BOOK_VOL_3_RECIPES = [
     collection: 'LOOK BOOK VOL. 3',
     tagline: 'Riped Fuyu persimmon purée, star anise, and single-origin cold brew.',
     prepTime: '6 mins',
-    difficulty: 'Easy',
-    // TODO: Swap in real licensed image file here
-    image: 'https://placehold.co/600x600/FF7E36/FFFFFF?text=Persimmon+Cold+Brew+(1:1)',
+    difficulty: 'Easy',    image: 'https://a.storyblok.com/f/217844/1920x1920/517c0692b4/persimmon_cold_brew_latte.png/m/1200x0/filters:quality(75):format(webp)',
     ingredients: [
       '120ml Oatly Barista Edition',
       '100ml Cold brew coffee',
@@ -261,9 +239,7 @@ export const LOOK_BOOK_VOL_3_RECIPES = [
     collection: 'LOOK BOOK VOL. 3',
     tagline: 'Blend of wild organic acai, Oatgurt, and toasted coconut flakes.',
     prepTime: '5 mins',
-    difficulty: 'Easy',
-    // TODO: Swap in real licensed image file here
-    image: 'https://placehold.co/600x600/FF5C8D/111111?text=Acai+Frozen+Flat+(1:1)',
+    difficulty: 'Easy',    image: 'https://a.storyblok.com/f/217844/1920x1920/29b067b062/acai_frozen_flat.png/m/1200x0/filters:quality(75):format(webp)',
     ingredients: [
       '1 frozen Acai packet (100g)',
       '150ml Oatly Oatgurt Plain',
@@ -282,9 +258,7 @@ export const LOOK_BOOK_VOL_3_RECIPES = [
     collection: 'LOOK BOOK VOL. 3',
     tagline: 'Playful agar-agar matcha jelly cubes swimming in sweetened Oatly Barista.',
     prepTime: '15 mins + chilling',
-    difficulty: 'Medium',
-    // TODO: Swap in real licensed image file here
-    image: 'https://placehold.co/600x600/8CD7A9/111111?text=Matcha+Jell-Oat+(1:1)',
+    difficulty: 'Medium',    image: 'https://a.storyblok.com/f/217844/1920x1920/0b7961f48f/matcha_jell-oat_shot.png/m/1200x0/filters:quality(75):format(webp)',
     ingredients: [
       '200ml Oatly Barista Edition',
       '1 tsp Matcha powder',
@@ -304,9 +278,7 @@ export const LOOK_BOOK_VOL_3_RECIPES = [
     collection: 'LOOK BOOK VOL. 3',
     tagline: 'Chewy sweet mochi pearls topped with matcha oat foam.',
     prepTime: '10 mins',
-    difficulty: 'Medium',
-    // TODO: Swap in real licensed image file here
-    image: 'https://placehold.co/600x600/002766/FCEB50?text=Mochi+Matcha+(1:1)',
+    difficulty: 'Medium',    image: 'https://a.storyblok.com/f/217844/1920x1920/ab60eb8d2e/mochi_matcha.png/m/1200x0/filters:quality(75):format(webp)',
     ingredients: [
       '150ml Oatly Barista Edition',
       '1 tsp Matcha',
@@ -325,9 +297,7 @@ export const LOOK_BOOK_VOL_3_RECIPES = [
     collection: 'LOOK BOOK VOL. 3',
     tagline: 'Fragrant roasted Oolong tea with lychee nectar and oat jelly.',
     prepTime: '7 mins',
-    difficulty: 'Easy',
-    // TODO: Swap in real licensed image file here
-    image: 'https://placehold.co/600x600/FF5C8D/FFFFFF?text=Lychee+Oolong+(1:1)',
+    difficulty: 'Easy',    image: 'https://a.storyblok.com/f/217844/1920x1920/681842143b/lychee_oolong_and_jell_oat.png/m/1200x0/filters:quality(75):format(webp)',
     ingredients: [
       '150ml Brewed Oolong Tea',
       '30ml Fresh Lychee juice',
@@ -346,9 +316,7 @@ export const LOOK_BOOK_VOL_3_RECIPES = [
     collection: 'LOOK BOOK VOL. 3',
     tagline: 'Non-alcoholic cocktail with roasted Hojicha green tea, aromatic bitters, and oat cream.',
     prepTime: '5 mins',
-    difficulty: 'Easy',
-    // TODO: Swap in real licensed image file here
-    image: 'https://placehold.co/600x600/111111/FF5C8D?text=Hojicha+Old+Fashioned+(1:1)',
+    difficulty: 'Easy',    image: 'https://a.storyblok.com/f/217844/1920x1920/287242ed5e/hojicha_old_fashioned.png/m/1200x0/filters:quality(75):format(webp)',
     ingredients: [
       '80ml Concentrated Hojicha roast tea',
       '2 dashes Non-alcoholic aromatic bitters',
@@ -368,9 +336,7 @@ export const LOOK_BOOK_VOL_3_RECIPES = [
     collection: 'LOOK BOOK VOL. 3',
     tagline: 'Toasted corn tortilla infusion with blue agave nectar and espresso.',
     prepTime: '10 mins',
-    difficulty: 'Medium',
-    // TODO: Swap in real licensed image file here
-    image: 'https://placehold.co/600x600/FCEB50/002766?text=Tortilla+Agave+(1:1)',
+    difficulty: 'Medium',    image: 'https://a.storyblok.com/f/217844/1920x1920/6288f534f9/tortilla_-_agave_latte.png/m/1200x0/filters:quality(75):format(webp)',
     ingredients: [
       '180ml Oatly Barista Edition (steeped with toasted corn tortilla)',
       '2 shots Espresso',
@@ -389,9 +355,7 @@ export const LOOK_BOOK_VOL_3_RECIPES = [
     collection: 'LOOK BOOK VOL. 3',
     tagline: 'Bright Meyer lemon zested espresso paired with sour cherry cold foam.',
     prepTime: '6 mins',
-    difficulty: 'Easy',
-    // TODO: Swap in real licensed image file here
-    image: 'https://placehold.co/600x600/FF5C8D/111111?text=Lemon+Espresso+Cherry+(1:1)',
+    difficulty: 'Easy',    image: 'https://a.storyblok.com/f/217844/1920x1920/c67fc7466c/lemon_espresso_con_cherry.png/m/1200x0/filters:quality(75):format(webp)',
     ingredients: [
       '2 shots Espresso with fresh Meyer lemon zest',
       '15ml Sour cherry syrup',
@@ -480,4 +444,67 @@ export const NEXT_COLLECTION_TEASER = {
       image: "https://placehold.co/400x400/8CD7A9/111111?text=Toasted+Maple+(1:1)"
     }
   ]
+};
+
+// ─── Real Look Book Vol. 3 page content (mirrors oatly.com/recipes/look-book-vol-3)
+// Scraped 2026-09-15: official logo/intro/photo assets, article copy, trends.
+export const LOOKBOOK_PAGE = {
+  breadcrumb: 'LOOK BOOK VOL. 3 | OATLY',
+  // Giant blackletter hero logo + handwritten intro + hero drink photo
+  logo: 'https://a.storyblok.com/f/107921/1380x223/dea6cdbb20/lookbookvol-3.svg',
+  introTextImage:
+    'https://a.storyblok.com/f/107921/666x779/f73e1bf8fc/intro-text.svg',
+  introTextAlt:
+    "Is it just us, or is drink culture having a bit of a moment right now? Fashion houses are pouring matcha. Cafes are becoming the new bars (or was it bars becoming the new cafes?) either way, the script has flipped. Coffee isn't coffee anymore. It's ritual. It's runway. It's the thing in your hands when culture happens. Today, we're tracking South American flavour waves and drink trends that are surfacing in a bakery rave in LA and landing at an 80s speed chess night in Manchester. And if you didn't catch all that, you can always tune in to the live stream on DrinkTok.",
+  heroImage:
+    'https://a.storyblok.com/f/107921/1920x2546/614724c22d/lookbook_header.webp',
+  heroImageAlt: 'A glass of iced drink with creamy swirls and a straw',
+  // Centrepiece article
+  article: {
+    heading: "WHAT'S NEXT IN\nTHE GLOBAL\nARENA OF TASTE",
+    paragraphs: [
+      "While East Asian taste explorations like matcha, mochi and hojicha have defined the last decade, Latin American flavours are now edging their way into global palates. As conversations around Latin American identity and representation grow, so does pride in heritage, along with curiosity from everyone else. People are streaming Spanish-language music more than ever while also trying tamales, tortillas and tomatillos.",
+      "This momentum is especially exciting since there's no single flavour that can represent it all. The incredible breadth of Latin American flavours is shaped by geography, migration and the family traditions tied to them.",
+      "These cultural overlaps continue to evolve with each generation, creating new landscapes of taste exploration.",
+      "We've seen a new kind of curiosity emerge through these cultural crossovers. There's a shift in attitude and a growing demand for drink experiences that are flavour-forward but also driven by heritage craftmanship. Horchata is the flavour of the moment, but fermentation traditions like tepache are also taking off, supported by growing health-oriented interests – showing how local techniques are meeting modern beverage culture. Today's customers demand bigger and bolder flavours. Preferably from their local coffee shop or bar, where rimmed glasses are making a comeback alongside classics like margaritas and other tequila-driven cocktails. This movement is energised by flavours that are vibrant and rich in heritage and cultural craft – and most importantly, they're delicious! Eager to explore right away? The Tortilla & Agave Latte is a great place to start!",
+    ],
+    author: 'Ro Roos, Head of Beverage Experience',
+  },
+  collage: 'https://a.storyblok.com/f/107921/2880x2371/700d25aee6/collage.webp',
+  sinkImage: 'https://a.storyblok.com/f/107921/2880x1620/0bacef7e65/sink_2.webp',
+  // Trend stories
+  trends: [
+    {
+      title: 'Global Flavour Exchange',
+      text: 'Experimenting with new flavour combinations might be one of the easiest ways to bring cultures together. Mixing Japanese hojicha with the American classic Old Fashioned is a perfect example of that.',
+    },
+    {
+      title: 'Experimental Drinks',
+      text: "Creators across industries are challenging themselves to develop new techniques, surprising flavour pairings and visually striking drink experiences. The bar keeps rising, and apparently, it's now normal to enjoy something like a clarified Oatly Hojicha Old Fashioned.",
+    },
+    {
+      title: 'Woody Flavours',
+      text: "Food and beverage are beginning to cross paths with perfumes. We're on the lookout for the next evolution beyond sweetness, adding interesting flavours and greater complexity.",
+    },
+    {
+      title: 'Tea Explosion',
+      text: 'Tea is finding its way into everything from lattes to cocktails, becoming a natural crossover between the barista and mixologist universes.',
+    },
+    {
+      title: 'Conscious Indulgence',
+      text: 'People may be drinking less, but they still want the full experience, with the craft and pleasure, of a top-tier drink. The non-alcoholic scene is becoming more playful, innovative, and sophisticated.',
+    },
+  ],
+  trendImage: 'https://a.storyblok.com/f/107921/4320x3240/9632d26033/hojicha.webp',
+  trendImageMobile:
+    'https://a.storyblok.com/f/107921/1920x1920/ec55781689/hojicha_mobile.webp',
+  portraits: [
+    'https://a.storyblok.com/f/107921/1920x2400/7d0b5bd57f/old-fashioned-srgb-4x5-1.webp',
+    'https://a.storyblok.com/f/107921/1920x2400/3e7e501060/oolong-iced-tea-srgb-4x5-1.webp',
+  ],
+  previous: {
+    label: 'PREVIOUS LOOK BOOK',
+    title: 'LOOK BOOK A/W 25',
+    path: '/recipes/look-book-autumn-winter-2025',
+  },
 };

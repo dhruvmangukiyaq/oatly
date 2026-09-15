@@ -1,15 +1,30 @@
 import React, { useState } from 'react';
-import { useParams, Link } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 // ─── MVC: View ─── detail via Controller ─────────────────────────────────────
 import { useRecipeDetailController } from '../../controllers/useContentControllers.js';
-import { ArrowLeft, Clock, ChefHat, Sparkles, Check, Bookmark } from 'lucide-react';
+import { ArrowLeft, Clock, ChefHat, Check } from 'lucide-react';
 
 export default function RecipeDetailPage() {
   // CONTROLLER (uses RecipeModel internally)
   const { recipe: found } = useRecipeDetailController();
   const [checkedIngredients, setCheckedIngredients] = useState({});
 
-  const recipe = found || { name: 'Recipe not found', ingredients: [], instructions: [] };
+  const recipe = {
+    name: 'Recipe not found',
+    ingredients: [],
+    instructions: [],
+    ...found,
+  };
+  // AW25/SS25 entries carry no formula yet — show photo + title gracefully.
+  const ingredients = recipe.ingredients || [];
+  const instructions = recipe.instructions || [];
+  const backPath = recipe.collectionPath || '/recipes/look-book-vol-3';
+  const backLabel =
+    recipe.collection === 'LOOK BOOK A/W 25'
+      ? 'BACK TO LOOK BOOK A/W 25'
+      : recipe.collection === 'LOOK BOOK S/S 25'
+        ? 'BACK TO LOOK BOOK S/S 25'
+        : 'BACK TO LOOK BOOK VOL. 3';
 
   const toggleIngredient = (idx) => {
     setCheckedIngredients((prev) => ({
@@ -23,10 +38,10 @@ export default function RecipeDetailPage() {
       
       {/* Back Button */}
       <Link
-        to="/recipes/look-book-vol-3"
+        to={backPath}
         className="btn-oatly-secondary text-xs py-2.5 px-5 inline-flex items-center gap-2"
       >
-        <ArrowLeft className="w-4 h-4" /> BACK TO LOOK BOOK VOL. 3
+        <ArrowLeft className="w-4 h-4" /> {backLabel}
       </Link>
 
       {/* Hero Header Card */}
@@ -64,14 +79,15 @@ export default function RecipeDetailPage() {
           </div>
 
           <div className="p-4 bg-oatly-yellow border-2 border-oatly-black font-hand text-base text-oatly-black shadow-brutal-sm rotate-[-0.5deg]">
-            "Crafted for Look Book Vol. 3 — 100% plant-based perfection."
+            "Crafted for {recipe.collection || 'Look Book Vol. 3'} — 100% plant-based perfection."
           </div>
         </div>
 
       </div>
 
 
-      {/* Ingredients & Instructions Grid */}
+      {/* Ingredients & Instructions Grid (formula pages only) */}
+      {ingredients.length > 0 || instructions.length > 0 ? (
       <div className="grid grid-cols-1 md:grid-cols-12 gap-8">
         
         {/* Ingredients Checklist */}
@@ -82,7 +98,7 @@ export default function RecipeDetailPage() {
           </h3>
 
           <ul className="space-y-3 text-xs md:text-sm font-mono">
-            {recipe.ingredients.map((ing, idx) => (
+            {ingredients.map((ing, idx) => (
               <li
                 key={idx}
                 onClick={() => toggleIngredient(idx)}
@@ -110,7 +126,7 @@ export default function RecipeDetailPage() {
           </h3>
 
           <ol className="space-y-6">
-            {recipe.instructions.map((step, idx) => (
+            {instructions.map((step, idx) => (
               <li key={idx} className="flex items-start gap-4">
                 <span className="flex-shrink-0 w-8 h-8 rounded-none bg-oatly-black text-oatly-yellow font-display font-black text-sm flex items-center justify-center border-2 border-black shadow-brutal-sm">
                   {idx + 1}
@@ -124,6 +140,11 @@ export default function RecipeDetailPage() {
         </div>
 
       </div>
+      ) : (
+        <div className="bg-white border-4 border-oatly-black p-6 shadow-brutal font-mono text-xs font-bold uppercase">
+          Full formula dropping soon — check back for ingredients & method.
+        </div>
+      )}
 
     </div>
   );

@@ -1,3 +1,13 @@
+/* --- FONTS (spec §3.2) ---------------------------------------------------------
+   Target commercial fonts are NOT on Google Fonts, so we load the closest
+   free fallbacks here (global, once):
+     "Margo Pro Regular" (nav/UI/body) → Montserrat → Futura → Arial
+     "Girdo Black Pro" (hero display)  → Anton (ultra-condensed bold)
+     Oatly rounded chunky (process band + TV) → Titan One (heavy rounded)
+   Margo/Girdo names are kept first in the stacks below so a licensed
+   install would win automatically. */
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;700&family=Anton&family=Titan+One&display=swap');
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -350,4 +360,85 @@
     transition-duration: 0.01ms !important;
     scroll-behavior: auto !important;
   }
+}
+
+/* ==========================================================================
+   OATLY SPEC TOKENS (visual polish layer — no layout changes)
+   --------------------------------------------------------------------------
+   WHERE THINGS ARE DEFINED:
+   - Color palette  → :root --spec-* just below (spec §3.1 exact HEX)
+   - Spacing system → :root --space-* just below (spec §3.3, 4px grid)
+   - Fonts          → @import at top of this file + --font-* below (spec §3.2)
+   - Usage          → OatlyNav.css (header/nav/dropdowns) + card components
+   ========================================================================== */
+:root {
+  /* --- Spec color palette (exact HEX — do not change) --- */
+  --spec-ink: #000000;        /* nav items, hero, headlines, body */
+  --spec-canvas: #ffffff;     /* page + header background, most surfaces */
+  --spec-border: #c6c6c6;     /* header bottom border, subtle card borders */
+  --spec-surface: #f5f5f5;    /* elevated surface: panels, subtle cards */
+  --spec-focus: #98c5d3;      /* focus outlines + active/selected states */
+  --spec-blush: #f8c8d8;      /* accent pastel — sparing, tags/cards */
+  --spec-harvest: #fdcf85;    /* accent pastel — NEWS badges (consistent gold) */
+  --spec-mint: #b8d4c8;       /* accent pastel — sparing, tags/cards */
+  --spec-error: #e43e39;      /* errors/validation ONLY */
+
+  /* --- Spec spacing system (4px baseline grid) --- */
+  --space-4: 4px;
+  --space-8: 8px;
+  --space-12: 12px;
+  --space-16: 16px;
+  --space-24: 24px;
+  --space-32: 32px;
+  --space-40: 40px;
+  --space-48: 48px;
+  --space-64: 64px;
+  --space-80: 80px;
+  --space-128: 128px;
+
+  --max-width: 1680px;
+  --card-padding: var(--space-24);
+  --element-gap: var(--space-16);
+
+  /* --- Spec font stacks (targets first, free fallbacks after) --- */
+  --font-ui: 'Margo Pro Regular', 'Montserrat', 'Futura', 'Arial', sans-serif;
+  --font-display: 'Girdo Black Pro', 'Anton', 'Arial Narrow', 'Arial', sans-serif;
+  /* Rounded chunky stack for the Oatly process band + TV lettering */
+  --font-chunky: 'Titan One', 'Arial Rounded MT Bold', 'Arial', sans-serif;
+  /* Editorial serif stack (look-book article headings; target first) */
+  --font-serif: 'Tinny Serif Pro', Georgia, 'Times New Roman', serif;
+}
+
+/* Spec nav/UI label typography (§3.2): uppercase, ~14px, lh 1, ls 0.02em, 400.
+   Used by nav labels, button labels, small tags/badges. */
+.font-ui-spec {
+  font-family: var(--font-ui);
+  text-transform: uppercase;
+  font-size: 0.875rem;
+  line-height: 1;
+  letter-spacing: 0.02em;
+  font-weight: 400;
+}
+
+/* Spec hero/display typography (§3.2): bold condensed, compact lh ~1.1.
+   Hero + major titles only — never body copy. */
+.font-display-spec {
+  font-family: var(--font-display);
+  text-transform: uppercase;
+  line-height: 1.1;
+}
+
+/* Spec body/caption typography (§3.2): same UI stack, normal case, lh 1.4–1.6 */
+.font-body-spec {
+  font-family: var(--font-ui);
+  line-height: 1.5;
+}
+
+/* Spec focus visibility (§4): clear #98C5D3 outline on every interactive
+   element. Placed after the older ring rule so it wins in the cascade. */
+a:focus-visible,
+button:focus-visible,
+[role='button']:focus-visible {
+  outline: 2px solid var(--spec-focus);
+  outline-offset: 2px;
 }

@@ -1,5 +1,7 @@
 // Centralized Site Data & Copy Store for Oatly Clone
 
+import { OATLY_CATALOG_ITEMS } from './oatlyCatalog.js';
+
 export const siteMeta = {
   title: 'the Original Oat Drink Company | Oatly',
   description: 'A site filled with everything you could possibly think of, and also probably not think of, related to an oat drink company called Oatly.'
@@ -281,6 +283,17 @@ export const newsItems = [
     excerpt: 'The official pairing for home pod coffee lovers across North America.',
     content: 'Getting thick, creamy microfoam at home is now a one-button affair. Nespresso Vertuo machines paired with Oatly Barista Edition give you cafe-quality lattes in 30 seconds flat.',
     tag: 'PARTNERSHIP'
+  },
+  {
+    id: 'tastes-like-miami',
+    slug: 'tastes-like-miami',
+    title: 'Tastes like Miami',
+    type: 'Stories',
+    date: 'Winter 2025',
+    readTime: '3 min read',
+    excerpt: 'Cafecito culture meets oats at Art Basel — a love letter to Miami.',
+    content: 'We parked a pastel cafecito cart in Little Havana and poured thousands of cortaditos made with Oatly Barista Edition. Between domino games and Art Basel afterparties, Miami showed us that oat milk and cafecito were always meant to be.',
+    tag: 'CULTURE'
   }
 ];
 
@@ -320,3 +333,13 @@ export const sustainabilityData = {
     }
   }
 };
+
+// ─── Real catalog override ──────────────────────────────────────────────────
+// Swap each category's hand-written `items` with the real Oatly catalog
+// (names + official packshots from oatly.com/products, see oatlyCatalog.js).
+// Category metadata above (tagline, color, badge) is untouched — only the
+// item lists are replaced, so every consumer (listing pages, modal) gets the
+// real products with zero further changes.
+productCategories.forEach((cat) => {
+  if (OATLY_CATALOG_ITEMS[cat.slug]) cat.items = OATLY_CATALOG_ITEMS[cat.slug];
+});

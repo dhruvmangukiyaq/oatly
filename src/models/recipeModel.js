@@ -9,6 +9,7 @@ import {
   EDITORIAL_SECTION,
   NEXT_COLLECTION_TEASER,
 } from '../data/lookBookVol3Data.js';
+import { AW25_COLLECTION, SS25_COLLECTION } from '../data/lookBookCollections.js';
 
 export function getAllRecipes() {
   return [...RECIPES_DATA, ...LOOK_BOOK_VOL_3_RECIPES];
@@ -37,6 +38,8 @@ export function getNextCollectionTeaser() {
 export function getRecipeBySlug(slug) {
   return (
     LOOK_BOOK_VOL_3_RECIPES.find((r) => r.slug === slug) ||
+    AW25_COLLECTION.recipes.find((r) => r.slug === slug) ||
+    SS25_COLLECTION.recipes.find((r) => r.slug === slug) ||
     RECIPES_DATA.find((r) => r.id === slug) ||
     null
   );
