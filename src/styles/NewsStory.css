@@ -1,0 +1,294 @@
+/* ==========================================================================
+   NEWS STORY DETAIL — editorial layout (mirrors oatly.com/things-we-do/...)
+   --------------------------------------------------------------------------
+   STRUCTURE:
+     .ns-story           → page wrapper
+     .ns-story__crumbs   → breadcrumb (Home > Things We Do > Initiatives > Title)
+     .ns-story__hero     → full-width hero image (16:9)
+     .ns-story__main     → centered container with gutters
+     .ns-story__content  → narrow text column (width14 equivalent ~ 70ch)
+     .ns-story__header   → tag + h1 (Girdo/Toni Noveau) + excerpt
+     .ns-story__meta     → date • readTime • type
+     .ns-story__body     → rich text (Margo Pro / system UI serif)
+     .ns-story__figure   → centered images (LayoutPageImage_horizontalAlignCenter)
+   TOKENS (src/styles/index.css): --spec-*, --space-*, --max-width,
+                                  --font-ui, --font-serif, --font-display
+   FONTS: --font-display (Girdo → Anton) for headings,
+          --font-serif (Tinny Serif Pro → Georgia) for h1,
+          --font-ui (Margo Pro → Montserrat) for body/ui.
+   ========================================================================== */
+
+.ns-story {
+  background: var(--spec-canvas);
+  color: var(--spec-ink);
+  padding: var(--space-48) var(--space-24) var(--space-80);
+}
+
+/* ── Breadcrumb ── */
+.ns-crumb__list {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: var(--space-8);
+  margin: 0 0 var(--space-32);
+  padding: 0;
+  list-style: none;
+  font-family: var(--font-ui);
+  font-size: 0.8125rem;
+  line-height: 1.5;
+  color: var(--spec-ink);
+}
+
+.ns-crumb__sep {
+  color: var(--spec-ink);
+  user-select: none;
+}
+
+.ns-crumb__link,
+.ns-crumb__current {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-4);
+  font-weight: 400;
+  letter-spacing: 0.01em;
+  text-transform: uppercase;
+}
+
+.ns-crumb__link {
+  color: var(--spec-ink);
+  text-decoration: none;
+}
+
+.ns-crumb__link:hover {
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+.ns-crumb__current {
+  color: var(--spec-ink);
+  font-weight: 500;
+}
+
+/* ── Hero image (full-width, 16:9) ── */
+.ns-story__hero {
+  margin: 0 calc(-1 * var(--space-24)) var(--space-48);
+}
+
+.ns-story__figure {
+  margin: 0;
+  position: relative;
+  aspect-ratio: 16 / 9;
+  overflow: hidden;
+  background: var(--spec-surface);
+}
+
+.ns-story__img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+/* ── Main content area (centered, with gutters) ── */
+.ns-story__main {
+  max-width: var(--max-width);
+  margin: 0 auto;
+  padding: 0 var(--space-24);
+}
+
+.ns-story__content {
+  max-width: 42rem; /* ~672px ≈ width14 column */
+  margin: 0 auto;
+}
+
+/* ── Header: tag + title + excerpt ── */
+.ns-story__header {
+  margin-bottom: var(--space-32);
+}
+
+.ns-story__tag {
+  display: inline-block;
+  padding: var(--space-4) var(--space-12);
+  font-family: var(--font-ui);
+  font-size: 0.875rem;
+  font-weight: 500;
+  line-height: 1;
+  letter-spacing: 0.02em;
+  text-transform: uppercase;
+  margin-bottom: var(--space-16);
+  border-radius: 2px;
+}
+
+/* Tag color variants (match Oatly's collection tags) */
+.ns-story__tag--black   { background: var(--spec-ink);   color: var(--spec-canvas); }
+.ns-story__tag--white   { background: var(--spec-canvas); color: var(--spec-ink); border: 1px solid var(--spec-border); }
+.ns-story__tag--blue    { background: #0050ff; color: #fff; }
+.ns-story__tag--pink    { background: #ff5c8d; color: #fff; }
+.ns-story__tag--yellow  { background: #fceb50; color: var(--spec-ink); }
+.ns-story__tag--mint    { background: #8cd7a9; color: var(--spec-ink); }
+.ns-story__tag--orange  { background: #ff7e36; color: #fff; }
+.ns-story__tag--purple  { background: #b9a6d9; color: var(--spec-ink); }
+
+.ns-story__title {
+  margin: 0 0 var(--space-16);
+  font-family: var(--font-display);
+  font-weight: 400;
+  font-size: clamp(2.25rem, 5vw, 4rem);
+  line-height: 1.05;
+  text-transform: uppercase;
+  color: var(--spec-ink);
+}
+
+.ns-story__excerpt {
+  margin: 0;
+  max-width: 40ch;
+  font-family: var(--font-ui);
+  font-size: 1.125rem;
+  line-height: 1.5;
+  color: var(--spec-ink);
+  opacity: 0.8;
+}
+
+/* ── Meta line ── */
+.ns-story__meta {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: var(--space-12);
+  margin-bottom: var(--space-32);
+  padding-bottom: var(--space-24);
+  border-bottom: 1px solid var(--spec-border);
+  font-family: var(--font-ui);
+  font-size: 0.875rem;
+  line-height: 1.5;
+  color: var(--spec-ink);
+}
+
+.ns-story__meta time {
+  font-variant-numeric: tabular-nums;
+}
+
+.ns-story__type {
+  font-family: var(--font-ui);
+  font-size: 0.8125rem;
+  font-weight: 500;
+  letter-spacing: 0.02em;
+  text-transform: uppercase;
+  padding: var(--space-2) var(--space-8);
+  background: var(--spec-surface);
+  border: 1px solid var(--spec-border);
+  border-radius: 2px;
+}
+
+/* ── Rich text body ── */
+.ns-story__body {
+  font-family: var(--font-serif);
+  font-size: 1.125rem;
+  line-height: 1.7;
+  color: var(--spec-ink);
+}
+
+.ns-story__richtext {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-24);
+}
+
+.ns-story__p {
+  margin: 0;
+  font-size: 1.125rem;
+  line-height: 1.7;
+  hyphens: auto;
+}
+
+.ns-story__p + .ns-story__p {
+  text-indent: 2em;
+}
+
+/* ── Figures / images within body ── */
+.ns-story__figure {
+  margin: var(--space-32) calc(-1 * var(--space-24));
+  text-align: center;
+}
+
+.ns-story__figure img {
+  max-width: 100%;
+  height: auto;
+  display: block;
+  margin: 0 auto;
+}
+
+.ns-story__figcaption {
+  margin-top: var(--space-12);
+  font-family: var(--font-ui);
+  font-size: 0.875rem;
+  line-height: 1.5;
+  color: var(--spec-ink);
+  opacity: 0.7;
+  text-align: center;
+}
+
+/* ── Back link (outside story content) ── */
+.ns-story__back {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-8);
+  margin-bottom: var(--space-24);
+  padding: var(--space-8) var(--space-16);
+  font-family: var(--font-ui);
+  font-size: 0.875rem;
+  font-weight: 500;
+  letter-spacing: 0.02em;
+  text-transform: uppercase;
+  color: var(--spec-ink);
+  text-decoration: none;
+  border: 1px solid var(--spec-border);
+  border-radius: 2px;
+  background: var(--spec-canvas);
+}
+
+.ns-story__back:hover {
+  background: var(--spec-surface);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+/* ── Responsive ── */
+@media (max-width: 768px) {
+  .ns-story {
+    padding: var(--space-32) var(--space-16) var(--space-64);
+  }
+
+  .ns-story__hero {
+    margin: 0 calc(-1 * var(--space-16)) var(--space-32);
+  }
+
+  .ns-story__main {
+    padding: 0 var(--space-16);
+  }
+
+  .ns-story__title {
+    font-size: clamp(1.75rem, 7vw, 2.75rem);
+  }
+
+  .ns-story__excerpt {
+    font-size: 1rem;
+  }
+
+  .ns-story__body {
+    font-size: 1rem;
+    line-height: 1.65;
+  }
+}
+
+/* ── Print styles ── */
+@media print {
+  .ns-story__hero,
+  .ns-crumb__list,
+  .ns-story__back {
+    display: none;
+  }
+  .ns-story {
+    padding: 0;
+  }
+}
