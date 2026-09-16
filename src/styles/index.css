@@ -146,13 +146,16 @@
   }
 }
 
-/* Graph Paper Background Pattern */
+/* Graph Paper Background Pattern - authentic Oatly 12px checks pattern */
 .bg-graph-paper {
-  background-color: var(--color-cream);
+  background-color: #FFFEF6;
   background-image: 
-    linear-gradient(to right, rgba(0, 0, 0, 0.10) 1px, transparent 1px),
-    linear-gradient(to bottom, rgba(0, 0, 0, 0.10) 1px, transparent 1px);
-  background-size: 22px 22px;
+    url('../assets/oatly/browser-desktop-grid.svg'),
+    linear-gradient(to right, rgba(0, 0, 0, 0.14) 0.5px, transparent 0.5px),
+    linear-gradient(to bottom, rgba(0, 0, 0, 0.14) 0.5px, transparent 0.5px);
+  background-position: top left;
+  background-repeat: repeat;
+  background-size: 96px 96px, 12px 12px, 12px 12px;
 }
 
 /* Polka Dot Pattern for Filler Cards */
@@ -474,6 +477,33 @@
 /* Route chunk loading placeholder (React.lazy Suspense fallback) */
 .page-loading {
   min-height: 30vh;
+}
+
+/* Outer shell and responsive desktop browser frame */
+.app-shell {
+  height: 100vh;
+  height: 100dvh;
+  width: 100vw;
+  max-width: 100%;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+}
+
+.app-frame {
+  height: 100%;
+  width: 100%;
+  max-width: 100%;
+  overflow-y: auto;
+  overflow-x: hidden;
+  overscroll-behavior-y: contain;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+
+.app-frame::-webkit-scrollbar {
+  display: none;
 }
 
 /* Spec focus visibility (§4): clear #98C5D3 outline on every interactive

@@ -134,7 +134,7 @@ export default function Navbar({ onOpenSearch }) {
           </button>
           <button
             type="button"
-            className="oatly-toolbar__btn"
+            className="oatly-toolbar__btn oatly-toolbar__close-desktop"
             aria-label="Close"
             onClick={() => setMobileOpen(false)}
           >

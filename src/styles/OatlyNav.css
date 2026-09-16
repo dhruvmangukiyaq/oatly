@@ -377,7 +377,19 @@
 @media (max-width: 900px) {
   .oatly-navrow { display: none; }
   .oatly-toolbar__menu { display: inline-flex; }
+  .oatly-toolbar__close-desktop { display: none; }
   .oatly-mobile--open { display: block; }
+}
+
+@media (max-width: 480px) {
+  .oatly-toolbar__link,
+  .oatly-toolbar__btn {
+    padding: 0 var(--space-8);
+    font-size: 0.75rem;
+  }
+  .oatly-toolbar__home {
+    width: 36px;
+  }
 }
 
 @media (prefers-reduced-motion: reduce) {

@@ -4,7 +4,12 @@ import { ArrowUp } from 'lucide-react';
 
 export default function Footer() {
   const scrollToTop = () => {
-    window.scrollTo({ top: 0, behavior: 'smooth' });
+    const scroller = document.querySelector('[data-app-scroll]');
+    if (scroller) {
+      scroller.scrollTo({ top: 0, behavior: 'smooth' });
+    } else {
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
   };
 
   return (
@@ -17,20 +22,20 @@ export default function Footer() {
         <div className="footer-row">
           <button
             onClick={scrollToTop}
-            className="w-12 flex items-center justify-center hover:bg-[var(--color-cream-dark)] transition-colors flex-shrink-0"
+            className="w-10 sm:w-12 flex items-center justify-center hover:bg-[var(--color-cream-dark)] transition-colors flex-shrink-0"
             title="Scroll to top"
           >
             <ArrowUp className="w-4 h-4 text-[#111111] stroke-[3]" />
           </button>
           <Link
             to="/health"
-            className="footer-cell-link"
+            className="footer-cell-link px-2 text-[11px] sm:text-xs"
           >
             FAQ
           </Link>
           <Link
             to="/sustainability"
-            className="footer-cell-link"
+            className="footer-cell-link px-2 text-[11px] sm:text-xs"
           >
             SUSTAINABILITY
           </Link>
@@ -42,7 +47,7 @@ export default function Footer() {
             href="https://careers.oatly.com"
             target="_blank"
             rel="noreferrer"
-            className="footer-cell-link"
+            className="footer-cell-link px-2 text-[11px] sm:text-xs"
           >
             CAREERS
           </a>
@@ -50,26 +55,26 @@ export default function Footer() {
             href="https://investors.oatly.com"
             target="_blank"
             rel="noreferrer"
-            className="footer-cell-link"
+            className="footer-cell-link px-2 text-[11px] sm:text-xs"
           >
             FOR INVESTORS
           </a>
         </div>
 
         {/* Row 3: CONTACT | LEGAL | PRIVACY POLICY | COOKIE CONSENT */}
-        <div className="grid grid-cols-2 md:grid-cols-4 divide-x divide-[#111111] items-stretch h-10">
-          <Link to="/contact" className="footer-cell-link px-2">
+        <div className="grid grid-cols-2 md:grid-cols-4 divide-x divide-y md:divide-y-0 divide-[#111111] items-stretch min-h-[40px] md:h-10 text-[10px] sm:text-xs">
+          <Link to="/contact" className="footer-cell-link px-2 py-2 md:py-0">
             CONTACT
           </Link>
-          <Link to="/legal" className="footer-cell-link px-2">
+          <Link to="/legal" className="footer-cell-link px-2 py-2 md:py-0">
             LEGAL
           </Link>
-          <Link to="/legal/privacy-policy" className="footer-cell-link px-2">
+          <Link to="/legal/privacy-policy" className="footer-cell-link px-2 py-2 md:py-0 border-t md:border-t-0 border-[#111111]">
             PRIVACY POLICY
           </Link>
           <button
             onClick={() => alert('Cookie preferences updated!')}
-            className="footer-cell px-2 uppercase"
+            className="footer-cell px-2 py-2 md:py-0 border-t md:border-t-0 border-[#111111] uppercase"
           >
             COOKIE CONSENT
           </button>

@@ -32,14 +32,19 @@ function ScrollToTop() {
   const { pathname, hash } = useLocation();
 
   useEffect(() => {
+    const scroller = document.querySelector('[data-app-scroll]');
     if (hash) {
-      const element = document.querySelector(hash);
+      const element = scroller?.querySelector(hash) ?? document.querySelector(hash);
       if (element) {
         element.scrollIntoView({ behavior: 'smooth' });
         return;
       }
     }
-    window.scrollTo(0, 0);
+    if (scroller) {
+      scroller.scrollTo(0, 0);
+    } else {
+      window.scrollTo(0, 0);
+    }
   }, [pathname, hash]);
 
   return null;
@@ -66,8 +71,8 @@ export default function App() {
     <HelmetProvider>
       <BrowserRouter>
         <ScrollToTop />
-        <div className="min-h-screen bg-graph-paper border-[8px] border-[#466874] text-oatly-black selection:bg-oatly-yellow selection:text-oatly-black font-sans p-5">
-          <div className="max-w-[1480px] mx-auto bg-[#FFFEF8] border-[1.5px] border-black flex flex-col min-h-[calc(100vh-58px)]">
+        <div className="app-shell bg-graph-paper border-0 sm:border-[4px] md:border-[6px] lg:border-[8px] border-[#466874] text-oatly-black selection:bg-oatly-yellow selection:text-oatly-black font-sans p-0 sm:p-2 md:p-2.5 lg:p-3.5">
+          <div data-app-scroll className="app-frame bg-[#FFFEF8] border-0 sm:border-[1.5px] sm:border-black flex flex-col w-full h-full max-w-full">
           {/* Navigation Bar */}
           <Navbar onOpenSearch={openSearch} />
 

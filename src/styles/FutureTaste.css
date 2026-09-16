@@ -239,3 +239,17 @@
   object-fit: cover;
   margin-top: var(--space-24);
 }
+
+@media (max-width: 640px) {
+  .fot__inner {
+    padding: var(--space-16);
+  }
+  .fot-hero {
+    padding: var(--space-24) 0 var(--space-32);
+  }
+  .fot-letter,
+  .fot-trend,
+  .fot-toc {
+    padding: var(--space-32) 0;
+  }
+}
