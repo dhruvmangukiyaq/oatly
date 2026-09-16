@@ -28,7 +28,7 @@ export const NAV_ITEMS = [
   },
   {
     name: 'NEWS',
-    path: '/news',
+    path: '/things-we-do',
     dropdown: [
       { name: 'Pee for the Planet', path: '/things-we-do/pee-for-the-planet', desc: 'Scandinavian nutrient recycling' },
       { name: 'Oatly x AVAVAV', path: '/things-we-do/oatly-x-avavav', desc: 'Runway fashion made from oats' },

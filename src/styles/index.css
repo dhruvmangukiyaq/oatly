@@ -6,7 +6,42 @@
      Oatly rounded chunky (process band + TV) → Titan One (heavy rounded)
    Margo/Girdo names are kept first in the stacks below so a licensed
    install would win automatically. */
-@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;700&family=Anton&family=Titan+One&display=swap');
+/* Real Margo/Girdo/Toni webfonts are bundled locally (see @font-face above),
+   so Montserrat/Anton are no longer needed from Google — only Titan One
+   (process-band chunky lettering) has no local file yet. */
+@import url('https://fonts.googleapis.com/css2?family=Titan+One&display=swap');
+
+/* --- REAL OATLY WEBFONTS (bundled locally from oatly.com) -------------------
+   Margo Pro (Regular/Bold) + Girdo Black Pro replace the Google fallbacks;
+   Toni Noveau Pro is the Oatly card/title display face. Kept in src/fonts/. */
+@font-face {
+  font-family: 'Margo Pro Regular';
+  font-style: normal;
+  font-weight: 400;
+  font-display: block;
+  src: url('../fonts/MargoPro-Regular.331345f1.woff2') format('woff2');
+}
+@font-face {
+  font-family: 'Margo Pro Bold';
+  font-style: normal;
+  font-weight: 400;
+  font-display: block;
+  src: url('../fonts/MargoPro-Bold.22751e49.woff2') format('woff2');
+}
+@font-face {
+  font-family: 'Girdo Black Pro';
+  font-style: normal;
+  font-weight: 400;
+  font-display: block;
+  src: url('../fonts/GirdoBlackPro-Regular.e6f7ab73.woff2') format('woff2');
+}
+@font-face {
+  font-family: 'Toni Noveau Pro';
+  font-style: normal;
+  font-weight: 400;
+  font-display: block;
+  src: url('../fonts/ToniNoveauPro-Regular.917643b2.otf') format('opentype');
+}
 
 @tailwind base;
 @tailwind components;
@@ -407,6 +442,8 @@
   --font-chunky: 'Titan One', 'Arial Rounded MT Bold', 'Arial', sans-serif;
   /* Editorial serif stack (look-book article headings; target first) */
   --font-serif: 'Tinny Serif Pro', Georgia, 'Times New Roman', serif;
+  /* Oatly card title face (things-we-do teasers; bundled locally) */
+  --font-toni: 'Toni Noveau Pro', 'Girdo Black Pro', Georgia, serif;
 }
 
 /* Spec nav/UI label typography (§3.2): uppercase, ~14px, lh 1, ls 0.02em, 400.
@@ -432,6 +469,11 @@
 .font-body-spec {
   font-family: var(--font-ui);
   line-height: 1.5;
+}
+
+/* Route chunk loading placeholder (React.lazy Suspense fallback) */
+.page-loading {
+  min-height: 30vh;
 }
 
 /* Spec focus visibility (§4): clear #98C5D3 outline on every interactive

@@ -1,6 +1,5 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { Home } from 'lucide-react';
 import SEO from '../components/SEO';
 // ─── MVC: View ──────────────────────────────────────────────────────────────
 // Mirrors oatly.com/recipes/look-book-vol-3 top to bottom. All content +
@@ -31,25 +30,6 @@ export default function LookBookVol3Page() {
         pathname="/recipes/look-book-vol-3"
       />
       <div className="lb3__inner">
-        {/* Breadcrumb: Home > LOOK BOOK VOL. 3 | OATLY */}
-        <nav aria-label="Breadcrumb">
-          <ol className="lb3-crumb__list">
-            <li>
-              <Link to="/" className="lb3-crumb__link" aria-label="Home">
-                <Home size={16} aria-hidden="true" />
-              </Link>
-            </li>
-            <li aria-hidden="true" className="lb3-crumb__sep">
-              &gt;
-            </li>
-            <li>
-              <span className="lb3-crumb__current" aria-current="page">
-                {page.breadcrumb}
-              </span>
-            </li>
-          </ol>
-        </nav>
-
         {/* Giant blackletter hero logo (official Oatly artwork) */}
         <img src={page.logo} alt="Look Book Vol.3" className="lb3-logo" />
 

@@ -1,8 +1,7 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
-import { Home } from 'lucide-react';
 // ─── MVC: View (shared) ─────────────────────────────────────────────────────
-// Breadcrumb + filter bar + product grid, reused by /products (ALL PRODUCTS)
+// Filter bar + product grid, reused by /products (ALL PRODUCTS)
 // and every /products/:category page. Data comes from props (resolved via
 // ProductModel in the page controllers) — this file owns no data fetching.
 // All items carry official imagery from the API; a broken URL hides gracefully.
@@ -60,44 +59,7 @@ export default function ProductListing({ categories, activeSlug, items, onSelect
     <>
       <div className="plist">
         <div className="plist__inner">
-        {/* ── 1. BREADCRUMB: Home icon > PRODUCTS > CURRENT ── */}
-        <nav aria-label="Breadcrumb">
-          <ol className="plist-crumb__list">
-            <li>
-              <Link to="/" className="plist-crumb__link" aria-label="Home">
-                <Home size={16} aria-hidden="true" />
-              </Link>
-            </li>
-            <li aria-hidden="true" className="plist-crumb__sep">
-              &gt;
-            </li>
-            <li>
-              {activeCategory ? (
-                <Link to="/products" className="plist-crumb__link">
-                  Products
-                </Link>
-              ) : (
-                <span className="plist-crumb__current" aria-current="page">
-                  Products
-                </span>
-              )}
-            </li>
-            {activeCategory && (
-              <>
-                <li aria-hidden="true" className="plist-crumb__sep">
-                  &gt;
-                </li>
-                <li>
-                  <span className="plist-crumb__current" aria-current="page">
-                    {activeCategory.name}
-                  </span>
-                </li>
-              </>
-            )}
-          </ol>
-        </nav>
-
-        {/* ── 2. FILTER BAR: ALL + every category, route-driven ── */}
+        {/* ── 1. FILTER BAR: ALL + every category, route-driven ── */}
         <nav className="plist-filter" aria-label="Product categories">
           <ul className="plist-filter__list">
             <li>

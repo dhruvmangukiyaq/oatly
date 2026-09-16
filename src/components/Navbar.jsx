@@ -1,12 +1,12 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { Link, useLocation } from 'react-router-dom';
-import { Home, Globe, X, Menu, ChevronDown } from 'lucide-react';
+import { Home, Globe, X, Menu, ChevronDown, ChevronRight } from 'lucide-react';
 // ─── MVC: View ──────────────────────────────────────────────────────────────
 // Item order/labels come from the Model (navigationModel.js); this file only
 // renders. NOTE: react-router <Link> outputs a semantic <a href> in the DOM,
 // so the result stays <header><nav><ul><li><a> as required.
-// STRUCTURE (unchanged — styling only):
-//   toolbar: Home icon (left) | spacer | FAQ BIZ Globe X (right)
+// STRUCTURE:
+//   toolbar: Home icon (left) | current-page breadcrumb | spacer | FAQ BIZ Globe X (right)
 //   nav row: PRODUCTS TASTEBUDS NEWS SUSTAINABILITY HEALTH (same order)
 import NavigationModel from '../models/navigationModel.js';
 import { useApiData } from '../hooks/useApiData.js';
@@ -20,6 +20,11 @@ export default function Navbar({ onOpenSearch }) {
   const location = useLocation();
   // MODEL (async API — header renders once items arrive)
   const navItems = useApiData(() => NavigationModel.getNavItems(), []);
+  const headerCrumbs =
+    useApiData(
+      () => NavigationModel.getHeaderBreadcrumbs(location.pathname),
+      [location.pathname],
+    ) || [];
 
   // Reset menus on navigation (minimal JS — no animation library)
   useEffect(() => {
@@ -58,6 +63,33 @@ export default function Navbar({ onOpenSearch }) {
         <Link to="/" className="oatly-toolbar__home" aria-label="Home">
           <Home size={20} aria-hidden="true" />
         </Link>
+
+        {headerCrumbs.length > 0 && (
+          <nav className="oatly-crumb" aria-label="Breadcrumb">
+            <ChevronRight size={16} className="oatly-crumb__separator" aria-hidden="true" />
+            <ol className="oatly-crumb__list">
+              {headerCrumbs.map((crumb, index) => {
+                const isCurrent = index === headerCrumbs.length - 1;
+                return (
+                  <li key={`${crumb.label}-${index}`} className="oatly-crumb__item">
+                    {index > 0 && (
+                      <ChevronRight size={14} className="oatly-crumb__separator" aria-hidden="true" />
+                    )}
+                    {crumb.to && !isCurrent ? (
+                      <Link to={crumb.to} className="oatly-crumb__link">
+                        {crumb.label}
+                      </Link>
+                    ) : (
+                      <span className="oatly-crumb__current" aria-current="page">
+                        {crumb.label}
+                      </span>
+                    )}
+                  </li>
+                );
+              })}
+            </ol>
+          </nav>
+        )}
 
         <div
           className="oatly-toolbar__spacer"

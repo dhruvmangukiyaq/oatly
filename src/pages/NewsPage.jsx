@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
 // ─── MVC: View ─── data via Model (async Express API) ──────────────────────────
 import NewsModel from '../models/newsModel.js';
 import { useApiData } from '../hooks/useApiData.js';
@@ -29,21 +28,6 @@ return (
         description="From urine recycling experiments in Sweden to high-fashion Paris runway shows, read all about what we do when we're not turning oats into drinkable liquid."
         pathname="/news"
       />
-      {/* ── Breadcrumb ── */}
-      <nav className="ns-crumb__wrap" aria-label="Breadcrumb">
-        <ol className="ns-crumb__list">
-          <li>
-            <Link to="/" className="ns-crumb__link" aria-label="Home">
-              <svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor"><path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/></svg>
-            </Link>
-          </li>
-          <li><span className="ns-crumb__sep" aria-hidden="true">›</span></li>
-          <li><Link to="/news" className="ns-crumb__link">Things We Do</Link></li>
-          <li><span className="ns-crumb__sep" aria-hidden="true">›</span></li>
-          <li><span className="ns-crumb__current" aria-current="page">News, Stories & Brainwashing</span></li>
-        </ol>
-      </nav>
-
       {/* ── Hero Banner ── */}
       <header className="ns-news__hero">
         <div className="ns-news__hero-inner">

@@ -1,8 +1,8 @@
 /* ==========================================================================
    OATLY HEADER + NAV — polish layer (spec §§3–4, 6)
    --------------------------------------------------------------------------
-   SCOPE: visual styling ONLY. DOM order/positions are unchanged:
-     toolbar: Home icon (left) | spacer | FAQ BIZ Globe X (right)
+    SCOPE: header visuals plus the global breadcrumb cell.
+      toolbar: Home icon (left) | current-page breadcrumb | spacer | FAQ BIZ Globe X (right)
      nav row: PRODUCTS TASTEBUDS NEWS SUSTAINABILITY HEALTH (same order)
    TOKENS (defined in src/index.css :root — referenced here, not redefined):
      colors  → --spec-ink/canvas/border/surface/focus/blush/harvest/mint
@@ -28,7 +28,7 @@
 .oatly-toolbar {
   display: flex;
   align-items: stretch;
-  justify-content: space-between;
+  justify-content: flex-start;
   background: var(--spec-canvas);
   border-bottom: 1px solid var(--spec-border);
 }
@@ -38,13 +38,95 @@
   align-items: center;
   justify-content: center;
   width: var(--space-40);
-  border-right: 1px solid var(--spec-border);
   color: var(--spec-ink);
   text-decoration: none;
 }
 
 .oatly-toolbar__home:hover {
   background: var(--spec-surface);
+}
+
+/* --- Global breadcrumb cell: immediately beside the Home icon --- */
+.oatly-crumb {
+  display: flex;
+  align-items: center;
+  min-width: 0;
+  flex: 0 1 auto;
+  max-width: min(560px, 52vw);
+  padding: 0 var(--space-16) 0 var(--space-8);
+  border-right: 1px solid var(--spec-border);
+  background: var(--spec-canvas);
+  color: var(--spec-ink);
+  overflow: hidden;
+}
+
+.oatly-crumb__separator {
+  flex: 0 0 auto;
+  color: var(--spec-ink);
+}
+
+.oatly-crumb__list {
+  display: flex;
+  align-items: center;
+  gap: var(--space-8);
+  min-width: 0;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  overflow-x: auto;
+  white-space: nowrap;
+  scrollbar-width: none;
+}
+
+.oatly-crumb__list::-webkit-scrollbar {
+  display: none;
+}
+
+.oatly-crumb__item {
+  display: flex;
+  align-items: center;
+  gap: var(--space-8);
+  min-width: 0;
+}
+
+.oatly-crumb__link,
+.oatly-crumb__current {
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  font-family: var(--font-ui);
+  font-size: 0.875rem;
+  line-height: 1;
+  letter-spacing: 0.02em;
+  text-transform: uppercase;
+  color: var(--spec-ink);
+  white-space: nowrap;
+}
+
+.oatly-crumb__link {
+  text-decoration: none;
+}
+
+.oatly-crumb__link:hover {
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+.oatly-crumb__current {
+  font-weight: 500;
+}
+
+@media (max-width: 640px) {
+  /* Keep the compact header usable: show only the current page beside Home. */
+  .oatly-crumb {
+    max-width: 42vw;
+    padding: 0 var(--space-8);
+  }
+  .oatly-crumb > .oatly-crumb__separator,
+  .oatly-crumb__item:not(:last-child),
+  .oatly-crumb__item:last-child .oatly-crumb__separator {
+    display: none;
+  }
 }
 
 .oatly-toolbar__spacer {

@@ -1,71 +1,48 @@
 import React from 'react';
-import { useParams, Link } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
 import { useStoryDetailController } from '../controllers/useContentControllers.js';
 import { ArrowLeft, Calendar, Clock, Sparkles } from 'lucide-react';
 import PlaceholderMedia from '../components/PlaceholderMedia';
+import ResponsiveImage from '../components/ResponsiveImage';
 import SEO from '../components/SEO';
 import '../styles/NewsStory.css';
 
 /* ==========================================================================
    NEWS STORY DETAIL — mirrors oatly.com/things-we-do/initiatives/pee-for-the-planet
-   Editorial layout: breadcrumb → hero image → tag + h1 (Girdo/Toni Noveau) →
+   Editorial layout: hero image → tag + h1 (Girdo/Toni Noveau) →
    rich text body (Margo Pro) → centered images → narrow content column (width14)
    TOKENS (src/styles/index.css): --spec-*, --font-ui, --font-serif, --font-display
    ========================================================================== */
 
 export default function NewsStoryDetailPage() {
-  const { slug } = useParams();
+  const { slug, '*': splat } = useParams();
+  const routeSlug = slug ?? splat?.split('/').pop();
   // CONTROLLER (uses NewsModel over the Express API)
-  const { story: found } = useStoryDetailController(slug);
+  const { story: found } = useStoryDetailController(routeSlug);
   if (found === undefined) return null;
 
-  const story = found || { title: 'Story not found', excerpt: '', slug, content: '' };
-
-  // Breadcrumbs path (hardcoded per current URL structure)
-  const crumbs = [
-    { label: 'Things We Do', href: '/news' },
-    { label: 'Initiatives', href: '/news' }, // could be /things-we-do/initiatives
-    { label: story.title, href: null, current: true },
-  ];
+  const story = found || { title: 'Story not found', excerpt: '', slug: routeSlug, content: '' };
 
   return (
     <>
       <SEO
         title={`${story.title} | Oatly`}
         description={story.excerpt}
-        pathname={`/things-we-do/${story.slug}`}
+        pathname={`/things-we-do/${story.path || story.slug}`}
       />
       <div className="ns-story">
-        {/* ── Breadcrumb ── */}
-        <nav className="ns-story__crumbs" aria-label="Breadcrumb">
-          <ol className="ns-crumb__list">
-            <li>
-              <Link to="/" className="ns-crumb__link" aria-label="Home">
-                <svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor"><path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/></svg>
-              </Link>
-            </li>
-            {crumbs.map((c, i) => (
-              <li key={c.label}>
-                <span className="ns-crumb__sep" aria-hidden="true">›</span>
-                {c.current ? (
-                  <span className="ns-crumb__current" aria-current="page">{c.label}</span>
-                ) : (
-                  <Link to={c.href} className="ns-crumb__link">{c.label}</Link>
-                )}
-              </li>
-            ))}
-          </ol>
-        </nav>
-
         {/* ── Hero: full-width image ── */}
         <section className="ns-story__hero" aria-label="Story hero">
           {story.image ? (
             <figure className="ns-story__figure">
-              <img
+              <ResponsiveImage
                 src={story.image}
                 alt={story.title}
                 className="ns-story__img"
+                widths={[768, 1200, 1600]}
+                sizes="100vw"
                 loading="eager"
+                fetchPriority="high"
               />
             </figure>
           ) : (

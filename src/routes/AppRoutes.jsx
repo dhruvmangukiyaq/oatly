@@ -1,155 +1,186 @@
 // ─── APP ROUTES ─────────────────────────────────────────────────────────────
 // All route definitions live here (one place). App.jsx stays the composition
 // root: providers, layout frame, navbar/footer, modals.
+//
+// PERFORMANCE: pages are React.lazy code-split — each route chunk loads only
+// on first visit, so the initial bundle stays small and the app opens fast.
 
-import React from 'react';
+import React, { lazy, Suspense } from 'react';
 import { Routes, Route, Navigate } from 'react-router-dom';
 
-// Page Views (one file per page → src/pages/)
-import HomePage from '../pages/HomePage';
-import ProductsPage from '../pages/ProductsPage';
-import CategoryProductsPage from '../pages/CategoryProductsPage';
-import LookBookVol3Page from '../pages/LookBookVol3Page';
-import RecipeDetailPage from '../pages/RecipeDetailPage';
-import LookBookAW25Page from '../pages/LookBookAW25Page';
-import LookBookSS25Page from '../pages/LookBookSS25Page';
-import FutureOfTastePage from '../pages/FutureOfTastePage';
-import NewsPage from '../pages/NewsPage';
-import NewsStoryDetailPage from '../pages/NewsStoryDetailPage';
-import SustainabilityPage from '../pages/SustainabilityPage';
-import SustainabilitySubPage from '../pages/SustainabilitySubPage';
-import HealthPage from '../pages/HealthPage';
-import ContactPage from '../pages/ContactPage';
-import LegalPage from '../pages/LegalPage';
-import PrivacyPolicyPage from '../pages/PrivacyPolicyPage';
+// Page Views (one file per page → src/pages/) — lazy-loaded.
+const HomePage = lazy(() => import('../pages/HomePage'));
+const ProductsPage = lazy(() => import('../pages/ProductsPage'));
+const CategoryProductsPage = lazy(() => import('../pages/CategoryProductsPage'));
+const LookBookVol3Page = lazy(() => import('../pages/LookBookVol3Page'));
+const RecipeDetailPage = lazy(() => import('../pages/RecipeDetailPage'));
+const LookBookAW25Page = lazy(() => import('../pages/LookBookAW25Page'));
+const LookBookSS25Page = lazy(() => import('../pages/LookBookSS25Page'));
+const FutureOfTastePage = lazy(() => import('../pages/FutureOfTastePage'));
+const NewsStoryDetailPage = lazy(() => import('../pages/NewsStoryDetailPage'));
+const ThingsWeDoPage = lazy(() => import('../pages/ThingsWeDoPage'));
+const SustainabilityPage = lazy(() => import('../pages/SustainabilityPage'));
+const SustainabilitySubPage = lazy(() => import('../pages/SustainabilitySubPage'));
+const HealthPage = lazy(() => import('../pages/HealthPage'));
+const ContactPage = lazy(() => import('../pages/ContactPage'));
+const LegalPage = lazy(() => import('../pages/LegalPage'));
+const PrivacyPolicyPage = lazy(() => import('../pages/PrivacyPolicyPage'));
 
 export default function AppRoutes({ selectProduct, selectRecipe, selectArticle }) {
   return (
-    <Routes>
-      {/* Home */}
-      <Route
-        path="/"
-        element={
-          <HomePage
-            onSelectProduct={selectProduct}
-            onSelectRecipe={selectRecipe}
-            onSelectArticle={selectArticle}
-          />
-        }
-      />
+    <Suspense fallback={<div className="page-loading" aria-hidden="true" />}>
+      <Routes>
+        {/* Home */}
+        <Route
+          path="/"
+          element={
+            <HomePage
+              onSelectProduct={selectProduct}
+              onSelectRecipe={selectRecipe}
+              onSelectArticle={selectArticle}
+            />
+          }
+        />
 
-      {/* Products Routes */}
-      <Route
-        path="/products"
-        element={
-          <ProductsPage
-            onSelectProduct={selectProduct}
-          />
-        }
-      />
-      <Route
-        path="/products/:category"
-        element={
-          <CategoryProductsPage
-            onSelectProduct={selectProduct}
-          />
-        }
-      />
+        {/* Products Routes */}
+        <Route
+          path="/products"
+          element={
+            <ProductsPage
+              onSelectProduct={selectProduct}
+            />
+          }
+        />
+        <Route
+          path="/products/:category"
+          element={
+            <CategoryProductsPage
+              onSelectProduct={selectProduct}
+            />
+          }
+        />
 
-      {/* Recipes & Tastebuds Routes */}
-      {/* TASTEBUDS lands directly on LOOK BOOK VOL. 3 (latest book) */}
-      <Route
-        path="/recipes"
-        element={<Navigate to="/recipes/look-book-vol-3" replace />}
-      />
-      <Route
-        path="/recipes/look-book-vol-3"
-        element={<LookBookVol3Page />}
-      />
-      <Route
-        path="/recipes/look-book-vol-3/:slug"
-        element={<RecipeDetailPage />}
-      />
-      <Route
-        path="/recipes/look-book-autumn-winter-2025/:slug"
-        element={<RecipeDetailPage />}
-      />
-      <Route
-        path="/recipes/look-book-spring-summer-2025/:slug"
-        element={<RecipeDetailPage />}
-      />
-      <Route
-        path="/recipes/look-book-autumn-winter-2025"
-        element={<LookBookAW25Page />}
-      />
-      <Route
-        path="/recipes/look-book-spring-summer-2025"
-        element={<LookBookSS25Page />}
-      />
+        {/* Recipes & Tastebuds Routes */}
+        {/* TASTEBUDS lands directly on LOOK BOOK VOL. 3 (latest book) */}
+        <Route
+          path="/recipes"
+          element={<Navigate to="/recipes/look-book-vol-3" replace />}
+        />
+        <Route
+          path="/recipes/look-book-vol-3"
+          element={<LookBookVol3Page />}
+        />
+        <Route
+          path="/recipes/look-book-vol-3/:slug"
+          element={<RecipeDetailPage />}
+        />
+        <Route
+          path="/recipes/look-book-autumn-winter-2025/:slug"
+          element={<RecipeDetailPage />}
+        />
+        <Route
+          path="/recipes/look-book-spring-summer-2025/:slug"
+          element={<RecipeDetailPage />}
+        />
+        <Route
+          path="/recipes/look-book-autumn-winter-2025"
+          element={<LookBookAW25Page />}
+        />
+        <Route
+          path="/recipes/look-book-spring-summer-2025"
+          element={<LookBookSS25Page />}
+        />
 
-      {/* News & Initiatives Routes */}
-      <Route
-        path="/news"
-        element={
-          <NewsPage
-            onSelectArticle={selectArticle}
-          />
-        }
-      />
-      <Route
-        path="/things-we-do/:slug"
-        element={<NewsStoryDetailPage />}
-      />
-      <Route
-        path="/things-we-do/initiatives/future-of-taste"
-        element={<FutureOfTastePage />}
-      />
+        {/* News & Initiatives Routes */}
+        <Route
+          path="/things-we-do"
+          element={<ThingsWeDoPage onSelectArticle={selectArticle} />}
+        />
+        <Route
+          path="/things-we-do/stories"
+          element={<ThingsWeDoPage onSelectArticle={selectArticle} />}
+        />
+        <Route
+          path="/things-we-do/initiatives"
+          element={<ThingsWeDoPage onSelectArticle={selectArticle} />}
+        />
+        <Route
+          path="/things-we-do/brainwashing"
+          element={<ThingsWeDoPage onSelectArticle={selectArticle} />}
+        />
+        {/* NEWS nav lands on /things-we-do (sem-to-sem with oatly.com);
+            /news kept as a deep link that redirects there */}
+        <Route
+          path="/news"
+          element={<Navigate to="/things-we-do" replace />}
+        />
+        <Route
+          path="/things-we-do/:slug"
+          element={<NewsStoryDetailPage />}
+        />
+        <Route
+          path="/things-we-do/stories/:slug"
+          element={<NewsStoryDetailPage />}
+        />
+        <Route
+          path="/things-we-do/stories/*"
+          element={<NewsStoryDetailPage />}
+        />
+        <Route
+          path="/things-we-do/initiatives/:slug"
+          element={<NewsStoryDetailPage />}
+        />
+        <Route
+          path="/things-we-do/initiatives/future-of-taste"
+          element={<FutureOfTastePage />}
+        />
 
-      {/* Sustainability Hub & Sub-pages */}
-      <Route
-        path="/sustainability"
-        element={<SustainabilityPage />}
-      />
-      <Route
-        path="/oatly-who"
-        element={<SustainabilitySubPage />}
-      />
-      <Route
-        path="/oatly-who/sustainability-plan"
-        element={<SustainabilitySubPage />}
-      />
-      <Route
-        path="/oatly-who/sustainability-plan/climate-footprint-product-label"
-        element={<SustainabilitySubPage />}
-      />
-      <Route
-        path="/sustainability/climate-solutions-company"
-        element={<SustainabilitySubPage />}
-      />
+        {/* Sustainability Hub & Sub-pages */}
+        <Route
+          path="/sustainability"
+          element={<SustainabilityPage />}
+        />
+        <Route
+          path="/oatly-who"
+          element={<SustainabilitySubPage />}
+        />
+        <Route
+          path="/oatly-who/sustainability-plan"
+          element={<SustainabilitySubPage />}
+        />
+        <Route
+          path="/oatly-who/sustainability-plan/climate-footprint-product-label"
+          element={<SustainabilitySubPage />}
+        />
+        <Route
+          path="/sustainability/climate-solutions-company"
+          element={<SustainabilitySubPage />}
+        />
 
-      {/* Health & Nutrition FAQ */}
-      <Route
-        path="/health"
-        element={<HealthPage />}
-      />
-      <Route
-        path="/random-answers/17-facts-about-oatly-and-nutrition"
-        element={<HealthPage />}
-      />
+        {/* Health & Nutrition FAQ */}
+        <Route
+          path="/health"
+          element={<HealthPage />}
+        />
+        <Route
+          path="/random-answers/17-facts-about-oatly-and-nutrition"
+          element={<HealthPage />}
+        />
 
-      {/* Contact, Legal & Privacy */}
-      <Route
-        path="/contact"
-        element={<ContactPage />}
-      />
-      <Route
-        path="/legal"
-        element={<LegalPage />}
-      />
-      <Route
-        path="/legal/privacy-policy"
-        element={<PrivacyPolicyPage />}
-      />
-    </Routes>
+        {/* Contact, Legal & Privacy */}
+        <Route
+          path="/contact"
+          element={<ContactPage />}
+        />
+        <Route
+          path="/legal"
+          element={<LegalPage />}
+        />
+        <Route
+          path="/legal/privacy-policy"
+          element={<PrivacyPolicyPage />}
+        />
+      </Routes>
+    </Suspense>
   );
 }

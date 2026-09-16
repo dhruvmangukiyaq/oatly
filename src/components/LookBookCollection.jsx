@@ -1,14 +1,12 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { Home } from 'lucide-react';
 import SEO from './SEO';
 // ─── Shared Oatly collection layout (A/W 25, S/S 25) ─────────────────────────
-// Breadcrumb → theme tag → serif title → intro → hero banner → recipe cards.
+// Theme tag → serif title → intro → hero banner → recipe cards.
 // Only content props change per collection; UI stays 100% consistent.
 import '../styles/LookBook.css';
 
 export default function LookBookCollection({
-  breadcrumb,
   tag,
   tagClass,
   title,
@@ -25,25 +23,6 @@ export default function LookBookCollection({
     <div className="lb3">
       <SEO title={seoTitle} description={seoDescription} pathname={pathname} />
       <div className="lb3__inner">
-        {/* Breadcrumb: Home > CURRENT */}
-        <nav aria-label="Breadcrumb">
-          <ol className="lb3-crumb__list">
-            <li>
-              <Link to="/" className="lb3-crumb__link" aria-label="Home">
-                <Home size={16} aria-hidden="true" />
-              </Link>
-            </li>
-            <li aria-hidden="true" className="lb3-crumb__sep">
-              &gt;
-            </li>
-            <li>
-              <span className="lb3-crumb__current" aria-current="page">
-                {breadcrumb}
-              </span>
-            </li>
-          </ol>
-        </nav>
-
         {/* Collection header */}
         <div className="lb3-colhead">
           <span className={`lb3-tag ${tagClass}`}>{tag}</span>

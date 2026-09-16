@@ -1,6 +1,7 @@
 import React from 'react';
 import { X, Calendar, Clock, Tag, Sparkles } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
+import ResponsiveImage from './ResponsiveImage';
 
 export default function ArticleModal({ article, onClose }) {
   if (!article) return null;
@@ -32,10 +33,13 @@ export default function ArticleModal({ article, onClose }) {
             
             {/* Header image */}
             <div className="border-4 border-oatly-black overflow-hidden relative">
-              <img
+              <ResponsiveImage
                 src={article.image}
                 alt={article.title}
                 className="w-full h-72 object-cover"
+                widths={[384, 768]}
+                sizes="(max-width: 768px) 100vw, 704px"
+                loading="eager"
               />
               <div className="absolute top-4 left-4">
                 <span className="badge-sticker bg-oatly-yellow text-oatly-black">{article.tag}</span>

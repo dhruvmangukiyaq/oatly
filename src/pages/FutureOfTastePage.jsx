@@ -1,6 +1,4 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
-import { Home } from 'lucide-react';
 import SEO from '../components/SEO';
 // ─── MVC: View ──────────────────────────────────────────────────────────────
 // Mirrors oatly.com/things-we-do/initiatives/future-of-taste: hero, editors
@@ -23,33 +21,6 @@ export default function FutureOfTastePage() {
         pathname="/things-we-do/initiatives/future-of-taste"
       />
       <div className="fot__inner">
-        {/* Breadcrumb: Home > NEWS > CURRENT */}
-        <nav aria-label="Breadcrumb">
-          <ol className="fot-crumb__list">
-            <li>
-              <Link to="/" className="fot-crumb__link" aria-label="Home">
-                <Home size={16} aria-hidden="true" />
-              </Link>
-            </li>
-            <li aria-hidden="true" className="fot-crumb__sep">
-              &gt;
-            </li>
-            <li>
-              <Link to="/news" className="fot-crumb__link">
-                News
-              </Link>
-            </li>
-            <li aria-hidden="true" className="fot-crumb__sep">
-              &gt;
-            </li>
-            <li>
-              <span className="fot-crumb__current" aria-current="page">
-                {page.breadcrumb}
-              </span>
-            </li>
-          </ol>
-        </nav>
-
         {/* Hero */}
         <header className="fot-hero">
           <img src={page.heroImage} alt="Oatly Intelligence World Wide" className="fot-hero__globe" />

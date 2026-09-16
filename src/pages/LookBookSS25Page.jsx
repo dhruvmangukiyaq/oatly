@@ -14,7 +14,6 @@ export default function LookBookSS25Page() {
 
   return (
     <LookBookCollection
-      breadcrumb="LOOK BOOK S/S 25 | OATLY"
       tag="Look book S/S 25"
       tagClass="lb3-tag--blue"
       title="Look book Spring/Summer 2025"

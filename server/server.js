@@ -5,6 +5,7 @@
 
 import express from 'express';
 import cors from 'cors';
+import compression from 'compression';
 import fs from 'fs';
 import path from 'path';
 import { fileURLToPath } from 'url';
@@ -16,8 +17,13 @@ const PORT = process.env.PORT || 8901;
 
 app.use(cors());
 app.use(express.json());
+app.use(compression());
 
-app.use('/api', api);
+// API data is static — cache at the browser/proxy + gzip on the wire.
+app.use('/api', (req, res, next) => {
+  res.set('Cache-Control', 'public, max-age=3600');
+  next();
+}, api);
 
 // Production: serve the Vite build + SPA fallback (only if dist exists).
 const distDir = path.join(__dirname, '../dist');
