@@ -6,21 +6,22 @@ import { Link } from 'react-router-dom';
 // ProductModel in the page controllers) — this file owns no data fetching.
 // All items carry official imagery from the API; a broken URL hides gracefully.
 import ProcessBand from './ProcessBand.jsx';
+import Product360 from './Product360.jsx';
 import '../styles/ProductListing.css';
 
 function ProductCard({ item, onSelect }) {
   const [imgOk, setImgOk] = useState(!!item.image);
   // Official product imagery from the API.
   const src = item.image;
+
   const name = <p className="plist-card__name">{item.name}</p>;
   const media = (
     <div className="plist-card__media">
       {imgOk ? (
-        <img
+        <Product360
           src={src}
           alt={item.name}
-          className="plist-card__img"
-          loading="lazy"
+          onClick={() => onSelect && onSelect({ ...item, image: src })}
           onError={() => setImgOk(false)}
         />
       ) : null}
@@ -40,14 +41,13 @@ function ProductCard({ item, onSelect }) {
   }
   return (
     <li>
-      <button
-        type="button"
+      <div
         className="plist-card"
         onClick={() => onSelect({ ...item, image: src })}
       >
         {media}
         {name}
-      </button>
+      </div>
     </li>
   );
 }
@@ -85,7 +85,7 @@ export default function ProductListing({ categories, activeSlug, items, onSelect
           </ul>
         </nav>
 
-        {/* ── 3. PRODUCT GRID ── */}
+        {/* ── 2. PRODUCT GRID ── */}
         {items.length === 0 ? (
           <p className="plist-empty">No products in this category yet.</p>
         ) : (
@@ -102,7 +102,7 @@ export default function ProductListing({ categories, activeSlug, items, onSelect
         </div>
       </div>
 
-      {/* ── 4. PROCESS BAND: same UI under every product listing ── */}
+      {/* ── 3. PROCESS BAND: same UI under every product listing ── */}
       <ProcessBand />
     </>
   );

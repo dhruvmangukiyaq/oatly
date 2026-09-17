@@ -1,9 +1,32 @@
-import React from 'react';
-import { X, Leaf, Check, Sparkles } from 'lucide-react';
+import React, { useState } from 'react';
+import { X, Leaf, Sparkles, Box, Image as ImageIcon } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
+import Product360 from './Product360.jsx';
 
 export default function ProductModal({ product, onClose }) {
+  const [viewMode, setViewMode] = useState('3d');
+
   if (!product) return null;
+
+  const ingredients = product.ingredients || [
+    'Oat base (water, oats 10%)',
+    'Coconut oil',
+    'Sugar',
+    'Dipotassium phosphate',
+    'Natural vanilla flavor',
+    'Gellan gum',
+    'Sea salt',
+  ];
+
+  const nutrition = product.nutrition || {
+    calories: '45 kcal',
+    fat: '3.5g',
+    carbs: '4g',
+    fiber: '0g',
+    protein: '0.5g',
+    calcium: '50mg',
+    vitaminD: '0mcg',
+  };
 
   return (
     <AnimatePresence>
@@ -30,20 +53,62 @@ export default function ProductModal({ product, onClose }) {
 
           <div className="p-6 md:p-8 grid grid-cols-1 md:grid-cols-12 gap-8">
             
-            {/* Left Column: Image & Badges */}
-            <div className="md:col-span-5 flex flex-col items-center justify-center bg-white border-4 border-oatly-black p-6 shadow-brutal relative">
+            {/* Left Column: 3D Viewer or Image & Badges */}
+            <div className="md:col-span-5 flex flex-col items-center justify-between bg-white border-4 border-oatly-black p-4 sm:p-5 shadow-brutal relative">
               {product.badge && (
-                <div className="absolute top-3 left-3">
+                <div className="absolute top-3 left-3 z-20">
                   <span className="badge-sticker">{product.badge}</span>
                 </div>
               )}
-              <img
-                src={product.image}
-                alt={product.name}
-                className="max-h-72 object-contain my-4"
-              />
-              <div className="w-full bg-oatly-yellow border-2 border-oatly-black p-3 text-center font-mono text-xs font-bold uppercase shadow-brutal-sm mt-2">
-                NET VOL: {product.volume}
+
+              {/* View Mode Toggle (360 spin vs Photo) */}
+              <div className="w-full flex items-center justify-end mb-3 gap-1 z-20">
+                  <div className="bg-[#F5EDE2] p-1 rounded-full border-2 border-black flex items-center gap-1 shadow-sm">
+                    <button
+                      type="button"
+                      onClick={() => setViewMode('3d')}
+                      className={`px-3 py-1 text-xs font-mono font-black rounded-full flex items-center gap-1.5 transition-all ${
+                        viewMode === '3d'
+                          ? 'bg-[#111111] text-[#FFE072] shadow-sm'
+                          : 'text-gray-700 hover:text-black'
+                      }`}
+                    >
+                      <Box className="w-3.5 h-3.5" />
+                      <span>360° 3D</span>
+                    </button>
+                    <button
+                      type="button"
+                      onClick={() => setViewMode('photo')}
+                      className={`px-3 py-1 text-xs font-mono font-black rounded-full flex items-center gap-1.5 transition-all ${
+                        viewMode === 'photo'
+                          ? 'bg-[#111111] text-[#FFE072] shadow-sm'
+                          : 'text-gray-700 hover:text-black'
+                      }`}
+                    >
+                      <ImageIcon className="w-3.5 h-3.5" />
+                      <span>PHOTO</span>
+                    </button>
+                  </div>
+              </div>
+
+              {/* Main Media: 360 spin or Photo — always the exact product image */}
+              <div className="w-full flex-1 flex items-center justify-center min-h-[360px]">
+                {viewMode === '3d' ? (
+                  <div className="w-full h-[360px]">
+                    <Product360 src={product.image} alt={product.name} />
+                  </div>
+                ) : (
+                  <img
+                    src={product.image}
+                    alt={product.name}
+                    className="max-h-72 object-contain my-4 hover:scale-105 transition-transform duration-300"
+                  />
+                )}
+              </div>
+
+              <div className="w-full bg-oatly-yellow border-2 border-oatly-black p-3 text-center font-mono text-xs font-bold uppercase shadow-brutal-sm mt-3 flex items-center justify-between">
+                <span>NET VOL: {product.volume}</span>
+                <span className="text-[10px] bg-black text-white px-2 py-0.5 rounded-full">INTERACTIVE 360</span>
               </div>
             </div>
 
@@ -66,7 +131,7 @@ export default function ProductModal({ product, onClose }) {
               <div className="bg-oatly-mint/30 border-2 border-oatly-black p-4 flex items-center justify-between shadow-brutal-sm">
                 <div>
                   <div className="text-xs font-mono font-bold uppercase text-oatly-black">CLIMATE FOOTPRINT</div>
-                  <div className="text-xl font-extrabold font-display">{product.climateFootprint}</div>
+                  <div className="text-xl font-extrabold font-display">{product.climateFootprint || '0.62 kg CO2e / kg'}</div>
                 </div>
                 <div className="bg-oatly-black text-oatly-mint p-2 font-mono text-xs font-bold border border-white">
                   <Leaf className="w-5 h-5 inline mr-1" /> PASSED ISO 14044
@@ -77,7 +142,7 @@ export default function ProductModal({ product, onClose }) {
               <div className="bg-white border-2 border-oatly-black p-4 shadow-brutal-sm">
                 <h4 className="font-display font-extrabold text-sm uppercase text-oatly-blue mb-2">INGREDIENTS</h4>
                 <div className="flex flex-wrap gap-1.5">
-                  {product.ingredients.map((ing, idx) => (
+                  {ingredients.map((ing, idx) => (
                     <span key={idx} className="bg-oatly-cream px-2 py-1 text-xs font-extrabold border border-oatly-black">
                       {ing}
                     </span>
@@ -92,31 +157,31 @@ export default function ProductModal({ product, onClose }) {
                   <tbody>
                     <tr className="border-b border-gray-200 py-1">
                       <td className="font-bold py-1">CALORIES</td>
-                      <td className="text-right font-bold text-oatly-blue">{product.nutrition.calories}</td>
+                      <td className="text-right font-bold text-oatly-blue">{nutrition.calories}</td>
                     </tr>
                     <tr className="border-b border-gray-200 py-1">
                       <td className="py-1">TOTAL FAT</td>
-                      <td className="text-right">{product.nutrition.fat}</td>
+                      <td className="text-right">{nutrition.fat}</td>
                     </tr>
                     <tr className="border-b border-gray-200 py-1">
                       <td className="py-1">TOTAL CARBS</td>
-                      <td className="text-right">{product.nutrition.carbs}</td>
+                      <td className="text-right">{nutrition.carbs}</td>
                     </tr>
                     <tr className="border-b border-gray-200 py-1">
                       <td className="py-1">DIETARY FIBER</td>
-                      <td className="text-right">{product.nutrition.fiber}</td>
+                      <td className="text-right">{nutrition.fiber}</td>
                     </tr>
                     <tr className="border-b border-gray-200 py-1">
                       <td className="py-1">PROTEIN</td>
-                      <td className="text-right">{product.nutrition.protein}</td>
+                      <td className="text-right">{nutrition.protein}</td>
                     </tr>
                     <tr className="border-b border-gray-200 py-1">
                       <td className="py-1">CALCIUM</td>
-                      <td className="text-right font-bold">{product.nutrition.calcium}</td>
+                      <td className="text-right font-bold">{nutrition.calcium}</td>
                     </tr>
                     <tr>
                       <td className="py-1">VITAMIN D</td>
-                      <td className="text-right">{product.nutrition.vitaminD}</td>
+                      <td className="text-right">{nutrition.vitaminD}</td>
                     </tr>
                   </tbody>
                 </table>
