@@ -13,14 +13,19 @@
    red #E43E39 never used here (errors only).
    ========================================================================== */
 
-/* --- Header shell: sticky, white, 1px divider (spec §4) --- */
+/* --- Header shell: floating frosted-glass pill (no divider lines) --- */
 .oatly-header {
   position: sticky;
-  top: 0;
+  top: 12px;
   z-index: 50;
-  background: var(--spec-canvas);
+  margin: 12px 12px 0;
+  background: rgba(255, 255, 255, 0.72);
+  -webkit-backdrop-filter: blur(20px) saturate(1.4);
+  backdrop-filter: blur(20px) saturate(1.4);
+  border: 1px solid rgba(255, 255, 255, 0.7);
+  border-radius: 18px;
+  box-shadow: 0 16px 40px -20px rgba(0, 40, 102, 0.25);
   color: var(--spec-ink);
-  border-bottom: 1px solid var(--spec-border);
   font-family: var(--font-ui);
 }
 
@@ -29,8 +34,7 @@
   display: flex;
   align-items: stretch;
   justify-content: flex-start;
-  background: var(--spec-canvas);
-  border-bottom: 1px solid var(--spec-border);
+  background: transparent;
 }
 
 .oatly-toolbar__home {
@@ -54,8 +58,7 @@
   flex: 0 1 auto;
   max-width: min(560px, 52vw);
   padding: 0 var(--space-16) 0 var(--space-8);
-  border-right: 1px solid var(--spec-border);
-  background: var(--spec-canvas);
+  background: transparent;
   color: var(--spec-ink);
   overflow: hidden;
 }
@@ -138,7 +141,6 @@
 .oatly-toolbar__utils {
   display: flex;
   align-items: stretch;
-  border-left: 1px solid var(--spec-border);
 }
 
 .oatly-toolbar__link,
@@ -148,17 +150,16 @@
   justify-content: center;
   padding: 0 var(--space-16);
   min-height: var(--space-40);
-  font-family: var(--font-ui);
+  font-family: var(--font-nav);
   font-size: 0.875rem;
   line-height: 1;
   letter-spacing: 0.02em;
   text-transform: uppercase;
-  font-weight: 400;
+  font-weight: 700;
   color: var(--spec-ink);
   text-decoration: none;
   background: none;
   border: none;
-  border-left: 1px solid var(--spec-border);
   cursor: pointer;
   white-space: nowrap;
 }
@@ -178,7 +179,7 @@
 /* --- Nav row: ~48px bar, 0 24px padding, centred 5 items (spec §4) ---
    Position relative = anchor for the FULL-WIDTH dropdown panel below. */
 .oatly-navrow {
-  background: var(--spec-canvas);
+  background: transparent;
   position: relative;
 }
 
@@ -205,9 +206,9 @@
   display: inline-flex;
   align-items: center;
   padding: 0 var(--space-16);
-  font-family: var(--font-ui);
-  font-size: 0.875rem;
-  font-weight: 400;
+  font-family: var(--font-nav);
+  font-size: 0.9375rem;
+  font-weight: 700;
   line-height: 1;
   letter-spacing: 0.02em;
   text-transform: uppercase;
@@ -240,6 +241,29 @@
   background: var(--spec-surface);
 }
 
+/* --- Per-section hover glass: light pastel tint + frosted pill ---------
+   Each tab glows in its own light tint on hover (and while its dropdown
+   is open). The dropdown panel itself turns to real frosted glass over
+   the page content. Simple, light, unique per section. */
+.oatly-navrow__item--products { --nav-tint: 253, 207, 133; }
+.oatly-navrow__item--tastebuds { --nav-tint: 248, 200, 216; }
+.oatly-navrow__item--news { --nav-tint: 172, 216, 240; }
+.oatly-navrow__item--sustainability { --nav-tint: 172, 216, 180; }
+.oatly-navrow__item--health { --nav-tint: 196, 178, 222; }
+
+.oatly-navrow__item--products .oatly-navrow__link:hover,
+.oatly-navrow__item--tastebuds .oatly-navrow__link:hover,
+.oatly-navrow__item--news .oatly-navrow__link:hover,
+.oatly-navrow__item--sustainability .oatly-navrow__link:hover,
+.oatly-navrow__item--health .oatly-navrow__link:hover,
+.oatly-navrow__item--open .oatly-navrow__link {
+  background: rgba(var(--nav-tint), 0.45);
+  border-radius: 10px;
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.7);
+}
+
+/* Dropdown list stays plain canvas — tint lives on the tab only. */
+
 /* --- Dropdown panel: FULL-WIDTH plain text list (reference: oatly.com) ---
    - Spans edge-to-edge of the nav bar (left:0 right:0 of .oatly-navrow)
    - Absolute overlay: covers page content below, never pushes it down
@@ -249,12 +273,16 @@
 .oatly-drop {
   position: absolute;
   top: 100%;
-  left: 0;
-  right: 0;
-  background: var(--spec-canvas);
-  border-top: 1px solid var(--spec-border);
-  border-bottom: 1px solid var(--spec-border);
-  border-radius: 0;
+  left: 12px;
+  right: 12px;
+  margin-top: 8px;
+  /* Floating frosted-glass sheet (no tint, no lines) */
+  background: rgba(255, 255, 255, 0.6);
+  -webkit-backdrop-filter: blur(22px) saturate(1.3);
+  backdrop-filter: blur(22px) saturate(1.3);
+  border: 1px solid rgba(255, 255, 255, 0.7);
+  border-radius: 14px;
+  box-shadow: 0 20px 45px -20px rgba(0, 40, 102, 0.28);
   z-index: 60;
   opacity: 0;
   visibility: hidden;
@@ -287,7 +315,7 @@
 .oatly-drop__link {
   display: block;
   padding: var(--space-4) 0;
-  font-family: var(--font-ui);
+  font-family: var(--font-funky);
   font-size: 0.875rem;
   font-weight: 500;
   line-height: 1;
@@ -305,8 +333,7 @@
 /* --- Mobile drawer: same 5 items, same order, expand/collapse (§6) --- */
 .oatly-mobile {
   display: none;
-  border-top: 1px solid var(--spec-border);
-  background: var(--spec-canvas);
+  background: transparent;
 }
 
 .oatly-mobile--open { display: block; }
@@ -318,7 +345,7 @@
 }
 
 .oatly-mobile__section {
-  border-bottom: 1px solid var(--spec-border);
+  margin-bottom: var(--space-8);
 }
 
 .oatly-mobile__row {
@@ -326,8 +353,9 @@
   align-items: center;
   width: 100%;
   padding: var(--space-16) 0;
-  font-family: var(--font-ui);
+  font-family: var(--font-nav);
   font-size: 0.875rem;
+  font-weight: 700;
   letter-spacing: 0.02em;
   text-transform: uppercase;
   line-height: 1;

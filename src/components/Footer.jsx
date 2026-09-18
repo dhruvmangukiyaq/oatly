@@ -13,7 +13,7 @@ export default function Footer() {
   };
 
   return (
-    <footer className="w-full font-mono font-extrabold select-none">
+    <footer className="w-full select-none">
       
       {/* Footer Grid - White BG with Black Borders */}
       <div className="footer-grid">
@@ -62,19 +62,19 @@ export default function Footer() {
         </div>
 
         {/* Row 3: CONTACT | LEGAL | PRIVACY POLICY | COOKIE CONSENT */}
-        <div className="grid grid-cols-2 md:grid-cols-4 divide-x divide-y md:divide-y-0 divide-[#111111] items-stretch min-h-[40px] md:h-10 text-[10px] sm:text-xs">
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-2 px-4 items-stretch min-h-[40px] md:min-h-[44px] text-[10px] sm:text-xs">
           <Link to="/contact" className="footer-cell-link px-2 py-2 md:py-0">
             CONTACT
           </Link>
           <Link to="/legal" className="footer-cell-link px-2 py-2 md:py-0">
             LEGAL
           </Link>
-          <Link to="/legal/privacy-policy" className="footer-cell-link px-2 py-2 md:py-0 border-t md:border-t-0 border-[#111111]">
+          <Link to="/legal/privacy-policy" className="footer-cell-link px-2 py-2 md:py-0">
             PRIVACY POLICY
           </Link>
           <button
             onClick={() => alert('Cookie preferences updated!')}
-            className="footer-cell px-2 py-2 md:py-0 border-t md:border-t-0 border-[#111111] uppercase"
+            className="footer-cell px-2 py-2 md:py-0 uppercase"
           >
             COOKIE CONSENT
           </button>

@@ -22,8 +22,8 @@ export default function ArticleModal({ article, onClose }) {
             animate={{ opacity: 1, rotateX: 0, scaleY: 1, y: 0 }}
             exit={{ opacity: 0, rotateX: 48, scaleY: 0.28, y: 40 }}
             transition={{ duration: 0.55, ease: [0.22, 0.9, 0.28, 1] }}
-            style={{ transformPerspective: 1200, transformOrigin: '50% 0%' }}
-            className="bg-oatly-cream border-4 border-oatly-black shadow-brutal-xl w-full max-w-3xl max-h-[90vh] overflow-y-auto"
+            style={{ transformPerspective: 1200, transformOrigin: '50% 0%', backgroundColor: 'var(--news-paper)' }}
+            className="border-4 border-oatly-black shadow-brutal-xl w-full max-w-3xl max-h-[90vh] overflow-y-auto"
           >
           {/* Header Bar */}
           <div className="sticky top-0 z-20 p-4 bg-oatly-blue text-white flex items-center justify-between border-b-4 border-oatly-black">

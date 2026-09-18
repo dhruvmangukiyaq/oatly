@@ -6,7 +6,10 @@ import React from 'react';
 // Other CDN/local URLs are passed through untouched.
 
 const STORYBLOK_HOST = 'a.storyblok.com';
+const PEXELS_HOST = 'images.pexels.com';
 const DEFAULT_WIDTHS = [384, 768, 1200, 1600];
+// Pexels cards render at ~300–900px; never need more than 1260w.
+const PEXELS_WIDTHS = [480, 800, 1260];
 
 function originalWidth(pathname) {
   const match = pathname.match(/\/(\d+)x(\d+)\//);
@@ -25,6 +28,20 @@ function getResponsiveImage(src, { widths = DEFAULT_WIDTHS, quality = 75 } = {})
     url = new URL(src);
   } catch {
     return { src };
+  }
+
+  // Pexels: same photo at several widths via the w= param (WebP-ish
+  // compression flags kept, so visual output is unchanged).
+  if (url.hostname === PEXELS_HOST) {
+    const variant = (width) => {
+      const u = new URL(src);
+      u.searchParams.set('w', String(width));
+      return `${u.toString()} ${width}w`;
+    };
+    const mid = PEXELS_WIDTHS[1];
+    const u = new URL(src);
+    u.searchParams.set('w', String(mid));
+    return { src: u.toString(), srcSet: PEXELS_WIDTHS.map(variant).join(', ') };
   }
 
   if (url.hostname !== STORYBLOK_HOST) return { src };

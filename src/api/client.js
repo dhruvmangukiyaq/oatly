@@ -12,7 +12,7 @@
 const BASE = '/api';
 
 // Cache version — bump to force a clean slate after backend shape changes.
-const STORAGE_KEY = 'oatly.api.cache.v8';
+const STORAGE_KEY = 'oatly.api.cache.v10';
 
 // Resolved values (URL → JSON), hydrated synchronously from localStorage.
 const stored = (() => {

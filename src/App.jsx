@@ -20,7 +20,6 @@ import AppRoutes from './routes/AppRoutes';
 
 // Shared Layout Components
 import Navbar from './components/Navbar';
-import Footer from './components/Footer';
 
 // Interactive Modal Components
 import CustomCursor from './components/CustomCursor';
@@ -28,6 +27,31 @@ import SearchModal from './components/SearchModal';
 import ProductModal from './components/ProductModal';
 import RecipeModal from './components/RecipeModal';
 import ArticleModal from './components/ArticleModal';
+
+// Section theme from the current route — every section gets its own
+// signature background at first glance.
+function sectionTheme(pathname = '/') {
+  if (pathname.startsWith('/products')) return '';
+  if (pathname.startsWith('/recipes')) return '';
+  if (pathname.startsWith('/things-we-do') || pathname.startsWith('/news')) return 'theme-news';
+  if (pathname.startsWith('/sustainability') || pathname.startsWith('/oatly-who')) return 'theme-sustainability';
+  if (pathname.startsWith('/health') || pathname.startsWith('/random-answers')) return 'theme-health';
+  if (pathname.startsWith('/contact') || pathname.startsWith('/legal')) return 'theme-info';
+  return '';
+}
+
+function ThemedMain({ selectProduct, selectRecipe, selectArticle }) {
+  const { pathname } = useLocation();
+  return (
+    <main className={`flex-grow ${sectionTheme(pathname)}`}>
+      <AppRoutes
+        selectProduct={selectProduct}
+        selectRecipe={selectRecipe}
+        selectArticle={selectArticle}
+      />
+    </main>
+  );
+}
 
 // Scroll to top helper
 function ScrollToTop() {
@@ -79,17 +103,13 @@ export default function App() {
           {/* Navigation Bar */}
           <Navbar onOpenSearch={openSearch} />
 
-          {/* Main Content Router */}
-          <main className="flex-grow">
-            <AppRoutes
-              selectProduct={selectProduct}
-              selectRecipe={selectRecipe}
-              selectArticle={selectArticle}
-            />
-          </main>
+          {/* Main Content Router (section-themed background) */}
+          <ThemedMain
+            selectProduct={selectProduct}
+            selectRecipe={selectRecipe}
+            selectArticle={selectArticle}
+          />
 
-          {/* Shared Footer */}
-          <Footer />
           </div>
 
           {/* Modals */}

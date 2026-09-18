@@ -9,7 +9,12 @@
    ========================================================================== */
 
 .lb3 {
-  background: var(--spec-canvas);
+  /* Warm café-glow wash: soft peach light from top, cream base.
+     Very light so marker text + photos stay crisp. */
+  background:
+    radial-gradient(900px 420px at 50% -80px, rgba(245, 210, 150, 0.15), transparent 70%),
+    radial-gradient(700px 500px at 100% 30%, rgba(182, 222, 242, 0.1), transparent 70%),
+    linear-gradient(180deg, #FFFDF9 0%, #FFFEFB 60%, #FFFDF9 100%);
   color: var(--spec-ink);
 }
 
@@ -87,6 +92,13 @@
   display: block;
   aspect-ratio: 3 / 4;
   object-fit: cover;
+  border-radius: 18px;
+  box-shadow: 0 30px 60px -30px rgba(120, 70, 0, 0.35);
+  transition: transform 0.5s ease;
+}
+
+.lb3-intro__photo:hover {
+  transform: scale(1.015);
 }
 
 /* --- Collection header: tag + serif title + intro (A/W 25, S/S 25) --- */
@@ -155,6 +167,15 @@
   aspect-ratio: 1 / 1;
   overflow: hidden;
   background: var(--spec-surface);
+  border-radius: 14px;
+}
+
+.lb3-card {
+  transition: transform 0.2s ease;
+}
+
+.lb3-card:hover {
+  transform: translateY(-4px);
 }
 
 .lb3-card__img {
@@ -162,6 +183,11 @@
   height: 100%;
   object-fit: cover;
   display: block;
+  transition: transform 0.5s ease;
+}
+
+.lb3-card:hover .lb3-card__img {
+  transform: scale(1.05);
 }
 
 .lb3-card__name {
@@ -215,6 +241,16 @@
   margin: 0 0 var(--space-16);
 }
 
+/* Editorial drop cap on the article opener */
+.lb3-article__body p:first-child::first-letter {
+  font-family: var(--font-serif);
+  font-size: 3.4em;
+  line-height: 0.85;
+  float: left;
+  padding-right: var(--space-8);
+  padding-top: 2px;
+}
+
 .lb3-article__author {
   margin: var(--space-24) auto 0;
   max-width: 62ch;
@@ -260,6 +296,8 @@
   display: block;
   aspect-ratio: 1 / 1;
   object-fit: cover;
+  border-radius: 14px;
+  box-shadow: 0 24px 50px -28px rgba(120, 70, 0, 0.3);
 }
 
 .lb3-trend {
@@ -295,36 +333,8 @@
   height: auto;
   aspect-ratio: 4 / 5;
   object-fit: cover;
-}
-
-/* --- Previous collection teaser --- */
-.lb3-prev {
-  display: block;
-  margin-bottom: var(--space-48);
-  padding: var(--space-40) var(--space-24);
-  background: var(--spec-surface);
-  border: 1px solid var(--spec-border);
-  border-radius: 2px;
-  color: var(--spec-ink);
-  text-decoration: none;
-  text-align: center;
-}
-
-.lb3-prev__label {
-  display: block;
-  font-family: var(--font-ui);
-  font-size: 0.875rem;
-  letter-spacing: 0.02em;
-  text-transform: uppercase;
-  margin-bottom: var(--space-8);
-}
-
-.lb3-prev__title {
-  display: block;
-  font-family: var(--font-ui);
-  font-size: 1.5rem;
-  font-weight: 700;
-  text-transform: uppercase;
+  border-radius: 14px;
+  box-shadow: 0 24px 50px -28px rgba(120, 70, 0, 0.3);
 }
 
 @media (max-width: 900px) {

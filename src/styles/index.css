@@ -310,29 +310,54 @@
   @apply border-b-[1.5px] border-[#111111] bg-[var(--color-cream)] py-2;
 }
 
-/* Footer Styles */
+/* Footer Styles — floating frosted-glass card, no divider lines */
 .footer-grid {
-  @apply bg-white border-t-[1.5px] border-[#111111] text-[#111111] text-xs uppercase tracking-tight divide-y divide-[#111111];
+  @apply text-[#111111] text-xs uppercase tracking-tight;
+  font-family: var(--font-nav);
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  margin: 0 12px 12px;
+  border-radius: 20px;
+  background:
+    radial-gradient(600px 200px at 15% 0%, rgba(245, 210, 150, 0.35), transparent 70%),
+    radial-gradient(600px 200px at 85% 100%, rgba(172, 216, 240, 0.3), transparent 70%),
+    rgba(255, 255, 255, 0.55);
+  -webkit-backdrop-filter: blur(20px) saturate(1.4);
+  backdrop-filter: blur(20px) saturate(1.4);
+  border: 1px solid rgba(255, 255, 255, 0.7);
+  box-shadow: 0 20px 50px -25px rgba(0, 40, 102, 0.25);
+  padding: var(--space-16) 0 var(--space-8);
 }
 
 .footer-row {
-  @apply flex divide-x divide-[#111111] items-stretch h-10;
+  @apply flex items-stretch min-h-[44px] gap-2 px-4;
 }
 
 .footer-cell {
-  @apply flex-1 flex items-center justify-center hover:bg-[var(--color-cream-dark)] transition-colors text-center;
+  @apply flex-1 flex items-center justify-center transition-colors text-center rounded-[10px] px-3;
 }
 
 .footer-cell-link {
-  @apply flex-1 flex items-center justify-center hover:bg-[var(--color-cream-dark)] transition-colors text-center;
+  @apply flex-1 flex items-center justify-center transition-colors text-center rounded-[10px] px-3;
+}
+
+.footer-cell:hover,
+.footer-cell-link:hover {
+  background: rgba(255, 255, 255, 0.7);
+  -webkit-backdrop-filter: blur(8px);
+  backdrop-filter: blur(8px);
+  border: 1px solid rgba(255, 255, 255, 0.8);
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.9),
+    0 6px 16px -8px rgba(0, 40, 102, 0.25);
 }
 
 .footer-social-row {
-  @apply flex justify-between items-center h-10 px-4;
+  @apply flex justify-between items-center min-h-[44px] px-4 mt-2;
 }
 
 .footer-social-icon {
-  @apply w-7 h-7 border border-[#111111] bg-white hover:bg-[#F5D26B] flex items-center justify-center transition-colors;
+  @apply w-8 h-8 rounded-full bg-white/80 flex items-center justify-center transition-all shadow-[0_4px_12px_rgba(0,0,0,0.08)] hover:-translate-y-0.5;
 }
 
 /* Animations */
@@ -440,8 +465,16 @@
   --font-serif: 'Tinny Serif Pro', Georgia, 'Times New Roman', serif;
   /* Oatly card title face (things-we-do teasers; bundled locally) */
   --font-toni: 'Toni Noveau Pro', 'Girdo Black Pro', Georgia, serif;
-  /* Funky hero face (homepage mission statement; Google Fonts) */
-  --font-funky: 'Shrikhand', 'Titan One', 'Arial Rounded MT Bold', cursive;
+  /* Warm newsprint paper for the whole news section (things-we-do) */
+  --news-paper: #FEFCF5;
+  /* Per-section signature backgrounds (first-impression theming) */
+  --theme-sustainability-bg: #E4F2E1;
+  --theme-health-bg: #E1EEFA;
+  --theme-info-bg: #F0F0E9;
+  /* Clean hero face (homepage mission statement; Google Fonts, medium) */
+  --font-funky: 'Outfit', 'Futura', 'Arial', sans-serif;
+  /* Geometric nav face (navbar menu labels; Google Fonts, 700 only) */
+  --font-nav: 'Space Grotesk', 'Outfit', 'Futura', 'Arial', sans-serif;
 }
 
 /* Spec nav/UI label typography (§3.2): uppercase, ~14px, lh 1, ls 0.02em, 400.
@@ -463,12 +496,13 @@
   line-height: 1.1;
 }
 
-/* Funky hero typography: unique display face for the homepage mission line. */
+/* Clean hero typography: simple + unique medium face for the mission line. */
 .font-funky-spec {
   font-family: var(--font-funky);
   text-transform: uppercase;
-  line-height: 1.15;
-  letter-spacing: 0.01em;
+  line-height: 1.5;
+  letter-spacing: 0.06em;
+  font-weight: 500;
 }
 
 /* Spec body/caption typography (§3.2): same UI stack, normal case, lh 1.4–1.6 */
@@ -481,6 +515,12 @@
 .page-loading {
   min-height: 30vh;
 }
+
+/* ── Per-section signature backgrounds (applied to <main> by route) ── */
+.theme-sustainability { background: var(--theme-sustainability-bg); }
+.theme-health { background: var(--theme-health-bg); }
+.theme-info { background: var(--theme-info-bg); }
+.theme-news { background: var(--news-paper); }
 
 /* ── Custom cursor: 3D arrow pointer (fine-pointer devices only) ── */
 .oatly-cursor {

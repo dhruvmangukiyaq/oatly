@@ -126,11 +126,6 @@ export default function LookBookVol3Page() {
           ))}
         </div>
 
-        {/* Previous collection teaser */}
-        <Link to={page.previous.path} className="lb3-prev">
-          <span className="lb3-prev__label">{page.previous.label}</span>
-          <span className="lb3-prev__title">{page.previous.title} →</span>
-        </Link>
       </div>
     </div>
   );

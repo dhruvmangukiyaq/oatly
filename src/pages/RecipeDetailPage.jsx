@@ -47,11 +47,11 @@ export default function RecipeDetailPage() {
       </Link>
 
       {/* Hero Header Card */}
-      <div className="bg-white border-4 border-oatly-black shadow-brutal-xl overflow-hidden grid grid-cols-1 md:grid-cols-12">
-        
+      <div className="bg-white rounded-[2px] shadow-[0_8px_20px_rgba(0,0,0,0.10)] overflow-hidden grid grid-cols-1 md:grid-cols-12">
+
         {/* Left: 1:1 Square Recipe Image */}
         {/* TODO: Swap in real licensed image file here */}
-        <div className="md:col-span-6 aspect-square bg-oatly-cream border-b-4 md:border-b-0 md:border-r-4 border-oatly-black relative overflow-hidden">
+        <div className="md:col-span-6 aspect-square bg-oatly-cream relative overflow-hidden">
           <img
             src={recipe.image}
             alt={recipe.name}

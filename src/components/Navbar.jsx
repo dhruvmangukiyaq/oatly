@@ -54,6 +54,23 @@ export default function Navbar({ onOpenSearch }) {
     return () => window.removeEventListener('keydown', onKey);
   }, []);
 
+  // Tab switch / window blur: never return to a stuck-open dropdown
+  useEffect(() => {
+    const closeAll = () => {
+      clearTimeout(closeTimer.current);
+      setOpenMenu(null);
+    };
+    const onVis = () => {
+      if (document.hidden) closeAll();
+    };
+    window.addEventListener('blur', closeAll);
+    document.addEventListener('visibilitychange', onVis);
+    return () => {
+      window.removeEventListener('blur', closeAll);
+      document.removeEventListener('visibilitychange', onVis);
+    };
+  }, []);
+
   if (!navItems) return null;
 
   return (
@@ -149,10 +166,11 @@ export default function Navbar({ onOpenSearch }) {
           {navItems.map((item) => {
             const hasDropdown = Boolean(item.dropdown);
             const isOpen = openMenu === item.name;
+            const slug = item.name.toLowerCase().replace(/[^a-z]+/g, '-');
             return (
               <li
                 key={item.name}
-                className={`oatly-navrow__item${isOpen ? ' oatly-navrow__item--open' : ''}`}
+                className={`oatly-navrow__item oatly-navrow__item--${slug}${isOpen ? ' oatly-navrow__item--open' : ''}`}
                 onMouseEnter={() => {
                   cancelClose();
                   setOpenMenu(hasDropdown ? item.name : null);

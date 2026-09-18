@@ -19,7 +19,7 @@
    ========================================================================== */
 
 .ns-story {
-  background: var(--spec-canvas);
+  background: var(--news-paper);
   color: var(--spec-ink);
   padding: var(--space-48) var(--space-24) var(--space-80);
 }
@@ -279,6 +279,15 @@
     font-size: 1rem;
     line-height: 1.65;
   }
+}
+
+/* Newspaper drop cap on the article lede */
+.ns-story__richtext > p:first-child::first-letter {
+  font-family: Georgia, 'Times New Roman', serif;
+  font-size: 2.6em;
+  line-height: 0.9;
+  float: left;
+  padding-right: 0.08em;
 }
 
 /* ── Newspaper unfold entrance (matches the article modal) ── */

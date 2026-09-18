@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import FlatCard from '../components/FlatCard';
 import VideoCard from '../components/VideoCard';
 import SEO from '../components/SEO';
+import '../styles/HomeHeroGlass.css';
 // ─── MVC: View ─── homepage deck arrives from the Model (async Express API)
 import ContentModel from '../models/contentModel.js';
 import { useApiData } from '../hooks/useApiData.js';
@@ -19,12 +20,12 @@ const TAG_COLORS = {
   'OTHER': 'bg-[#F5F5F5] text-black',
 };
 
-// Designed (non-photo) card: HOW TO MAKE MATCHA. Paint-only polish (spec §5):
-// 1px #C6C6C6 border, 2px radius, hover lift + soft shadow; same DOM/content.
+// Designed (non-photo) card: HOW TO MAKE MATCHA. Borderless, 2px radius,
+// hover lift + soft shadow; same DOM/content.
 function MatchaCard({ card, matchaCarton }) {
   const c = card;
   return (
-    <Link to={c.linkTo} className="group block bg-white border border-[#C6C6C6] rounded-[2px] overflow-hidden transition-transform duration-150 hover:-translate-y-0.5 hover:shadow-[0_4px_8px_rgba(0,0,0,0.05)] hover:border-black">
+    <Link to={c.linkTo} className="group block bg-white rounded-[2px] overflow-hidden transition-transform duration-150 hover:-translate-y-0.5 hover:shadow-[0_8px_20px_rgba(0,0,0,0.10)]">
       <div className="relative overflow-hidden bg-white" style={{ aspectRatio: c.aspectRatio }}>
         <div className="w-full h-full flex flex-col items-center justify-between px-6 pt-8 pb-6 text-center">
           <div className="font-display font-black uppercase leading-[0.95] tracking-tight text-[clamp(2rem,3.4vw,3.4rem)]">
@@ -38,7 +39,7 @@ function MatchaCard({ card, matchaCarton }) {
           <img src={matchaCarton} alt="Oat Drink Matcha carton" className="h-[46%] object-contain" />
         </div>
       </div>
-      <div className="bg-white border-t border-[#C6C6C6] px-3 min-h-[44px] flex items-center justify-between gap-3">
+      <div className="bg-white px-3 min-h-[44px] flex items-center justify-between gap-3">
         <div className="font-body-spec font-bold text-[13px] uppercase text-black tracking-tight leading-tight truncate" title={c.title}>{c.title}</div>
         <span className={`${TAG_COLORS[c.tag]} px-2 py-[3px] text-[11px] font-body-spec font-bold uppercase whitespace-nowrap flex-shrink-0 leading-none self-center`}>{c.tag}</span>
       </div>
@@ -63,32 +64,36 @@ export default function HomePage() {
     <div className="page-container">
       <SEO title="the Original Oat Drink Company" description="A site filled with everything you could possibly think of, and also probably not think of, related to an oat drink company called Oatly." />
 
-      <div className="bg-[#FFFEF8]">
+      <div className="home-glass-page">
         <div className="max-w-[1760px] mx-auto px-4 sm:px-6 md:px-7 py-4 md:py-6 flex flex-col gap-3">
 
           {/* BAND 1 — hero + pee | look book vol.3 tall */}
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-3 items-stretch">
             <div className="flex flex-col gap-3">
-              {/* HERO — exact text/layout kept; type-only polish (spec §3.2):
-                  display stack (Girdo Black Pro → Anton), compact lh 1.1 */}
-              <div className="text-center px-2 sm:px-6 py-8 md:py-12">
-                <h1 className="font-funky-spec text-black max-w-2xl mx-auto text-[20px] sm:text-[23px] lg:text-[26px]">
-                  WE EXIST TO MAKE IT EASIER FOR PEOPLE TO LIVE HEALTHIER LIVES WITHOUT RECKLESSLY TAXING THE PLANET'S RESOURCES IN THE PROCESS.
-                </h1>
-                <div className="mt-8 flex justify-center">
-                  <Link
-                    to="/sustainability/climate-solutions-company"
-                    className="inline-block border border-black rounded-[2px] bg-white px-6 py-2.5 font-ui-spec font-bold shadow-[2px_2px_0_#000] hover:bg-[#F5F5F5] transition-colors"
-                  >
-                    READ MORE →
-                  </Link>
+              {/* HERO — frosted-glass mission panel over an oat-gold morning
+                  wash; exact text/button kept (spec §3.2) */}
+              <div className="home-hero">
+                <div className="home-hero__card text-center px-2 sm:px-6 py-8 md:py-12">
+                  <h1 className="font-funky-spec text-black max-w-2xl mx-auto text-[16px] sm:text-[18px] lg:text-[20px]">
+                    WE EXIST TO MAKE IT EASIER FOR PEOPLE TO LIVE HEALTHIER LIVES WITHOUT RECKLESSLY TAXING THE PLANET'S RESOURCES IN THE PROCESS.
+                  </h1>
+                  <div className="mt-8 flex justify-center">
+                    <Link
+                      to="/sustainability/climate-solutions-company"
+                      className="inline-block border border-black rounded-[2px] bg-white px-6 py-2.5 font-ui-spec font-bold shadow-[2px_2px_0_#000] hover:bg-[#F5F5F5] transition-colors"
+                    >
+                      READ MORE →
+                    </Link>
+                  </div>
                 </div>
               </div>
-              <FlatCard {...CARDS.pee} />
+              <FlatCard {...CARDS.pee} loading="eager" fetchPriority="high" />
             </div>
             <div className="flex">
               <VideoCard
                 {...CARDS.lookbook}
+                loading="eager"
+                fetchPriority="high"
                 className="w-full h-full"
                 overlay={<img src={IMAGES.pressLogo} alt="Look Book Vol.3" className="absolute bottom-7 left-[5%] w-[90%]" />}
               />

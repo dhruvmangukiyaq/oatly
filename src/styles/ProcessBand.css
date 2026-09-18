@@ -1,33 +1,25 @@
 /* ==========================================================================
-   PROCESS BAND — pink "HOW DO WE MAKE OUR OAT DRINKS?" section
-   (mirrors the band at the bottom of every oatly.com product page)
+   PROCESS BAND — frosted-glass "HOW DO WE MAKE OUR OAT DRINKS?" section
+   (iPhone/Mac-style glassmorphism)
    --------------------------------------------------------------------------
    Rendered at the bottom of ProductListing, so it appears on /products and
    every /products/:category page with identical UI.
-   DETAIL MATCHING (from oatly.com/products/cold-foam screenshot):
-   - Pink is deeper + grainy: #F5B8C9 with an SVG-noise film grain overlay
-     (dedicated value, NOT --spec-blush, so badges elsewhere don't shift)
-   - Headline + TV lettering: rounded chunky stack (--font-chunky → Titan One,
-     defined in src/index.css) — Oatly's letters are round/heavy, not condensed
-   - Body copy: typewriter stack (Special Elite → Courier Prime, loaded in
-     index.html) to match Oatly's mono paragraph text
+   - Soft pastel wash behind; frosted white glass card on top (blur +
+     saturation, hairline border, soft shadow)
+   - Headline + TV lettering: rounded chunky stack (--font-chunky → Titan One)
+   - Body copy: typewriter stack (Special Elite → Courier Prime)
    BEM: .process, .process__*
    ========================================================================== */
 
 .process {
   position: relative;
-  background: #f5b8c9;
   overflow: hidden;
-}
-
-/* Film grain over the pink (Oatly's band has visible texture, not flat) */
-.process::after {
-  content: '';
-  position: absolute;
-  inset: 0;
-  pointer-events: none;
-  opacity: 0.28;
-  background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="180" height="180"><filter id="n"><feTurbulence type="fractalNoise" baseFrequency="0.9" numOctaves="2"/><feColorMatrix type="saturate" values="0"/></filter><rect width="180" height="180" filter="url(%23n)" opacity="0.5"/></svg>');
+  padding: clamp(48px, 6vw, 96px) var(--space-24);
+  background:
+    radial-gradient(620px 420px at 12% 18%, rgba(184, 220, 232, 0.6), transparent 70%),
+    radial-gradient(720px 480px at 86% 12%, rgba(255, 209, 220, 0.55), transparent 70%),
+    radial-gradient(820px 520px at 50% 105%, rgba(140, 215, 169, 0.4), transparent 70%),
+    #F2F5F7;
 }
 
 .process__inner {
@@ -35,12 +27,17 @@
   z-index: 1;
   max-width: var(--max-width);
   margin: 0 auto;
-  /* Oatly's band breathes: tall pink space above/below, wide TV–text gap */
-  padding: clamp(64px, 8vw, 128px) var(--space-24);
+  padding: clamp(40px, 5vw, 72px) clamp(24px, 4vw, 64px);
   display: grid;
   grid-template-columns: 5fr 6fr;
   gap: var(--space-80);
   align-items: center;
+  background: rgba(255, 255, 255, 0.55);
+  -webkit-backdrop-filter: blur(22px) saturate(1.5);
+  backdrop-filter: blur(22px) saturate(1.5);
+  border: 1px solid rgba(255, 255, 255, 0.7);
+  border-radius: 24px;
+  box-shadow: 0 24px 60px -24px rgba(0, 40, 102, 0.25);
 }
 
 /* TV illustration doubles as the PLAY link (like Oatly's video trigger) */
@@ -88,12 +85,6 @@
   .process__inner {
     grid-template-columns: 1fr;
     gap: var(--space-32);
-    padding: var(--space-48) var(--space-24);
-  }
-}
-
-@media (prefers-reduced-motion: reduce) {
-  .process::after {
-    display: none;
+    padding: var(--space-32) var(--space-24);
   }
 }

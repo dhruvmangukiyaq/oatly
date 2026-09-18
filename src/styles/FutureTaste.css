@@ -9,7 +9,7 @@
    ========================================================================== */
 
 .fot {
-  background: var(--spec-canvas);
+  background: transparent; /* news paper theme shows through */
   color: var(--spec-ink);
 }
 

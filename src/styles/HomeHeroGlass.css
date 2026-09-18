@@ -1,0 +1,41 @@
+/* ==========================================================================
+   HOME HERO GLASS — frosted-glass mission panel (iPhone/Mac style)
+   --------------------------------------------------------------------------
+   Band 1 hero ("WE EXIST TO MAKE IT EASIER...") floats as a frosted white
+   glass card over a warm oat-gold morning wash: golden amber + soft sky +
+   fresh leaf green. Text + button styling is untouched (spec §3.2).
+   BEM: .home-hero, .home-hero__card
+   ========================================================================== */
+
+/* Whole-page light wash — shows through the gaps between every bento
+   card, so the full home page feels airy + fresh */
+.home-glass-page {
+  background:
+    radial-gradient(900px 500px at 4% 0%, rgba(245, 210, 150, 0.25), transparent 70%),
+    radial-gradient(820px 520px at 100% 18%, rgba(182, 222, 242, 0.24), transparent 70%),
+    radial-gradient(1000px 620px at 50% 100%, rgba(182, 222, 172, 0.22), transparent 70%),
+    linear-gradient(180deg, #FFFBF2 0%, #FFFDF9 40%, #F5F9F2 100%);
+}
+
+.home-hero {
+  position: relative;
+  overflow: hidden;
+  border-radius: 20px;
+  background:
+    radial-gradient(560px 360px at 6% 0%, rgba(245, 210, 150, 0.3), transparent 70%),
+    radial-gradient(520px 380px at 96% 8%, rgba(182, 222, 242, 0.28), transparent 70%),
+    radial-gradient(680px 440px at 50% 112%, rgba(182, 222, 172, 0.28), transparent 70%),
+    linear-gradient(135deg, #FFF6E6 0%, #FFFDF9 45%, #F3F8F0 100%);
+}
+
+.home-hero__card {
+  position: relative;
+  z-index: 1;
+  margin: clamp(14px, 2.5vw, 32px);
+  background: rgba(255, 255, 255, 0.65);
+  -webkit-backdrop-filter: blur(24px) saturate(1.6);
+  backdrop-filter: blur(24px) saturate(1.6);
+  border: 1px solid rgba(255, 255, 255, 0.75);
+  border-radius: 16px;
+  box-shadow: 0 24px 60px -24px rgba(120, 70, 0, 0.2);
+}
