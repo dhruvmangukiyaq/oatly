@@ -33,13 +33,18 @@ export default function LookBookVol3Page() {
         {/* Giant blackletter hero logo (official Oatly artwork) */}
         <img src={page.logo} alt="Look Book Vol.3" className="lb3-logo" />
 
-        {/* Intro: handwritten text + hero drink photo */}
+        {/* Intro: hand-lettered note (real text) + hero drink photo */}
         <div className="lb3-intro">
-          <img
-            src={page.introTextImage}
-            alt={page.introTextAlt}
-            className="lb3-intro__text"
-          />
+          <div className="lb3-intro__text" role="note" aria-label={page.introTextAlt}>
+            <p className="lb3-intro__kicker">{page.introKicker}</p>
+            <p className="lb3-intro__heading">{page.introHeading}</p>
+            <p>{page.introText}</p>
+            <p>{page.introText2}</p>
+            <p className="lb3-intro__sign">
+              <span className="lb3-intro__sign-name">{page.introSign}</span>
+              <span className="lb3-intro__sign-role">{page.introSignRole}</span>
+            </p>
+          </div>
           <img
             src={page.heroImage}
             alt={page.heroImageAlt}

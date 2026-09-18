@@ -456,6 +456,15 @@ export const LOOKBOOK_PAGE = {
     'https://a.storyblok.com/f/107921/666x779/f73e1bf8fc/intro-text.svg',
   introTextAlt:
     "Is it just us, or is drink culture having a bit of a moment right now? Fashion houses are pouring matcha. Cafes are becoming the new bars (or was it bars becoming the new cafes?) either way, the script has flipped. Coffee isn't coffee anymore. It's ritual. It's runway. It's the thing in your hands when culture happens. Today, we're tracking South American flavour waves and drink trends that are surfacing in a bakery rave in LA and landing at an 80s speed chess night in Manchester. And if you didn't catch all that, you can always tune in to the live stream on DrinkTok.",
+  // Hand-lettered intro (rendered as real text in Caveat — see LookBookVol3Page)
+  introKicker: 'A NOTE FROM OUR TASTE LAB — VOL. 3',
+  introHeading: 'Dear fellow sipper,',
+  introText:
+    "Here's our theory: the greatest drinks begin as doodles in the margins of a boring meeting. So this season we chased flavour from Oaxaca to Osaka — toasting tortillas, whisking hojicha, fermenting tepache — and spilled most of it down our shirts. Totally worth it.",
+  introText2:
+    "Inside you'll find 18 recipes built for slow mornings, loud friends and second servings. No fancy equipment, no gatekeeping — just oats doing the heavy lifting. Flip a page, follow a craving, and make something worth talking about.",
+  introSign: 'The Oatly Taste Lab',
+  introSignRole: 'STOCKHOLM · MALMÖ · EVERYWHERE',
   heroImage:
     'https://a.storyblok.com/f/107921/1920x2546/614724c22d/lookbook_header.webp',
   heroImageAlt: 'A glass of iced drink with creamy swirls and a straw',
