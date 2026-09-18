@@ -26,6 +26,7 @@ export default function VideoCard({
   imageAlt,
   videoId,
   videoHash,
+  videoSrc,
   linkTo = '/',
   className = '',
   aspectRatio = '4/3',
@@ -49,7 +50,19 @@ export default function VideoCard({
             loading="lazy"
           />
         ) : null}
-        {videoId ? (
+        {videoSrc ? (
+          <video
+            src={videoSrc}
+            poster={imageSrc}
+            title={title}
+            className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 h-full aspect-video max-w-none border-0 pointer-events-none object-cover"
+            autoPlay
+            muted
+            loop
+            playsInline
+            preload="metadata"
+          />
+        ) : videoId ? (
           <iframe
             src={playerSrc}
             title={title}

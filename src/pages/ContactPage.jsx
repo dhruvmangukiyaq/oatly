@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import SEO from '../components/SEO';
-import { Mail, MessageSquare, Send, CheckCircle2, AlertCircle } from 'lucide-react';
+import { Send, CheckCircle2 } from 'lucide-react';
 
 export default function ContactPage() {
   const [formData, setFormData] = useState({

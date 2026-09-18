@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 // ─── MVC: View ─── data via Model (async Express API) ──────────────────────────
 import ContentModel from '../models/contentModel.js';
 import { useApiData } from '../hooks/useApiData.js';
-import { ChevronDown, ChevronUp, Heart, CheckCircle2, ShieldAlert, Sparkles, HelpCircle } from 'lucide-react';
+import { ChevronDown, ChevronUp, CheckCircle2, HelpCircle } from 'lucide-react';
 
 export default function HealthPage() {
   const [openFact, setOpenFact] = useState(1);

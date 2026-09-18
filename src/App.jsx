@@ -1,6 +1,7 @@
 import React, { useEffect } from 'react';
 import { BrowserRouter, useLocation } from 'react-router-dom';
 import { HelmetProvider } from 'react-helmet-async';
+import { MotionConfig } from 'framer-motion';
 
 // ─── APP COMPOSITION ROOT ───────────────────────────────────────────────────
 // Frontend structure:
@@ -22,6 +23,7 @@ import Navbar from './components/Navbar';
 import Footer from './components/Footer';
 
 // Interactive Modal Components
+import CustomCursor from './components/CustomCursor';
 import SearchModal from './components/SearchModal';
 import ProductModal from './components/ProductModal';
 import RecipeModal from './components/RecipeModal';
@@ -70,9 +72,10 @@ export default function App() {
   return (
     <HelmetProvider>
       <BrowserRouter>
+        <MotionConfig reducedMotion="user">
         <ScrollToTop />
         <div className="app-shell bg-graph-paper border-0 sm:border-[4px] md:border-[6px] lg:border-[8px] border-[#466874] text-oatly-black selection:bg-oatly-yellow selection:text-oatly-black font-sans p-0 sm:p-2 md:p-2.5 lg:p-3.5">
-          <div data-app-scroll className="app-frame bg-[#FFFEF8] border-0 sm:border-[1.5px] sm:border-black flex flex-col w-full h-full max-w-full">
+          <div data-app-scroll className="app-frame bg-[#FFFEF8] flex flex-col w-full h-full max-w-full">
           {/* Navigation Bar */}
           <Navbar onOpenSearch={openSearch} />
 
@@ -111,7 +114,11 @@ export default function App() {
             onClose={clearArticle}
           />
 
+          {/* Custom cursor (mouse devices only; sits above everything) */}
+          <CustomCursor />
+
         </div>
+        </MotionConfig>
       </BrowserRouter>
     </HelmetProvider>
   );

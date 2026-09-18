@@ -227,33 +227,44 @@
   overflow: hidden;
 }
 
-/* ── Stories View More (twelve-story batches, like the live page) ── */
-.twd__view-more {
-  display: flex;
-  justify-content: center;
-  max-width: var(--twd-col-12);
-  margin: 0 auto;
-  padding: var(--twd-gutter) calc(var(--twd-gutter) / 2);
+/* ── Newspaper book: tall scroll track with a sticky sheet ──
+   Scrolling turns the pages; the sheet stays pinned while it flips.
+   Titles/excerpts clamp inside the book so every page holds exactly two
+   fully-visible rows (full text still shows in the modal + detail page). */
+.twd__book .twd__card-title,
+.twd__book .twd__card-excerpt {
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
 }
 
-.twd__view-more-button {
-  display: inline-flex;
-  align-items: center;
-  gap: 8px;
-  padding: 15px 24px;
-  border: 0;
-  border-radius: 0;
-  background: #000;
-  color: #fff;
-  font-style: normal;
-  font-variant: normal;
-  font-weight: 700;
-  font-size: clamp(1rem, calc(1rem + (100vw - 48rem) * 0.125 / 57), 1.125rem);
-  line-height: 1.2;
-  font-family: 'Margo Pro Regular', sans-serif;
-  letter-spacing: 0;
-  text-transform: uppercase;
-  cursor: pointer;
+.twd__book .twd__card-title {
+  -webkit-line-clamp: 2;
+  line-clamp: 2;
+}
+
+.twd__book .twd__card-excerpt {
+  -webkit-line-clamp: 3;
+  line-clamp: 3;
+}
+.twd__book {
+  position: relative;
+}
+
+.twd__book-sheet {
+  position: sticky;
+  top: 48px;
+  min-height: calc(100vh - 48px);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+@media (min-width: 901px) {
+  .twd__book-sheet {
+    top: 88px;
+    min-height: calc(100vh - 88px);
+  }
 }
 
 /* ── Sticky feature + scrolling sidebar (root view only) ── */
@@ -532,12 +543,17 @@
   }
 
   .twd__grid-top {
-    display: block;
+    display: flex;
+    flex-wrap: wrap;
+    margin: 0 calc(var(--twd-gutter) / -2);
     padding: 0;
   }
 
   .twd__grid-top .twd__card {
-    width: 100%;
+    flex: 0 0 50%;
+    max-width: 50%;
+    padding: 0 calc(var(--twd-gutter) / 2);
+    box-sizing: border-box;
   }
 
   .twd__grid-bottom {

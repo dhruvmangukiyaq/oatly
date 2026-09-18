@@ -10,7 +10,9 @@
    ========================================================================== */
 
 .plist {
-  background: var(--spec-canvas);
+  background:
+    radial-gradient(1100px 420px at 50% -120px, #FFFDF4 0%, rgba(255, 253, 244, 0) 70%),
+    var(--spec-canvas);
 }
 
 .plist__inner {

@@ -6,7 +6,7 @@ import { useApiData } from '../hooks/useApiData.js';
 import PlaceholderMedia from '../components/PlaceholderMedia';
 import FlatCard from '../components/FlatCard';
 import SEO from '../components/SEO';
-import { ArrowLeft, Leaf, CheckCircle2 } from 'lucide-react';
+import { ArrowLeft } from 'lucide-react';
 
 export default function SustainabilitySubPage() {
   const { pathname } = useLocation();

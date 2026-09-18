@@ -1,5 +1,5 @@
 import React from 'react';
-import { X, Clock, ChefHat, Sparkles, CheckCircle } from 'lucide-react';
+import { X, Clock, ChefHat, Sparkles } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 
 export default function RecipeModal({ recipe, onClose }) {

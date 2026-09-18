@@ -9,40 +9,6 @@ import { useApiData } from '../hooks/useApiData.js';
 
 // ─── VIEW fragments (MVC: View) ─────────────────────────────────────────────
 
-// Dotted filler block with irregular cream gaps, like oatly.com.
-const DOTS_GAPS = {
-  side: [
-    { top: '0%', left: '62%', width: '38%', height: '22%' },
-    { top: '30%', left: '38%', width: '24%', height: '20%' },
-    { top: '72%', left: '0%', width: '26%', height: '28%' },
-  ],
-  b1: [
-    { top: '58%', left: '52%', width: '48%', height: '42%' },
-  ],
-  b2: [
-    { top: '46%', left: '42%', width: '22%', height: '18%' },
-    { top: '64%', left: '20%', width: '40%', height: '36%' },
-  ],
-  b3: [
-    { top: '46%', left: '58%', width: '22%', height: '18%' },
-    { top: '64%', left: '36%', width: '40%', height: '36%' },
-  ],
-};
-
-function Dots({ variant = 'b1', aspectRatio = '1/1', className = '', fill = false }) {
-  return (
-    <div
-      className={`relative overflow-hidden bg-[#FFFEF8] ${className}`}
-      style={fill ? { flex: '1 1 auto', minHeight: 120 } : { aspectRatio }}
-    >
-      <div className="absolute inset-0 bg-polka-dots opacity-70" />
-      {(DOTS_GAPS[variant] || []).map((g, i) => (
-        <div key={i} className="absolute bg-[#FFFEF8]" style={g} />
-      ))}
-    </div>
-  );
-}
-
 // Badge palette mirrors FlatCard/VideoCard (spec §5): one consistent NEWS gold.
 const TAG_COLORS = {
   'NEWS': 'bg-[#FDCF85] text-black',
@@ -106,7 +72,7 @@ export default function HomePage() {
               {/* HERO — exact text/layout kept; type-only polish (spec §3.2):
                   display stack (Girdo Black Pro → Anton), compact lh 1.1 */}
               <div className="text-center px-2 sm:px-6 py-8 md:py-12">
-                <h1 className="font-display-spec font-bold uppercase text-black tracking-tight leading-[1.1] text-[20px] sm:text-[23px] lg:text-[26px] max-w-2xl mx-auto">
+                <h1 className="font-funky-spec text-black max-w-2xl mx-auto text-[20px] sm:text-[23px] lg:text-[26px]">
                   WE EXIST TO MAKE IT EASIER FOR PEOPLE TO LIVE HEALTHIER LIVES WITHOUT RECKLESSLY TAXING THE PLANET'S RESOURCES IN THE PROCESS.
                 </h1>
                 <div className="mt-8 flex justify-center">
@@ -133,7 +99,6 @@ export default function HomePage() {
           <div className="grid grid-cols-1 lg:grid-cols-10 gap-3 items-stretch">
             <div className="lg:col-span-2 flex flex-col gap-3">
               <VideoCard {...CARDS.aftertaste} />
-              <Dots variant="side" fill />
             </div>
             <div className="lg:col-span-6 flex">
               <VideoCard
@@ -219,12 +184,9 @@ export default function HomePage() {
             </div>
           </div>
 
-          {/* BAND 9 — oatly who + dots */}
+          {/* BAND 9 — oatly who */}
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 items-start">
             <FlatCard {...CARDS.oatlywho} />
-            <Dots variant="b1" />
-            <Dots variant="b2" />
-            <Dots variant="b3" />
           </div>
 
         </div>

@@ -1,20 +1,30 @@
 import React from 'react';
-import { X, Calendar, Clock, Tag, Sparkles } from 'lucide-react';
+import { X, Calendar, Clock, Sparkles } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 import ResponsiveImage from './ResponsiveImage';
 
 export default function ArticleModal({ article, onClose }) {
-  if (!article) return null;
-
   return (
     <AnimatePresence>
-      <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-oatly-black/80 backdrop-blur-sm overflow-y-auto">
+      {article && (
         <motion.div
-          initial={{ opacity: 0, scale: 0.95, y: 20 }}
-          animate={{ opacity: 1, scale: 1, y: 0 }}
-          exit={{ opacity: 0, scale: 0.95, y: 20 }}
-          className="bg-oatly-cream border-4 border-oatly-black shadow-brutal-xl w-full max-w-3xl max-h-[90vh] overflow-y-auto"
+          key="backdrop"
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          exit={{ opacity: 0 }}
+          transition={{ duration: 0.25 }}
+          className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-oatly-black/80 backdrop-blur-sm overflow-y-auto"
         >
+          {/* Newspaper unfold: the sheet opens from the top like unfolding paper. */}
+          <motion.div
+            key="sheet"
+            initial={{ opacity: 0, rotateX: -62, scaleY: 0.3, y: -60 }}
+            animate={{ opacity: 1, rotateX: 0, scaleY: 1, y: 0 }}
+            exit={{ opacity: 0, rotateX: 48, scaleY: 0.28, y: 40 }}
+            transition={{ duration: 0.55, ease: [0.22, 0.9, 0.28, 1] }}
+            style={{ transformPerspective: 1200, transformOrigin: '50% 0%' }}
+            className="bg-oatly-cream border-4 border-oatly-black shadow-brutal-xl w-full max-w-3xl max-h-[90vh] overflow-y-auto"
+          >
           {/* Header Bar */}
           <div className="sticky top-0 z-20 p-4 bg-oatly-blue text-white flex items-center justify-between border-b-4 border-oatly-black">
             <div className="flex items-center gap-2 font-display font-extrabold text-lg uppercase text-oatly-yellow">
@@ -78,8 +88,9 @@ export default function ArticleModal({ article, onClose }) {
             </button>
 
           </div>
+          </motion.div>
         </motion.div>
-      </div>
+      )}
     </AnimatePresence>
   );
 }

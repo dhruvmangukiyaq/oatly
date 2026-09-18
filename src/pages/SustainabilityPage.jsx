@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 // ─── MVC: View ─── data via Model (async Express API) ──────────────────────────
 import ContentModel from '../models/contentModel.js';
 import { useApiData } from '../hooks/useApiData.js';
-import { Leaf, ArrowRight, CheckCircle2, AlertTriangle, ShieldCheck, Sparkles, Scale } from 'lucide-react';
+import { Sparkles } from 'lucide-react';
 
 export default function SustainabilityPage() {
   const [activePillar, setActivePillar] = useState(0);

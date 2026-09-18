@@ -1,7 +1,6 @@
 import React from 'react';
 import { useParams } from 'react-router-dom';
 import { useStoryDetailController } from '../controllers/useContentControllers.js';
-import { ArrowLeft, Calendar, Clock, Sparkles } from 'lucide-react';
 import PlaceholderMedia from '../components/PlaceholderMedia';
 import ResponsiveImage from '../components/ResponsiveImage';
 import SEO from '../components/SEO';
@@ -30,7 +29,7 @@ export default function NewsStoryDetailPage() {
         description={story.excerpt}
         pathname={`/things-we-do/${story.path || story.slug}`}
       />
-      <div className="ns-story">
+      <div className="ns-story ns-story--unfold">
         {/* ── Hero: full-width image ── */}
         <section className="ns-story__hero" aria-label="Story hero">
           {story.image ? (

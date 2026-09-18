@@ -1,6 +1,6 @@
-import React, { useMemo, useState } from 'react';
+import React, { useEffect, useMemo, useRef, useState } from 'react';
 import { NavLink, useLocation } from 'react-router-dom';
-import { ArrowDown } from 'lucide-react';
+import { motion, AnimatePresence } from 'framer-motion';
 import { useApiData } from '../hooks/useApiData.js';
 import NewsModel from '../models/newsModel.js';
 import SEO from '../components/SEO';
@@ -22,7 +22,7 @@ import '../styles/ThingsWeDo.css';
       • STICKY article (root only): large left card stays fixed beside a taller
         scrolling six-card sidebar, then releases after that sidebar
       • category pages: side-by-side wordmark/intro header, then three-up cards
-      • Stories reveals twelve cards at a time behind a centered View More button
+      • all grids turn two-row newspaper pages (6 desktop / 2 mobile), page-flip
       • remaining root articles: clean 2-up grid, image → title → excerpt → meta
         ("category • date"), hand-drawn wavy edges masks on all images
    Fonts: Margo Pro (body/meta) + Toni Noveau Pro (titles) — bundled locally.
@@ -318,8 +318,10 @@ const EVERYTHING_ORDER = [
   'google-milk',
 ];
 
-// Stories are revealed in the live site's twelve-story batches.
-const STORY_PAGE_SIZE = 12;
+// Newspaper-style pagination: two fully-visible rows per page, turned like
+// pages — six articles on desktop 3-up grids, two on mobile 2-up grids.
+const DESKTOP_PAGE_SIZE = 6;
+const MOBILE_PAGE_SIZE = 2;
 
 // Real Oatly assets where available (closest to the live reference).
 const IMAGE_OVERRIDES = {
@@ -374,26 +376,80 @@ function Card({ item, featured, onSelect, imageWidths, imageSizes, priority = fa
   );
 }
 
-function CategoryGrid({ items, pageSize, onSelect }) {
-  const [visibleCount, setVisibleCount] = useState(pageSize);
-  const shownItems = items.slice(0, visibleCount);
+// Newspaper-style paged grid: scrolling turns the pages like newspaper
+// sheets, with the same page-flip transition. Every page holds exactly two
+// fully-visible rows with breathing room above and below. The LAST page is
+// rendered statically right above the footer, so a short final page never
+// leaves dead scroll space behind it.
+function PagedGrid({ items, onSelect }) {
+  const [page, setPage] = useState(0);
+  const [direction, setDirection] = useState(1);
+  const [isMobile, setIsMobile] = useState(
+    () => typeof window !== 'undefined' && window.matchMedia('(max-width: 767px)').matches,
+  );
+  const trackRef = useRef(null);
+  const pageRef = useRef(0);
+  const pageSize = isMobile ? MOBILE_PAGE_SIZE : DESKTOP_PAGE_SIZE;
+  const pageCount = Math.max(1, Math.ceil(items.length / pageSize));
+  // Pinned (flipping) pages exclude the last one, which sits statically below.
+  const pinnedCount = Math.max(1, pageCount - 1);
+  const safePage = Math.min(page, pinnedCount - 1);
 
-  return (
+  useEffect(() => {
+    const query = window.matchMedia('(max-width: 767px)');
+    const onChange = (e) => setIsMobile(e.matches);
+    query.addEventListener('change', onChange);
+    return () => query.removeEventListener('change', onChange);
+  }, []);
+
+  useEffect(() => {
+    const track = trackRef.current;
+    if (!track || pageCount <= 1) return;
+    const scroller = document.querySelector('[data-app-scroll]');
+    let raf = 0;
+    const update = () => {
+      raf = 0;
+      const host = scroller
+        ? scroller.getBoundingClientRect()
+        : { top: 0, height: window.innerHeight };
+      const rect = track.getBoundingClientRect();
+      const total = rect.height - host.height;
+      const progress = total > 0 ? (host.top - rect.top) / total : 0;
+      const next = Math.max(0, Math.min(pinnedCount - 1, Math.floor(progress * pinnedCount)));
+      if (next !== pageRef.current) {
+        setDirection(next > pageRef.current ? 1 : -1);
+        pageRef.current = next;
+        setPage(next);
+      }
+    };
+    const onScroll = () => {
+      if (!raf) raf = requestAnimationFrame(update);
+    };
+    const target = scroller || window;
+    target.addEventListener('scroll', onScroll, { passive: true });
+    update();
+    return () => {
+      target.removeEventListener('scroll', onScroll);
+      if (raf) cancelAnimationFrame(raf);
+    };
+  }, [pageCount, pinnedCount]);
+
+  const renderItems = (list, eager) => (
     <>
       <div className="twd__grid-top">
-        {shownItems.slice(0, 3).map((item, index) => (
+        {list.slice(0, 3).map((item) => (
           <Card
             key={item.slug}
             item={item}
             onSelect={onSelect}
             imageWidths={[384, 768]}
-            imageSizes="(max-width: 767px) 100vw, 368px"
-            priority={index < 3}
+            imageSizes="(max-width: 767px) 50vw, 368px"
+            priority={eager}
           />
         ))}
       </div>
       <div className="twd__grid-bottom">
-        {shownItems.slice(3).map((item) => (
+        {list.slice(3).map((item) => (
           <div key={item.slug} className="twd__grid-cell">
             <Card
               item={item}
@@ -404,19 +460,35 @@ function CategoryGrid({ items, pageSize, onSelect }) {
           </div>
         ))}
       </div>
-      {items.length > shownItems.length && (
-        <div className="twd__view-more">
-          <button
-            type="button"
-            className="twd__view-more-button"
-            aria-label="Load more articles"
-            onClick={() => setVisibleCount((count) => count + STORY_PAGE_SIZE)}
-          >
-            <span>View more</span>
-            <ArrowDown size={20} aria-hidden="true" />
-          </button>
+    </>
+  );
+
+  const lastPageItems = items.slice(pinnedCount * pageSize);
+
+  // Single page: static sheet, no scroll track needed.
+  if (pageCount <= 1) return renderItems(items.slice(0, pageSize), true);
+
+  return (
+    <>
+      <div ref={trackRef} className="twd__book" style={{ height: `${pinnedCount * 150}vh` }}>
+        <div className="twd__book-sheet">
+          <AnimatePresence mode="wait" custom={direction}>
+            <motion.div
+              key={safePage}
+              custom={direction}
+              initial={{ opacity: 0, rotateY: direction >= 0 ? 55 : -55, x: direction >= 0 ? 70 : -70 }}
+              animate={{ opacity: 1, rotateY: 0, x: 0 }}
+              exit={{ opacity: 0, rotateY: direction >= 0 ? -55 : 55, x: direction >= 0 ? -70 : 70 }}
+              transition={{ duration: 0.45, ease: [0.22, 0.9, 0.28, 1] }}
+              style={{ transformPerspective: 1400 }}
+            >
+              {renderItems(items.slice(safePage * pageSize, safePage * pageSize + pageSize), safePage === 0)}
+            </motion.div>
+          </AnimatePresence>
         </div>
-      )}
+      </div>
+      {/* Final page flows statically into the footer — no dead scroll after it. */}
+      <div className="twd__book-last">{renderItems(lastPageItems, false)}</div>
     </>
   );
 }
@@ -454,7 +526,6 @@ export default function ThingsWeDoPage({ onSelectArticle }) {
   );
 
   const visible = isEverything ? everythingItems : items.filter((it) => it.category === activeCategory);
-  const categoryPageSize = activeCategory === 'stories' ? STORY_PAGE_SIZE : Number.MAX_SAFE_INTEGER;
   const featured = isEverything && visible.length ? visible[0] : null;
   const stickyItem = isEverything && visible.length > 1 ? visible[1] : null;
   const stickySideItems = isEverything ? visible.slice(2, 8) : [];
@@ -562,29 +633,14 @@ export default function ThingsWeDoPage({ onSelectArticle }) {
         </section>
       )}
 
-      {/* ── Remaining cards (root 2-up grid; category 3-up grid) ── */}
-      {isEverything ? (
-        <section className="twd__grid" aria-label="Things we do articles">
-          {gridItems.map((item) => (
-            <Card
-              key={item.slug}
-              item={item}
-              onSelect={onSelectArticle}
-              imageWidths={[640, 1024, 1600]}
-              imageSizes="(max-width: 767px) 100vw, 576px"
-            />
-          ))}
-        </section>
-      ) : (
-        <section className="twd__grid twd__grid--category" aria-label="Things we do articles">
-          <CategoryGrid
-            key={activeCategory}
-            items={visible}
-            pageSize={categoryPageSize}
-            onSelect={onSelectArticle}
-          />
-        </section>
-      )}
+      {/* ── Remaining cards: newspaper pages, two full rows each ── */}
+      <section className="twd__grid twd__grid--category" aria-label="Things we do articles">
+        <PagedGrid
+          key={isEverything ? 'everything' : activeCategory}
+          items={isEverything ? gridItems : visible}
+          onSelect={onSelectArticle}
+        />
+      </section>
     </div>
   );
 }
