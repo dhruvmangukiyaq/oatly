@@ -3,6 +3,12 @@
 // `/api/*` → http://localhost:8901 (see vite.config.js). In production the
 // same Express server serves both the API and the built frontend.
 //
+// STATIC HOSTING (Vercel): there is no Express backend — `/api/*` answers
+// with an HTML page. In that case (network error or non-JSON response) we
+// answer from the bundled static fallback (same backend models, same shapes)
+// so pages render instead of staying blank. The fallback chunk loads lazily,
+// only when the backend is unreachable.
+//
 // PERFORMANCE: responses are cached twice —
 //   1. In-memory dedupe: concurrent/duplicate calls to the same path share
 //      one fetch promise (no repeated network round-trips while navigating).
@@ -47,13 +53,38 @@ export async function apiGet(path) {
   if (stored.has(url)) return Promise.resolve(stored.get(url));
 
   const p = (async () => {
-    const res = await fetch(url);
-    if (res.status === 404) return null;
-    if (!res.ok) throw new Error(`API ${res.status}: ${path}`);
-    const json = await res.json();
-    stored.set(url, json);
-    persist();
-    return json;
+    // 1. Try the live backend first (dev proxy / production Express server).
+    try {
+      const res = await fetch(url);
+      const contentType = res.headers.get('content-type') || '';
+      if (contentType.includes('json')) {
+        // Genuine backend answer (including 404 = really missing).
+        if (res.status === 404) return null;
+        if (!res.ok) throw new Error(`API ${res.status}: ${path}`);
+        const json = await res.json();
+        stored.set(url, json);
+        persist();
+        return json;
+      }
+      // Non-JSON (static host serving index.html / 404 page) → no backend.
+    } catch {
+      // Network error / backend down → fall through to static data.
+    }
+
+    // 2. Bundled static fallback — same backend models, same JSON shapes.
+    // Lazy chunk: only downloaded when the backend is unreachable.
+    try {
+      const { getStaticResponse } = await import('./staticFallback.js');
+      const fb = getStaticResponse(path);
+      if (fb.found) {
+        stored.set(url, fb.data);
+        persist();
+        return fb.data;
+      }
+    } catch {
+      /* bundling edge — behave as before */
+    }
+    return null;
   })();
 
   pending.set(url, p);

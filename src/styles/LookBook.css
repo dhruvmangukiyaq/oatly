@@ -213,17 +213,20 @@
   text-underline-offset: 3px;
 }
 
-/* --- Article: centred serif heading + narrow body column --- */
+/* --- Article: giant Didone headline + 3-column typewriter body
+   (mirrors the oatly.com look-book article format) --- */
 .lb3-article {
   margin-bottom: var(--space-80);
 }
 
 .lb3-article__heading {
-  margin: 0 auto var(--space-32);
-  max-width: 20ch;
-  font-family: var(--font-serif);
-  font-size: clamp(2rem, 5vw, 4.5rem);
-  line-height: 0.9;
+  margin: 0 auto var(--space-48);
+  max-width: 24ch;
+  font-family: var(--font-didone);
+  font-weight: 900;
+  font-size: clamp(2.75rem, 8vw, 8rem);
+  line-height: 0.95;
+  letter-spacing: 0.01em;
   text-align: center;
   text-transform: uppercase;
   white-space: pre-line;
@@ -231,33 +234,30 @@
 
 .lb3-article__body {
   margin: 0 auto;
-  max-width: 62ch;
-  font-family: var(--font-ui);
+  font-family: 'Special Elite', 'Courier Prime', 'Courier New', monospace;
   font-size: 1rem;
-  line-height: 1.6;
+  line-height: 1.7;
 }
 
 .lb3-article__body p {
   margin: 0 0 var(--space-16);
+  break-inside: avoid;
 }
 
-/* Editorial drop cap on the article opener */
-.lb3-article__body p:first-child::first-letter {
-  font-family: var(--font-serif);
-  font-size: 3.4em;
-  line-height: 0.85;
-  float: left;
-  padding-right: var(--space-8);
-  padding-top: 2px;
+@media (min-width: 1024px) {
+  .lb3-article__body {
+    column-count: 3;
+    column-gap: var(--space-48);
+  }
 }
 
 .lb3-article__author {
-  margin: var(--space-24) auto 0;
-  max-width: 62ch;
-  font-family: var(--font-ui);
+  margin: var(--space-32) 0 0;
+  font-family: 'Special Elite', 'Courier Prime', 'Courier New', monospace;
   font-size: 0.875rem;
-  letter-spacing: 0.02em;
+  letter-spacing: 0.06em;
   text-transform: uppercase;
+  text-align: right;
 }
 
 /* --- Full-width images (collage, sink) --- */

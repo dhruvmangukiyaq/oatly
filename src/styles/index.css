@@ -463,6 +463,8 @@
   --font-chunky: 'Titan One', 'Arial Rounded MT Bold', 'Arial', sans-serif;
   /* Editorial serif stack (look-book article headings; target first) */
   --font-serif: 'Tinny Serif Pro', Georgia, 'Times New Roman', serif;
+  /* High-contrast Didone display (look-book article headline; Google Fonts) */
+  --font-didone: 'Playfair Display', Georgia, 'Times New Roman', serif;
   /* Oatly card title face (things-we-do teasers; bundled locally) */
   --font-toni: 'Toni Noveau Pro', 'Girdo Black Pro', Georgia, serif;
   /* Warm newsprint paper for the whole news section (things-we-do) */

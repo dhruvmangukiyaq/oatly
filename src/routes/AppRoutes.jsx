@@ -17,6 +17,7 @@ const RecipeDetailPage = lazy(() => import('../pages/RecipeDetailPage'));
 const LookBookAW25Page = lazy(() => import('../pages/LookBookAW25Page'));
 const LookBookSS25Page = lazy(() => import('../pages/LookBookSS25Page'));
 const FutureOfTastePage = lazy(() => import('../pages/FutureOfTastePage'));
+const PeeForPlanetPage = lazy(() => import('../pages/PeeForPlanetPage'));
 const NewsStoryDetailPage = lazy(() => import('../pages/NewsStoryDetailPage'));
 const ThingsWeDoPage = lazy(() => import('../pages/ThingsWeDoPage'));
 const SustainabilityPage = lazy(() => import('../pages/SustainabilityPage'));
@@ -134,6 +135,10 @@ export default function AppRoutes({ selectProduct, selectRecipe, selectArticle }
           path="/things-we-do/initiatives/future-of-taste"
           element={<FutureOfTastePage />}
         />
+        <Route
+          path="/things-we-do/initiatives/pee-for-the-planet"
+          element={<PeeForPlanetPage />}
+        />
 
         {/* Sustainability Hub & Sub-pages */}
         <Route
@@ -179,6 +184,18 @@ export default function AppRoutes({ selectProduct, selectRecipe, selectArticle }
         <Route
           path="/legal/privacy-policy"
           element={<PrivacyPolicyPage />}
+        />
+
+        {/* Unknown URLs render Home instead of a blank page */}
+        <Route
+          path="*"
+          element={
+            <HomePage
+              onSelectProduct={selectProduct}
+              onSelectRecipe={selectRecipe}
+              onSelectArticle={selectArticle}
+            />
+          }
         />
       </Routes>
     </Suspense>

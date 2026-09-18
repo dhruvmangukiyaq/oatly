@@ -1,0 +1,184 @@
+/* ==========================================================================
+   PEE FOR THE PLANET — mirrors
+   oatly.com/things-we-do/initiatives/pee-for-the-planet top to bottom:
+   banner logo → tagline → sponsor logos → Pee-O-Meter → a problem →
+   a solution → win-win → results → full article.
+   Light editorial theme (site glass language): warm wash, borderless
+   artwork, chunky section titles, UI body copy.
+   BEM: .pee, .pee__*
+   ========================================================================== */
+
+.pee {
+  background:
+    radial-gradient(900px 420px at 50% -80px, rgba(245, 210, 150, 0.16), transparent 70%),
+    linear-gradient(180deg, #FFFDF9 0%, #FFFEFB 100%);
+  color: var(--spec-ink);
+}
+
+.pee__inner {
+  max-width: var(--max-width);
+  margin: 0 auto;
+  padding: var(--space-24);
+}
+
+.pee-logo {
+  display: block;
+  width: min(100%, 560px);
+  height: auto;
+  margin: var(--space-32) auto var(--space-24);
+}
+
+.pee-tagline {
+  display: block;
+  width: min(100%, 420px);
+  height: auto;
+  margin: 0 auto var(--space-24);
+}
+
+.pee-funded {
+  margin: 0 auto var(--space-24);
+  max-width: 62ch;
+  text-align: center;
+  font-family: var(--font-ui);
+  font-size: 1rem;
+  line-height: 1.6;
+}
+
+.pee-sponsors {
+  display: block;
+  width: min(100%, 720px);
+  height: auto;
+  margin: 0 auto var(--space-48);
+}
+
+.pee-meter {
+  text-align: center;
+  margin-bottom: var(--space-80);
+}
+
+.pee-meter__label {
+  margin: 0 0 var(--space-16);
+  font-family: var(--font-ui);
+  font-size: 0.875rem;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+
+.pee-meter__link {
+  display: inline-block;
+  max-width: min(100%, 560px);
+}
+
+.pee-meter__link img {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
+.pee-section {
+  margin: 0 0 var(--space-32);
+  font-family: var(--font-display);
+  font-size: clamp(2rem, 5vw, 3.75rem);
+  line-height: 1;
+  text-transform: uppercase;
+  text-align: center;
+}
+
+.pee-steps {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: var(--space-32);
+  margin-bottom: var(--space-80);
+}
+
+.pee-step__img img,
+img.pee-step__img {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
+.pee-step__text {
+  margin: var(--space-16) 0 0;
+  font-family: var(--font-ui);
+  font-size: 1rem;
+  line-height: 1.6;
+  text-align: center;
+}
+
+.pee-body {
+  margin: 0 auto var(--space-16);
+  max-width: 68ch;
+  font-family: var(--font-ui);
+  font-size: 1.0625rem;
+  line-height: 1.7;
+}
+
+.pee-body a {
+  color: var(--spec-ink);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+.pee-goal {
+  display: block;
+  width: min(100%, 560px);
+  height: auto;
+  margin: var(--space-32) auto var(--space-80);
+}
+
+.pee-matches {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: var(--space-24);
+  margin-bottom: var(--space-80);
+}
+
+.pee-matches img {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
+.pee-article-title {
+  margin: 0 auto var(--space-16);
+  max-width: 22ch;
+  font-family: var(--font-didone);
+  font-weight: 900;
+  font-size: clamp(2.5rem, 7vw, 6rem);
+  line-height: 0.95;
+  text-align: center;
+}
+
+.pee-article-sub {
+  margin: 0 auto var(--space-48);
+  max-width: 60ch;
+  font-family: var(--font-ui);
+  font-size: 1.125rem;
+  font-weight: 400;
+  line-height: 1.5;
+  text-align: center;
+}
+
+.pee-h {
+  margin: var(--space-48) auto var(--space-16);
+  max-width: 68ch;
+  font-family: var(--font-ui);
+  font-size: 1.375rem;
+  font-weight: 700;
+  line-height: 1.3;
+}
+
+@media (max-width: 900px) {
+  .pee-steps {
+    grid-template-columns: 1fr;
+    max-width: 480px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  .pee-matches {
+    grid-template-columns: 1fr;
+  }
+}
