@@ -18,7 +18,10 @@
 const BASE = '/api';
 
 // Cache version — bump to force a clean slate after backend shape changes.
-const STORAGE_KEY = 'oatly.api.cache.v10';
+// v11: Look Book Vol.3 page gained hand-lettered intro fields (introKicker,
+// introHeading, introText, introText2, introSign, introSignRole). Browsers
+// holding a v10 snapshot would otherwise render empty paragraphs.
+const STORAGE_KEY = 'oatly.api.cache.v11';
 
 // Resolved values (URL → JSON), hydrated synchronously from localStorage.
 const stored = (() => {

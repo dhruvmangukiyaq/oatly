@@ -22,6 +22,14 @@ export default function LookBookVol3Page() {
   if (!vol3) return null;
   const { recipes, page } = vol3;
 
+  // Stale-cache guard: browsers holding a pre-intro snapshot have none of
+  // the hand-lettered fields — fall back to the long alt text / breadcrumb
+  // so the column never renders empty paragraphs.
+  const introParas = [page.introText, page.introText2].filter(Boolean);
+  if (introParas.length === 0 && page.introTextAlt) {
+    introParas.push(page.introTextAlt);
+  }
+
   return (
     <div className="lb3">
       <SEO
@@ -36,14 +44,23 @@ export default function LookBookVol3Page() {
         {/* Intro: hand-lettered note (real text) + hero drink photo */}
         <div className="lb3-intro">
           <div className="lb3-intro__text" role="note" aria-label={page.introTextAlt}>
-            <p className="lb3-intro__kicker">{page.introKicker}</p>
-            <p className="lb3-intro__heading">{page.introHeading}</p>
-            <p>{page.introText}</p>
-            <p>{page.introText2}</p>
-            <p className="lb3-intro__sign">
-              <span className="lb3-intro__sign-name">{page.introSign}</span>
-              <span className="lb3-intro__sign-role">{page.introSignRole}</span>
-            </p>
+            {(page.introKicker || page.breadcrumb) && (
+              <p className="lb3-intro__kicker">{page.introKicker || page.breadcrumb}</p>
+            )}
+            {page.introHeading && (
+              <p className="lb3-intro__heading">{page.introHeading}</p>
+            )}
+            {introParas.map((para, i) => (
+              <p key={i}>{para}</p>
+            ))}
+            {(page.introSign || page.article?.author) && (
+              <p className="lb3-intro__sign">
+                <span className="lb3-intro__sign-name">{page.introSign || page.article.author}</span>
+                {page.introSignRole && (
+                  <span className="lb3-intro__sign-role">{page.introSignRole}</span>
+                )}
+              </p>
+            )}
           </div>
           <img
             src={page.heroImage}
