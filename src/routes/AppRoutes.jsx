@@ -116,6 +116,10 @@ export default function AppRoutes({ selectProduct, selectRecipe, selectArticle }
           element={<Navigate to="/things-we-do" replace />}
         />
         <Route
+          path="/things-we-do/pee-for-the-planet"
+          element={<Navigate to="/things-we-do/initiatives/pee-for-the-planet" replace />}
+        />
+        <Route
           path="/things-we-do/:slug"
           element={<NewsStoryDetailPage />}
         />

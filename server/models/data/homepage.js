@@ -42,7 +42,7 @@ export const IMAGES = {
 
 // Card deck: title / tag / image / link / measured image aspect ratio.
 export const CARDS = {
-  pee:      { title: 'BERRY OATMEAL BOWLS', tag: 'NEWS', imageSrc: IMAGES.bathroom, linkTo: '/things-we-do/pee-for-the-planet', aspectRatio: '22/9' },
+  pee:      { title: 'BERRY OATMEAL BOWLS', tag: 'NEWS', imageSrc: IMAGES.bathroom, linkTo: '/things-we-do/initiatives/pee-for-the-planet', aspectRatio: '22/9' },
   lookbook: { title: 'CUCUMBER OAT COCKTAIL', tag: 'NEWS', imageSrc: IMAGES.press, linkTo: '/recipes/look-book-vol-3', aspectRatio: 'fill' },
   aftertaste: { title: 'BERRY OAT COCKTAILS', tag: 'NEWS', imageSrc: IMAGES.phonebooth, linkTo: '/news', aspectRatio: '1/2' },
   avavav:   { title: 'ICED OAT LATTE', tag: 'NEWS', imageSrc: IMAGES.runway, linkTo: '/things-we-do/oatly-x-avavav', aspectRatio: 'fill' },

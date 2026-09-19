@@ -30,7 +30,7 @@ export const NAV_ITEMS = [
     name: 'NEWS',
     path: '/things-we-do',
     dropdown: [
-      { name: 'Pee for the Planet', path: '/things-we-do/pee-for-the-planet', desc: 'Scandinavian nutrient recycling' },
+      { name: 'Pee for the Planet', path: '/things-we-do/initiatives/pee-for-the-planet', desc: 'Scandinavian nutrient recycling' },
       { name: 'Oatly x AVAVAV', path: '/things-we-do/oatly-x-avavav', desc: 'Runway fashion made from oats' },
       { name: 'How Do You Say F.A.R.M. in Canadian', path: '/things-we-do/how-do-you-say-f-a-r-m-in-canadian', desc: 'Regenerative oat farming movement' },
       { name: 'Last first dates', path: '/things-we-do/last-first-dates', desc: 'Dating culture & plant milk survey' },

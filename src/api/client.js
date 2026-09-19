@@ -18,10 +18,9 @@
 const BASE = '/api';
 
 // Cache version — bump to force a clean slate after backend shape changes.
-// v11: Look Book Vol.3 page gained hand-lettered intro fields (introKicker,
-// introHeading, introText, introText2, introSign, introSignRole). Browsers
-// holding a v10 snapshot would otherwise render empty paragraphs.
-const STORAGE_KEY = 'oatly.api.cache.v11';
+// v12: Pee for the Planet links moved to the full initiative page
+// (/things-we-do/initiatives/pee-for-the-planet) in nav + homepage deck.
+const STORAGE_KEY = 'oatly.api.cache.v12';
 
 // Resolved values (URL → JSON), hydrated synchronously from localStorage.
 const stored = (() => {
