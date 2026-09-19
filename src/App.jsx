@@ -22,7 +22,6 @@ import AppRoutes from './routes/AppRoutes';
 import Navbar from './components/Navbar';
 
 // Interactive Modal Components
-import CustomCursor from './components/CustomCursor';
 import SearchModal from './components/SearchModal';
 import ProductModal from './components/ProductModal';
 import RecipeModal from './components/RecipeModal';
@@ -133,9 +132,6 @@ export default function App() {
             article={selectedArticle}
             onClose={clearArticle}
           />
-
-          {/* Custom cursor (mouse devices only; sits above everything) */}
-          <CustomCursor />
 
         </div>
         </MotionConfig>
