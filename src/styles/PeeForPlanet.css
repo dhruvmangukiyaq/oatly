@@ -99,6 +99,24 @@ img.pee-step__img {
   height: auto;
 }
 
+.pee-funded a {
+  color: var(--spec-ink);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+.pee-divider {
+  display: block;
+  max-width: 220px;
+  width: 100%;
+  height: auto;
+  margin: 0 auto var(--space-32);
+}
+
+.pee-divider--wide {
+  max-width: min(100%, 560px);
+}
+
 .pee-step__text {
   margin: var(--space-16) 0 0;
   font-family: var(--font-ui);

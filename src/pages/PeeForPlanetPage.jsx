@@ -28,6 +28,9 @@ const ASSETS = {
   match2: `${SB}/486x265/b67958659c/match-2-en.svg`,
   match3: `${SB}/486x265/cb94680156/match-3-en.svg`,
   match4: `${SB}/486x265/47c0317f33/match-4-en.svg`,
+  line1: `${SB}/73x426/8672c08289/outer-line-1-alt.svg`,
+  line2: `${SB}/815x182/5aa116f950/outerline-2.svg`,
+  line4: `${SB}/678x231/eab9d06600/outer-line-4.svg`,
 };
 
 const PROBLEM = [
@@ -86,8 +89,12 @@ export default function PeeForPlanetPage() {
         <img src={ASSETS.logo} alt='A toilet paper roll formed into a banner like scarf with the text "Pee for the Planet"' className="pee-logo" />
         <img src={ASSETS.tagline} alt="Your pee. The fertilizer of the future." className="pee-tagline" />
         <p className="pee-funded">
-          A research project funded by Formas, initiated by Oatly, Malmö FF, Sanitation 360
-          and SLU, in collaboration with City of Malmö and VA Syd.
+          A research project funded by Formas, initiated by Oatly,{' '}
+          <a href="https://www.mff.se/">Malmö FF</a>,{' '}
+          <a href="https://sanitation360.se/">Sanitation 360</a> and{' '}
+          <a href="https://www.slu.se/">SLU</a>, in collaboration with{' '}
+          <a href="https://malmo.se/">City of Malmö</a> and{' '}
+          <a href="https://www.vasyd.se/">VA Syd</a>.
         </p>
         <img src={ASSETS.sponsors} alt="Vasyd, Sanitation 360, Malmö FF, Oatly, Malmö Stad, SLU, Formas" className="pee-sponsors" loading="lazy" />
 
@@ -101,6 +108,7 @@ export default function PeeForPlanetPage() {
 
         {/* A problem: 3 illustrated facts */}
         <h2 className="pee-section">a problem</h2>
+        <img src={ASSETS.line1} alt="Dashed Line" className="pee-divider" loading="lazy" />
         <div className="pee-steps">
           {PROBLEM.map((item) => (
             <div key={item.img} className="pee-step">
@@ -112,6 +120,8 @@ export default function PeeForPlanetPage() {
 
         {/* A solution: 3 steps */}
         <h2 className="pee-section">A solution</h2>
+        <img src={ASSETS.line2} alt="Dashed Line" className="pee-divider pee-divider--wide" loading="lazy" />
+        <img src={ASSETS.line1} alt="Dashed Line" className="pee-divider" loading="lazy" />
         <div className="pee-steps">
           {SOLUTION.map((item) => (
             <div key={item.img} className="pee-step">
@@ -120,6 +130,7 @@ export default function PeeForPlanetPage() {
             </div>
           ))}
         </div>
+        <img src={ASSETS.line4} alt="Dashed Line" className="pee-divider pee-divider--wide" loading="lazy" />
 
         {/* A total win-win! */}
         <h2 className="pee-section">A total win-win!</h2>
@@ -141,11 +152,19 @@ export default function PeeForPlanetPage() {
         </div>
 
         {/* Feature article */}
-        <h2 className="pee-article-title">Piss-pellets for plant health</h2>
+        <h1 className="pee-article-title">Piss-pellets for plant health</h1>
         <h3 className="pee-article-sub">
           How a football club, their supporters, and an oat-drink company in Sweden got
           involved in a science project about your bathroom break.
         </h3>
+        <p className="pee-body">
+          Right now, the world is dependent on energy-consuming synthetic commercial
+          fertilizers with fossil-based nitrogen, accounting for a significant share of
+          global greenhouse gas emissions. We simply wouldn&apos;t be able to grow food
+          and feed at the scale we do without them. Alternative nitrogen-high solutions
+          for fertilizing are acutely needed, and it turns out, the solution has been
+          inside us all along, going down the drain.
+        </p>
 
         <h3 className="pee-h">The world is dependent on inorganic fertilizers that aren’t good for the planet.</h3>
         <p className="pee-body">
