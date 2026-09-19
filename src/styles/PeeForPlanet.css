@@ -1,31 +1,36 @@
 /* ==========================================================================
    PEE FOR THE PLANET — mirrors
    oatly.com/things-we-do/initiatives/pee-for-the-planet top to bottom:
-   banner logo → tagline → sponsor logos → Pee-O-Meter → a problem →
-   a solution → win-win → results → full article.
-   Light editorial theme (site glass language): warm wash, borderless
-   artwork, chunky section titles, UI body copy.
+   sky-blue hero → photo slideshow → meter → a problem → a solution →
+   win-win → results → white article card → sticky Pee-O-Meter bar.
+   Palette sampled from the original: sky #C9D8E9, navy #152E52.
+   Headlines: Anton (condensed grotesque). Body: Courier Prime (typewriter).
    BEM: .pee, .pee__*
    ========================================================================== */
 
 .pee {
-  background:
-    radial-gradient(900px 420px at 50% -80px, rgba(245, 210, 150, 0.16), transparent 70%),
-    linear-gradient(180deg, #FFFDF9 0%, #FFFEFB 100%);
-  color: var(--spec-ink);
+  --pee-sky: #C9D8E9;
+  --pee-navy: #152E52;
+  --pee-yellow: #F6C667;
+  background: var(--pee-sky);
+  color: var(--pee-navy);
+  /* room for the fixed meter bar */
+  padding-bottom: 76px;
 }
 
-.pee__inner {
+/* --- Hero --- */
+.pee__hero {
   max-width: var(--max-width);
   margin: 0 auto;
-  padding: var(--space-24);
+  padding: var(--space-24) var(--space-24) 0;
+  text-align: center;
 }
 
 .pee-logo {
   display: block;
-  width: min(100%, 560px);
+  width: min(100%, 880px);
   height: auto;
-  margin: var(--space-32) auto var(--space-24);
+  margin: var(--space-16) auto var(--space-8);
 }
 
 .pee-tagline {
@@ -38,19 +43,99 @@
 .pee-funded {
   margin: 0 auto var(--space-24);
   max-width: 62ch;
-  text-align: center;
-  font-family: var(--font-ui);
+  font-family: 'Courier Prime', monospace;
   font-size: 1rem;
   line-height: 1.6;
 }
 
+.pee-funded a {
+  color: var(--pee-navy);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
 .pee-sponsors {
   display: block;
-  width: min(100%, 720px);
+  width: min(100%, 900px);
   height: auto;
   margin: 0 auto var(--space-48);
 }
 
+/* --- Layout --- */
+.pee__inner {
+  max-width: var(--max-width);
+  margin: 0 auto;
+  padding: 0 var(--space-24);
+}
+
+/* --- Photo slideshow --- */
+.pee-slideshow {
+  margin: 0 auto var(--space-48);
+  max-width: 1100px;
+}
+
+.pee-slideshow__frame {
+  position: relative;
+  overflow: hidden;
+  border-radius: 4px;
+  aspect-ratio: 16 / 9;
+  background: #a9bfd6;
+}
+
+.pee-slideshow__img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  opacity: 0;
+  transition: opacity 0.5s ease;
+}
+
+.pee-slideshow__img--active {
+  opacity: 1;
+}
+
+.pee-slideshow__arrow {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 44px;
+  height: 44px;
+  border: none;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.9);
+  color: var(--pee-navy);
+  font-size: 1.5rem;
+  line-height: 1;
+  cursor: pointer;
+}
+
+.pee-slideshow__arrow--prev { left: 12px; }
+.pee-slideshow__arrow--next { right: 12px; }
+
+.pee-slideshow__dots {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+  padding: var(--space-16) 0 0;
+}
+
+.pee-slideshow__dot {
+  width: 10px;
+  height: 10px;
+  border: none;
+  border-radius: 50%;
+  background: rgba(21, 46, 82, 0.3);
+  cursor: pointer;
+  padding: 0;
+}
+
+.pee-slideshow__dot--active {
+  background: var(--pee-navy);
+}
+
+/* --- Inline meter image --- */
 .pee-meter {
   text-align: center;
   margin-bottom: var(--space-80);
@@ -58,7 +143,7 @@
 
 .pee-meter__label {
   margin: 0 0 var(--space-16);
-  font-family: var(--font-ui);
+  font-family: 'Courier Prime', monospace;
   font-size: 0.875rem;
   font-weight: 700;
   letter-spacing: 0.06em;
@@ -76,33 +161,16 @@
   height: auto;
 }
 
+/* --- Section headlines --- */
 .pee-section {
   margin: 0 0 var(--space-32);
-  font-family: var(--font-display);
-  font-size: clamp(2rem, 5vw, 3.75rem);
-  line-height: 1;
+  font-family: 'Anton', 'Arial Narrow', sans-serif;
+  font-weight: 400;
+  font-size: clamp(3rem, 9vw, 7rem);
+  line-height: 0.95;
+  letter-spacing: 0.01em;
   text-transform: uppercase;
   text-align: center;
-}
-
-.pee-steps {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: var(--space-32);
-  margin-bottom: var(--space-80);
-}
-
-.pee-step__img img,
-img.pee-step__img {
-  display: block;
-  width: 100%;
-  height: auto;
-}
-
-.pee-funded a {
-  color: var(--spec-ink);
-  text-decoration: underline;
-  text-underline-offset: 3px;
 }
 
 .pee-divider {
@@ -117,24 +185,41 @@ img.pee-step__img {
   max-width: min(100%, 560px);
 }
 
-.pee-step__text {
-  margin: var(--space-16) 0 0;
-  font-family: var(--font-ui);
-  font-size: 1rem;
-  line-height: 1.6;
-  text-align: center;
+/* --- Steps --- */
+.pee-steps {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: var(--space-32);
+  margin-bottom: var(--space-80);
+  align-items: start;
 }
 
+.pee-step__img img,
+img.pee-step__img {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
+.pee-step__text {
+  margin: var(--space-16) 0 0;
+  font-family: 'Courier Prime', monospace;
+  font-size: 1rem;
+  line-height: 1.6;
+  text-align: left;
+}
+
+/* --- Body copy --- */
 .pee-body {
   margin: 0 auto var(--space-16);
   max-width: 68ch;
-  font-family: var(--font-ui);
+  font-family: 'Courier Prime', monospace;
   font-size: 1.0625rem;
   line-height: 1.7;
 }
 
 .pee-body a {
-  color: var(--spec-ink);
+  color: var(--pee-navy);
   text-decoration: underline;
   text-underline-offset: 3px;
 }
@@ -146,6 +231,7 @@ img.pee-step__img {
   margin: var(--space-32) auto var(--space-80);
 }
 
+/* --- Results --- */
 .pee-matches {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
@@ -159,33 +245,124 @@ img.pee-step__img {
   height: auto;
 }
 
+/* --- White article card --- */
+.pee__article-wrap {
+  max-width: var(--max-width);
+  margin: 0 auto;
+  padding: 0 var(--space-24);
+}
+
+.pee__article {
+  background: #fff;
+  border-radius: 6px;
+  padding: clamp(2rem, 6vw, 5rem) clamp(1.25rem, 5vw, 4rem);
+}
+
+.pee__article .pee-body {
+  max-width: 62ch;
+}
+
 .pee-article-title {
   margin: 0 auto var(--space-16);
-  max-width: 22ch;
-  font-family: var(--font-didone);
-  font-weight: 900;
-  font-size: clamp(2.5rem, 7vw, 6rem);
+  max-width: 16ch;
+  font-family: 'Anton', 'Arial Narrow', sans-serif;
+  font-weight: 400;
+  font-size: clamp(2.75rem, 8vw, 6.5rem);
   line-height: 0.95;
   text-align: center;
+  color: var(--pee-navy);
 }
 
 .pee-article-sub {
-  margin: 0 auto var(--space-48);
-  max-width: 60ch;
-  font-family: var(--font-ui);
+  margin: 0 auto var(--space-32);
+  max-width: 56ch;
+  font-family: 'Courier Prime', monospace;
   font-size: 1.125rem;
-  font-weight: 400;
+  font-weight: 700;
   line-height: 1.5;
   text-align: center;
+  text-transform: uppercase;
+  color: var(--pee-navy);
 }
 
-.pee-h {
+.pee-h--giant {
   margin: var(--space-48) auto var(--space-16);
-  max-width: 68ch;
-  font-family: var(--font-ui);
-  font-size: 1.375rem;
+  max-width: 24ch;
+  font-family: 'Anton', 'Arial Narrow', sans-serif;
+  font-weight: 400;
+  font-size: clamp(1.9rem, 5vw, 3.5rem);
+  line-height: 1;
+  text-transform: uppercase;
+  text-align: left;
+  color: var(--pee-navy);
+}
+
+.pee__article .pee-slideshow {
+  margin-top: var(--space-32);
+  margin-bottom: var(--space-48);
+}
+
+/* --- Sticky bottom meter bar --- */
+.pee-meterbar {
+  position: fixed;
+  left: 50%;
+  bottom: 12px;
+  transform: translateX(-50%);
+  z-index: 60;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  width: min(94vw, 860px);
+  padding: 10px 12px 10px 18px;
+  background: var(--pee-navy);
+  border-radius: 4px;
+  box-shadow: 0 10px 30px rgba(21, 46, 82, 0.35);
+}
+
+.pee-meterbar__title {
+  font-family: 'Anton', 'Arial Narrow', sans-serif;
+  font-size: 1.05rem;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: #fff;
+  white-space: nowrap;
+}
+
+.pee-meterbar__track {
+  flex: 1;
+  height: 14px;
+  border-radius: 999px;
+  background: #fff;
+  overflow: hidden;
+}
+
+.pee-meterbar__fill {
+  display: block;
+  height: 100%;
+  background: var(--pee-yellow);
+  border-radius: 999px;
+}
+
+.pee-meterbar__count {
+  font-family: 'Courier Prime', monospace;
   font-weight: 700;
-  line-height: 1.3;
+  font-size: 0.85rem;
+  color: var(--pee-yellow);
+  white-space: nowrap;
+}
+
+.pee-meterbar__btn {
+  font-family: 'Courier Prime', monospace;
+  font-weight: 700;
+  font-size: 0.8rem;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--pee-navy);
+  background: #fff;
+  border-radius: 999px;
+  padding: 8px 16px;
+  text-decoration: none;
+  white-space: nowrap;
 }
 
 @media (max-width: 900px) {
@@ -198,5 +375,9 @@ img.pee-step__img {
 
   .pee-matches {
     grid-template-columns: 1fr;
+  }
+
+  .pee-meterbar__title {
+    display: none;
   }
 }
