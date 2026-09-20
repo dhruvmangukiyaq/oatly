@@ -1,5 +1,4 @@
-import React from 'react';
-import { motion } from 'framer-motion';
+import React, { useEffect, useRef, useState } from 'react';
 import SEO from '../components/SEO';
 import '../styles/LastFirstDates.css';
 
@@ -38,20 +37,34 @@ const MENU = [
   ]},
 ];
 
-/* Scroll-triggered entrance: cherub flies in from its side every time it
-   enters the viewport — scrolling down or up. */
+/* Scroll-triggered entrance (no animation library — plain IntersectionObserver
+   + CSS transition, so it always runs): cherub flies in from its side the
+   first time it enters the viewport, scrolling down or up — then stays. */
 function FlyCherub({ src, className, from = 'right' }) {
-  const offscreen = from === 'right' ? '55vw' : '-55vw';
+  const ref = useRef(null);
+  const [seen, setSeen] = useState(false);
+  useEffect(() => {
+    const el = ref.current;
+    if (!el || typeof IntersectionObserver === 'undefined') return;
+    const io = new IntersectionObserver(
+      (entries) => {
+        if (entries.some((e) => e.isIntersecting)) {
+          setSeen(true);
+          io.disconnect();
+        }
+      },
+      { threshold: 0.25 }
+    );
+    io.observe(el);
+    return () => io.disconnect();
+  }, []);
   return (
-    <motion.img
+    <img
+      ref={ref}
       src={src}
       alt=""
       aria-hidden="true"
-      className={className}
-      initial={{ x: offscreen, rotate: from === 'right' ? 10 : -10, opacity: 0 }}
-      whileInView={{ x: 0, rotate: 0, opacity: 1 }}
-      viewport={{ amount: 0.4 }}
-      transition={{ type: 'spring', stiffness: 55, damping: 15 }}
+      className={`${className} fly-cherub fly-cherub--${from}${seen ? ' is-seen' : ''}`}
     />
   );
 }

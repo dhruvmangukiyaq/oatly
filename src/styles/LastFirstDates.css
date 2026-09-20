@@ -95,6 +95,16 @@
 .lfd-menu__row:hover .lfd-menu__view { background: #111; color: #fff; text-decoration: none; padding: 2px 8px; }
 .lfd-cherub { display: block; width: min(60vw, 380px); height: auto; margin: 26px auto; }
 
+/* Fly-in entrance: offscreen side → center, runs on pure CSS so it never
+   gets stuck invisible. */
+.fly-cherub {
+  transition: transform 0.9s cubic-bezier(0.22, 0.61, 0.36, 1), opacity 0.5s ease;
+  will-change: transform;
+}
+.fly-cherub--right { transform: translateX(55vw) rotate(10deg); opacity: 0; }
+.fly-cherub--left { transform: translateX(-55vw) rotate(-10deg); opacity: 0; }
+.fly-cherub.is-seen { transform: translateX(0) rotate(0); opacity: 1; }
+
 /* ---------- RECIPE SECTIONS ---------- */
 .lfd-recipe {
   max-width: 1200px;
