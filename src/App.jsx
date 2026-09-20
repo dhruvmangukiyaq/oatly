@@ -22,7 +22,6 @@ import AppRoutes from './routes/AppRoutes';
 import Navbar from './components/Navbar';
 
 // Interactive Modal Components
-import SearchModal from './components/SearchModal';
 import ProductModal from './components/ProductModal';
 import RecipeModal from './components/RecipeModal';
 import ArticleModal from './components/ArticleModal';
@@ -78,9 +77,6 @@ function ScrollToTop() {
 export default function App() {
   // CONTROLLER: all UI selection state lives here (not in Views)
   const {
-    searchOpen,
-    openSearch,
-    closeSearch,
     selectedProduct,
     selectProduct,
     clearProduct,
@@ -100,7 +96,7 @@ export default function App() {
         <div className="app-shell bg-graph-paper border-0 sm:border-[4px] md:border-[6px] lg:border-[8px] border-[#466874] text-oatly-black selection:bg-oatly-yellow selection:text-oatly-black font-sans p-0 sm:p-2 md:p-2.5 lg:p-3.5">
           <div data-app-scroll className="app-frame bg-[#FFFEF8] flex flex-col w-full h-full max-w-full">
           {/* Navigation Bar */}
-          <Navbar onOpenSearch={openSearch} />
+          <Navbar />
 
           {/* Main Content Router (section-themed background) */}
           <ThemedMain
@@ -112,12 +108,6 @@ export default function App() {
           </div>
 
           {/* Modals */}
-          <SearchModal
-            isOpen={searchOpen}
-            onClose={closeSearch}
-            onSelectProduct={selectProduct}
-          />
-
           <ProductModal
             product={selectedProduct}
             onClose={clearProduct}

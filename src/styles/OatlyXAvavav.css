@@ -1,0 +1,253 @@
+/* ==========================================================================
+   OATLY x AVAVAV — mirrors oatly.com/things-we-do/initiatives/oatly-x-avavav
+   Black editorial page, white hairline frames, matcha green accents.
+   Display: Toni Noveau Pro (bundled). Body: Margo Pro Regular (bundled).
+   ========================================================================== */
+
+.avax {
+  --avax-black: #000;
+  --avax-green: #a0cb8a;
+  --avax-white: #fff;
+  --avax-line: #fff;
+  background: var(--avax-black);
+  color: var(--avax-white);
+}
+
+.avax-green { color: var(--avax-green); }
+
+/* ---------- HERO ---------- */
+.avax-hero {
+  position: relative;
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  background: #000;
+  padding: 24px;
+}
+.avax-hero__bg {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  object-position: center;
+}
+.avax-hero__logo {
+  position: relative;
+  z-index: 2;
+  width: min(66%, 900px);
+  height: auto;
+  filter: drop-shadow(0 12px 40px rgba(0, 0, 0, 0.55));
+}
+
+/* ---------- FRAMED BLACK SECTIONS (75vw center column, white rules) ---------- */
+.avax-frame {
+  border-top: 1px solid var(--avax-line);
+}
+.avax-frame__inner {
+  width: 75vw;
+  max-width: 1200px;
+  min-width: min(92vw, 1200px);
+  margin: 0 auto;
+  border-left: 1px solid var(--avax-line);
+  border-right: 1px solid var(--avax-line);
+  padding: clamp(32px, 6vw, 72px) clamp(20px, 4vw, 56px);
+}
+.avax-h2 {
+  margin: 0 0 6px;
+  font-family: 'Toni Noveau Pro', 'Girdo Black Pro', Georgia, serif;
+  font-weight: 400;
+  font-size: clamp(2.6rem, 7vw, 5.5rem);
+  line-height: 0.95;
+  text-transform: none;
+  letter-spacing: 0;
+  text-wrap: balance;
+}
+.avax-h2--green { color: var(--avax-green); }
+.avax-h3 {
+  margin: 0 0 28px;
+  font-family: 'Toni Noveau Pro', 'Girdo Black Pro', Georgia, serif;
+  font-weight: 400;
+  font-size: clamp(1.8rem, 4.5vw, 3rem);
+  line-height: 1;
+  color: var(--avax-white);
+}
+.avax-h3--sm { font-size: clamp(1.5rem, 3.5vw, 2.4rem); }
+.avax-p {
+  margin: 0 0 18px;
+  max-width: 72ch;
+  font-family: 'Margo Pro Regular', 'Outfit', sans-serif;
+  font-size: 1.02rem;
+  line-height: 1.65;
+  color: var(--avax-white);
+}
+.avax-cols {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 32px;
+  align-items: start;
+}
+.avax-cols p {
+  margin: 0 0 18px;
+  font-family: 'Margo Pro Regular', 'Outfit', sans-serif;
+  font-size: 1.02rem;
+  line-height: 1.65;
+}
+.avax-sideimg img, img.avax-sideimg {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
+/* ---------- SPLIT RUNWAY ---------- */
+.avax-split {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  border-top: 1px solid var(--avax-line);
+}
+.avax-split__img img, img.avax-split__img {
+  display: block;
+  width: 100%;
+  height: min(92vh, 900px);
+  object-fit: cover;
+}
+
+/* ---------- QUOTES ---------- */
+.avax-quote {
+  margin: 34px auto;
+  padding: 0 48px;
+  max-width: 900px;
+  text-align: center;
+  font-family: 'Margo Pro Regular', 'Outfit', sans-serif;
+  font-size: clamp(1.05rem, 2.4vw, 1.5rem);
+  line-height: 1.5;
+  letter-spacing: 0.01em;
+  text-transform: uppercase;
+  color: var(--avax-white);
+}
+.avax-quote--sm { font-size: clamp(1rem, 2vw, 1.25rem); }
+.avax-attr {
+  margin: 0 0 26px;
+  text-align: center;
+  font-family: 'Margo Pro Regular', 'Outfit', sans-serif;
+  font-size: 0.9rem;
+}
+.avax-attr span {
+  background: var(--avax-green);
+  color: #000;
+  padding: 2px 8px;
+}
+
+/* ---------- DRINKS ---------- */
+.avax-drinks {
+  border-top: 1px solid var(--avax-line);
+  padding: clamp(32px, 5vw, 64px) clamp(16px, 3vw, 48px);
+  text-align: left;
+}
+.avax-drinks .avax-h2 { max-width: 1200px; margin: 0 auto 28px; }
+.avax-drinks__grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 28px;
+  max-width: 1400px;
+  margin: 0 auto;
+}
+.avax-drinks__grid h3 {
+  margin: 14px 0 8px;
+  font-family: 'Margo Pro Bold', 'Outfit', sans-serif;
+  font-size: 1.1rem;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+.avax-drinks__grid p {
+  margin: 0;
+  font-family: 'Margo Pro Regular', 'Outfit', sans-serif;
+  font-size: 0.98rem;
+  line-height: 1.6;
+}
+.avax-drink__img img, img.avax-drink__img {
+  display: block;
+  width: 100%;
+  aspect-ratio: 1 / 1;
+  object-fit: cover;
+}
+
+/* ---------- WIDE + 14 GRID ---------- */
+.avax-wide img, img.avax-wide {
+  display: block;
+  width: 100%;
+  height: auto;
+  margin: 26px 0;
+}
+.avax-grid14 {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 6px;
+  margin: 18px 0 10px;
+}
+.avax-grid14__img img, img.avax-grid14__img {
+  display: block;
+  width: 100%;
+  aspect-ratio: 3 / 4;
+  object-fit: cover;
+}
+.avax-more {
+  margin: 26px 0 0;
+  text-align: center;
+  font-family: 'Margo Pro Regular', 'Outfit', sans-serif;
+  font-size: 0.95rem;
+}
+.avax-more a { text-decoration: underline; text-underline-offset: 3px; }
+
+/* ---------- RELATED (white) ---------- */
+.avax-related {
+  background: #fff;
+  color: #111;
+  padding: clamp(36px, 6vw, 80px) clamp(20px, 6vw, 90px);
+}
+.avax-related__duo {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 48px;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+.avax-related__duo a { color: inherit; }
+.avax-related__img img, img.avax-related__img {
+  display: block;
+  width: 100%;
+  aspect-ratio: 16 / 10;
+  object-fit: cover;
+}
+.avax-related__duo h3 {
+  margin: 16px 0 8px;
+  font-family: 'Toni Noveau Pro', Georgia, serif;
+  font-size: clamp(1.8rem, 3.5vw, 2.6rem);
+  text-transform: uppercase;
+  line-height: 1;
+}
+.avax-related__duo p {
+  margin: 0 0 10px;
+  font-family: 'Margo Pro Regular', sans-serif;
+  font-size: 1rem;
+  line-height: 1.55;
+}
+.avax-related__duo span {
+  font-family: 'Margo Pro Bold', sans-serif;
+  font-size: 0.78rem;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  opacity: 0.7;
+}
+
+@media (max-width: 900px) {
+  .avax-frame__inner { width: 92vw; }
+  .avax-cols { grid-template-columns: 1fr; }
+  .avax-quote { padding: 0; }
+  .avax-split { grid-template-columns: 1fr; }
+  .avax-drinks__grid { grid-template-columns: 1fr; max-width: 520px; }
+  .avax-grid14 { grid-template-columns: repeat(2, 1fr); }
+  .avax-related__duo { grid-template-columns: 1fr; }
+}

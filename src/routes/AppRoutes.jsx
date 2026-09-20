@@ -18,6 +18,7 @@ const LookBookAW25Page = lazy(() => import('../pages/LookBookAW25Page'));
 const LookBookSS25Page = lazy(() => import('../pages/LookBookSS25Page'));
 const FutureOfTastePage = lazy(() => import('../pages/FutureOfTastePage'));
 const PeeForPlanetPage = lazy(() => import('../pages/PeeForPlanetPage'));
+const OatlyXAvavavPage = lazy(() => import('../pages/OatlyXAvavavPage'));
 const NewsStoryDetailPage = lazy(() => import('../pages/NewsStoryDetailPage'));
 const ThingsWeDoPage = lazy(() => import('../pages/ThingsWeDoPage'));
 const SustainabilityPage = lazy(() => import('../pages/SustainabilityPage'));
@@ -120,6 +121,10 @@ export default function AppRoutes({ selectProduct, selectRecipe, selectArticle }
           element={<Navigate to="/things-we-do/initiatives/pee-for-the-planet" replace />}
         />
         <Route
+          path="/things-we-do/oatly-x-avavav"
+          element={<OatlyXAvavavPage />}
+        />
+        <Route
           path="/things-we-do/:slug"
           element={<NewsStoryDetailPage />}
         />
@@ -142,6 +147,10 @@ export default function AppRoutes({ selectProduct, selectRecipe, selectArticle }
         <Route
           path="/things-we-do/initiatives/pee-for-the-planet"
           element={<PeeForPlanetPage />}
+        />
+        <Route
+          path="/things-we-do/initiatives/oatly-x-avavav"
+          element={<OatlyXAvavavPage />}
         />
 
         {/* Sustainability Hub & Sub-pages */}

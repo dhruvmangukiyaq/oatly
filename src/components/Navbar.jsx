@@ -12,7 +12,7 @@ import NavigationModel from '../models/navigationModel.js';
 import { useApiData } from '../hooks/useApiData.js';
 import '../styles/OatlyNav.css';
 
-export default function Navbar({ onOpenSearch }) {
+export default function Navbar() {
   const [openMenu, setOpenMenu] = useState(null); // desktop hover dropdown
   const [mobileOpen, setMobileOpen] = useState(false); // X/Menu drawer toggle
   const [expandedSection, setExpandedSection] = useState(null); // mobile accordion
@@ -108,16 +108,7 @@ export default function Navbar({ onOpenSearch }) {
           </nav>
         )}
 
-        <div
-          className="oatly-toolbar__spacer"
-          onClick={onOpenSearch}
-          role="button"
-          tabIndex={onOpenSearch ? 0 : -1}
-          aria-label="Search"
-          onKeyDown={(e) => {
-            if (e.key === 'Enter' && onOpenSearch) onOpenSearch();
-          }}
-        />
+        <div className="oatly-toolbar__spacer" aria-hidden="true" />
 
         <div className="oatly-toolbar__utils">
           <Link to="/health" className="oatly-toolbar__link">
