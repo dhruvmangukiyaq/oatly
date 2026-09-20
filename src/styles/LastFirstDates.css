@@ -5,7 +5,16 @@
    episode films with full recipes. Toni Noveau Pro + Margo Pro (bundled).
    ========================================================================== */
 
-.lfd { background: #fff; color: #111; scroll-behavior: smooth; overflow-x: clip; }
+.lfd {
+  background:
+    radial-gradient(1000px 420px at 10% 0%, rgba(244, 167, 195, 0.22), transparent 65%),
+    radial-gradient(900px 500px at 95% 30%, rgba(244, 167, 195, 0.14), transparent 60%),
+    radial-gradient(1100px 600px at 50% 100%, rgba(253, 214, 170, 0.25), transparent 65%),
+    #fff8f2;
+  color: #2a2226;
+  scroll-behavior: smooth;
+  overflow-x: clip;
+}
 
 /* ---------- COVER HERO ---------- */
 .lfd-hero {
@@ -62,9 +71,11 @@
 .lfd-menu__group { margin-bottom: 30px; }
 .lfd-menu__group h2 {
   margin: 0 0 4px;
-  font-family: 'Toni Noveau Pro', Georgia, serif;
-  font-size: clamp(2rem, 5vw, 3.2rem);
-  text-transform: uppercase;
+  font-family: 'Shrikhand', 'Toni Noveau Pro', Georgia, serif;
+  font-weight: 400;
+  font-size: clamp(2.2rem, 5.5vw, 3.4rem);
+  letter-spacing: 0.01em;
+  color: #2a2226;
 }
 .lfd-menu__row {
   display: grid;
@@ -76,9 +87,10 @@
   color: inherit;
 }
 .lfd-menu__no {
-  font-family: 'Toni Noveau Pro', Georgia, serif;
-  font-size: 1.6rem;
-  color: #e8a0b4;
+  font-family: 'Shrikhand', 'Toni Noveau Pro', Georgia, serif;
+  font-weight: 400;
+  font-size: 1.5rem;
+  color: #e89bb4;
 }
 .lfd-menu__name {
   font-family: 'Margo Pro Bold', sans-serif;
@@ -87,12 +99,15 @@
 }
 .lfd-menu__view {
   font-family: 'Margo Pro Bold', sans-serif;
-  font-size: 0.95rem;
+  font-size: 0.85rem;
   text-transform: uppercase;
-  text-decoration: underline;
-  text-underline-offset: 3px;
+  letter-spacing: 0.06em;
+  background: #f7c1d3;
+  border: 2px solid #2a2226;
+  border-radius: 999px;
+  padding: 4px 14px;
 }
-.lfd-menu__row:hover .lfd-menu__view { background: #111; color: #fff; text-decoration: none; padding: 2px 8px; }
+.lfd-menu__row:hover .lfd-menu__view { background: #2a2226; color: #fff; padding: 4px 14px; }
 .lfd-cherub { display: block; width: min(60vw, 380px); height: auto; margin: 26px auto; }
 
 /* Fly-in entrance: offscreen side → center, runs on pure CSS so it never
@@ -136,13 +151,15 @@
 }
 .lfd-recipe h3 {
   margin: 0 0 14px;
-  font-family: 'Toni Noveau Pro', Georgia, serif;
-  font-size: clamp(2rem, 4.5vw, 3.4rem);
-  line-height: 0.98;
-  text-transform: uppercase;
+  font-family: 'Shrikhand', 'Toni Noveau Pro', Georgia, serif;
+  font-weight: 400;
+  font-size: clamp(1.9rem, 4.2vw, 3rem);
+  line-height: 1.05;
+  letter-spacing: 0.01em;
   text-wrap: balance;
+  color: #2a2226;
 }
-.lfd-recipe h3 span { color: #e8a0b4; }
+.lfd-recipe h3 span { color: #e89bb4; }
 .lfd-meta { display: grid; grid-template-columns: repeat(3, auto); gap: 8px 22px; margin: 0 0 14px; justify-content: start; }
 .lfd-meta dt {
   font-family: 'Margo Pro Bold', sans-serif;
@@ -155,8 +172,9 @@
 .lfd-recipe__desc {
   margin: 0;
   font-family: 'Margo Pro Regular', sans-serif;
-  font-size: 1.02rem;
-  line-height: 1.65;
+  font-size: 1.08rem;
+  line-height: 1.75;
+  color: #2a2226;
 }
 .lfd-recipe__detail {
   display: grid;
@@ -178,17 +196,19 @@
   margin: 0;
   padding-left: 20px;
   font-family: 'Margo Pro Regular', sans-serif;
-  font-size: 0.95rem;
-  line-height: 1.65;
+  font-size: 1rem;
+  line-height: 1.7;
+  color: #2a2226;
 }
 .lfd-recipe__block li { margin-bottom: 8px; }
 
 .lfd-drinks-head { text-align: center; padding: 10px 20px 0; }
 .lfd-drinks-head h2 {
   margin: 0;
-  font-family: 'Toni Noveau Pro', Georgia, serif;
-  font-size: clamp(2.4rem, 6vw, 4rem);
-  text-transform: uppercase;
+  font-family: 'Shrikhand', 'Toni Noveau Pro', Georgia, serif;
+  font-weight: 400;
+  font-size: clamp(2.6rem, 6.5vw, 4.2rem);
+  color: #2a2226;
 }
 
 /* ---------- READ MORE ---------- */
