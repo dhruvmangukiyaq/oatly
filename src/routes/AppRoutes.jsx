@@ -19,6 +19,8 @@ const LookBookSS25Page = lazy(() => import('../pages/LookBookSS25Page'));
 const FutureOfTastePage = lazy(() => import('../pages/FutureOfTastePage'));
 const PeeForPlanetPage = lazy(() => import('../pages/PeeForPlanetPage'));
 const OatlyXAvavavPage = lazy(() => import('../pages/OatlyXAvavavPage'));
+const FarmCanadianPage = lazy(() => import('../pages/FarmCanadianPage'));
+const LastFirstDatesPage = lazy(() => import('../pages/LastFirstDatesPage'));
 const NewsStoryDetailPage = lazy(() => import('../pages/NewsStoryDetailPage'));
 const ThingsWeDoPage = lazy(() => import('../pages/ThingsWeDoPage'));
 const SustainabilityPage = lazy(() => import('../pages/SustainabilityPage'));
@@ -123,6 +125,22 @@ export default function AppRoutes({ selectProduct, selectRecipe, selectArticle }
         <Route
           path="/things-we-do/oatly-x-avavav"
           element={<OatlyXAvavavPage />}
+        />
+        <Route
+          path="/things-we-do/how-do-you-say-f-a-r-m-in-canadian"
+          element={<FarmCanadianPage />}
+        />
+        <Route
+          path="/things-we-do/stories/how-do-you-say-f-a-r-m-in-canadian"
+          element={<FarmCanadianPage />}
+        />
+        <Route
+          path="/things-we-do/last-first-dates"
+          element={<LastFirstDatesPage />}
+        />
+        <Route
+          path="/things-we-do/stories/last-first-dates"
+          element={<LastFirstDatesPage />}
         />
         <Route
           path="/things-we-do/:slug"

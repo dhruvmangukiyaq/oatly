@@ -1,0 +1,246 @@
+/* ==========================================================================
+   HOW DO YOU SAY F.A.R.M. IN CANADIAN? — mirrors
+   oatly.com/things-we-do/stories/how-do-you-say-f-a-r-m-in-canadian
+   White editorial story: full-bleed cover → overlapping preamble card →
+   typewriter body, slideshow, giant pull quote.
+   Display: Toni Noveau Pro (bundled). Body: Margo Pro Regular (bundled).
+   ========================================================================== */
+
+.farm {
+  background:
+    radial-gradient(1100px 420px at 8% -60px, rgba(214, 178, 94, 0.28), transparent 65%),
+    radial-gradient(900px 380px at 95% 20%, rgba(214, 178, 94, 0.18), transparent 60%),
+    radial-gradient(1000px 500px at 50% 110%, rgba(21, 46, 82, 0.08), transparent 65%),
+    #f6efdd;
+  color: #111;
+  padding-bottom: 64px;
+}
+
+/* ---------- COVER HERO ---------- */
+.farm-hero {
+  position: relative;
+  min-height: 92vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  background: #e8e2d4;
+}
+.farm-hero__img img, img.farm-hero__img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center 30%;
+}
+.farm-hero__title {
+  position: relative;
+  z-index: 2;
+  text-align: center;
+  padding: 0 24px;
+  max-width: 1200px;
+}
+.farm-hero__eyebrow {
+  display: block;
+  margin-bottom: 10px;
+  font-family: Georgia, serif;
+  font-style: italic;
+  font-weight: 700;
+  font-size: clamp(1.6rem, 4vw, 2.6rem);
+  color: #fff;
+  text-shadow: 0 2px 18px rgba(0, 0, 0, 0.35);
+}
+.farm-hero__title h1 {
+  margin: 0;
+  font-family: 'Toni Noveau Pro', 'Girdo Black Pro', Georgia, serif;
+  font-weight: 400;
+  font-size: clamp(2.8rem, 8vw, 6.5rem);
+  line-height: 0.95;
+  text-transform: uppercase;
+  color: #fff;
+  text-wrap: balance;
+  text-shadow: 0 2px 24px rgba(0, 0, 0, 0.25);
+}
+
+/* ---------- PREAMBLE CARD (overlaps hero) ---------- */
+.farm-preamble {
+  position: relative;
+  z-index: 3;
+  max-width: 1100px;
+  margin: -9vh auto 0;
+  background: #fdf8ea;
+  border: 2px solid #111;
+  border-radius: 18px;
+  box-shadow: 8px 8px 0 rgba(17, 17, 17, 1);
+  padding: clamp(28px, 5vw, 56px) clamp(20px, 5vw, 64px) clamp(24px, 4vw, 40px);
+  text-align: center;
+}
+.farm-preamble p {
+  margin: 0 auto 22px;
+  max-width: 60ch;
+  font-family: 'Margo Pro Bold', 'Outfit', sans-serif;
+  font-size: clamp(1.15rem, 2.6vw, 1.55rem);
+  line-height: 1.5;
+  text-transform: uppercase;
+  letter-spacing: 0.01em;
+}
+.farm-pills {
+  display: flex;
+  gap: 10px;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+.farm-pill {
+  display: inline-block;
+  border: 2px solid #111;
+  border-radius: 999px;
+  padding: 6px 16px;
+  background: #fff;
+  color: #111;
+  font-family: 'Margo Pro Bold', 'Outfit', sans-serif;
+  font-size: 0.78rem;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  cursor: default;
+}
+button.farm-pill { cursor: pointer; }
+.farm-pill--dark { background: #111; color: #fff; }
+
+/* ---------- VIDEO + INTRO ---------- */
+.farm-cols {
+  display: grid;
+  grid-template-columns: 3fr 2fr;
+  gap: clamp(24px, 4vw, 56px);
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: clamp(28px, 5vw, 56px) clamp(20px, 4vw, 48px) 0;
+  align-items: start;
+}
+.farm-video {
+  position: sticky;
+  top: 118px;
+  align-self: start;
+}
+.farm-video iframe {
+  display: block;
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  border: 2px solid #111;
+  border-radius: 14px;
+  background: #000;
+  box-shadow: 6px 6px 0 rgba(17, 17, 17, 1);
+}
+.farm-prose p, .farm-body p, .farm-quote-row > p {
+  margin: 0 0 22px;
+  font-family: 'Margo Pro Regular', 'Outfit', sans-serif;
+  font-size: 1.15rem;
+  line-height: 1.8;
+  color: #1a1a1a;
+}
+
+/* ---------- BODY ---------- */
+.farm-body {
+  max-width: 820px;
+  margin: 0 auto;
+  padding: 28px clamp(20px, 4vw, 48px) 0;
+}
+
+/* ---------- SLIDESHOW ---------- */
+.farm-slide {
+  max-width: none;
+  margin: 0;
+  padding: 32px 0 0;
+}
+.farm-slide__frame {
+  position: relative;
+}
+.farm-slide__img img, img.farm-slide__img {
+  display: block;
+  width: 100%;
+  height: min(86vh, 780px);
+  aspect-ratio: auto;
+  object-fit: cover;
+  background: #eee;
+  border: none;
+  border-radius: 0;
+}
+.farm-slide__arrow {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 46px;
+  height: 46px;
+  border-radius: 50%;
+  border: 2px solid #111;
+  background: rgba(255, 255, 255, 0.9);
+  font-size: 1.6rem;
+  line-height: 1;
+  cursor: pointer;
+}
+.farm-slide__arrow--left { left: 24px; }
+.farm-slide__arrow--right { right: 24px; }
+.farm-slide__dots {
+  display: flex;
+  gap: 8px;
+  justify-content: center;
+  margin-top: 14px;
+  padding: 0 20px;
+}
+.farm-slide__dot {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  border: 2px solid #111;
+  background: #fff;
+  padding: 0;
+  cursor: pointer;
+}
+.farm-slide__dot.is-now { background: #111; }
+.farm-slide__cap {
+  margin: 10px 0 0;
+  padding: 0 20px;
+  text-align: center;
+  font-family: 'Margo Pro Regular', sans-serif;
+  font-size: 0.85rem;
+  opacity: 0.65;
+}
+
+/* ---------- QUOTE ROW ---------- */
+.farm-quote-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: clamp(24px, 4vw, 56px);
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 28px clamp(20px, 4vw, 48px) 0;
+  align-items: center;
+}
+.farm-quote-row blockquote {
+  margin: 0;
+  background: #111;
+  color: #f6efdd;
+  border-radius: 16px;
+  padding: clamp(24px, 4vw, 40px);
+  border-left: 8px solid #d6b25e;
+  font-family: 'Toni Noveau Pro', 'Girdo Black Pro', Georgia, serif;
+  font-size: clamp(1.7rem, 4vw, 2.8rem);
+  line-height: 1.02;
+  text-transform: uppercase;
+  text-wrap: balance;
+}
+.farm-quote-row cite {
+  display: block;
+  margin-top: 14px;
+  font-family: 'Margo Pro Regular', sans-serif;
+  font-style: normal;
+  font-size: 1rem;
+  text-transform: none;
+  color: #d6b25e;
+}
+
+@media (max-width: 900px) {
+  .farm-cols, .farm-quote-row { grid-template-columns: 1fr; }
+  .farm-video { position: static; }
+  .farm-preamble { margin-top: -6vh; }
+}

@@ -7,9 +7,9 @@ import React from 'react';
 
 const STORYBLOK_HOST = 'a.storyblok.com';
 const PEXELS_HOST = 'images.pexels.com';
-const DEFAULT_WIDTHS = [384, 768, 1200, 1600];
-// Pexels cards render at ~300–900px; never need more than 1260w.
-const PEXELS_WIDTHS = [480, 800, 1260];
+const DEFAULT_WIDTHS = [640, 1024, 1600, 2048, 2560];
+// Pexels cards render up to full-screen; serve up to 1920w.
+const PEXELS_WIDTHS = [640, 1024, 1600, 1920];
 
 function originalWidth(pathname) {
   const match = pathname.match(/\/(\d+)x(\d+)\//);
@@ -20,7 +20,7 @@ function buildVariant(base, width, quality) {
   return `${base}/m/${width}x0/filters:quality(${quality}):format(webp)`;
 }
 
-function getResponsiveImage(src, { widths = DEFAULT_WIDTHS, quality = 75 } = {}) {
+function getResponsiveImage(src, { widths = DEFAULT_WIDTHS, quality = 88 } = {}) {
   if (typeof src !== 'string' || src.length === 0) return null;
 
   let url;
@@ -38,7 +38,7 @@ function getResponsiveImage(src, { widths = DEFAULT_WIDTHS, quality = 75 } = {})
       u.searchParams.set('w', String(width));
       return `${u.toString()} ${width}w`;
     };
-    const mid = PEXELS_WIDTHS[1];
+    const mid = PEXELS_WIDTHS[2];
     const u = new URL(src);
     u.searchParams.set('w', String(mid));
     return { src: u.toString(), srcSet: PEXELS_WIDTHS.map(variant).join(', ') };
@@ -53,12 +53,17 @@ function getResponsiveImage(src, { widths = DEFAULT_WIDTHS, quality = 75 } = {})
     .filter((width) => Number.isFinite(width) && width > 0)
     .sort((a, b) => a - b)
     .filter((width) => !maxWidth || width <= maxWidth);
+  // Always include the native resolution too — otherwise small-source photos
+  // (e.g. 1019px originals shown full-screen) would serve a tiny variant.
+  if (maxWidth && (requested.length === 0 || requested[requested.length - 1] < maxWidth)) {
+    requested.push(maxWidth);
+  }
   const candidates = requested.length > 0 ? requested : [maxWidth || 768];
   const base = `${url.origin}${url.pathname}${url.search}`;
   const safeQuality = Math.min(100, Math.max(1, quality));
 
   return {
-    src: buildVariant(base, candidates[Math.min(1, candidates.length - 1)], safeQuality),
+    src: buildVariant(base, candidates[candidates.length - 1], safeQuality),
     srcSet: candidates.map((width) => `${buildVariant(base, width, safeQuality)} ${width}w`).join(', '),
   };
 }
