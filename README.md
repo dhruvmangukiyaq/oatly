@@ -1,199 +1,213 @@
-# Oatly — the Original Oat Drink Company (Clone / Redesign)
+<div align="center">
 
-A React + Vite frontend inspired by [Oatly.com](https://www.oatly.com) — product showcase, recipes / look-books, news & initiatives, sustainability hub, health FAQ, contact / legal pages.
+# 🥛 Oatly Clone — Full-Stack Web Application
 
-Built with full-stack MVC — React frontend (`src/`: api → models → controllers → components/pages) + Express backend (`server/`: routes → controllers → models). UI and functionality unchanged, only the organization.
+<p align="center">
+  <strong>A modern, responsive, full-stack recreation of the iconic <a href="https://www.oatly.com" target="_blank">Oatly.com</a> website.</strong><br />
+  Featuring brutalist aesthetics, dynamic product showcases, interactive recipe look-books, sustainability initiatives, and an Express MVC backend.
+</p>
 
-> 🥛 Fictional / educational clone for learning purposes. Not affiliated with Oatly AB.
+[![React](https://img.shields.io/badge/React-19.2-61DAFB?style=for-the-badge&logo=react&logoColor=black)](https://react.dev/)
+[![Vite](https://img.shields.io/badge/Vite-8.2-646CFF?style=for-the-badge&logo=vite&logoColor=white)](https://vitejs.dev/)
+[![Node.js](https://img.shields.io/badge/Node.js-18+-339933?style=for-the-badge&logo=node.js&logoColor=white)](https://nodejs.org/)
+[![Express](https://img.shields.io/badge/Express-4.x-000000?style=for-the-badge&logo=express&logoColor=white)](https://expressjs.com/)
+[![Tailwind CSS](https://img.shields.io/badge/Tailwind_CSS-3.4-38B2AC?style=for-the-badge&logo=tailwind-css&logoColor=white)](https://tailwindcss.com/)
+[![Framer Motion](https://img.shields.io/badge/Framer_Motion-13.2-0055FF?style=for-the-badge&logo=framer&logoColor=white)](https://www.framer.com/motion/)
+
+<br />
+
+[Explore Features](#-features) • [Tech Stack](#-tech-stack) • [Project Structure](#-project-structure) • [Getting Started](#-getting-started) • [Author](#-author)
+
+</div>
+
+---
+
+## 📖 Overview
+
+This project is a high-fidelity **Oatly Website Clone** built to demonstrate modern full-stack web development practices, clean architecture, and bold UI design. It captures Oatly's distinctive, quirky, brutalist identity—complete with high-contrast borders, playful typography, vibrant pastel palettes, micro-interactions, and a decoupled **Express.js MVC API** backend serving a **React 19** frontend.
+
+> ⚠️ **Disclaimer:** This project is an independent educational clone created for portfolio and learning purposes. It is not affiliated with, endorsed by, or sponsored by Oatly AB.
 
 ---
 
 ## ✨ Features
 
-### 🛍️ Products
-- `/products` — all oat drinks, barista, chocolate, yoghurt, ice-cream categories
-- `/products/:category` — category-wise filtering via `productModel.js`
-- Product quick-view modal (`ProductModal.jsx`) with nutrition + details
-- Global search modal (`SearchModal.jsx`) — search products, recipes, articles
+### 🛍️ 1. Interactive Product Catalog
+- **Category Browsing:** Filter by Oat Drinks, Barista Editions, Oatgurt, Ice Cream, and more (`/products`, `/products/:category`).
+- **Product Quick-View Modal:** Detailed nutritional breakdowns, allergen alerts, and carton specs with smooth transitions (`ProductModal.jsx`).
 
-### 🍳 Recipes / Tastebuds
-- `/recipes` — Tastebuds hub
-- `/recipes/look-book-vol-3` + `/recipes/look-book-vol-3/:slug` — recipe list + detail
-- `/recipes/look-book-autumn-winter-2025` (AW25) and `/recipes/look-book-spring-summer-2025` (SS25)
-- `RecipeModal.jsx` for quick preview without routing
+### 🍳 2. Tastebuds & Recipe Look-Books
+- **Recipe Showcase:** Dynamic editorial-style collections including Look Book Vol. 3, Autumn/Winter 2025 (AW25), and Spring/Summer 2025 (SS25).
+- **Recipe Details:** Step-by-step instructions, ingredients list, and modal previews (`RecipeModal.jsx`).
+- **Cooking Show Pages:** Episode-style stories with embedded films and full recipes — *Last First Dates with Maxence* (`/things-we-do/last-first-dates`).
 
-### 📰 News & Initiatives
-- `/news` — news grid (`NewsGridSection`, `StoryCard`, `VideoCard`)
-- `/things-we-do/:slug` — news story detail
-- `/things-we-do/initiatives/future-of-taste` — special campaign page
+### 📰 3. News, Stories & Initiatives
+- **Editorial Hub:** Grid-based news section showcasing Oatly campaigns, video cards, and cultural stories (`/things-we-do`, `/news`).
+- **Special Campaign Pages (copy-to-copy with oatly.com):**
+  - *Pee for the Planet* — interactive Pee-O-Meter + storybook (`/things-we-do/initiatives/pee-for-the-planet`)
+  - *Oatly x AVAVAV* — Milan Fashion Week black editorial (`/things-we-do/initiatives/oatly-x-avavav`)
+  - *How Do You Say F.A.R.M. in Canadian?* — Hanover Ridge Farms story with film + photo slideshow (`/things-we-do/how-do-you-say-f-a-r-m-in-canadian`)
+  - *Future of Taste* (`/things-we-do/initiatives/future-of-taste`)
 
-### 🌱 Sustainability & Health
-- `/sustainability` — Sustainability Hub
-- `/oatly-who`, `/oatly-who/sustainability-plan`, `/oatly-who/sustainability-plan/climate-footprint-product-label`, `/sustainability/climate-solutions-company` — sub-pages via single `SustainabilitySubPage`
-- `/health` + `/random-answers/17-facts-about-oatly-and-nutrition` — nutrition FAQ
+### 🌱 4. Sustainability & Health Information
+- **Sustainability Hub:** Comprehensive overview of environmental impact, climate footprint labeling, and corporate responsibility (`/sustainability`, `/oatly-who/*`).
+- **Nutrition & Health FAQ:** Facts and common consumer questions answered with signature Oatly humor (`/health`).
 
-### 📄 Company / Legal
-- `/contact`, `/legal`, `/legal/privacy-policy`
-- Shared `Navbar`, `Footer`, `SEO.jsx` (react-helmet-async), `BentoCard`, `FlatCard`, `PlaceholderMedia`
-
-### 🎨 UI / UX
-- Oatly-style brutalist design: thick borders, `shadow-brutal`, graph-paper background
-- Custom Tailwind theme: `oatly-cream`, `oatly-yellow`, `oatly-pink`, `oatly-blue`, `oatly-mint`, `oatly-orange`
-- Fonts: Fredoka, Outfit, Space Grotesk, Special Elite, Courier Prime
-- Animations with `framer-motion`, icons with `lucide-react`
+### 🎨 5. Signature Brutalist UI/UX
+- **Bold Brutalist Theme:** Thick borders (`border-2`, `border-black`), tactile drop shadows (`shadow-brutal`), and custom graph-paper grid backgrounds.
+- **Custom Oatly Palette:** Oatly Cream, Yellow, Blue, Pink, Mint, and Orange color schemes.
+- **Dynamic Typography:** Google Fonts pairing (Fredoka, Outfit, Space Grotesk, Special Elite, Courier Prime) plus bundled Oatly brand fonts (Margo Pro, Girdo Black Pro, Toni Noveau Pro).
+- **Fluid Micro-Animations:** Motion transitions powered by Framer Motion, plus scroll-triggered entrances built on IntersectionObserver.
 
 ---
 
 ## 🧱 Tech Stack
 
-| Tech | Version | Use |
-|------|---------|-----|
-| React + React DOM | ^19.2.8 | UI |
-| Vite | ^8.2.2 | Dev server + build |
-| react-router-dom | ^7.18.3 | Routing |
-| Tailwind CSS | ^3.4.19 | Styling |
-| framer-motion | ^13.2.0 | Animations |
-| lucide-react | ^1.43.0 | Icons |
-| react-helmet-async | ^3.0.0 | SEO meta |
-| clsx + tailwind-merge | — | className utils |
-| oxlint | ^1.79.0 | Linting |
+### Frontend
+- **Framework:** [React 19](https://react.dev/) + [Vite](https://vitejs.dev/)
+- **Routing:** [React Router v7](https://reactrouter.com/)
+- **Styling:** [Tailwind CSS v3](https://tailwindcss.com/) + PostCSS + Autoprefixer
+- **Animations:** [Framer Motion](https://www.framer.com/motion/)
+- **Icons:** [Lucide React](https://lucide.dev/)
+- **SEO & Meta:** [React Helmet Async](https://github.com/staylor/react-helmet-async)
+- **Code Quality:** [Oxlint](https://oxc.rs/)
+
+### Backend
+- **Runtime:** [Node.js](https://nodejs.org/) (ES Modules)
+- **Server Framework:** [Express.js](https://expressjs.com/)
+- **Architecture Pattern:** Model-View-Controller (MVC)
+- **CORS & Compression:** Built-in middleware for static serving and cross-origin resource sharing
 
 ---
 
 ## 📁 Project Structure
 
-```
+```bash
 oatly/
-├── index.html              # Title, meta, Google Fonts
-├── vite.config.js          # Vite + React plugin + /api proxy → Express
-├── tailwind.config.js      # Oatly colors, fonts, brutal shadows
-├── postcss.config.js
-├── public/                 # Static assets
-├── server/                 # Express MVC backend (Node.js, port 8901)
-│   ├── server.js           # Entry point (also serves ../dist in production)
-│   ├── models/             # Data + pure query functions (no HTTP)
-│   ├── controllers/        # Req/res handlers (no business logic)
-│   ├── routes/             # Routers mounted under /api
-│   └── README.md           # Endpoint table
-├── src/                    # React frontend (one file per page/component)
-│   ├── main.jsx            # React root
-│   ├── App.jsx             # Composition root (providers, layout, modals)
-│   ├── api/                # HTTP client for the backend (fetch layer)
-│   ├── models/             # Async data-access over src/api (same names)
-│   ├── controllers/        # Hooks bridging Model → View
-│   ├── hooks/              # Shared hooks (useApiData)
-│   ├── components/         # Navbar, Footer, Modals, Cards, SEO (one each)
-│   ├── pages/              # Home, Products, LookBooks, News, etc. (one each)
-│   ├── routes/             # Route definitions (AppRoutes)
-│   ├── styles/             # All CSS
-│   └── assets/
-└── dist/                   # Production build output
+├── index.html                 # HTML shell, fonts & meta tags
+├── vite.config.js             # Vite configuration with /api reverse proxy
+├── tailwind.config.js         # Custom Oatly theme, brutal shadows & typography
+├── postcss.config.js          # PostCSS plugins
+├── package.json               # Root dependencies & unified runner scripts
+│
+├── server/                    # 🚀 Express Backend (Port 8901)
+│   ├── server.js              # Server entry point & static dist serving
+│   ├── models/                # Data access layers & query functions
+│   │   ├── data/              # Source datasets (Products, Recipes, News, Nav)
+│   │   ├── productModel.js
+│   │   ├── recipeModel.js
+│   │   ├── newsModel.js
+│   │   └── navigationModel.js
+│   ├── controllers/           # Request & response handlers
+│   └── routes/                # Modular API route definitions (/api/*)
+│
+├── src/                       # ⚛️ React Frontend (Vite)
+│   ├── main.jsx               # React DOM entry point
+│   ├── App.jsx                # Global providers, layout & route container
+│   ├── api/                   # API client service layer (fetch wrappers)
+│   ├── models/                # Frontend async models bridging API
+│   ├── controllers/           # Custom React hooks (MVC controller layer)
+│   ├── hooks/                 # Utility hooks (e.g., useApiData)
+│   ├── components/            # Reusable UI components
+│   │   ├── Navbar.jsx         # Main navigation with mobile drawer
+│   │   ├── Footer.jsx         # Oatly footer with newsletter & links
+│   │   ├── ProductModal.jsx   # Nutritional quick-view dialog
+│   │   ├── RecipeModal.jsx    # Quick recipe viewer
+│   │   ├── ArticleModal.jsx   # Article preview dialog
+│   │   └── SEO.jsx            # Dynamic meta tags & titles
+│   ├── pages/                 # Full page views (Home, Products, Recipes, News, etc.)
+│   ├── routes/                # Route table (AppRoutes.jsx)
+│   ├── styles/                # Global CSS styles
+│   └── fonts/                 # Bundled Oatly brand webfonts
+│
+└── public/                    # Static assets, fonts, icons & images
 ```
-
-**MVC flow:** `View (pages/components)` → `Controller (hooks)` → `Model (async)` → `API (fetch)` → `Express (routes → controllers → models → data)`. UI, design and functionality are unchanged — only the organization changed.
 
 ---
 
 ## 🚀 Getting Started
 
+Follow these steps to run the Oatly Clone locally on your machine.
+
 ### 1. Prerequisites
-- Node.js 18+ (20 LTS recommended)
-- npm 9+
+Ensure you have the following installed:
+- [Node.js](https://nodejs.org/) (version `18.x` or `20.x` LTS recommended)
+- [npm](https://www.npmjs.com/) (version `9.x` or higher) or `pnpm` / `yarn`
+- [Git](https://git-scm.com/)
 
-### 2. Install
+### 2. Clone the Repository
 ```bash
+git clone https://github.com/dhruvmangukiyaq/oatly.git
+cd oatly
+```
+
+### 3. Install Dependencies
+Install both the root frontend packages and backend server dependencies:
+
+```bash
+# Install frontend dependencies
 npm install
-npm run server:install   # one-time: Express backend deps
+
+# Install backend dependencies
+npm run server:install
 ```
 
-### 3. Run backend + frontend (two terminals)
+### 4. Run Development Servers
+To run both the frontend and backend in development mode, open two terminal windows:
+
+**Terminal 1 — Backend API:**
 ```bash
-npm run server   # Express API → http://localhost:8901
-npm run dev      # Vite dev server → http://localhost:5173 (proxies /api)
+npm run server
+# Express API will run at http://localhost:8901
 ```
-Open http://localhost:5173
 
-### 4. Build for production
+**Terminal 2 — Frontend Dev Server:**
 ```bash
-npm run build    # frontend → dist/
-npm run server   # serves both API + dist on http://localhost:8901
+npm run dev
+# Vite server will run at http://localhost:5173
 ```
 
-### 5. Lint
+Visit **`http://localhost:5173`** in your browser. (The frontend automatically proxies `/api` requests to the Express server).
+
+---
+
+## 🛠️ Available Scripts
+
+| Script | Command | Description |
+|---|---|---|
+| **Dev Frontend** | `npm run dev` | Starts the Vite dev server with Hot Module Replacement (HMR) |
+| **Start Backend** | `npm run server` | Starts the Express.js API backend on port `8901` |
+| **Install Backend** | `npm run server:install` | One-time command to install backend dependencies in `/server` |
+| **Build Frontend** | `npm run build` | Compiles optimized production bundle into `dist/` |
+| **Preview Build** | `npm run preview` | Locally preview the compiled production build |
+| **Lint Code** | `npm run lint` | Runs Oxlint to check code quality and syntax |
+
+---
+
+## 🚢 Production Deployment
+
+To run this project as a unified single-server production app:
+
 ```bash
-npm run lint
+# 1. Build the frontend
+npm run build
+
+# 2. Run the Express server (it serves the compiled frontend from dist/ + API endpoints)
+npm run server
 ```
 
----
-
-## 🛣️ Routes Reference
-
-```
- /                                          Home
- /products                                  All Products
- /products/:category                        e.g. /products/oat-drink
- /recipes                                   → redirects to Look Book Vol. 3
- /recipes/look-book-vol-3                   Look Book Vol 3
- /recipes/look-book-vol-3/:slug             Recipe detail
- /recipes/look-book-autumn-winter-2025      AW25 Look Book
- /recipes/look-book-spring-summer-2025      SS25 Look Book
- /news                                      News hub
- /things-we-do/:slug                        News detail
- /things-we-do/initiatives/future-of-taste  Campaign
- /sustainability                            Sustainability hub
- /oatly-who*                                Sustainability sub-pages (4 routes)
- /health                                    Health FAQ
- /random-answers/17-facts-about-oatly-and-nutrition  Health alias
- /contact                                   Contact
- /legal                                     Legal
- /legal/privacy-policy                      Privacy Policy
-```
+The app will be accessible at `http://localhost:8901`.
 
 ---
 
-## 🎨 Customization
+## 🧑‍💻 Author
 
-**Colors & shadows — `tailwind.config.js`:**
-```js
-colors: { oatly: { cream:'#F5F2EB', yellow:'#FCEB50', pink:'#FF5C8D', ... } }
-boxShadow: { brutal:'4px 4px 0px 0px #111111', ... }
-```
-
-**Fonts — `index.html`:**
-Fredoka (hand), Outfit (sans), Space Grotesk (display), Special Elite + Courier Prime (typewriter accents)
-
-**Add new product / recipe:** edit the dataset in `server/models/data/` (single source of truth) — both API and UI pick it up.
-
-**Add new page:** 1) create `src/pages/MyPage.jsx` 2) add `<Route path="/my-page">` in `src/routes/AppRoutes.jsx` 3) add link in `server/models/navigationModel.js`.
+**Dhruv Mangukiya**
+- GitHub: [@dhruvmangukiyaq](https://github.com/dhruvmangukiyaq)
+- Email: [dhruvmangukiya111@gmail.com](mailto:dhruvmangukiya111@gmail.com)
 
 ---
 
-## 📦 Scripts
-
-| Command | Description |
-|---------|-------------|
-| `npm run dev` | Start Vite dev server with HMR |
-| `npm run server` | Start Express API backend (port 8901) |
-| `npm run server:install` | One-time backend dep install |
-| `npm run build` | Production build to `dist/` |
-| `npm run preview` | Preview production build locally |
-| `npm run lint` | Run Oxlint |
-
----
-
-## 🤝 Contributing
-
-1. Fork the repo
-2. Create branch: `git checkout -b feature/my-feature`
-3. Commit: `git commit -m "feat: add my feature"`
-4. Push + open PR
-
----
-
-## 📄 License
-
-No license specified (private learning project). If you make it public, add MIT.
-
----
-
-Made with oats, React and Vite 🥛
+<div align="center">
+  <sub>Made with ❤️, oats, and code by Dhruv Mangukiya</sub>
+</div>
