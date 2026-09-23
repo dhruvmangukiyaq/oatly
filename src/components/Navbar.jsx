@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { Link, useLocation } from 'react-router-dom';
-import { Home, Globe, X, Menu, ChevronDown, ChevronRight } from 'lucide-react';
+import { Home, Globe, X, Menu, ChevronDown, ChevronRight, User as UserIcon } from 'lucide-react';
 // ─── MVC: View ──────────────────────────────────────────────────────────────
 // Item order/labels come from the Model (navigationModel.js); this file only
 // renders. NOTE: react-router <Link> outputs a semantic <a href> in the DOM,
@@ -10,6 +10,7 @@ import { Home, Globe, X, Menu, ChevronDown, ChevronRight } from 'lucide-react';
 //   nav row: PRODUCTS TASTEBUDS NEWS SUSTAINABILITY HEALTH (same order)
 import NavigationModel from '../models/navigationModel.js';
 import { useApiData } from '../hooks/useApiData.js';
+import { useAuth } from '../hooks/useAuth.js';
 import '../styles/OatlyNav.css';
 
 export default function Navbar() {
@@ -18,6 +19,7 @@ export default function Navbar() {
   const [expandedSection, setExpandedSection] = useState(null); // mobile accordion
   const closeTimer = useRef(null);
   const location = useLocation();
+  const { user } = useAuth();
   // MODEL (async API — header renders once items arrive)
   const navItems = useApiData(() => NavigationModel.getNavItems(), []);
   const headerCrumbs =
@@ -130,6 +132,20 @@ export default function Navbar() {
           >
             <Globe size={16} aria-hidden="true" />
           </button>
+          <Link
+            to="/login"
+            className="oatly-toolbar__btn oatly-toolbar__account"
+            aria-label={user ? `Account: ${user.name}` : 'Log in or create account'}
+            title={user ? user.name : 'Account'}
+          >
+            {user ? (
+              <span className="oatly-toolbar__avatar" aria-hidden="true">
+                {user.name.charAt(0).toUpperCase()}
+              </span>
+            ) : (
+              <UserIcon size={16} aria-hidden="true" />
+            )}
+          </Link>
           <button
             type="button"
             className="oatly-toolbar__btn oatly-toolbar__menu"

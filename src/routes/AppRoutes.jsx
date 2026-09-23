@@ -27,6 +27,7 @@ const SustainabilityPage = lazy(() => import('../pages/SustainabilityPage'));
 const SustainabilitySubPage = lazy(() => import('../pages/SustainabilitySubPage'));
 const HealthPage = lazy(() => import('../pages/HealthPage'));
 const ContactPage = lazy(() => import('../pages/ContactPage'));
+const LoginPage = lazy(() => import('../pages/LoginPage'));
 const LegalPage = lazy(() => import('../pages/LegalPage'));
 const PrivacyPolicyPage = lazy(() => import('../pages/PrivacyPolicyPage'));
 
@@ -207,6 +208,11 @@ export default function AppRoutes({ selectProduct, selectRecipe, selectArticle }
         <Route
           path="/contact"
           element={<ContactPage />}
+        />
+        {/* Shop account */}
+        <Route
+          path="/login"
+          element={<LoginPage />}
         />
         <Route
           path="/legal"

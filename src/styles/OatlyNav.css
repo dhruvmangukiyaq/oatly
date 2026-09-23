@@ -176,6 +176,20 @@
   text-underline-offset: 3px;
 }
 
+/* Shop account: initial avatar when logged in */
+.oatly-toolbar__avatar {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  background: #111;
+  color: #fff;
+  font-size: 0.75rem;
+  font-weight: 700;
+}
+
 /* --- Nav row: ~48px bar, 0 24px padding, centred 5 items (spec §4) ---
    Position relative = anchor for the FULL-WIDTH dropdown panel below. */
 .oatly-navrow {

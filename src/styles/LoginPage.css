@@ -1,0 +1,162 @@
+/* ==========================================================================
+   LOGIN / SIGNUP — brutalist shop account card on oat cream.
+   ========================================================================== */
+
+.login-page {
+  min-height: 70vh;
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+  padding: clamp(32px, 6vw, 72px) 20px 64px;
+  background:
+    radial-gradient(700px 300px at 15% 0%, rgba(252, 235, 80, 0.35), transparent 65%),
+    var(--color-cream, #f5f1e8);
+}
+
+.login-card {
+  width: min(100%, 480px);
+  background: #fff;
+  border: 3px solid #111;
+  border-radius: 18px;
+  box-shadow: 8px 8px 0 rgba(17, 17, 17, 1);
+  padding: clamp(24px, 4vw, 36px);
+}
+
+.login-kicker {
+  margin: 0 0 6px;
+  font-family: 'Margo Pro Bold', sans-serif;
+  font-size: 0.75rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  opacity: 0.6;
+}
+
+.login-card h1 {
+  margin: 0 0 8px;
+  font-family: 'Toni Noveau Pro', Georgia, serif;
+  font-size: clamp(2rem, 5vw, 2.8rem);
+  text-transform: uppercase;
+  line-height: 1;
+}
+
+.login-sub {
+  margin: 0 0 20px;
+  font-family: 'Margo Pro Regular', sans-serif;
+  font-size: 0.98rem;
+  line-height: 1.6;
+  opacity: 0.8;
+}
+
+.login-tabs {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px;
+  margin-bottom: 20px;
+}
+
+.login-tabs button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  padding: 10px;
+  border: 2px solid #111;
+  border-radius: 12px;
+  background: #fff;
+  font-family: 'Margo Pro Bold', sans-serif;
+  font-size: 0.85rem;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  cursor: pointer;
+}
+
+.login-tabs button.is-active {
+  background: #111;
+  color: #fff;
+}
+
+.login-field { display: block; margin-bottom: 14px; }
+
+.login-field > span:first-child {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  margin-bottom: 6px;
+  font-family: 'Margo Pro Bold', sans-serif;
+  font-size: 0.78rem;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+}
+
+.login-field input {
+  width: 100%;
+  padding: 12px 14px;
+  border: 2px solid #111;
+  border-radius: 12px;
+  background: var(--color-cream, #f5f1e8);
+  font-family: 'Margo Pro Bold', sans-serif;
+  font-size: 0.95rem;
+  letter-spacing: 0.02em;
+}
+
+.login-field input:focus {
+  outline: none;
+  background: #fff;
+  box-shadow: 3px 3px 0 rgba(17, 17, 17, 1);
+}
+
+.login-pw { position: relative; display: block; }
+
+.login-pw input { padding-right: 44px; }
+
+.login-pw button {
+  position: absolute;
+  right: 8px;
+  top: 50%;
+  transform: translateY(-50%);
+  padding: 6px;
+  cursor: pointer;
+  opacity: 0.7;
+}
+
+.login-error {
+  margin: 0 0 14px;
+  padding: 10px 14px;
+  border: 2px solid #b3261e;
+  border-radius: 12px;
+  background: #fdecea;
+  color: #b3261e;
+  font-family: 'Margo Pro Bold', sans-serif;
+  font-size: 0.88rem;
+}
+
+.login-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 12px 22px;
+  border: 2px solid #111;
+  border-radius: 999px;
+  background: #111;
+  color: #fff;
+  font-family: 'Margo Pro Bold', sans-serif;
+  font-size: 0.9rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  cursor: pointer;
+  text-decoration: none;
+}
+
+.login-btn--big { width: 100%; font-size: 1rem; }
+
+.login-btn--ghost { background: #fff; color: #111; }
+
+.login-actions { display: flex; gap: 10px; flex-wrap: wrap; margin-top: 18px; }
+
+.login-fine {
+  margin: 16px 0 0;
+  font-family: 'Margo Pro Regular', sans-serif;
+  font-size: 0.8rem;
+  opacity: 0.6;
+  text-align: center;
+}
