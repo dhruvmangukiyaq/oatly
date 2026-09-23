@@ -28,6 +28,7 @@ const SustainabilitySubPage = lazy(() => import('../pages/SustainabilitySubPage'
 const HealthPage = lazy(() => import('../pages/HealthPage'));
 const ContactPage = lazy(() => import('../pages/ContactPage'));
 const LoginPage = lazy(() => import('../pages/LoginPage'));
+const AdminPage = lazy(() => import('../pages/AdminPage'));
 const LegalPage = lazy(() => import('../pages/LegalPage'));
 const PrivacyPolicyPage = lazy(() => import('../pages/PrivacyPolicyPage'));
 
@@ -213,6 +214,12 @@ export default function AppRoutes({ selectProduct, selectRecipe, selectArticle }
         <Route
           path="/login"
           element={<LoginPage />}
+        />
+        {/* Admin — keval admin login par j khulshe (AdminPage andar guard chhe).
+            Bija users ne Access denied dekhase, link pan dekhashe nahi. */}
+        <Route
+          path="/admin"
+          element={<AdminPage />}
         />
         <Route
           path="/legal"

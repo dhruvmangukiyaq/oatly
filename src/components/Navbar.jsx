@@ -10,7 +10,7 @@ import { Home, Globe, X, Menu, ChevronDown, ChevronRight, User as UserIcon } fro
 //   nav row: PRODUCTS TASTEBUDS NEWS SUSTAINABILITY HEALTH (same order)
 import NavigationModel from '../models/navigationModel.js';
 import { useApiData } from '../hooks/useApiData.js';
-import { useAuth } from '../hooks/useAuth.js';
+import { useAuth, isAdmin as checkIsAdmin } from '../hooks/useAuth.js';
 import '../styles/OatlyNav.css';
 
 export default function Navbar() {
@@ -20,6 +20,7 @@ export default function Navbar() {
   const closeTimer = useRef(null);
   const location = useLocation();
   const { user } = useAuth();
+  const showAdmin = checkIsAdmin(user);
   // MODEL (async API — header renders once items arrive)
   const navItems = useApiData(() => NavigationModel.getNavItems(), []);
   const headerCrumbs =
@@ -113,6 +114,12 @@ export default function Navbar() {
         <div className="oatly-toolbar__spacer" aria-hidden="true" />
 
         <div className="oatly-toolbar__utils">
+          {/* ADMIN link keval admin login par j — customers ne dekhashe nahi */}
+          {showAdmin && (
+            <Link to="/admin" className="oatly-toolbar__link oatly-toolbar__admin">
+              ADMIN
+            </Link>
+          )}
           <Link to="/health" className="oatly-toolbar__link">
             FAQ
           </Link>

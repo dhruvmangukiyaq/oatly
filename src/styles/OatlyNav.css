@@ -190,6 +190,14 @@
   font-weight: 700;
 }
 
+/* ADMIN link — keval admin ne dekhashe */
+.oatly-toolbar__admin {
+  background: #111;
+  color: #fceb50 !important;
+  border-radius: 999px;
+  margin-right: 4px;
+}
+
 /* --- Nav row: ~48px bar, 0 24px padding, centred 5 items (spec §4) ---
    Position relative = anchor for the FULL-WIDTH dropdown panel below. */
 .oatly-navrow {

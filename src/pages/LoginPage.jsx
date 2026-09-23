@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { Eye, EyeOff, Mail, Lock, User as UserIcon, LogIn, UserPlus } from 'lucide-react';
 import SEO from '../components/SEO';
-import { useAuth, getSession } from '../hooks/useAuth.js';
+import { useAuth, getSession, isAdmin } from '../hooks/useAuth.js';
 import '../styles/LoginPage.css';
 
 /* ==========================================================================
@@ -14,7 +14,7 @@ import '../styles/LoginPage.css';
 const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
 export default function LoginPage() {
-  const { login, signup } = useAuth();
+  const { login, signup, logout } = useAuth();
   const navigate = useNavigate();
   const [mode, setMode] = useState('login'); // 'login' | 'signup'
   const [name, setName] = useState('');
@@ -23,16 +23,28 @@ export default function LoginPage() {
   const [showPw, setShowPw] = useState(false);
   const [error, setError] = useState('');
 
-  if (getSession()) {
+  const session = getSession();
+  if (session) {
+    const admin = isAdmin(session);
     return (
       <div className="login-page">
         <SEO title="Account | Oatly" description="Your Oatly shop account." pathname="/login" />
         <div className="login-card">
           <h1>You&rsquo;re already logged in.</h1>
-          <p>Head to the shop or check your account.</p>
+          <p>
+            {admin
+              ? `Welcome back, Admin (${session.name}).`
+              : 'Head to the shop or check your account.'}
+          </p>
           <div className="login-actions">
+            {admin && <Link to="/admin" className="login-btn">Admin panel</Link>}
             <Link to="/products" className="login-btn">Shop now</Link>
             <Link to="/" className="login-btn login-btn--ghost">Home</Link>
+          </div>
+          <div className="login-actions">
+            <button type="button" className="login-btn login-btn--ghost" onClick={() => { logout(); navigate('/'); }}>
+              Logout
+            </button>
           </div>
         </div>
       </div>
@@ -59,7 +71,8 @@ export default function LoginPage() {
       setError(res.error);
       return;
     }
-    navigate('/products');
+    // Admin login → /admin, customer → /products. Bija users ne admin dekhashe nahi.
+    navigate(res.role === 'admin' ? '/admin' : '/products');
   };
 
   return (
