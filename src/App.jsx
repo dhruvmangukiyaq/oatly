@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { BrowserRouter, useLocation } from 'react-router-dom';
 import { HelmetProvider } from 'react-helmet-async';
 import { MotionConfig } from 'framer-motion';
@@ -20,6 +20,8 @@ import AppRoutes from './routes/AppRoutes';
 
 // Shared Layout Components
 import Navbar from './components/Navbar';
+import CartDrawer from './components/CartDrawer';
+import { getSettings } from './models/shopStore.js';
 
 // Interactive Modal Components
 import ProductModal from './components/ProductModal';
@@ -87,6 +89,8 @@ export default function App() {
     selectArticle,
     clearArticle,
   } = useAppController();
+  const [cartOpen, setCartOpen] = useState(false);
+  const announcement = getSettings().announcement;
 
   return (
     <HelmetProvider>
@@ -95,8 +99,14 @@ export default function App() {
         <ScrollToTop />
         <div className="app-shell bg-graph-paper border-0 sm:border-[4px] md:border-[6px] lg:border-[8px] border-[#466874] text-oatly-black selection:bg-oatly-yellow selection:text-oatly-black font-sans p-0 sm:p-2 md:p-2.5 lg:p-3.5">
           <div data-app-scroll className="app-frame bg-[#FFFEF8] flex flex-col w-full h-full max-w-full">
+          {/* Announcement bar (admin settings thi) */}
+          {announcement && (
+            <div style={{ background: '#111', color: '#fceb50', textAlign: 'center', fontSize: '0.75rem', fontWeight: 800, letterSpacing: '0.06em', textTransform: 'uppercase', padding: '8px 12px' }}>
+              {announcement}
+            </div>
+          )}
           {/* Navigation Bar */}
-          <Navbar />
+          <Navbar onCartOpen={() => setCartOpen(true)} />
 
           {/* Main Content Router (section-themed background) */}
           <ThemedMain
@@ -112,6 +122,7 @@ export default function App() {
             product={selectedProduct}
             onClose={clearProduct}
           />
+          <CartDrawer open={cartOpen} onClose={() => setCartOpen(false)} />
 
           <RecipeModal
             recipe={selectedRecipe}

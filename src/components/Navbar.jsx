@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { Link, useLocation } from 'react-router-dom';
-import { Home, Globe, X, Menu, ChevronDown, ChevronRight, User as UserIcon } from 'lucide-react';
+import { Home, Globe, X, Menu, ChevronDown, ChevronRight, User as UserIcon, ShoppingCart, Heart } from 'lucide-react';
 // ─── MVC: View ──────────────────────────────────────────────────────────────
 // Item order/labels come from the Model (navigationModel.js); this file only
 // renders. NOTE: react-router <Link> outputs a semantic <a href> in the DOM,
@@ -11,15 +11,17 @@ import { Home, Globe, X, Menu, ChevronDown, ChevronRight, User as UserIcon } fro
 import NavigationModel from '../models/navigationModel.js';
 import { useApiData } from '../hooks/useApiData.js';
 import { useAuth, isAdmin as checkIsAdmin } from '../hooks/useAuth.js';
+import { useShop } from '../hooks/useShop.js';
 import '../styles/OatlyNav.css';
 
-export default function Navbar() {
+export default function Navbar({ onCartOpen }) {
   const [openMenu, setOpenMenu] = useState(null); // desktop hover dropdown
   const [mobileOpen, setMobileOpen] = useState(false); // X/Menu drawer toggle
   const [expandedSection, setExpandedSection] = useState(null); // mobile accordion
   const closeTimer = useRef(null);
   const location = useLocation();
   const { user } = useAuth();
+  const { count: cartCount, wishlist } = useShop();
   const showAdmin = checkIsAdmin(user);
   // MODEL (async API — header renders once items arrive)
   const navItems = useApiData(() => NavigationModel.getNavItems(), []);
@@ -153,6 +155,21 @@ export default function Navbar() {
               <UserIcon size={16} aria-hidden="true" />
             )}
           </Link>
+          {/* Shop: wishlist + cart (Flipkart/Amazon jevu) */}
+          <Link to="/account" className="oatly-toolbar__btn" aria-label={`Wishlist (${wishlist.length})`} title="Wishlist">
+            <Heart size={16} aria-hidden="true" />
+            {wishlist.length > 0 && <span className="oatly-toolbar__count">{wishlist.length}</span>}
+          </Link>
+          <button
+            type="button"
+            className="oatly-toolbar__btn"
+            aria-label={`Cart (${cartCount})`}
+            title="Cart"
+            onClick={() => onCartOpen && onCartOpen()}
+          >
+            <ShoppingCart size={16} aria-hidden="true" />
+            {cartCount > 0 && <span className="oatly-toolbar__count">{cartCount}</span>}
+          </button>
           <button
             type="button"
             className="oatly-toolbar__btn oatly-toolbar__menu"

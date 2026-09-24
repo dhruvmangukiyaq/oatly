@@ -198,6 +198,26 @@
   margin-right: 4px;
 }
 
+/* Shop cart/wishlist count badge */
+.oatly-toolbar__btn { position: relative; }
+.oatly-toolbar__count {
+  position: absolute;
+  top: 2px;
+  right: 2px;
+  min-width: 16px;
+  height: 16px;
+  padding: 0 4px;
+  border-radius: 999px;
+  background: #e43e39;
+  color: #fff;
+  font-size: 0.62rem;
+  font-weight: 800;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  line-height: 1;
+}
+
 /* --- Nav row: ~48px bar, 0 24px padding, centred 5 items (spec §4) ---
    Position relative = anchor for the FULL-WIDTH dropdown panel below. */
 .oatly-navrow {

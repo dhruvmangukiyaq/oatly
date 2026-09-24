@@ -29,6 +29,10 @@ const HealthPage = lazy(() => import('../pages/HealthPage'));
 const ContactPage = lazy(() => import('../pages/ContactPage'));
 const LoginPage = lazy(() => import('../pages/LoginPage'));
 const AdminPage = lazy(() => import('../pages/AdminPage'));
+const CartPage = lazy(() => import('../pages/CartPage'));
+const CheckoutPage = lazy(() => import('../pages/CheckoutPage'));
+const OrderSuccessPage = lazy(() => import('../pages/OrderSuccessPage'));
+const AccountPage = lazy(() => import('../pages/AccountPage'));
 const LegalPage = lazy(() => import('../pages/LegalPage'));
 const PrivacyPolicyPage = lazy(() => import('../pages/PrivacyPolicyPage'));
 
@@ -215,6 +219,11 @@ export default function AppRoutes({ selectProduct, selectRecipe, selectArticle }
           path="/login"
           element={<LoginPage />}
         />
+        {/* E-commerce: cart, checkout, account */}
+        <Route path="/cart" element={<CartPage />} />
+        <Route path="/checkout" element={<CheckoutPage />} />
+        <Route path="/order-success/:id" element={<OrderSuccessPage />} />
+        <Route path="/account" element={<AccountPage />} />
         {/* Admin — keval admin login par j khulshe (AdminPage andar guard chhe).
             Bija users ne Access denied dekhase, link pan dekhashe nahi. */}
         <Route

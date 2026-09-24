@@ -1,12 +1,26 @@
 import React, { useState } from 'react';
-import { X, Leaf, Sparkles, Box, Image as ImageIcon } from 'lucide-react';
+import { X, Leaf, Sparkles, Box, Image as ImageIcon, ShoppingCart, Heart } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
+import { useNavigate } from 'react-router-dom';
 import Product360 from './Product360.jsx';
+import { useShop } from '../hooks/useShop.js';
+import { enrichProduct, getSettings } from '../models/shopStore.js';
+import { getProductOverrides } from '../models/adminStore.js';
 
 export default function ProductModal({ product, onClose }) {
   const [viewMode, setViewMode] = useState('3d');
+  const [qty, setQtyState] = useState(1);
+  const { add, wishlist, toggleWish } = useShop();
+  const navigate = useNavigate();
 
   if (!product) return null;
+
+  const item = enrichProduct(product, getProductOverrides());
+  const s = getSettings();
+  const pid = String(item.id ?? item.slug ?? item.name);
+  const wished = wishlist.includes(pid);
+  const out = Number(item.stock ?? 1) <= 0;
+  const off = item.mrp > item.price ? Math.round(((item.mrp - item.price) / item.mrp) * 100) : 0;
 
   const ingredients = product.ingredients || [
     'Oat base (water, oats 10%)',
@@ -122,6 +136,52 @@ export default function ProductModal({ product, onClose }) {
                 <h2 className="text-3xl md:text-4xl font-extrabold uppercase text-oatly-black font-display mt-1">
                   {product.name}
                 </h2>
+                {/* Shop price row */}
+                <div style={{ display: 'flex', gap: 10, alignItems: 'baseline', marginTop: 8 }}>
+                  <span style={{ fontSize: '1.6rem', fontWeight: 900 }}>{s.currency}{Number(item.price).toFixed(2)}</span>
+                  {item.mrp > item.price && (
+                    <s style={{ opacity: 0.55, fontWeight: 700 }}>{s.currency}{Number(item.mrp).toFixed(2)}</s>
+                  )}
+                  {off > 0 && (
+                    <span style={{ background: '#111', color: '#fceb50', fontSize: '0.72rem', fontWeight: 800, borderRadius: 999, padding: '3px 10px' }}>{off}% OFF</span>
+                  )}
+                </div>
+                <p style={{ fontSize: '0.85rem', opacity: 0.75, marginTop: 4 }}>
+                  ★ {Number(item.rating || 4.5).toFixed(1)} ({item.reviewsCount || 0} reviews) · {out ? 'Out of stock' : `In stock: ${item.stock}`}
+                </p>
+                {/* Buy row */}
+                <div style={{ display: 'flex', gap: 8, marginTop: 12, flexWrap: 'wrap' }}>
+                  <div className="qty" style={{ marginTop: 0 }}>
+                    <button type="button" onClick={() => setQtyState((v) => Math.max(1, v - 1))}>−</button>
+                    <span>{qty}</span>
+                    <button type="button" onClick={() => setQtyState((v) => Math.min(v + 1, Number(item.stock) || 99))}>+</button>
+                  </div>
+                  <button
+                    type="button"
+                    disabled={out}
+                    onClick={() => { add(pid, qty); onClose(); }}
+                    className="btn-oatly"
+                    style={{ flex: 1, minWidth: 160, padding: '12px 16px', fontSize: '0.85rem', opacity: out ? 0.5 : 1 }}
+                  >
+                    <ShoppingCart size={15} style={{ display: 'inline', verticalAlign: '-2px' }} /> {out ? 'SOLD OUT' : 'ADD TO CART'}
+                  </button>
+                  <button
+                    type="button"
+                    aria-label="Wishlist"
+                    onClick={() => toggleWish(pid)}
+                    style={{ width: 46, border: '2px solid #111', borderRadius: '50%', background: wished ? '#ffd7e0' : '#fff', cursor: 'pointer' }}
+                  >
+                    <Heart size={17} fill={wished ? 'currentColor' : 'none'} />
+                  </button>
+                </div>
+                <button
+                  type="button"
+                  disabled={out}
+                  onClick={() => { add(pid, qty); onClose(); navigate('/checkout'); }}
+                  style={{ width: '100%', marginTop: 8, padding: '12px', border: '2px solid #111', borderRadius: 999, background: '#fceb50', fontWeight: 900, cursor: 'pointer', opacity: out ? 0.5 : 1 }}
+                >
+                  BUY NOW →
+                </button>
                 <p className="text-sm text-gray-800 font-sans mt-3 leading-relaxed">
                   {product.description}
                 </p>

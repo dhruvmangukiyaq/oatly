@@ -97,7 +97,11 @@ export function saveOrder(order) {
 }
 
 export function updateOrderStatus(id, status) {
-  const orders = getOrders().map((o) => (String(o.id) === String(id) ? { ...o, status } : o));
+  const orders = getOrders().map((o) =>
+    String(o.id) === String(id)
+      ? { ...o, status, timeline: [...(o.timeline || []), { status, date: new Date().toISOString() }] }
+      : o,
+  );
   write(ORDERS_KEY, orders);
   return orders;
 }
