@@ -1,9 +1,9 @@
 /* ==========================================================================
-   SELLER CENTRAL — Amazon Seller Central jevu admin UI.
+   SELLER HUB — marketplace-style admin UI.
    --------------------------------------------------------------------------
    Layout: black top bar (#131921) + dark sidebar (#232F3E) + light gray
    content (#EAEDED) + white cards. Yellow primary buttons, teal links.
-   Structure mirrors Seller Central: Home, Catalog, Inventory, Pricing,
+   Sections: Home, Catalog, Inventory, Pricing,
    Orders, Advertising, Performance, Reports, Payments, Customers, Settings.
    Prefix: .sc-
    ========================================================================== */

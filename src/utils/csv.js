@@ -1,4 +1,4 @@
-// ─── CSV export (Amazon: Reports > download) ─────────────────────────────────
+// ─── CSV export (Admin: Reports > download) ───────────────────────────────────
 export function toCSV(rows) {
   const esc = (v) => {
     const s = v == null ? '' : String(v);

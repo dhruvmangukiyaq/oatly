@@ -155,7 +155,7 @@ export default function Navbar({ onCartOpen }) {
               <UserIcon size={16} aria-hidden="true" />
             )}
           </Link>
-          {/* Shop: wishlist + cart (Flipkart/Amazon jevu) */}
+          {/* Shop: wishlist + cart */}
           <Link to="/account" className="oatly-toolbar__btn" aria-label={`Wishlist (${wishlist.length})`} title="Wishlist">
             <Heart size={16} aria-hidden="true" />
             {wishlist.length > 0 && <span className="oatly-toolbar__count">{wishlist.length}</span>}

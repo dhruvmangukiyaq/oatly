@@ -281,7 +281,7 @@ export function deleteCategory(slug) {
   return next;
 }
 
-// ── Automate Pricing rules (Amazon: Pricing > Automate Pricing) ─────────────
+// ── Automate Pricing rules (Admin: Pricing > Automate Pricing) ───────────────
 // Rule: { id, name, scope: 'all' | productId, minPrice, maxPrice, active }
 const RULES_KEY = 'oatly-pricing-rules';
 
@@ -313,7 +313,7 @@ export function deletePricingRule(id) {
   return next;
 }
 
-// ── Advertising campaigns (Amazon: Advertising > Campaign Manager) ──────────
+// ── Advertising campaigns (Admin: Advertising > Campaign Manager) ────────────
 // Campaign: { id, name, products: [ids], dailyBudget, status, startDate,
 //             impressions, clicks, spend, sales }
 const CAMPS_KEY = 'oatly-campaigns';
@@ -355,7 +355,7 @@ export function campaignAcos(c) {
   return (Number(c.spend) / Number(c.sales)) * 100;
 }
 
-// ── Returns (Amazon: Orders > Manage Returns) ───────────────────────────────
+// ── Returns (Admin: Orders > Manage Returns) ─────────────────────────────────
 // Return: { id, orderId, product, reason, status, date, customer, email }
 const RETURNS_KEY = 'oatly-returns';
 export const RETURN_REASONS = ['Defective', 'Wrong item', 'Not as described', 'Changed mind', 'Late delivery', 'Other'];
@@ -392,7 +392,7 @@ export function deleteReturn(id) {
   return next;
 }
 
-// ── Buyer–Seller Messages (Amazon: buyer messages) ──────────────────────────
+// ── Buyer–Seller Messages ────────────────────────────────────────────────────
 // Message: { id, from: 'buyer'|'seller', name, email, orderId, subject, text, date, read }
 const MSGS_KEY = 'oatly-messages';
 
@@ -427,7 +427,7 @@ export function deleteMessage(id) {
   return next;
 }
 
-// ── Inventory ledger (Amazon: Inventory planning / stock history) ───────────
+// ── Inventory ledger (stock history) ─────────────────────────────────────────
 // Entry: { id, productId, productName, change, reason, date, by }
 const LEDGER_KEY = 'oatly-inventory-log';
 
@@ -452,7 +452,7 @@ export function logAdjustment({ productId, productName, change, reason, by }) {
   return entry;
 }
 
-// ── Account Health (Amazon: Performance > Account Health) ───────────────────
+// ── Account Health (Admin: Performance > Account Health) ─────────────────────
 // Returns { score 0-100, status, metrics } computed from real store data.
 export function computeAccountHealth(orders = [], reviews = [], products = []) {
   const total = orders.length;
@@ -468,7 +468,7 @@ export function computeAccountHealth(orders = [], reviews = [], products = []) {
   const oosPct = active.length ? (outOfStock / active.length) * 100 : 0;
 
   let score = 100;
-  score -= Math.min(30, cancelRate * 6); // Amazon target <2.5%
+  score -= Math.min(30, cancelRate * 6); // Target <2.5%
   score -= Math.min(20, refundRate * 4);
   score -= Math.min(25, negPct * 1.2);
   score -= Math.min(15, oosPct * 0.8);
@@ -491,7 +491,7 @@ function round1(n) {
   return Math.round(Number(n) * 10) / 10;
 }
 
-// ── Payments math (Amazon: Payments > Statement/Transaction view) ───────────
+// ── Payments math (Admin: Payments > Statement view) ─────────────────────────
 // Referral fee 15% + closing fee $1 per order (demo schedule).
 export function orderFees(order) {
   const total = Number(order.total) || 0;
@@ -502,7 +502,7 @@ export function orderFees(order) {
   return { total, referral, closing, refund, net };
 }
 
-// ── Disbursements (Amazon: Payments > Disbursements) ────────────────────────
+// ── Disbursements (Admin: Payments > Disbursements) ──────────────────────────
 // Entry: { id, amount, date, status: 'paid', destination }
 const DISB_KEY = 'oatly-disbursements';
 

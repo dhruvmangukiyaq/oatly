@@ -4,7 +4,7 @@ import { Heart, ArrowUpDown } from 'lucide-react';
 // ─── MVC: View (shared) ─────────────────────────────────────────────────────
 // Filter bar + product grid, reused by /products (ALL PRODUCTS)
 // and every /products/:category page. Shop-ready: price, rating, stock,
-// add-to-cart, wishlist, sort + search (Flipkart/Amazon jevu).
+// add-to-cart, wishlist, sort + search (standard marketplace features).
 import ProcessBand from './ProcessBand.jsx';
 import Product360 from './Product360.jsx';
 import { useShop } from '../hooks/useShop.js';

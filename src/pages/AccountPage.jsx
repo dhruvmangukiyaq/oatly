@@ -43,7 +43,7 @@ export default function AccountPage() {
           <button type="button" className={tab === 'profile' ? 'is-active' : ''} onClick={() => setTab('profile')}>
             <UserIcon size={14} className="acct-ic" /> Profile
           </button>
-          {session.role === 'admin' && <Link to="/admin" className="shop-btn shop-btn--small">Seller Central</Link>}
+          {session.role === 'admin' && <Link to="/admin" className="shop-btn shop-btn--small">Seller Hub</Link>}
           <button type="button" className="shop-btn shop-btn--small shop-btn--ghost" onClick={() => { logout(); navigate('/'); }}>
             <LogOut size={14} /> Logout
           </button>
@@ -124,7 +124,7 @@ function Profile({ session }) {
   );
 }
 
-/* Amazon jevu: delivered/shipped order par return request */
+/* Delivered/shipped order par return request */
 function MyReturns({ email, name }) {
   const [tick, setTick] = useState(0);
   const [orderId, setOrderId] = useState('');
@@ -191,7 +191,7 @@ function MyReturns({ email, name }) {
   );
 }
 
-/* Amazon jevu: buyer–seller messages */
+/* Buyer–seller messages */
 function MyMessages({ email, name }) {
   const [tick, setTick] = useState(0);
   const [orderId, setOrderId] = useState('');

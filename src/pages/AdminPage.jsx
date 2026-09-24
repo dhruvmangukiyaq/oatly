@@ -34,7 +34,7 @@ import { downloadCSV } from '../utils/csv.js';
 import '../styles/AdminPage.css';
 
 /* ==========================================================================
-   SELLER CENTRAL — Amazon Seller Central jevu structure + functionality.
+   SELLER HUB — marketplace-style admin structure + functionality.
    Menu: Home | Catalog | Inventory | Pricing | Orders | Advertising |
          Performance | Reports | Payments | Customers | Settings
    Keval admin (tame) maate.
@@ -213,12 +213,12 @@ function AdminInner() {
 
   return (
     <div className="sc">
-      <SEO title="Seller Central | Oatly" description="Seller Central — manage the Oatly shop." pathname="/admin" />
+      <SEO title="Seller Hub | Oatly" description="Seller Hub — manage the Oatly shop." pathname="/admin" />
 
       {/* Top black bar */}
       <header className="sc-top">
         <Link to="/products" className="sc-logo" title="View storefront">
-          <strong>oatly</strong><span>seller central</span>
+          <strong>oatly</strong>
         </Link>
         <div className="sc-search">
           <input
@@ -245,9 +245,9 @@ function AdminInner() {
       </header>
 
       <div className="sc-body">
-        {/* Left menu — Seller Central hamburger structure */}
+        {/* Left menu — grouped admin navigation */}
         <aside className="sc-side">
-          <nav className="sc-sidenav" aria-label="Seller Central">
+          <nav className="sc-sidenav" aria-label="Seller navigation">
             {MENU.map((g) => (
               <div key={g.group}>
                 <h4>{g.group}</h4>
