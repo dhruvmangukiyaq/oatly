@@ -21,10 +21,11 @@ import {
   getSettings, saveSettings, getReviews, deleteReview, setReviewApproved,
   getCustomCategories, saveCategory, deleteCategory,
 } from '../models/shopStore.js';
+import '../styles/HomeHeroGlass.css';
 import '../styles/AdminPage.css';
 
 /* ==========================================================================
-   ADMIN PANEL — proper e-commerce dashboard (Flipkart/Shopify jevu).
+   ADMIN PANEL — home page jevu UI (bento cards, frosted hero, pastel badges).
    Keval admin (tame) maate. Sections:
    Dashboard | Orders | Products | Categories | Customers | Coupons | Reviews | Settings
    ========================================================================== */
@@ -45,13 +46,19 @@ function RequireAdmin({ children }) {
   if (!user) return <Navigate to="/login" replace />;
   if (!isAdmin(user)) {
     return (
-      <div className="admin-page">
-        <div className="admin-card admin-denied">
-          <h1>Access denied.</h1>
-          <p>Aa page keval admin maate chhe. Tamaaru account customer chhe.</p>
-          <div className="admin-actions">
-            <Link to="/products" className="admin-btn">Shop now</Link>
-            <Link to="/" className="admin-btn admin-btn--ghost">Home</Link>
+      <div className="page-container">
+        <div className="home-glass-page">
+          <div className="max-w-[1760px] mx-auto px-4 sm:px-6 md:px-7 py-4 md:py-6">
+            <div className="home-hero">
+              <div className="home-hero__card ahm-denied px-4 sm:px-6 py-8">
+                <p className="font-funky-spec text-black text-[14px] sm:text-[16px]">Access denied.</p>
+                <p className="font-body-spec text-black mt-2">Aa page keval admin maate chhe. Tamaaru account customer chhe.</p>
+                <div className="mt-6 flex justify-center gap-3 flex-wrap">
+                  <Link to="/products" className="ahm-btn ahm-btn--dark ahm-btn--sm">Shop now</Link>
+                  <Link to="/" className="ahm-btn ahm-btn--sm">Home</Link>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
       </div>
@@ -60,12 +67,15 @@ function RequireAdmin({ children }) {
   return children;
 }
 
-function Stat({ label, value, sub }) {
+/* Bento stat: big display number + footer bar (label + badge) */
+function Stat({ label, value, sub, tone = 'ahm-badge--grey' }) {
   return (
-    <div className="admin-stat">
-      <p className="admin-stat__value">{value}</p>
-      <p className="admin-stat__label">{label}</p>
-      {sub && <p className="admin-stat__sub">{sub}</p>}
+    <div className="ahm-stat">
+      <p className="ahm-stat__num">{value}</p>
+      <div className="ahm-stat__foot">
+        <span className="ahm-title">{label}</span>
+        {sub && <span className={`ahm-badge ${tone}`}>{sub}</span>}
+      </div>
     </div>
   );
 }
@@ -109,50 +119,82 @@ function AdminInner() {
 
   const pendingCount = orders.filter((o) => o.status === 'pending').length;
   const pendingReviews = getReviews().filter((r) => !r.approved).length;
+  const activeCoupons = getCoupons().filter((c) => c.active).length;
+
+  const tabBadge = (id) => {
+    if (id === 'orders' && pendingCount > 0) return { text: `${pendingCount} new`, tone: 'ahm-badge--gold' };
+    if (id === 'reviews' && pendingReviews > 0) return { text: `${pendingReviews} new`, tone: 'ahm-badge--gold' };
+    if (id === 'products') return { text: `${products.length}`, tone: 'ahm-badge--grey' };
+    if (id === 'customers') return { text: `${customers.length}`, tone: 'ahm-badge--mint' };
+    if (id === 'coupons') return { text: `${activeCoupons} on`, tone: 'ahm-badge--lilac' };
+    return null;
+  };
 
   return (
-    <div className="admin-page">
+    <div className="page-container">
       <SEO title="Admin Panel | Oatly" description="Shop admin — orders, products, customers." pathname="/admin" />
-      <div className="admin-shell">
-        <aside className="admin-side">
-          <p className="admin-kicker">Oatly shop</p>
-          <h1>Admin panel</h1>
-          <p className="admin-who">
-            Logged in as <strong>{user?.name}</strong>
-            <span className="admin-badge">ADMIN</span>
-          </p>
-          <nav className="admin-tabs" aria-label="Admin sections">
-            {TABS.map(({ id, label, icon: Icon }) => (
-              <button
-                key={id}
-                type="button"
-                className={tab === id ? 'is-active' : ''}
-                onClick={() => { setTab(id); setQuery(''); }}
-              >
-                <Icon size={16} aria-hidden="true" /> {label}
-                {id === 'orders' && pendingCount > 0 && <span className="admin-count">{pendingCount}</span>}
-                {id === 'reviews' && pendingReviews > 0 && <span className="admin-count">{pendingReviews}</span>}
-              </button>
-            ))}
-          </nav>
-          <div className="admin-side__foot">
-            <Link to="/products" className="admin-btn admin-btn--ghost admin-btn--small">
-              <Store size={15} aria-hidden="true" /> View shop
-            </Link>
-            <Link to="/login" onClick={logout} className="admin-btn admin-btn--small admin-btn--ghost">
-              <LogOut size={15} aria-hidden="true" /> Logout
-            </Link>
-          </div>
-        </aside>
+      <div className="home-glass-page">
+        <div className="max-w-[1760px] mx-auto px-4 sm:px-6 md:px-7 py-4 md:py-6 flex flex-col gap-3">
 
-        <section className="admin-main">
-          <div className="admin-toolbar">
-            <div className="admin-search">
-              <Search size={16} aria-hidden="true" />
-              <input value={query} onChange={(e) => setQuery(e.target.value)} placeholder={`Search ${tab}…`} aria-label="Search" />
+          {/* HERO — frosted admin band, home hero jevu */}
+          <div className="home-hero">
+            <div className="home-hero__card px-4 sm:px-6 py-6 md:py-8">
+              <p className="font-funky-spec text-black text-center text-[16px] sm:text-[18px] lg:text-[20px]">
+                Admin panel — {user?.name}
+              </p>
+              <div className="mt-2 flex justify-center">
+                <span className="ahm-badge ahm-badge--gold">Admin</span>
+              </div>
+              <div className="mt-6 flex justify-center gap-3 flex-wrap">
+                <Link to="/products" className="ahm-btn ahm-btn--sm">
+                  <Store size={14} aria-hidden="true" /> View shop
+                </Link>
+                <Link to="/login" onClick={logout} className="ahm-btn ahm-btn--sm">
+                  <LogOut size={14} aria-hidden="true" /> Logout
+                </Link>
+              </div>
             </div>
           </div>
 
+          {/* SECTION NAV — bento card grid, home cards jevu */}
+          <nav className="grid grid-cols-2 sm:grid-cols-4 gap-3" aria-label="Admin sections">
+            {TABS.map(({ id, label, icon: Icon }) => {
+              const badge = tabBadge(id);
+              return (
+                <button
+                  key={id}
+                  type="button"
+                  onClick={() => { setTab(id); setQuery(''); }}
+                  aria-current={tab === id ? 'page' : undefined}
+                  className={`ahm-navcard${tab === id ? ' ahm-navcard--active' : ''}`}
+                >
+                  <span className="ahm-navcard__body">
+                    <Icon size={20} aria-hidden="true" />
+                  </span>
+                  <span className="ahm-navcard__foot">
+                    <span className="ahm-title">{label}</span>
+                    {badge && <span className={`ahm-badge ${badge.tone}`}>{badge.text}</span>}
+                  </span>
+                </button>
+              );
+            })}
+          </nav>
+
+          {/* SEARCH — quiet row */}
+          <div className="ahm-card ahm-searchrow">
+            <div className="ahm-searchrow__inner">
+              <Search size={16} aria-hidden="true" />
+              <input
+                value={query}
+                onChange={(e) => setQuery(e.target.value)}
+                placeholder={`Search ${tab}…`}
+                aria-label="Search"
+                className="ahm-input"
+              />
+            </div>
+          </div>
+
+          {/* CONTENT */}
           {tab === 'dashboard' && <Dashboard products={products} orders={orders} customers={customers} revenue={revenue} onGo={setTab} reload={reload} />}
           {tab === 'orders' && <OrdersTab items={orders} query={query} reload={reload} />}
           {tab === 'products' && <ProductsTab items={products} query={query} reload={reload} baseCategories={baseCategories} />}
@@ -161,7 +203,8 @@ function AdminInner() {
           {tab === 'coupons' && <CouponsTab reload={reload} />}
           {tab === 'reviews' && <ReviewsTab reload={reload} />}
           {tab === 'settings' && <SettingsTab reload={reload} />}
-        </section>
+
+        </div>
       </div>
     </div>
   );
@@ -197,7 +240,6 @@ function Dashboard({ products, orders, customers, revenue, onGo, reload }) {
 
   const statusBreak = ORDER_STATUSES.map((s) => ({ s, n: orders.filter((o) => o.status === s).length }));
 
-  // Top products by revenue from order items
   const prodSales = {};
   orders.forEach((o) => (o.items || []).forEach((it) => {
     const k = it.name || it.id;
@@ -243,63 +285,71 @@ function Dashboard({ products, orders, customers, revenue, onGo, reload }) {
   };
 
   return (
-    <div>
-      <div className="admin-grid">
-        <Stat label="Revenue" value={money(revenue)} sub={`${orders.length} orders`} />
+    <div className="flex flex-col gap-3">
+      <div className="grid grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-3">
+        <Stat label="Revenue" value={money(revenue)} sub={`${orders.length} orders`} tone="ahm-badge--gold" />
         <Stat label="Avg. order" value={money(aov)} sub="AOV" />
-        <Stat label="Products" value={products.filter((p) => p.status === 'active').length} sub={`${products.length} total`} />
-        <Stat label="Pending" value={pending} sub="need action" />
-        <Stat label="Customers" value={customers.length} sub="registered" />
+        <Stat label="Products" value={products.filter((p) => p.status === 'active').length} sub={`${products.length} total`} tone="ahm-badge--sky" />
+        <Stat label="Pending" value={pending} sub="need action" tone={pending > 0 ? 'ahm-badge--gold' : 'ahm-badge--mint'} />
+        <Stat label="Customers" value={customers.length} sub="registered" tone="ahm-badge--mint" />
       </div>
 
-      <div className="admin-panel">
-        <div className="admin-panel__head">
-          <h2>Revenue · last 14 days</h2>
-          {orders.length === 0 && <button type="button" className="admin-btn admin-btn--small" onClick={seedDemo}>Load demo data</button>}
+      <div className="ahm-card">
+        <div className="ahm-card__head">
+          <h2 className="ahm-h">Revenue · last 14 days</h2>
+          {orders.length === 0 && <button type="button" className="ahm-btn ahm-btn--sm" onClick={seedDemo}>Load demo data</button>}
         </div>
-        <div className="admin-chart">
+        <div className="ahm-chart">
           {byDay.map((b, i) => (
-            <div key={i} className="admin-bar" title={`${b.day.toLocaleDateString()}: ${money(b.total)}`}>
-              <div className="admin-bar__fill" style={{ height: `${Math.max(3, (b.total / max) * 100)}%` }} />
+            <div key={i} className="ahm-bar" title={`${b.day.toLocaleDateString()}: ${money(b.total)}`}>
+              <div className="ahm-bar__fill" style={{ height: `${Math.max(3, (b.total / max) * 100)}%` }} />
               <span>{b.day.getDate()}</span>
             </div>
           ))}
         </div>
       </div>
 
-      <div className="admin-grid2">
-        <div className="admin-panel">
-          <div className="admin-panel__head"><h2>Order status</h2></div>
-          <ul className="admin-list">
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-3">
+        <div className="ahm-card">
+          <div className="ahm-card__head"><h2 className="ahm-h">Order status</h2></div>
+          <ul className="ahm-list">
             {statusBreak.map(({ s, n }) => (
-              <li key={s}><span className={`admin-pill admin-pill--${s}`}>{s}</span> <strong>{n}</strong></li>
+              <li key={s}><span className={`ahm-badge ahm-pill--${s}`}>{s}</span> <strong>{n}</strong></li>
             ))}
           </ul>
-          <button type="button" className="admin-link" onClick={() => onGo('orders')}>Manage orders →</button>
+          <div className="ahm-mt10">
+            <button type="button" className="ahm-link" onClick={() => onGo('orders')}>Manage orders →</button>
+          </div>
         </div>
-        <div className="admin-panel">
-          <div className="admin-panel__head"><h2>Top products</h2></div>
-          {top.length === 0 ? <p className="admin-empty">Haju sales nathi.</p> : (
-            <ul className="admin-list">
+        <div className="ahm-card">
+          <div className="ahm-card__head"><h2 className="ahm-h">Top products</h2></div>
+          {top.length === 0 ? <p className="ahm-empty">Haju sales nathi.</p> : (
+            <ul className="ahm-list">
               {top.map((t) => <li key={t.name}><strong>{t.name}</strong> · {t.qty} sold · {money(t.rev)}</li>)}
             </ul>
           )}
         </div>
       </div>
 
-      <div className="admin-grid2">
-        <div className="admin-panel">
-          <div className="admin-panel__head"><h2>Low stock (≤5)</h2><button type="button" className="admin-link" onClick={() => onGo('products')}>Restock →</button></div>
-          {lowStock.length === 0 ? <p className="admin-empty">Badhu stock OK chhe.</p> : (
-            <ul className="admin-list">{lowStock.slice(0, 6).map((p) => <li key={p.id}><strong>{p.name}</strong> · {p.stock} left · {money(p.price)}</li>)}</ul>
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-3">
+        <div className="ahm-card">
+          <div className="ahm-card__head">
+            <h2 className="ahm-h">Low stock (≤5)</h2>
+            <button type="button" className="ahm-link" onClick={() => onGo('products')}>Restock →</button>
+          </div>
+          {lowStock.length === 0 ? <p className="ahm-empty">Badhu stock OK chhe.</p> : (
+            <ul className="ahm-list">{lowStock.slice(0, 6).map((p) => <li key={p.id}><strong>{p.name}</strong> · {p.stock} left · {money(p.price)}</li>)}</ul>
           )}
         </div>
-        <div className="admin-panel">
-          <div className="admin-panel__head"><h2>Recent orders</h2><button type="button" className="admin-link" onClick={() => onGo('orders')}>All →</button></div>
-          {recent.length === 0 ? <p className="admin-empty">Haju koi order nathi.</p> : (
-            <ul className="admin-list">
+        <div className="ahm-card">
+          <div className="ahm-card__head">
+            <h2 className="ahm-h">Recent orders</h2>
+            <button type="button" className="ahm-link" onClick={() => onGo('orders')}>All →</button>
+          </div>
+          {recent.length === 0 ? <p className="ahm-empty">Haju koi order nathi.</p> : (
+            <ul className="ahm-list">
               {recent.map((o) => (
-                <li key={o.id}><strong>{o.id}</strong> · {o.customer || o.email} · {money(o.total)} <span className={`admin-pill admin-pill--${o.status}`}>{o.status}</span></li>
+                <li key={o.id}><strong>{o.id}</strong> · {o.customer || o.email} · {money(o.total)} <span className={`ahm-badge ahm-pill--${o.status}`}>{o.status}</span></li>
               ))}
             </ul>
           )}
@@ -321,16 +371,16 @@ function OrdersTab({ items, query, reload }) {
   });
 
   return (
-    <div className="admin-panel">
-      <div className="admin-panel__head">
-        <h2>Orders ({list.length})</h2>
-        <select value={statusF} onChange={(e) => setStatusF(e.target.value)} className="admin-select" aria-label="Filter by status">
+    <div className="ahm-card">
+      <div className="ahm-card__head">
+        <h2 className="ahm-h">Orders ({list.length})</h2>
+        <select value={statusF} onChange={(e) => setStatusF(e.target.value)} className="ahm-select" aria-label="Filter by status">
           <option value="all">All statuses</option>
           {ORDER_STATUSES.map((s) => <option key={s} value={s}>{s}</option>)}
         </select>
       </div>
-      <div className="admin-tablewrap">
-        <table className="admin-table">
+      <div className="ahm-tablewrap">
+        <table className="ahm-table">
           <thead><tr><th>Order</th><th>Customer</th><th>Items</th><th>Total</th><th>Status</th><th /></tr></thead>
           <tbody>
             {list.map((o) => (
@@ -340,21 +390,23 @@ function OrdersTab({ items, query, reload }) {
                 <td>{(o.items || []).reduce((s, it) => s + Number(it.qty || 0), 0)}</td>
                 <td><strong>{money(o.total)}</strong><br /><small>{o.payment?.method?.toUpperCase()}</small></td>
                 <td>
-                  <select className={`admin-pill admin-pill--${o.status}`} value={o.status}
+                  <select className="ahm-select" value={o.status}
                     onChange={(e) => { updateOrderStatus(o.id, e.target.value); reload(); }} aria-label={`Status for ${o.id}`}>
                     {ORDER_STATUSES.map((s) => <option key={s} value={s}>{s}</option>)}
                   </select>
                 </td>
-                <td className="admin-rowactions">
-                  <button type="button" className="admin-iconbtn" aria-label="View" onClick={() => setSelected(o)}><Eye size={15} /></button>
-                  <button type="button" className="admin-iconbtn admin-iconbtn--danger" aria-label="Delete" onClick={() => { deleteOrder(o.id); reload(); }}><Trash2 size={15} /></button>
+                <td>
+                  <span className="ahm-btnrow">
+                    <button type="button" className="ahm-iconbtn" aria-label="View" onClick={() => setSelected(o)}><Eye size={15} /></button>
+                    <button type="button" className="ahm-iconbtn" aria-label="Delete" onClick={() => { deleteOrder(o.id); reload(); }}><Trash2 size={15} /></button>
+                  </span>
                 </td>
               </tr>
             ))}
           </tbody>
         </table>
       </div>
-      {list.length === 0 && <p className="admin-empty">Koi order nathi.</p>}
+      {list.length === 0 && <p className="ahm-empty">Koi order nathi.</p>}
       {selected && <OrderDetail order={selected} onClose={() => { setSelected(null); reload(); }} />}
     </div>
   );
@@ -365,40 +417,40 @@ function OrderDetail({ order, onClose }) {
   const save = () => { updateOrderStatus(order.id, status); onClose(); };
   const addr = order.address || {};
   return (
-    <div className="admin-modalbg" onClick={onClose}>
-      <div className="admin-modal" onClick={(e) => e.stopPropagation()} role="dialog" aria-label={`Order ${order.id}`}>
-        <div className="admin-modal__head">
+    <div className="ahm-modalbg" onClick={onClose}>
+      <div className="ahm-modal" onClick={(e) => e.stopPropagation()} role="dialog" aria-label={`Order ${order.id}`}>
+        <div className="ahm-modal__head">
           <h3>{order.id}</h3>
-          <button type="button" className="admin-iconbtn" onClick={onClose} aria-label="Close"><X size={15} /></button>
+          <button type="button" className="ahm-iconbtn" onClick={onClose} aria-label="Close"><X size={15} /></button>
         </div>
-        <p className="admin-note">{new Date(order.date).toLocaleString()} · {order.payment?.method?.toUpperCase()} · {order.coupon ? `Coupon ${order.coupon}` : 'No coupon'}</p>
+        <p className="ahm-note">{new Date(order.date).toLocaleString()} · {order.payment?.method?.toUpperCase()} · {order.coupon ? `Coupon ${order.coupon}` : 'No coupon'}</p>
         <h4>Customer</h4>
-        <p>{order.customer} · {order.email} · {order.phone || '—'}</p>
-        <p>{addr.line}, {addr.city} {addr.zip}, {addr.country || ''}</p>
-        {order.notes && <p className="admin-note">Note: {order.notes}</p>}
+        <p className="font-body-spec text-[14px]">{order.customer} · {order.email} · {order.phone || '—'}</p>
+        <p className="font-body-spec text-[14px]">{addr.line}, {addr.city} {addr.zip}, {addr.country || ''}</p>
+        {order.notes && <p className="ahm-note">Note: {order.notes}</p>}
         <h4>Items</h4>
-        <ul className="admin-list">
+        <ul className="ahm-list">
           {(order.items || []).map((it, i) => (
             <li key={i}>{it.name} × {it.qty} — {money(Number(it.price) * Number(it.qty))}</li>
           ))}
         </ul>
-        <div className="shop-row"><span>Subtotal</span><span>{money(order.subtotal)}</span></div>
-        {!!order.discount && <div className="shop-row"><span>Discount</span><span>−{money(order.discount)}</span></div>}
-        <div className="shop-row"><span>Shipping</span><span>{money(order.shipping)}</span></div>
-        <div className="shop-row"><span>Tax</span><span>{money(order.tax)}</span></div>
-        <div className="shop-row shop-row--total"><span>Total</span><span>{money(order.total)}</span></div>
+        <div className="ahm-row"><span>Subtotal</span><span>{money(order.subtotal)}</span></div>
+        {!!order.discount && <div className="ahm-row"><span>Discount</span><span>−{money(order.discount)}</span></div>}
+        <div className="ahm-row"><span>Shipping</span><span>{money(order.shipping)}</span></div>
+        <div className="ahm-row"><span>Tax</span><span>{money(order.tax)}</span></div>
+        <div className="ahm-row ahm-row--total"><span>Total</span><span>{money(order.total)}</span></div>
         <h4>Timeline</h4>
-        <ul className="admin-list">
+        <ul className="ahm-list">
           {(order.timeline || [{ status: order.status, date: order.date }]).map((t, i) => (
             <li key={i}>{t.status} · {new Date(t.date).toLocaleString()}</li>
           ))}
         </ul>
-        <div className="admin-form">
-          <select value={status} onChange={(e) => setStatus(e.target.value)}>
+        <div className="ahm-form ahm-form--flat">
+          <select value={status} onChange={(e) => setStatus(e.target.value)} className="ahm-select">
             {ORDER_STATUSES.map((s) => <option key={s} value={s}>{s}</option>)}
           </select>
-          <button type="button" className="admin-btn admin-btn--small" onClick={save}>Update status</button>
-          <button type="button" className="admin-btn admin-btn--small admin-btn--ghost" onClick={() => window.print()}>
+          <button type="button" className="ahm-btn ahm-btn--dark ahm-btn--sm" onClick={save}>Update status</button>
+          <button type="button" className="ahm-btn ahm-btn--sm" onClick={() => window.print()}>
             <Printer size={14} /> Invoice
           </button>
         </div>
@@ -425,39 +477,39 @@ function ProductsTab({ items, query, reload, baseCategories }) {
   });
 
   return (
-    <div className="admin-panel">
-      <div className="admin-panel__head">
-        <h2>Products ({list.length})</h2>
-        <div style={{ display: 'flex', gap: 8, flexWrap: 'wrap' }}>
-          <select value={catF} onChange={(e) => setCatF(e.target.value)} className="admin-select" aria-label="Category">
+    <div className="ahm-card">
+      <div className="ahm-card__head">
+        <h2 className="ahm-h">Products ({list.length})</h2>
+        <div className="ahm-btnrow ahm-btnrow--wrap">
+          <select value={catF} onChange={(e) => setCatF(e.target.value)} className="ahm-select" aria-label="Category">
             <option value="all">All categories</option>
             {cats.map((c) => <option key={c} value={c}>{c}</option>)}
           </select>
-          <select value={statusF} onChange={(e) => setStatusF(e.target.value)} className="admin-select" aria-label="Status">
+          <select value={statusF} onChange={(e) => setStatusF(e.target.value)} className="ahm-select" aria-label="Status">
             <option value="all">All status</option>
             <option value="active">Active</option>
             <option value="draft">Draft</option>
             <option value="archived">Archived</option>
           </select>
-          <button type="button" className="admin-btn admin-btn--small" onClick={() => setShowNew(true)}>
-            <Plus size={15} /> Add
+          <button type="button" className="ahm-btn ahm-btn--dark ahm-btn--sm" onClick={() => setShowNew(true)}>
+            <Plus size={14} /> Add
           </button>
         </div>
       </div>
 
       {deleted.length > 0 && (
-        <p className="admin-note">
+        <p className="ahm-note ahm-mt10 ahm-mb10">
           {deleted.length} hidden.
           {deleted.slice(0, 5).map((id) => (
-            <button key={id} type="button" className="admin-link" onClick={() => { restoreProductAdmin(id); reload(); }}>
+            <button key={id} type="button" className="ahm-link" onClick={() => { restoreProductAdmin(id); reload(); }}>
               <RotateCcw size={13} /> {id}
             </button>
           ))}
         </p>
       )}
 
-      <div className="admin-tablewrap">
-        <table className="admin-table">
+      <div className="ahm-tablewrap">
+        <table className="ahm-table">
           <thead><tr><th>Product</th><th>Category</th><th>Price</th><th>Stock</th><th>Status</th><th>★</th><th /></tr></thead>
           <tbody>
             {list.map((p) => {
@@ -465,8 +517,8 @@ function ProductsTab({ items, query, reload, baseCategories }) {
               return (
                 <tr key={key}>
                   <td>
-                    <div style={{ display: 'flex', gap: 8, alignItems: 'center' }}>
-                      {p.image && <img src={p.image} alt="" style={{ width: 40, height: 40, objectFit: 'cover', border: '2px solid #111', borderRadius: 8 }} />}
+                    <div className="ahm-cellmain">
+                      {p.image && <img src={p.image} alt="" className="ahm-thumb" />}
                       <span><strong>{p.name}</strong><br /><small>{key}</small></span>
                     </div>
                   </td>
@@ -474,14 +526,14 @@ function ProductsTab({ items, query, reload, baseCategories }) {
                   <td><strong>{money(p.price)}</strong><br /><small><s>{money(p.mrp)}</s></small></td>
                   <td>
                     <input
-                      className="admin-cellinput" type="number" min="0" defaultValue={p.stock ?? ''}
+                      className="ahm-cellinput" type="number" min="0" defaultValue={p.stock ?? ''}
                       onBlur={(e) => { saveProductOverride(key, { stock: Number(e.target.value) }); reload(); }}
                       aria-label={`Stock for ${p.name}`}
                     />
                   </td>
                   <td>
                     <select
-                      className="admin-pill" value={p.status || 'active'}
+                      className="ahm-select" value={p.status || 'active'}
                       onChange={(e) => { saveProductOverride(key, { status: e.target.value }); reload(); }}
                       aria-label={`Status for ${p.name}`}
                     >
@@ -491,16 +543,18 @@ function ProductsTab({ items, query, reload, baseCategories }) {
                     </select>
                   </td>
                   <td>
-                    <button type="button" className="admin-iconbtn" aria-label="Featured" title="Featured"
+                    <button type="button" aria-label="Featured" title="Featured"
                       onClick={() => { saveProductOverride(key, { featured: !p.featured }); reload(); }}
-                      style={{ background: p.featured ? '#fceb50' : '#fff' }}>
+                      className={p.featured ? 'ahm-iconbtn ahm-star--on' : 'ahm-iconbtn ahm-star--off'}>
                       <Star size={15} fill={p.featured ? 'currentColor' : 'none'} />
                     </button>
                   </td>
-                  <td className="admin-rowactions">
-                    <button type="button" className="admin-iconbtn" aria-label="Edit" onClick={() => setEditing(p)}><Pencil size={15} /></button>
-                    <button type="button" className="admin-iconbtn admin-iconbtn--danger" aria-label="Delete"
-                      onClick={() => { deleteProductAdmin(key, Boolean(p.isCustom)); reload(); }}><Trash2 size={15} /></button>
+                  <td>
+                    <span className="ahm-btnrow">
+                      <button type="button" className="ahm-iconbtn" aria-label="Edit" onClick={() => setEditing(p)}><Pencil size={15} /></button>
+                      <button type="button" className="ahm-iconbtn" aria-label="Delete"
+                        onClick={() => { deleteProductAdmin(key, Boolean(p.isCustom)); reload(); }}><Trash2 size={15} /></button>
+                    </span>
                   </td>
                 </tr>
               );
@@ -508,7 +562,7 @@ function ProductsTab({ items, query, reload, baseCategories }) {
           </tbody>
         </table>
       </div>
-      {list.length === 0 && <p className="admin-empty">Koi product nathi.</p>}
+      {list.length === 0 && <p className="ahm-empty">Koi product nathi.</p>}
 
       {(editing || showNew) && (
         <ProductForm
@@ -565,37 +619,37 @@ function ProductForm({ initial, categories, onClose, onSaved }) {
   };
 
   return (
-    <div className="admin-modalbg" onClick={onClose}>
-      <div className="admin-modal" onClick={(e) => e.stopPropagation()} role="dialog" aria-label="Product form">
-        <div className="admin-modal__head">
+    <div className="ahm-modalbg" onClick={onClose}>
+      <div className="ahm-modal" onClick={(e) => e.stopPropagation()} role="dialog" aria-label="Product form">
+        <div className="ahm-modal__head">
           <h3>{initial ? 'Edit product' : 'New product'}</h3>
-          <button type="button" className="admin-iconbtn" onClick={onClose} aria-label="Close"><X size={15} /></button>
+          <button type="button" className="ahm-iconbtn" onClick={onClose} aria-label="Close"><X size={15} /></button>
         </div>
-        <form className="shop-form" onSubmit={save}>
-          <label>Name *<input value={f.name} onChange={set('name')} /></label>
-          <div className="shop-form shop-form--2">
+        <form className="ahm-stackform" onSubmit={save}>
+          <label>Name *<input className="ahm-input" value={f.name} onChange={set('name')} /></label>
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
             <label>Category
-              <select value={f.category} onChange={set('category')}>
+              <select className="ahm-select" value={f.category} onChange={set('category')}>
                 {categories.map((c) => <option key={c} value={c}>{c}</option>)}
               </select>
             </label>
             <label>Status
-              <select value={f.status} onChange={set('status')}>
+              <select className="ahm-select" value={f.status} onChange={set('status')}>
                 <option value="active">active</option>
                 <option value="draft">draft</option>
                 <option value="archived">archived</option>
               </select>
             </label>
-            <label>Price ($)<input type="number" min="0" step="0.01" value={f.price} onChange={set('price')} /></label>
-            <label>MRP ($)<input type="number" min="0" step="0.01" value={f.mrp} onChange={set('mrp')} /></label>
-            <label>Stock<input type="number" min="0" step="1" value={f.stock} onChange={set('stock')} /></label>
-            <label>Image URL<input value={f.image} onChange={set('image')} placeholder="https://…" /></label>
+            <label>Price ($)<input className="ahm-input" type="number" min="0" step="0.01" value={f.price} onChange={set('price')} /></label>
+            <label>MRP ($)<input className="ahm-input" type="number" min="0" step="0.01" value={f.mrp} onChange={set('mrp')} /></label>
+            <label>Stock<input className="ahm-input" type="number" min="0" step="1" value={f.stock} onChange={set('stock')} /></label>
+            <label>Image URL<input className="ahm-input" value={f.image} onChange={set('image')} placeholder="https://…" /></label>
           </div>
-          <label>Tagline<input value={f.tagline} onChange={set('tagline')} /></label>
-          <label style={{ display: 'flex', gap: 8, alignItems: 'center' }}>
-            <input type="checkbox" checked={f.featured} onChange={set('featured')} style={{ width: 18, height: 18 }} /> Featured product
+          <label>Tagline<input className="ahm-input" value={f.tagline} onChange={set('tagline')} /></label>
+          <label className="ahm-check">
+            <input type="checkbox" checked={f.featured} onChange={set('featured')} /> Featured product
           </label>
-          <button type="submit" className="admin-btn">Save product</button>
+          <button type="submit" className="ahm-btn ahm-btn--dark">Save product</button>
         </form>
       </div>
     </div>
@@ -617,18 +671,18 @@ function CategoriesTab({ baseCategories, reload }) {
   };
 
   return (
-    <div className="admin-panel">
-      <div className="admin-panel__head"><h2>Categories ({all.length})</h2></div>
-      <form className="admin-form" onSubmit={add}>
-        <input placeholder="New category name *" value={form.name} onChange={(e) => setForm({ ...form, name: e.target.value })} />
-        <input placeholder="Description" value={form.description} onChange={(e) => setForm({ ...form, description: e.target.value })} />
-        <button type="submit" className="admin-btn admin-btn--small"><Plus size={14} /> Add</button>
+    <div className="ahm-card">
+      <div className="ahm-card__head"><h2 className="ahm-h">Categories ({all.length})</h2></div>
+      <form className="ahm-form" onSubmit={add}>
+        <input className="ahm-input" placeholder="New category name *" value={form.name} onChange={(e) => setForm({ ...form, name: e.target.value })} />
+        <input className="ahm-input" placeholder="Description" value={form.description} onChange={(e) => setForm({ ...form, description: e.target.value })} />
+        <button type="submit" className="ahm-btn ahm-btn--sm"><Plus size={14} /> Add</button>
       </form>
-      <ul className="admin-list">
-        {(baseCategories || []).map((c) => <li key={c.slug}><strong>{c.name}</strong> <small>· builtin · {(c.items || []).length} items</small></li>)}
+      <ul className="ahm-list">
+        {(baseCategories || []).map((c) => <li key={c.slug}><strong>{c.name}</strong> <span className="ahm-badge ahm-badge--grey">builtin</span> <small>· {(c.items || []).length} items</small></li>)}
         {custom.map((c) => (
-          <li key={c.slug}><strong>{c.name}</strong> <small>· custom</small>
-            <button type="button" className="admin-iconbtn admin-iconbtn--danger" onClick={() => { deleteCategory(c.slug); reload(); }} aria-label={`Delete ${c.name}`}>
+          <li key={c.slug}><strong>{c.name}</strong> <span className="ahm-badge ahm-badge--sky">custom</span>
+            <button type="button" className="ahm-iconbtn" onClick={() => { deleteCategory(c.slug); reload(); }} aria-label={`Delete ${c.name}`}>
               <Trash2 size={14} />
             </button>
           </li>
@@ -648,10 +702,10 @@ function CustomersTab({ items, query, orders, reload }) {
   const count = (email) => orders.filter((o) => String(o.email || '').toLowerCase() === String(email).toLowerCase()).length;
 
   return (
-    <div className="admin-panel">
-      <div className="admin-panel__head"><h2>Customers ({list.length})</h2></div>
-      <div className="admin-tablewrap">
-        <table className="admin-table">
+    <div className="ahm-card">
+      <div className="ahm-card__head"><h2 className="ahm-h">Customers ({list.length})</h2></div>
+      <div className="ahm-tablewrap">
+        <table className="ahm-table">
           <thead><tr><th>Name</th><th>Email</th><th>Orders</th><th>Spent</th><th /></tr></thead>
           <tbody>
             {list.map((c) => (
@@ -660,27 +714,29 @@ function CustomersTab({ items, query, orders, reload }) {
                 <td>{c.email}</td>
                 <td>{count(c.email)}</td>
                 <td><strong>{money(spent(c.email))}</strong></td>
-                <td className="admin-rowactions">
-                  <button type="button" className="admin-iconbtn" aria-label="View" onClick={() => setSelected(c)}><Eye size={15} /></button>
-                  <button type="button" className="admin-iconbtn admin-iconbtn--danger" aria-label="Remove" onClick={() => { deleteAccount(c.email); reload(); }}><Trash2 size={15} /></button>
+                <td>
+                  <span className="ahm-btnrow">
+                    <button type="button" className="ahm-iconbtn" aria-label="View" onClick={() => setSelected(c)}><Eye size={15} /></button>
+                    <button type="button" className="ahm-iconbtn" aria-label="Remove" onClick={() => { deleteAccount(c.email); reload(); }}><Trash2 size={15} /></button>
+                  </span>
                 </td>
               </tr>
             ))}
           </tbody>
         </table>
       </div>
-      {list.length === 0 && <p className="admin-empty">Haju koi customer nathi.</p>}
+      {list.length === 0 && <p className="ahm-empty">Haju koi customer nathi.</p>}
       {selected && (
-        <div className="admin-modalbg" onClick={() => setSelected(null)}>
-          <div className="admin-modal" onClick={(e) => e.stopPropagation()} role="dialog" aria-label={selected.email}>
-            <div className="admin-modal__head">
+        <div className="ahm-modalbg" onClick={() => setSelected(null)}>
+          <div className="ahm-modal" onClick={(e) => e.stopPropagation()} role="dialog" aria-label={selected.email}>
+            <div className="ahm-modal__head">
               <h3>{selected.name}</h3>
-              <button type="button" className="admin-iconbtn" onClick={() => setSelected(null)} aria-label="Close"><X size={15} /></button>
+              <button type="button" className="ahm-iconbtn" onClick={() => setSelected(null)} aria-label="Close"><X size={15} /></button>
             </div>
-            <p className="admin-note">{selected.email} · Total spent {money(spent(selected.email))}</p>
-            <ul className="admin-list">
+            <p className="ahm-note">{selected.email} · Total spent {money(spent(selected.email))}</p>
+            <ul className="ahm-list ahm-mt8">
               {orders.filter((o) => String(o.email || '').toLowerCase() === String(selected.email).toLowerCase()).map((o) => (
-                <li key={o.id}><strong>{o.id}</strong> · {new Date(o.date).toLocaleDateString()} · {money(o.total)} <span className={`admin-pill admin-pill--${o.status}`}>{o.status}</span></li>
+                <li key={o.id}><strong>{o.id}</strong> · {new Date(o.date).toLocaleDateString()} · {money(o.total)} <span className={`ahm-badge ahm-pill--${o.status}`}>{o.status}</span></li>
               ))}
             </ul>
           </div>
@@ -705,38 +761,38 @@ function CouponsTab({ reload }) {
   };
 
   return (
-    <div className="admin-panel">
-      <div className="admin-panel__head"><h2>Coupons ({coupons.length})</h2></div>
-      <form className="admin-form" onSubmit={save}>
-        <input placeholder="CODE *" value={form.code} onChange={(e) => setForm({ ...form, code: e.target.value.toUpperCase() })} />
-        <select value={form.type} onChange={(e) => setForm({ ...form, type: e.target.value })}>
+    <div className="ahm-card">
+      <div className="ahm-card__head"><h2 className="ahm-h">Coupons ({coupons.length})</h2></div>
+      <form className="ahm-form" onSubmit={save}>
+        <input className="ahm-input" placeholder="CODE *" value={form.code} onChange={(e) => setForm({ ...form, code: e.target.value.toUpperCase() })} />
+        <select className="ahm-select" value={form.type} onChange={(e) => setForm({ ...form, type: e.target.value })}>
           <option value="percent">% off</option>
           <option value="flat">Flat $ off</option>
           <option value="freeship">Free shipping</option>
         </select>
-        <input type="number" min="0" placeholder="Value" value={form.value} onChange={(e) => setForm({ ...form, value: e.target.value })} />
-        <input type="number" min="0" placeholder="Min order" value={form.minOrder} onChange={(e) => setForm({ ...form, minOrder: e.target.value })} />
-        <input type="date" value={form.expiry} onChange={(e) => setForm({ ...form, expiry: e.target.value })} />
-        <button type="submit" className="admin-btn admin-btn--small"><Plus size={14} /> Save</button>
+        <input className="ahm-input" type="number" min="0" placeholder="Value" value={form.value} onChange={(e) => setForm({ ...form, value: e.target.value })} />
+        <input className="ahm-input" type="number" min="0" placeholder="Min order" value={form.minOrder} onChange={(e) => setForm({ ...form, minOrder: e.target.value })} />
+        <input className="ahm-input" type="date" value={form.expiry} onChange={(e) => setForm({ ...form, expiry: e.target.value })} />
+        <button type="submit" className="ahm-btn ahm-btn--sm"><Plus size={14} /> Save</button>
       </form>
-      <div className="admin-tablewrap">
-        <table className="admin-table">
+      <div className="ahm-tablewrap">
+        <table className="ahm-table">
           <thead><tr><th>Code</th><th>Offer</th><th>Min</th><th>Expiry</th><th>Used</th><th>Active</th><th /></tr></thead>
           <tbody>
             {coupons.map((c) => (
               <tr key={c.code}>
-                <td><strong>{c.code}</strong></td>
+                <td><span className="ahm-badge ahm-badge--gold">{c.code}</span></td>
                 <td>{c.type === 'percent' ? `${c.value}%` : c.type === 'flat' ? money(c.value) : 'FREESHIP'}</td>
                 <td>{money(c.minOrder)}</td>
                 <td><small>{c.expiry || '—'}</small></td>
                 <td>{c.used || 0}</td>
                 <td>
-                  <button type="button" className="admin-iconbtn" onClick={() => { saveCoupon({ ...c, active: !c.active }); refresh(); }}>
+                  <button type="button" className="ahm-link" onClick={() => { saveCoupon({ ...c, active: !c.active }); refresh(); }}>
                     {c.active ? 'ON' : 'OFF'}
                   </button>
                 </td>
                 <td>
-                  <button type="button" className="admin-iconbtn admin-iconbtn--danger" onClick={() => { deleteCoupon(c.code); refresh(); }} aria-label={`Delete ${c.code}`}>
+                  <button type="button" className="ahm-iconbtn" onClick={() => { deleteCoupon(c.code); refresh(); }} aria-label={`Delete ${c.code}`}>
                     <Trash2 size={15} />
                   </button>
                 </td>
@@ -754,19 +810,19 @@ function ReviewsTab({ reload }) {
   const [list, setList] = useState(() => getReviews());
   const refresh = () => { setList(getReviews()); reload(); };
   return (
-    <div className="admin-panel">
-      <div className="admin-panel__head"><h2>Reviews ({list.length})</h2></div>
-      {list.length === 0 && <p className="admin-empty">Haju koi review nathi. Product page par customer review aapshe etle ahiya dekhase.</p>}
-      <ul className="admin-list">
+    <div className="ahm-card">
+      <div className="ahm-card__head"><h2 className="ahm-h">Reviews ({list.length})</h2></div>
+      {list.length === 0 && <p className="ahm-empty">Haju koi review nathi. Product page par customer review aapshe etle ahiya dekhase.</p>}
+      <ul className="ahm-list">
         {list.map((r) => (
           <li key={r.id}>
             <strong>{r.author}</strong> · ★{r.rating} · {r.productId}
             <br /><small>{r.text} · {new Date(r.date).toLocaleString()}</small>
-            <span style={{ display: 'flex', gap: 6 }}>
-              <button type="button" className="admin-iconbtn" onClick={() => { setReviewApproved(r.id, !r.approved); refresh(); }}>
+            <span className="ahm-btnrow ahm-btnrow--wide">
+              <button type="button" className="ahm-link" onClick={() => { setReviewApproved(r.id, !r.approved); refresh(); }}>
                 {r.approved ? 'Hide' : 'Show'}
               </button>
-              <button type="button" className="admin-iconbtn admin-iconbtn--danger" onClick={() => { deleteReview(r.id); refresh(); }} aria-label="Delete review">
+              <button type="button" className="ahm-iconbtn" onClick={() => { deleteReview(r.id); refresh(); }} aria-label="Delete review">
                 <Trash2 size={14} />
               </button>
             </span>
@@ -798,25 +854,24 @@ function SettingsTab({ reload }) {
   };
 
   return (
-    <div className="admin-panel">
-      <div className="admin-panel__head"><h2>Store settings</h2></div>
-      <form className="shop-form" onSubmit={save}>
-        <label>Store name<input value={s.storeName} onChange={set('storeName')} /></label>
-        <label>Announcement bar<input value={s.announcement} onChange={set('announcement')} /></label>
-        <div className="shop-form shop-form--2">
-          <label>Currency<input value={s.currency} onChange={set('currency')} maxLength={3} /></label>
-          <label>Shipping fee ($)<input type="number" step="0.01" min="0" value={s.shippingFee} onChange={set('shippingFee')} /></label>
-          <label>Free shipping over ($)<input type="number" step="1" min="0" value={s.freeShipThreshold} onChange={set('freeShipThreshold')} /></label>
-          <label>Tax rate (0.08 = 8%)<input type="number" step="0.01" min="0" max="1" value={s.taxRate} onChange={set('taxRate')} /></label>
+    <div className="ahm-card">
+      <div className="ahm-card__head"><h2 className="ahm-h">Store settings</h2></div>
+      <form className="ahm-stackform" onSubmit={save}>
+        <label>Store name<input className="ahm-input" value={s.storeName} onChange={set('storeName')} /></label>
+        <label>Announcement bar<input className="ahm-input" value={s.announcement} onChange={set('announcement')} /></label>
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+          <label>Currency<input className="ahm-input" value={s.currency} onChange={set('currency')} maxLength={3} /></label>
+          <label>Shipping fee ($)<input className="ahm-input" type="number" step="0.01" min="0" value={s.shippingFee} onChange={set('shippingFee')} /></label>
+          <label>Free shipping over ($)<input className="ahm-input" type="number" step="1" min="0" value={s.freeShipThreshold} onChange={set('freeShipThreshold')} /></label>
+          <label>Tax rate (0.08 = 8%)<input className="ahm-input" type="number" step="0.01" min="0" max="1" value={s.taxRate} onChange={set('taxRate')} /></label>
         </div>
-        <button type="submit" className="admin-btn">Save settings</button>
+        <div><button type="submit" className="ahm-btn ahm-btn--dark">Save settings</button></div>
       </form>
-      <hr style={{ margin: '18px 0', border: '1px dashed #111' }} />
-      <h4>Danger zone</h4>
-      <button type="button" className="admin-btn admin-btn--ghost admin-btn--small" onClick={clearDemo}>
+      <h4 className="ahm-h ahm-h--gap">Danger zone</h4>
+      <button type="button" className="ahm-btn ahm-btn--sm" onClick={clearDemo}>
         Clear demo orders/cart/coupons
       </button>
-      <p className="admin-note">Admin: pahelo signup karnar auto-admin. Chokkas email fix karva mate <code>src/config/adminConfig.js</code> ma ADMIN_EMAILS vapro.</p>
+      <p className="ahm-note ahm-mt8">Admin: pahelo signup karnar auto-admin. Chokkas email fix karva mate <code>src/config/adminConfig.js</code> ma ADMIN_EMAILS vapro.</p>
     </div>
   );
 }
