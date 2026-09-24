@@ -181,7 +181,10 @@ export function validateCoupon(code, subtotal) {
   const c = getCoupons().find((x) => x.code === String(code || '').trim().toUpperCase());
   if (!c) return { ok: false, error: 'Invalid coupon code.' };
   if (!c.active) return { ok: false, error: 'This coupon is inactive.' };
-  if (c.expiry && new Date(c.expiry) < new Date()) return { ok: false, error: 'This coupon expired.' };
+  const now = new Date();
+  if (c.startsAt && new Date(c.startsAt) > now) return { ok: false, error: 'This coupon is not live yet.' };
+  if (c.endsAt && new Date(c.endsAt) < now) return { ok: false, error: 'This coupon expired.' };
+  if (c.expiry && new Date(c.expiry) < now) return { ok: false, error: 'This coupon expired.' };
   if (Number(subtotal) < Number(c.minOrder || 0)) {
     return { ok: false, error: `Minimum order $${Number(c.minOrder).toFixed(2)} required.` };
   }
@@ -276,4 +279,247 @@ export function deleteCategory(slug) {
   write(CATS_KEY, next);
   notifyShop();
   return next;
+}
+
+// ── Automate Pricing rules (Amazon: Pricing > Automate Pricing) ─────────────
+// Rule: { id, name, scope: 'all' | productId, minPrice, maxPrice, active }
+const RULES_KEY = 'oatly-pricing-rules';
+
+export function getPricingRules() {
+  return read(RULES_KEY, []);
+}
+
+export function savePricingRule(rule) {
+  const list = getPricingRules();
+  const entry = {
+    id: rule.id || `rule-${Date.now()}`,
+    name: rule.name || 'Pricing rule',
+    scope: rule.scope || 'all',
+    minPrice: Number(rule.minPrice) || 0,
+    maxPrice: Number(rule.maxPrice) || 0,
+    active: rule.active !== false,
+  };
+  const idx = list.findIndex((r) => r.id === entry.id);
+  const next = idx >= 0 ? list.map((r, i) => (i === idx ? entry : r)) : [...list, entry];
+  write(RULES_KEY, next);
+  notifyShop();
+  return next;
+}
+
+export function deletePricingRule(id) {
+  const next = getPricingRules().filter((r) => r.id !== id);
+  write(RULES_KEY, next);
+  notifyShop();
+  return next;
+}
+
+// ── Advertising campaigns (Amazon: Advertising > Campaign Manager) ──────────
+// Campaign: { id, name, products: [ids], dailyBudget, status, startDate,
+//             impressions, clicks, spend, sales }
+const CAMPS_KEY = 'oatly-campaigns';
+
+export function getCampaigns() {
+  return read(CAMPS_KEY, []);
+}
+
+export function saveCampaign(c) {
+  const list = getCampaigns();
+  const entry = {
+    id: c.id || `camp-${Date.now()}`,
+    name: c.name || 'Sponsored Products',
+    products: c.products || [],
+    dailyBudget: Number(c.dailyBudget) || 10,
+    status: c.status || 'enabled',
+    startDate: c.startDate || new Date().toISOString().slice(0, 10),
+    impressions: Number(c.impressions) || 0,
+    clicks: Number(c.clicks) || 0,
+    spend: Number(c.spend) || 0,
+    sales: Number(c.sales) || 0,
+  };
+  const idx = list.findIndex((x) => x.id === entry.id);
+  const next = idx >= 0 ? list.map((x, i) => (i === idx ? entry : x)) : [...list, entry];
+  write(CAMPS_KEY, next);
+  notifyShop();
+  return next;
+}
+
+export function deleteCampaign(id) {
+  const next = getCampaigns().filter((c) => c.id !== id);
+  write(CAMPS_KEY, next);
+  notifyShop();
+  return next;
+}
+
+export function campaignAcos(c) {
+  if (!Number(c.sales)) return 0;
+  return (Number(c.spend) / Number(c.sales)) * 100;
+}
+
+// ── Returns (Amazon: Orders > Manage Returns) ───────────────────────────────
+// Return: { id, orderId, product, reason, status, date, customer, email }
+const RETURNS_KEY = 'oatly-returns';
+export const RETURN_REASONS = ['Defective', 'Wrong item', 'Not as described', 'Changed mind', 'Late delivery', 'Other'];
+export const RETURN_STATUSES = ['requested', 'approved', 'label-sent', 'received', 'refunded', 'rejected'];
+
+export function getReturns() {
+  return read(RETURNS_KEY, []);
+}
+
+export function saveReturn(r) {
+  const list = getReturns();
+  const entry = {
+    id: r.id || `RET-${Date.now().toString().slice(-6)}`,
+    date: r.date || new Date().toISOString(),
+    status: r.status || 'requested',
+    ...r,
+  };
+  write(RETURNS_KEY, [entry, ...list]);
+  notifyShop();
+  return entry;
+}
+
+export function updateReturnStatus(id, status) {
+  const next = getReturns().map((r) => (String(r.id) === String(id) ? { ...r, status } : r));
+  write(RETURNS_KEY, next);
+  notifyShop();
+  return next;
+}
+
+export function deleteReturn(id) {
+  const next = getReturns().filter((r) => String(r.id) !== String(id));
+  write(RETURNS_KEY, next);
+  notifyShop();
+  return next;
+}
+
+// ── Buyer–Seller Messages (Amazon: buyer messages) ──────────────────────────
+// Message: { id, from: 'buyer'|'seller', name, email, orderId, subject, text, date, read }
+const MSGS_KEY = 'oatly-messages';
+
+export function getMessages() {
+  return read(MSGS_KEY, []);
+}
+
+export function sendMessage(m) {
+  const list = getMessages();
+  const entry = {
+    id: m.id || `msg-${Date.now()}`,
+    date: m.date || new Date().toISOString(),
+    read: false,
+    ...m,
+  };
+  write(MSGS_KEY, [entry, ...list]);
+  notifyShop();
+  return entry;
+}
+
+export function markMessageRead(id, read = true) {
+  const next = getMessages().map((m) => (String(m.id) === String(id) ? { ...m, read } : m));
+  write(MSGS_KEY, next);
+  notifyShop();
+  return next;
+}
+
+export function deleteMessage(id) {
+  const next = getMessages().filter((m) => String(m.id) !== String(id));
+  write(MSGS_KEY, next);
+  notifyShop();
+  return next;
+}
+
+// ── Inventory ledger (Amazon: Inventory planning / stock history) ───────────
+// Entry: { id, productId, productName, change, reason, date, by }
+const LEDGER_KEY = 'oatly-inventory-log';
+
+export function getLedger(productId = null) {
+  const all = read(LEDGER_KEY, []);
+  return productId ? all.filter((e) => String(e.productId) === String(productId)) : all;
+}
+
+export function logAdjustment({ productId, productName, change, reason, by }) {
+  const all = read(LEDGER_KEY, []);
+  const entry = {
+    id: `adj-${Date.now()}`,
+    productId: String(productId),
+    productName: productName || String(productId),
+    change: Number(change) || 0,
+    reason: reason || 'Manual adjustment',
+    date: new Date().toISOString(),
+    by: by || 'seller',
+  };
+  write(LEDGER_KEY, [entry, ...all].slice(0, 500));
+  notifyShop();
+  return entry;
+}
+
+// ── Account Health (Amazon: Performance > Account Health) ───────────────────
+// Returns { score 0-100, status, metrics } computed from real store data.
+export function computeAccountHealth(orders = [], reviews = [], products = []) {
+  const total = orders.length;
+  const cancelled = orders.filter((o) => o.status === 'cancelled').length;
+  const refunded = orders.filter((o) => Number(o.refunded || 0) > 0).length;
+  const cancelRate = total ? (cancelled / total) * 100 : 0;
+  const refundRate = total ? (refunded / total) * 100 : 0;
+  const ratings = reviews.filter((r) => r.approved !== false).map((r) => Number(r.rating) || 0);
+  const avgRating = ratings.length ? ratings.reduce((s, r) => s + r, 0) / ratings.length : 5;
+  const negPct = ratings.length ? (ratings.filter((r) => r <= 2).length / ratings.length) * 100 : 0;
+  const active = products.filter((p) => (p.status || 'active') === 'active');
+  const outOfStock = active.filter((p) => Number(p.stock ?? 1) <= 0).length;
+  const oosPct = active.length ? (outOfStock / active.length) * 100 : 0;
+
+  let score = 100;
+  score -= Math.min(30, cancelRate * 6); // Amazon target <2.5%
+  score -= Math.min(20, refundRate * 4);
+  score -= Math.min(25, negPct * 1.2);
+  score -= Math.min(15, oosPct * 0.8);
+  score = Math.max(0, Math.round(score));
+
+  const status = score >= 80 ? 'Healthy' : score >= 50 ? 'At risk' : 'Unhealthy';
+  return {
+    score, status,
+    metrics: {
+      cancelRate: round1(cancelRate), cancelTarget: 2.5,
+      refundRate: round1(refundRate),
+      avgRating: round1(avgRating), negPct: round1(negPct),
+      outOfStock, oosPct: round1(oosPct),
+      totalOrders: total,
+    },
+  };
+}
+
+function round1(n) {
+  return Math.round(Number(n) * 10) / 10;
+}
+
+// ── Payments math (Amazon: Payments > Statement/Transaction view) ───────────
+// Referral fee 15% + closing fee $1 per order (demo schedule).
+export function orderFees(order) {
+  const total = Number(order.total) || 0;
+  const referral = total * 0.15;
+  const closing = total > 0 ? 1 : 0;
+  const refund = Number(order.refunded) || 0;
+  const net = total - referral - closing - refund;
+  return { total, referral, closing, refund, net };
+}
+
+// ── Disbursements (Amazon: Payments > Disbursements) ────────────────────────
+// Entry: { id, amount, date, status: 'paid', destination }
+const DISB_KEY = 'oatly-disbursements';
+
+export function getDisbursements() {
+  return read(DISB_KEY, []);
+}
+
+export function saveDisbursement({ amount, destination }) {
+  const list = getDisbursements();
+  const entry = {
+    id: `DISB-${Date.now().toString().slice(-6)}`,
+    amount: Number(amount) || 0,
+    destination: destination || 'Bank ****1234',
+    date: new Date().toISOString(),
+    status: 'paid',
+  };
+  write(DISB_KEY, [entry, ...list]);
+  notifyShop();
+  return entry;
 }

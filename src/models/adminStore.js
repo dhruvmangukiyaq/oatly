@@ -97,13 +97,25 @@ export function saveOrder(order) {
 }
 
 export function updateOrderStatus(id, status) {
-  const orders = getOrders().map((o) =>
-    String(o.id) === String(id)
-      ? { ...o, status, timeline: [...(o.timeline || []), { status, date: new Date().toISOString() }] }
-      : o,
-  );
+  return updateOrder(id, { status });
+}
+
+// Generic patch (tracking, refund, address…); status change timeline ma nondhay.
+export function updateOrder(id, patch) {
+  const orders = getOrders().map((o) => {
+    if (String(o.id) !== String(id)) return o;
+    const next = { ...o, ...patch };
+    if (patch.status && patch.status !== o.status) {
+      next.timeline = [...(o.timeline || []), { status: patch.status, date: new Date().toISOString() }];
+    }
+    return next;
+  });
   write(ORDERS_KEY, orders);
   return orders;
+}
+
+export function getOrder(id) {
+  return getOrders().find((o) => String(o.id) === String(id)) || null;
 }
 
 export function deleteOrder(id) {
