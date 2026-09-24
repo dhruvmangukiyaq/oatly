@@ -137,50 +137,50 @@ export default function ProductModal({ product, onClose }) {
                   {product.name}
                 </h2>
                 {/* Shop price row */}
-                <div style={{ display: 'flex', gap: 10, alignItems: 'baseline', marginTop: 8 }}>
-                  <span style={{ fontSize: '1.6rem', fontWeight: 900 }}>{s.currency}{Number(item.price).toFixed(2)}</span>
+                <div className="flex items-baseline gap-2 mt-2">
+                  <span className="text-2xl font-extrabold font-display">{s.currency}{Number(item.price).toFixed(2)}</span>
                   {item.mrp > item.price && (
-                    <s style={{ opacity: 0.55, fontWeight: 700 }}>{s.currency}{Number(item.mrp).toFixed(2)}</s>
+                    <s className="font-bold opacity-55">{s.currency}{Number(item.mrp).toFixed(2)}</s>
                   )}
                   {off > 0 && (
-                    <span style={{ background: '#111', color: '#fceb50', fontSize: '0.72rem', fontWeight: 800, borderRadius: 999, padding: '3px 10px' }}>{off}% OFF</span>
+                    <span className="badge-sticker">{off}% off</span>
                   )}
                 </div>
-                <p style={{ fontSize: '0.85rem', opacity: 0.75, marginTop: 4 }}>
+                <p className="text-sm text-gray-800 font-sans mt-1">
                   ★ {Number(item.rating || 4.5).toFixed(1)} ({item.reviewsCount || 0} reviews) · {out ? 'Out of stock' : `In stock: ${item.stock}`}
                 </p>
                 {/* Buy row */}
-                <div style={{ display: 'flex', gap: 8, marginTop: 12, flexWrap: 'wrap' }}>
-                  <div className="qty" style={{ marginTop: 0 }}>
-                    <button type="button" onClick={() => setQtyState((v) => Math.max(1, v - 1))}>−</button>
-                    <span>{qty}</span>
-                    <button type="button" onClick={() => setQtyState((v) => Math.min(v + 1, Number(item.stock) || 99))}>+</button>
+                <div className="flex gap-2 mt-3 flex-wrap items-stretch">
+                  <div className="flex items-center gap-2 bg-white border-2 border-oatly-black px-2">
+                    <button type="button" aria-label="Decrease quantity" onClick={() => setQtyState((v) => Math.max(1, v - 1))} className="px-1 font-extrabold">−</button>
+                    <span className="min-w-6 text-center font-extrabold">{qty}</span>
+                    <button type="button" aria-label="Increase quantity" onClick={() => setQtyState((v) => Math.min(v + 1, Number(item.stock) || 99))} className="px-1 font-extrabold">+</button>
                   </div>
                   <button
                     type="button"
                     disabled={out}
                     onClick={() => { add(pid, qty); onClose(); }}
-                    className="btn-oatly"
-                    style={{ flex: 1, minWidth: 160, padding: '12px 16px', fontSize: '0.85rem', opacity: out ? 0.5 : 1 }}
+                    className="btn-oatly flex-1 min-w-40 text-sm disabled:opacity-50"
                   >
-                    <ShoppingCart size={15} style={{ display: 'inline', verticalAlign: '-2px' }} /> {out ? 'SOLD OUT' : 'ADD TO CART'}
+                    <ShoppingCart className="w-4 h-4" /> {out ? 'Sold out' : 'Add to cart'}
                   </button>
                   <button
                     type="button"
-                    aria-label="Wishlist"
+                    aria-label={wished ? 'Remove from wishlist' : 'Add to wishlist'}
+                    aria-pressed={wished}
                     onClick={() => toggleWish(pid)}
-                    style={{ width: 46, border: '2px solid #111', borderRadius: '50%', background: wished ? '#ffd7e0' : '#fff', cursor: 'pointer' }}
+                    className="p-2 bg-white text-oatly-black border-2 border-oatly-black shadow-brutal-sm hover:bg-oatly-pink hover:text-white transition-all"
                   >
-                    <Heart size={17} fill={wished ? 'currentColor' : 'none'} />
+                    <Heart className="w-5 h-5" fill={wished ? 'currentColor' : 'none'} />
                   </button>
                 </div>
                 <button
                   type="button"
                   disabled={out}
                   onClick={() => { add(pid, qty); onClose(); navigate('/checkout'); }}
-                  style={{ width: '100%', marginTop: 8, padding: '12px', border: '2px solid #111', borderRadius: 999, background: '#fceb50', fontWeight: 900, cursor: 'pointer', opacity: out ? 0.5 : 1 }}
+                  className="btn-oatly-secondary w-full mt-2 text-sm disabled:opacity-50"
                 >
-                  BUY NOW →
+                  Buy now →
                 </button>
                 <p className="text-sm text-gray-800 font-sans mt-3 leading-relaxed">
                   {product.description}

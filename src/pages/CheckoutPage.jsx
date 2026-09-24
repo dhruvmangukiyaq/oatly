@@ -105,7 +105,7 @@ export default function CheckoutPage() {
                       </select>
                     </label>
                   </div>
-                  <div className="shop-form" style={{ marginTop: 10 }}>
+                  <div className="shop-form shop-stack">
                     <label>Address *<input value={form.address} onChange={set('address')} placeholder="STREET, APT" /></label>
                     <div className="shop-form shop-form--2">
                       <label>City *<input value={form.city} onChange={set('city')} placeholder="CITY" /></label>
@@ -124,7 +124,7 @@ export default function CheckoutPage() {
                       </label>
                     ))}
                   </div>
-                  <p className="shop-sub" style={{ margin: '10px 0 0' }}>Demo checkout — real payment gateway backend ma jodvanu raheshe.</p>
+                  <p className="shop-sub shop-note">Demo checkout — real payment gateway backend ma jodvanu raheshe.</p>
                 </div>
                 {error && <p className="shop-error">{error}</p>}
               </div>

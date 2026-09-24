@@ -59,6 +59,53 @@
   text-underline-offset: 3px;
 }
 
+/* --- SHOP TOOLBAR: quiet search + sort row, same type as filter --- */
+.plist-tools {
+  display: flex;
+  gap: var(--space-16);
+  align-items: center;
+  margin-bottom: var(--space-32);
+  flex-wrap: wrap;
+}
+
+.plist-tools__search {
+  flex: 1 1 220px;
+  padding: var(--space-8) var(--space-12);
+  border: 1px solid var(--spec-border);
+  border-radius: 2px;
+  background: var(--spec-canvas);
+  font-family: var(--font-ui);
+  font-size: 0.875rem;
+  color: var(--spec-ink);
+}
+
+.plist-tools__search:focus {
+  outline: 2px solid var(--spec-focus);
+  outline-offset: 1px;
+}
+
+.plist-tools__sort {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-8);
+  font-family: var(--font-ui);
+  font-size: 0.875rem;
+  letter-spacing: 0.02em;
+  text-transform: uppercase;
+  color: var(--spec-ink);
+}
+
+.plist-tools__sort select {
+  padding: var(--space-8) var(--space-12);
+  border: 1px solid var(--spec-border);
+  border-radius: 2px;
+  background: var(--spec-canvas);
+  font-family: var(--font-ui);
+  font-size: 0.875rem;
+  color: var(--spec-ink);
+  cursor: pointer;
+}
+
 /* --- 2. FILTER BAR: single left-aligned row, active tab gets gray box --- */
 .plist-filter {
   margin-bottom: var(--space-40);
@@ -157,6 +204,110 @@ button.plist-card {
 
 .plist-card--static:hover .plist-card__name {
   text-decoration: none;
+}
+
+/* --- 5. SHOP BITS: price + quiet actions, same plain type as the name --- */
+.plist-card__price {
+  margin: var(--space-4) 0 0;
+  font-family: var(--font-ui);
+  font-size: 0.875rem;
+  font-weight: 400;
+  line-height: 1.5;
+  color: var(--spec-ink);
+  display: flex;
+  gap: var(--space-8);
+  align-items: baseline;
+}
+
+.plist-card__price s {
+  opacity: 0.5;
+}
+
+.plist-card__off {
+  font-size: 0.75rem;
+  letter-spacing: 0.02em;
+  text-transform: uppercase;
+}
+
+.plist-card__rating {
+  margin: var(--space-4) 0 0;
+  font-family: var(--font-ui);
+  font-size: 0.75rem;
+  line-height: 1.5;
+  color: var(--spec-ink);
+  opacity: 0.65;
+}
+
+.plist-card__stock {
+  margin: var(--space-4) 0 0;
+  font-family: var(--font-ui);
+  font-size: 0.75rem;
+  letter-spacing: 0.02em;
+  text-transform: uppercase;
+  color: var(--spec-ink);
+}
+
+.plist-card__stock--low {
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+.plist-card__stock--out {
+  opacity: 0.55;
+}
+
+.plist-card__buy {
+  display: flex;
+  gap: var(--space-8);
+  align-items: center;
+  margin-top: var(--space-8);
+}
+
+/* Text-button: underline on hover, like every other link on the site */
+.plist-card__add {
+  padding: 0;
+  background: none;
+  border: none;
+  font-family: var(--font-ui);
+  font-size: 0.875rem;
+  letter-spacing: 0.02em;
+  text-transform: uppercase;
+  color: var(--spec-ink);
+  cursor: pointer;
+  white-space: nowrap;
+}
+
+.plist-card__add:hover {
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+.plist-card__add:disabled {
+  opacity: 0.45;
+  cursor: not-allowed;
+  text-decoration: none;
+}
+
+.plist-card__wish {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 28px;
+  height: 28px;
+  padding: 0;
+  background: none;
+  border: none;
+  color: var(--spec-ink);
+  cursor: pointer;
+  opacity: 0.7;
+}
+
+.plist-card__wish:hover {
+  opacity: 1;
+}
+
+.plist-card__wish.is-active {
+  opacity: 1;
 }
 
 /* Empty category fallback */

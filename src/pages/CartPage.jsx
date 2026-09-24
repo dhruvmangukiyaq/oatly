@@ -65,6 +65,7 @@ export default function CartPage() {
             </div>
             <div className="shop-card">
               <h2>Summary</h2>
+              <p className="shop-sub">Free shipping over {settings.currency}{Number(settings.freeShipThreshold).toFixed(2)} · OAT10 = 10% off</p>
               <div className="shop-coupon">
                 <input placeholder="COUPON CODE" value={input} onChange={(e) => setInput(e.target.value.toUpperCase())} />
                 <button type="button" className="shop-btn shop-btn--small shop-btn--ghost" onClick={apply}>Apply</button>

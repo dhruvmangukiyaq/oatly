@@ -25,13 +25,13 @@ export default function AccountPage() {
         <p className="shop-sub">{session.email} · {session.role === 'admin' ? 'ADMIN' : 'CUSTOMER'}</p>
         <div className="acct-tabs">
           <button type="button" className={tab === 'orders' ? 'is-active' : ''} onClick={() => setTab('orders')}>
-            <Package size={14} style={{ display: 'inline', verticalAlign: '-2px' }} /> My orders
+            <Package size={14} className="acct-ic" /> My orders
           </button>
           <button type="button" className={tab === 'wishlist' ? 'is-active' : ''} onClick={() => setTab('wishlist')}>
-            <Heart size={14} style={{ display: 'inline', verticalAlign: '-2px' }} /> Wishlist
+            <Heart size={14} className="acct-ic" /> Wishlist
           </button>
           <button type="button" className={tab === 'profile' ? 'is-active' : ''} onClick={() => setTab('profile')}>
-            <UserIcon size={14} style={{ display: 'inline', verticalAlign: '-2px' }} /> Profile
+            <UserIcon size={14} className="acct-ic" /> Profile
           </button>
           {session.role === 'admin' && <Link to="/admin" className="shop-btn shop-btn--small">Admin panel</Link>}
           <button type="button" className="shop-btn shop-btn--small shop-btn--ghost" onClick={() => { logout(); navigate('/'); }}>
@@ -65,7 +65,7 @@ function MyOrders({ email }) {
             <span className={`status-pill status-${o.status}`}>{o.status}</span>
           </div>
           <p className="shop-sub">{new Date(o.date).toLocaleString()} · ${(Number(o.total) || 0).toFixed(2)}</p>
-          <ul style={{ margin: '8px 0', paddingLeft: 18, fontSize: '0.9rem' }}>
+          <ul className="order-items">
             {(o.items || []).map((it, i) => (
               <li key={i}>{it.name} × {it.qty} — ${(Number(it.price) * Number(it.qty)).toFixed(2)}</li>
             ))}
@@ -89,7 +89,7 @@ function MyWishlist() {
           <div>
             <p className="shop-line__name">{p.name}</p>
             <p className="shop-line__meta">${Number(p.price).toFixed(2)}</p>
-            <div className="shop-actions" style={{ marginTop: 6 }}>
+            <div className="shop-actions shop-stack">
               <button type="button" className="shop-btn shop-btn--small" onClick={() => add(p.id, 1)}>Add to cart</button>
               <button type="button" className="shop-linkbtn" onClick={() => toggleWish(p.id)}>Remove</button>
             </div>

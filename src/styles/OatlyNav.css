@@ -190,32 +190,49 @@
   font-weight: 700;
 }
 
-/* ADMIN link — keval admin ne dekhashe */
+/* ADMIN link — plain toolbar link like FAQ/BIZ (keval admin ne dekhashe).
+   A small ink dot marks it, no pill, no new color. */
 .oatly-toolbar__admin {
-  background: #111;
-  color: #fceb50 !important;
-  border-radius: 999px;
-  margin-right: 4px;
+  position: relative;
 }
 
-/* Shop cart/wishlist count badge */
+.oatly-toolbar__admin::before {
+  content: '';
+  display: inline-block;
+  width: 6px;
+  height: 6px;
+  margin-right: 6px;
+  border-radius: 50%;
+  background: var(--spec-ink);
+}
+
+/* Shop cart/wishlist count badge — ink, same type scale as the toolbar */
 .oatly-toolbar__btn { position: relative; }
 .oatly-toolbar__count {
   position: absolute;
-  top: 2px;
-  right: 2px;
-  min-width: 16px;
-  height: 16px;
+  top: 4px;
+  right: 4px;
+  min-width: 15px;
+  height: 15px;
   padding: 0 4px;
-  border-radius: 999px;
-  background: #e43e39;
-  color: #fff;
-  font-size: 0.62rem;
-  font-weight: 800;
+  border-radius: 50%;
+  background: var(--spec-ink);
+  color: var(--spec-canvas);
+  font-family: var(--font-ui);
+  font-size: 0.6rem;
+  font-weight: 400;
   display: inline-flex;
   align-items: center;
   justify-content: center;
   line-height: 1;
+}
+
+/* Crowded toolbar: FAQ/BIZ text links hide first on narrow screens so
+   ADMIN + icons (account, wishlist, cart, menu) never overflow or wrap. */
+@media (max-width: 700px) {
+  .oatly-toolbar__link:not(.oatly-toolbar__admin) {
+    display: none;
+  }
 }
 
 /* --- Nav row: ~48px bar, 0 24px padding, centred 5 items (spec §4) ---

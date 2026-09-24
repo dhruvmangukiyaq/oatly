@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
-import { X, Trash2, ShoppingCart } from 'lucide-react';
+import { X } from 'lucide-react';
 import { useShop } from '../hooks/useShop.js';
 import { useCatalog, findProduct } from '../hooks/useCatalog.js';
 import { calcTotals } from '../models/shopStore.js';
@@ -29,9 +29,9 @@ export default function CartDrawer({ open, onClose }) {
       <div className="cartdrawer__bg" onClick={onClose} />
       <aside className="cartdrawer__panel" role="dialog" aria-label="Shopping cart">
         <div className="cartdrawer__head">
-          <h2><ShoppingCart size={18} style={{ display: 'inline', verticalAlign: '-3px' }} /> Cart ({lines.reduce((s, l) => s + l.qty, 0)})</h2>
-          <button type="button" className="plist-card__wish" aria-label="Close cart" onClick={onClose}>
-            <X size={16} />
+          <h2>Cart ({lines.reduce((s, l) => s + l.qty, 0)})</h2>
+          <button type="button" className="cartdrawer__close" aria-label="Close cart" onClick={onClose}>
+            <X size={18} aria-hidden="true" />
           </button>
         </div>
         <div className="cartdrawer__body">
@@ -44,7 +44,7 @@ export default function CartDrawer({ open, onClose }) {
           ) : (
             lines.map((l) => (
               <div key={l.id} className="shop-line">
-                {l.image ? <img src={l.image} alt={l.name} /> : <div style={{ width: 72, height: 72 }} />}
+                {l.image ? <img src={l.image} alt={l.name} /> : <span className="shop-line__ph" />}
                 <div>
                   <p className="shop-line__name">{l.name}</p>
                   <p className="shop-line__meta">{settings.currency}{Number(l.price).toFixed(2)} each</p>
@@ -54,7 +54,7 @@ export default function CartDrawer({ open, onClose }) {
                     <button type="button" aria-label="Increase" onClick={() => updateQty(l.id, l.qty + 1)}>+</button>
                   </div>
                   <button type="button" className="shop-linkbtn" onClick={() => remove(l.id)}>
-                    <Trash2 size={13} style={{ display: 'inline', verticalAlign: '-2px' }} /> Remove
+                    Remove
                   </button>
                 </div>
                 <span className="shop-line__price">{settings.currency}{(l.price * l.qty).toFixed(2)}</span>

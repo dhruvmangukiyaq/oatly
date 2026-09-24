@@ -15,9 +15,9 @@ export default function OrderSuccessPage() {
     <div className="shop-page">
       <SEO title="Order confirmed | Oatly Shop" description="Thank you for your order." pathname={`/order-success/${id}`} />
       <div className="shop-shell shop-shell--narrow">
-        <div className="shop-card" style={{ textAlign: 'center' }}>
-          <CheckCircle2 size={48} style={{ margin: '0 auto' }} />
-          <p className="shop-kicker" style={{ marginTop: 12 }}>Order confirmed</p>
+        <div className="shop-card shop-card--center">
+          <CheckCircle2 size={48} className="shop-check" />
+          <p className="shop-kicker">Order confirmed</p>
           <h1>Thank you!</h1>
           <p className="shop-sub">
             {order ? (
@@ -27,7 +27,7 @@ export default function OrderSuccessPage() {
             )}
           </p>
           <p className="shop-sub">Confirmation email to mokalvama aavse (demo). Status Account → Orders ma joi shako cho.</p>
-          <div className="shop-actions" style={{ justifyContent: 'center' }}>
+          <div className="shop-actions">
             <Link to="/products" className="shop-btn">Continue shopping</Link>
             <Link to="/account" className="shop-btn shop-btn--ghost">My orders</Link>
           </div>

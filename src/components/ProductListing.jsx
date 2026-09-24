@@ -1,6 +1,6 @@
 import React, { useMemo, useState } from 'react';
 import { Link } from 'react-router-dom';
-import { Heart, ShoppingCart, ArrowUpDown } from 'lucide-react';
+import { Heart, ArrowUpDown } from 'lucide-react';
 // ─── MVC: View (shared) ─────────────────────────────────────────────────────
 // Filter bar + product grid, reused by /products (ALL PRODUCTS)
 // and every /products/:category page. Shop-ready: price, rating, stock,
@@ -25,7 +25,8 @@ function ProductCard({ item, onSelect, onAdded }) {
   const [imgOk, setImgOk] = useState(!!item.image);
   const { add, wishlist, toggleWish } = useShop();
   const src = item.image;
-  const wished = wishlist.includes(String(item.id ?? item.slug ?? item.name));
+  const key = String(item.id ?? item.slug ?? item.name);
+  const wished = wishlist.includes(key);
   const s = getSettings();
   const off = item.mrp > item.price ? Math.round(((item.mrp - item.price) / item.mrp) * 100) : 0;
   const out = Number(item.stock ?? 1) <= 0;
@@ -49,33 +50,36 @@ function ProductCard({ item, onSelect, onAdded }) {
       <div className="plist-card" onClick={() => onSelect && onSelect({ ...item, image: src })}>
         {media}
         <p className="plist-card__name">{item.name}</p>
-        <div className="plist-card__price" onClick={(e) => e.stopPropagation()}>
+        {/* Price row — same plain small type as the name (spec minimal) */}
+        <p className="plist-card__price" onClick={(e) => e.stopPropagation()}>
           <span>{s.currency}{Number(item.price).toFixed(2)}</span>
           {item.mrp > item.price && <s>{s.currency}{Number(item.mrp).toFixed(2)}</s>}
-          {off > 0 && <span className="plist-card__off">{off}% OFF</span>}
-        </div>
+          {off > 0 && <span className="plist-card__off">{off}% off</span>}
+        </p>
         <p className="plist-card__rating">★ {Number(item.rating || 4.5).toFixed(1)} ({item.reviewsCount || 0})</p>
         {out ? (
           <p className="plist-card__stock plist-card__stock--out">Out of stock</p>
         ) : low ? (
-          <p className="plist-card__stock plist-card__stock--low">Only {item.stock} left!</p>
+          <p className="plist-card__stock plist-card__stock--low">Only {item.stock} left</p>
         ) : null}
+        {/* Quiet text actions — underline on hover, like the rest of the site */}
         <div className="plist-card__buy" onClick={(e) => e.stopPropagation()}>
           <button
             type="button"
             className="plist-card__add"
             disabled={out}
-            onClick={() => { add(String(item.id ?? item.slug ?? item.name), 1); onAdded && onAdded(); }}
+            onClick={() => { add(key, 1); if (onAdded) onAdded(); }}
           >
-            <ShoppingCart size={13} style={{ display: 'inline', verticalAlign: '-2px' }} /> {out ? 'Sold out' : 'Add'}
+            {out ? 'Sold out' : 'Add to cart +'}
           </button>
           <button
             type="button"
-            aria-label="Wishlist"
+            aria-label={wished ? 'Remove from wishlist' : 'Add to wishlist'}
+            aria-pressed={wished}
             className={`plist-card__wish${wished ? ' is-active' : ''}`}
-            onClick={() => toggleWish(String(item.id ?? item.slug ?? item.name))}
+            onClick={() => toggleWish(key)}
           >
-            <Heart size={15} fill={wished ? 'currentColor' : 'none'} />
+            <Heart size={14} fill={wished ? 'currentColor' : 'none'} aria-hidden="true" />
           </button>
         </div>
       </div>
@@ -99,7 +103,6 @@ export default function ProductListing({ categories, activeSlug, items, onSelect
     let list = enriched.filter((p) =>
       !query || [p.name, p.category, p.tagline].filter(Boolean).join(' ').toLowerCase().includes(query),
     );
-    const val = (p) => p;
     switch (sort) {
       case 'low': list = [...list].sort((a, b) => a.price - b.price); break;
       case 'high': list = [...list].sort((a, b) => b.price - a.price); break;
@@ -146,18 +149,18 @@ export default function ProductListing({ categories, activeSlug, items, onSelect
             </ul>
           </nav>
 
-          {/* ── Shop toolbar: search + sort ── */}
-          <div style={{ display: 'flex', gap: 10, marginBottom: 18, flexWrap: 'wrap' }}>
+          {/* ── Shop toolbar: search + sort (same quiet row style as filter) ── */}
+          <div className="plist-tools">
             <input
               value={q}
               onChange={(e) => setQ(e.target.value)}
               placeholder="Search products…"
               aria-label="Search products"
-              style={{ flex: '1 1 220px', padding: '10px 14px', border: '2px solid #111', borderRadius: 999, fontWeight: 600 }}
+              className="plist-tools__search"
             />
-            <label style={{ display: 'inline-flex', alignItems: 'center', gap: 6, fontSize: '0.82rem', fontWeight: 800 }}>
-              <ArrowUpDown size={14} /> SORT
-              <select value={sort} onChange={(e) => setSort(e.target.value)} style={{ padding: '10px 12px', border: '2px solid #111', borderRadius: 999, fontWeight: 700 }}>
+            <label className="plist-tools__sort">
+              <ArrowUpDown size={14} aria-hidden="true" /> Sort
+              <select value={sort} onChange={(e) => setSort(e.target.value)} aria-label="Sort products">
                 {SORTS.map((s) => <option key={s.id} value={s.id}>{s.label}</option>)}
               </select>
             </label>
