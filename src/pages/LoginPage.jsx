@@ -7,7 +7,7 @@ import '../styles/LoginPage.css';
 
 /* ==========================================================================
    LOGIN / SIGNUP — first step of the shop (e-commerce conversion).
-   Brutalist Oatly card: tabs for log in / create account, inline
+   Brutalist Oatara card: tabs for log in / create account, inline
    validation, show/hide password, session persisted in localStorage.
    ========================================================================== */
 
@@ -28,7 +28,7 @@ export default function LoginPage() {
     const admin = isAdmin(session);
     return (
       <div className="login-page">
-        <SEO title="Account | Oatly" description="Your Oatly shop account." pathname="/login" />
+        <SEO title="Account | Oatara" description="Your Oatara shop account." pathname="/login" />
         <div className="login-card">
           <h1>You&rsquo;re already logged in.</h1>
           <p>
@@ -37,8 +37,11 @@ export default function LoginPage() {
               : 'Head to the shop or check your account.'}
           </p>
           <div className="login-actions">
-            {admin && <Link to="/admin" className="login-btn">Admin panel</Link>}
-            <Link to="/products" className="login-btn">Shop now</Link>
+            {admin ? (
+              <Link to="/admin" className="login-btn">Seller Hub</Link>
+            ) : (
+              <Link to="/products" className="login-btn">Shop now</Link>
+            )}
             <Link to="/" className="login-btn login-btn--ghost">Home</Link>
           </div>
           <div className="login-actions">
@@ -51,7 +54,7 @@ export default function LoginPage() {
     );
   }
 
-  const submit = (e) => {
+  const submit = async (e) => {
     e.preventDefault();
     setError('');
     if (mode === 'signup' && name.trim().length < 2) {
@@ -66,29 +69,29 @@ export default function LoginPage() {
       setError('Password needs at least 6 characters.');
       return;
     }
-    const res = mode === 'login' ? login(email, password) : signup(name, email, password);
+    // ADMIN email + password OK → direct /admin. Customer → /products.
+    const res = mode === 'login' ? await login(email, password) : signup(name, email, password);
     if (!res.ok) {
       setError(res.error);
       return;
     }
-    // Admin login → /admin, customer → /products. Bija users ne admin dekhashe nahi.
     navigate(res.role === 'admin' ? '/admin' : '/products');
   };
 
   return (
     <div className="login-page">
       <SEO
-        title={mode === 'login' ? 'Log in | Oatly' : 'Create account | Oatly'}
-        description="Log in or create your Oatly shop account to check out faster."
+        title={mode === 'login' ? 'Log in | Oatara' : 'Create account | Oatara'}
+        description="Log in or create your Oatara shop account to check out faster."
         pathname="/login"
       />
       <div className="login-card">
-        <p className="login-kicker">Oatly shop</p>
+        <p className="login-kicker">Oatara shop</p>
         <h1>{mode === 'login' ? 'Welcome back.' : 'Join the oat club.'}</h1>
         <p className="login-sub">
           {mode === 'login'
             ? 'Log in to check out faster and track your orders.'
-            : 'One account for faster checkout, order history and oat-mail.'}
+            : 'One account for faster checkout, order history and oatara-mail.'}
         </p>
 
         <div className="login-tabs" role="tablist" aria-label="Log in or sign up">
@@ -150,7 +153,7 @@ export default function LoginPage() {
         </form>
 
         <p className="login-fine">
-          Demo shop — accounts live only in this browser. No oat-mails, promise.
+          Demo shop — accounts live only in this browser. No oatara-mails, promise.
         </p>
       </div>
     </div>

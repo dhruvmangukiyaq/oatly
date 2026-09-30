@@ -13,7 +13,7 @@ export default function OrderSuccessPage() {
 
   return (
     <div className="shop-page">
-      <SEO title="Order confirmed | Oatly Shop" description="Thank you for your order." pathname={`/order-success/${id}`} />
+      <SEO title="Order confirmed | Oatara Shop" description="Thank you for your order." pathname={`/order-success/${id}`} />
       <div className="shop-shell shop-shell--narrow">
         <div className="shop-card shop-card--center">
           <CheckCircle2 size={48} className="shop-check" />

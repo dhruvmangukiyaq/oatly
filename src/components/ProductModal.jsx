@@ -4,6 +4,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { useNavigate } from 'react-router-dom';
 import Product360 from './Product360.jsx';
 import { useShop } from '../hooks/useShop.js';
+import { isAdmin as checkIsAdmin, useAuth } from '../hooks/useAuth.js';
 import { enrichProduct, getSettings } from '../models/shopStore.js';
 import { getProductOverrides } from '../models/adminStore.js';
 
@@ -11,6 +12,8 @@ export default function ProductModal({ product, onClose }) {
   const [viewMode, setViewMode] = useState('3d');
   const [qty, setQtyState] = useState(1);
   const { add, wishlist, toggleWish } = useShop();
+  const { user } = useAuth();
+  const adminView = checkIsAdmin(user); // admin ne buy row dekhase j nahi
   const navigate = useNavigate();
 
   if (!product) return null;
@@ -149,39 +152,43 @@ export default function ProductModal({ product, onClose }) {
                 <p className="text-sm text-gray-800 font-sans mt-1">
                   ★ {Number(item.rating || 4.5).toFixed(1)} ({item.reviewsCount || 0} reviews) · {out ? 'Out of stock' : `In stock: ${item.stock}`}
                 </p>
-                {/* Buy row */}
-                <div className="flex gap-2 mt-3 flex-wrap items-stretch">
-                  <div className="flex items-center gap-2 bg-white border-2 border-oatly-black px-2">
-                    <button type="button" aria-label="Decrease quantity" onClick={() => setQtyState((v) => Math.max(1, v - 1))} className="px-1 font-extrabold">−</button>
-                    <span className="min-w-6 text-center font-extrabold">{qty}</span>
-                    <button type="button" aria-label="Increase quantity" onClick={() => setQtyState((v) => Math.min(v + 1, Number(item.stock) || 99))} className="px-1 font-extrabold">+</button>
-                  </div>
-                  <button
-                    type="button"
-                    disabled={out}
-                    onClick={() => { add(pid, qty); onClose(); }}
-                    className="btn-oatly flex-1 min-w-40 text-sm disabled:opacity-50"
-                  >
-                    <ShoppingCart className="w-4 h-4" /> {out ? 'Sold out' : 'Add to cart'}
-                  </button>
-                  <button
-                    type="button"
-                    aria-label={wished ? 'Remove from wishlist' : 'Add to wishlist'}
-                    aria-pressed={wished}
-                    onClick={() => toggleWish(pid)}
-                    className="p-2 bg-white text-oatly-black border-2 border-oatly-black shadow-brutal-sm hover:bg-oatly-pink hover:text-white transition-all"
-                  >
-                    <Heart className="w-5 h-5" fill={wished ? 'currentColor' : 'none'} />
-                  </button>
-                </div>
-                <button
-                  type="button"
-                  disabled={out}
-                  onClick={() => { add(pid, qty); onClose(); navigate('/checkout'); }}
-                  className="btn-oatly-secondary w-full mt-2 text-sm disabled:opacity-50"
-                >
-                  Buy now →
-                </button>
+                {/* Buy row — admin ne DEKHASE J NAHI (admin buy na kare) */}
+                {!adminView && (
+                  <>
+                    <div className="flex gap-2 mt-3 flex-wrap items-stretch">
+                      <div className="flex items-center gap-2 bg-white border-2 border-oatly-black px-2">
+                        <button type="button" aria-label="Decrease quantity" onClick={() => setQtyState((v) => Math.max(1, v - 1))} className="px-1 font-extrabold">−</button>
+                        <span className="min-w-6 text-center font-extrabold">{qty}</span>
+                        <button type="button" aria-label="Increase quantity" onClick={() => setQtyState((v) => Math.min(v + 1, Number(item.stock) || 99))} className="px-1 font-extrabold">+</button>
+                      </div>
+                      <button
+                        type="button"
+                        disabled={out}
+                        onClick={() => { add(pid, qty); onClose(); }}
+                        className="btn-oatly flex-1 min-w-40 text-sm disabled:opacity-50"
+                      >
+                        <ShoppingCart className="w-4 h-4" /> {out ? 'Sold out' : 'Add to cart'}
+                      </button>
+                      <button
+                        type="button"
+                        aria-label={wished ? 'Remove from wishlist' : 'Add to wishlist'}
+                        aria-pressed={wished}
+                        onClick={() => toggleWish(pid)}
+                        className="p-2 bg-white text-oatly-black border-2 border-oatly-black shadow-brutal-sm hover:bg-oatly-pink hover:text-white transition-all"
+                      >
+                        <Heart className="w-5 h-5" fill={wished ? 'currentColor' : 'none'} />
+                      </button>
+                    </div>
+                    <button
+                      type="button"
+                      disabled={out}
+                      onClick={() => { add(pid, qty); onClose(); navigate('/checkout'); }}
+                      className="btn-oatly-secondary w-full mt-2 text-sm disabled:opacity-50"
+                    >
+                      Buy now →
+                    </button>
+                  </>
+                )}
                 <p className="text-sm text-gray-800 font-sans mt-3 leading-relaxed">
                   {product.description}
                 </p>

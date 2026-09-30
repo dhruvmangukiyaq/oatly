@@ -62,7 +62,7 @@ export default function HomePage() {
 
   return (
     <div className="page-container">
-      <SEO title="the Original Oat Drink Company" description="A site filled with everything you could possibly think of, and also probably not think of, related to an oat drink company called Oatly." />
+      <SEO title="the Original Oat Drink Company" description="A site filled with everything you could possibly think of, and also probably not think of, related to an oat drink company called Oatara." />
 
       <div className="home-glass-page">
         <div className="max-w-[1760px] mx-auto px-4 sm:px-6 md:px-7 py-4 md:py-6 flex flex-col gap-3">
@@ -109,7 +109,7 @@ export default function HomePage() {
               <VideoCard
                 {...CARDS.avavav}
                 className="w-full h-full"
-                overlay={<img src={IMAGES.avavavLogo} alt="AVAVAV × Oatly" className="absolute bottom-9 left-[6%] w-[88%]" />}
+                overlay={<img src={IMAGES.avavavLogo} alt="AVAVAV × Oatara" className="absolute bottom-9 left-[6%] w-[88%]" />}
               />
             </div>
             <div className="lg:col-span-2 flex flex-col gap-3">
@@ -189,7 +189,7 @@ export default function HomePage() {
             </div>
           </div>
 
-          {/* BAND 9 — oatly who */}
+          {/* BAND 9 — oatara who */}
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 items-start">
             <FlatCard {...CARDS.oatlywho} />
           </div>

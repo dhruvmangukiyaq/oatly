@@ -7,7 +7,7 @@ import SEO from '../components/SEO';
 import '../styles/NewsStory.css';
 
 /* ==========================================================================
-   NEWS STORY DETAIL — mirrors oatly.com/things-we-do/initiatives/pee-for-the-planet
+   NEWS STORY DETAIL — mirrors oatara.com/things-we-do/initiatives/pee-for-the-planet
    Editorial layout: hero image → tag + h1 (Girdo/Toni Noveau) →
    rich text body (Margo Pro) → centered images → narrow content column (width14)
    TOKENS (src/styles/index.css): --spec-*, --font-ui, --font-serif, --font-display
@@ -25,7 +25,7 @@ export default function NewsStoryDetailPage() {
   return (
     <>
       <SEO
-        title={`${story.title} | Oatly`}
+        title={`${story.title} | Oatara`}
         description={story.excerpt}
         pathname={`/things-we-do/${story.path || story.slug}`}
       />
@@ -92,7 +92,7 @@ export default function NewsStoryDetailPage() {
               {/* Fallback for stories without structured content */}
               {!story.content && (
                 <p className="ns-story__p">
-                  At Oatly, we believe that transparency isn't just a corporate buzzword — it's the foundation of everything we do. Whether testing natural fertilizer loops or hosting runway fashion shows, our goal is to make plant-based living irresistible, fun, and easy for everyone.
+                  At Oatara, we believe that transparency isn't just a corporate buzzword — it's the foundation of everything we do. Whether testing natural fertilizer loops or hosting runway fashion shows, our goal is to make plant-based living irresistible, fun, and easy for everyone.
                 </p>
               )}
             </div>

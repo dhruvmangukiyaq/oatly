@@ -30,7 +30,7 @@ export default function CategoryProductsPage({ onSelectProduct }) {
         description={
           currentCategory
             ? currentCategory.description
-            : 'Browse the full Oatly product range.'
+            : 'Browse the full Oatara product range.'
         }
         pathname={`/products/${category}`}
       />

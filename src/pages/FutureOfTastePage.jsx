@@ -1,7 +1,7 @@
 import React from 'react';
 import SEO from '../components/SEO';
 // ─── MVC: View ──────────────────────────────────────────────────────────────
-// Mirrors oatly.com/things-we-do/initiatives/future-of-taste: hero, editors
+// Mirrors oatara.com/things-we-do/initiatives/future-of-taste: hero, editors
 // letter, table of contents, 5 trend sections. Content + imagery arrive from
 // the Model (async Express API).
 import ContentModel from '../models/contentModel.js';
@@ -16,14 +16,14 @@ export default function FutureOfTastePage() {
   return (
     <div className="fot">
       <SEO
-        title="A Report on the Future of Taste | Oatly"
+        title="A Report on the Future of Taste | Oatara"
         description="Predicting what's next in beverage culture. From new flavor profiles to global trend forecasts, this report blends data, insights, expert predictions (and guesses)."
         pathname="/things-we-do/initiatives/future-of-taste"
       />
       <div className="fot__inner">
         {/* Hero */}
         <header className="fot-hero">
-          <img src={page.heroImage} alt="Oatly Intelligence World Wide" className="fot-hero__globe" />
+          <img src={page.heroImage} alt="Oatara Intelligence World Wide" className="fot-hero__globe" />
           <p className="fot-hero__badge">{page.heroBadge}</p>
           <p className="fot-hero__kicker">{page.heroKicker}</p>
           <h1 className="fot-hero__title">{page.heroTitle}</h1>
@@ -38,7 +38,7 @@ export default function FutureOfTastePage() {
           {page.letterParagraphs.slice(0, 3).map((p, i) => (
             <p key={i}>{p}</p>
           ))}
-          <img src={page.letterImage} alt="Oatly look book collage" className="fot-letter__collage" loading="lazy" />
+          <img src={page.letterImage} alt="Oatara look book collage" className="fot-letter__collage" loading="lazy" />
           {page.letterParagraphs.slice(3).map((p, i) => (
             <p key={i}>{p}</p>
           ))}

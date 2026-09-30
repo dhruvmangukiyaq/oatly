@@ -125,14 +125,12 @@ export default function Navbar({ onCartOpen }) {
           <Link to="/health" className="oatly-toolbar__link">
             FAQ
           </Link>
-          <a
-            href="https://investors.oatly.com"
-            target="_blank"
-            rel="noreferrer"
+          <Link
+            to="/contact"
             className="oatly-toolbar__link"
           >
             BIZ
-          </a>
+          </Link>
           <button
             type="button"
             className="oatly-toolbar__btn"
@@ -155,21 +153,25 @@ export default function Navbar({ onCartOpen }) {
               <UserIcon size={16} aria-hidden="true" />
             )}
           </Link>
-          {/* Shop: wishlist + cart */}
-          <Link to="/account" className="oatly-toolbar__btn" aria-label={`Wishlist (${wishlist.length})`} title="Wishlist">
-            <Heart size={16} aria-hidden="true" />
-            {wishlist.length > 0 && <span className="oatly-toolbar__count">{wishlist.length}</span>}
-          </Link>
-          <button
-            type="button"
-            className="oatly-toolbar__btn"
-            aria-label={`Cart (${cartCount})`}
-            title="Cart"
-            onClick={() => onCartOpen && onCartOpen()}
-          >
-            <ShoppingCart size={16} aria-hidden="true" />
-            {cartCount > 0 && <span className="oatly-toolbar__count">{cartCount}</span>}
-          </button>
+          {/* Shop: wishlist + cart — admin ne DEKHASE J NAHI (admin buy na kare) */}
+          {!showAdmin && (
+            <Link to="/account" className="oatly-toolbar__btn" aria-label={`Wishlist (${wishlist.length})`} title="Wishlist">
+              <Heart size={16} aria-hidden="true" />
+              {wishlist.length > 0 && <span className="oatly-toolbar__count">{wishlist.length}</span>}
+            </Link>
+          )}
+          {!showAdmin && (
+            <button
+              type="button"
+              className="oatly-toolbar__btn"
+              aria-label={`Cart (${cartCount})`}
+              title="Cart"
+              onClick={() => onCartOpen && onCartOpen()}
+            >
+              <ShoppingCart size={16} aria-hidden="true" />
+              {cartCount > 0 && <span className="oatly-toolbar__count">{cartCount}</span>}
+            </button>
+          )}
           <button
             type="button"
             className="oatly-toolbar__btn oatly-toolbar__menu"

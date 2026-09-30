@@ -15,7 +15,7 @@ const TAG_COLORS = {
 
 /**
  * VideoCard (View) — same frame + footer bar as FlatCard, but plays the real
- * Oatly Vimeo footage (muted autoplay loop, like oatly.com) with the official
+ * Oatara Vimeo footage (muted autoplay loop, like oatara.com) with the official
  * video poster underneath as instant fallback.
  * Polish: borderless, 2px radius, -2px hover lift + soft shadow.
  * DOM/order/content unchanged.

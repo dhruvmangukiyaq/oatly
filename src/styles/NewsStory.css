@@ -1,5 +1,5 @@
 /* ==========================================================================
-   NEWS STORY DETAIL — editorial layout (mirrors oatly.com/things-we-do/...)
+   NEWS STORY DETAIL — editorial layout (mirrors oatara.com/things-we-do/...)
    --------------------------------------------------------------------------
    STRUCTURE:
      .ns-story           → page wrapper
@@ -119,7 +119,7 @@
   border-radius: 2px;
 }
 
-/* Tag color variants (match Oatly's collection tags) */
+/* Tag color variants (match Oatara's collection tags) */
 .ns-story__tag--black   { background: var(--spec-ink);   color: var(--spec-canvas); }
 .ns-story__tag--white   { background: var(--spec-canvas); color: var(--spec-ink); border: 1px solid var(--spec-border); }
 .ns-story__tag--blue    { background: #0050ff; color: #fff; }

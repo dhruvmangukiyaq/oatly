@@ -9,7 +9,7 @@ import '../styles/PeeForPlanet.css';
 // floating hero → live interactive Pee-O-Meter game → marquee → dark problem
 // cards → peecycling timeline → win-win → myth/flip quiz → matchday results →
 // story accordion (full original article, chunked) → pledge CTA.
-// Illustrations = official Oatly Storyblok artwork, copy preserved.
+// Illustrations = official Oatara Storyblok artwork, copy preserved.
 
 const EASE_OUT = [0.22, 0.61, 0.36, 1];
 
@@ -88,14 +88,14 @@ const JOURNEY = [
     step: '01',
     tag: 'COLLECT',
     title: 'Pee at the match',
-    text: 'Oatly, Malmö FF, Sanitation 360, Malmö Stad and VA Syd collect urine from supporters at Eleda Stadium. Just go as usual.',
+    text: 'Oatara, Malmö FF, Sanitation 360, Malmö Stad and VA Syd collect urine from supporters at Eleda Stadium. Just go as usual.',
   },
   {
     img: ASSETS.ex5,
     step: '02',
     tag: 'TRANSFORM',
     title: 'Dry it, pellet it',
-    text: 'Urine is dried in closed containers and blended with by-products from Oatly’s oat drink production → Granurin pellets with lower impact.',
+    text: 'Urine is dried in closed containers and blended with by-products from Oatara’s oat drink production → Granurin pellets with lower impact.',
   },
   {
     img: ASSETS.ex6,
@@ -170,7 +170,7 @@ const CHAPTERS = [
     img: ASSETS.ex2,
     imgAlt: 'Illustration of the research project',
     body: [
-      'Formas funds this 2-year project. SLU, Oatly, Sanitation 360 and Malmö FF ask: can human urine become a safe, circular fertilizer?',
+      'Formas funds this 2-year project. SLU, Oatara, Sanitation 360 and Malmö FF ask: can human urine become a safe, circular fertilizer?',
       'Plan is simple: use less fertilizer with healthy soil, and replace what is left with local, circular pee fertilizer.',
     ],
   },
@@ -199,7 +199,7 @@ const CHAPTERS = [
     imgAlt: 'Illustration of Granurin fertilizer pellets',
     body: [
       'People used urine as fertilizer in ancient China and Rome. Now SLU + Sanitation360 make it modern and safe.',
-      'We dry the pee, mix it with Oatly oat leftovers, and press Granurin pellets. Slow-release, easy to store, good for oats, veggies and pitches — and kinder to the Baltic Sea.',
+      'We dry the pee, mix it with Oatara oat leftovers, and press Granurin pellets. Slow-release, easy to store, good for oats, veggies and pitches — and kinder to the Baltic Sea.',
     ],
   },
   {
@@ -231,16 +231,16 @@ const CHAPTERS = [
     ],
   },
   {
-    id: 'oatly',
+    id: 'oatara',
     no: '08',
-    kicker: 'Why Oatly?',
+    kicker: 'Why Oatara?',
     title: 'Less import, healthier soil',
     takeaway: 'Local pee = stronger food, cleaner Baltic, happier soil.',
     read: '1 min',
     img: null,
     imgAlt: '',
     body: [
-      'Oatly wants food that stays inside planet limits. Our FARM program helps farmers use less fertilizer and build soil health.',
+      'Oatara wants food that stays inside planet limits. Our FARM program helps farmers use less fertilizer and build soil health.',
       'Made in Malmö, with Swedish partners. Less import, less eutrophication, more food security. A true piss project — proudly.',
     ],
   },
@@ -570,7 +570,7 @@ export default function PeeForPlanetPage() {
     <div className="pee2">
       <SEO
         title="Pee for the Planet: Human Urine as Fertilizer"
-        description="Oatly, Malmö FF, SLU and Sanitation360 are testing whether human urine can replace fossil-based fertilizer. Meet the Pee for the Planet research project."
+        description="Oatara, Malmö FF, SLU and Sanitation360 are testing whether human urine can replace fossil-based fertilizer. Meet the Pee for the Planet research project."
         pathname="/things-we-do/initiatives/pee-for-the-planet"
       />
 
@@ -594,7 +594,7 @@ export default function PeeForPlanetPage() {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5, ease: EASE_OUT }}
           >
-            ✳ A FORMAS-FUNDED SCIENCE PROJECT ✳ MFF × OATLY × SLU
+            ✳ A FORMAS-FUNDED SCIENCE PROJECT ✳ MFF × OATARA × SLU
           </motion.p>
 
           <motion.img
@@ -620,7 +620,7 @@ export default function PeeForPlanetPage() {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6, delay: 0.28, ease: EASE_OUT }}
           >
-            Initiated by Oatly, <a href="https://www.mff.se/">Malmö FF</a>,{' '}
+            Initiated by Oatara, <a href="https://www.mff.se/">Malmö FF</a>,{' '}
             <a href="https://sanitation360.se/">Sanitation 360</a> and{' '}
             <a href="https://www.slu.se/">SLU</a>, with{' '}
             <a href="https://malmo.se/">City of Malmö</a> +{' '}
@@ -653,7 +653,7 @@ export default function PeeForPlanetPage() {
             <source media="(max-width: 700px)" srcSet={ASSETS.sponsorsMobile} />
             <img
               src={ASSETS.sponsors}
-              alt="Vasyd, Sanitation 360, Malmö FF, Oatly, Malmö Stad, SLU, Formas"
+              alt="Vasyd, Sanitation 360, Malmö FF, Oatara, Malmö Stad, SLU, Formas"
               className="pee2-sponsors"
               loading="lazy"
             />
@@ -847,7 +847,7 @@ export default function PeeForPlanetPage() {
             <a href="https://www.slu.se/">SLU</a> · <a href="https://sanitation360.se/">Sanitation 360</a> ·{' '}
             <a href="https://www.mff.se/">Malmö FF</a> · <a href="https://malmo.se/">City of Malmö</a> ·{' '}
             <a href="https://www.vasyd.se/">VA Syd</a> ·{' '}
-            <a href="https://investors.oatly.com/static-files/ff1da040-3e10-4792-9bd0-16ddb2ef6147">Sustainability Update 2025</a>
+            <a href="/oatara-who/sustainability-plan">Sustainability Update 2025</a>
           </p>
         </section>
 
@@ -879,7 +879,7 @@ export default function PeeForPlanetPage() {
               </button>
               <a
                 className="pee-btn pee-btn--ghost"
-                href={`https://twitter.com/intent/tweet?text=${encodeURIComponent('My pee could fertilize oat fields?! Pee for the Planet 🚽🌱')}&url=${encodeURIComponent('https://oatly.com/things-we-do/initiatives/pee-for-the-planet')}`}
+                href={`https://twitter.com/intent/tweet?text=${encodeURIComponent('My pee could fertilize oat fields?! Pee for the Planet 🚽🌱')}&url=${encodeURIComponent('https://oatara.com/things-we-do/initiatives/pee-for-the-planet')}`}
                 target="_blank"
                 rel="noreferrer"
               >

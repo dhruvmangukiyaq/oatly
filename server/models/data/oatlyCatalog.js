@@ -1,7 +1,7 @@
-// ─── Real Oatly product catalog (mirrors oatly.com/products) ───────────────
-// Source: https://www.oatly.com/products (scraped 2026-09-15).
-// 63 products across 8 categories with official Oatly packshot imagery
-// (assets.oatly.com CDN, w640 width). Volumes are parsed from Oatly slugs
+// ─── Real Oatara product catalog (mirrors oatara.com/products) ───────────────
+// Product catalog data (images hotlink the original CDN).
+// 63 products across 8 categories with official Oatara packshot imagery
+// (assets.oatly.com CDN, w640 width). Volumes are parsed from Oatara slugs
 // (e.g. "-1l" → "1 L", "-150g" → "150 g"). Descriptions are short
 // category lines until official copy is added per product.
 // Wired into productCategories in siteData.js (see override at file end).

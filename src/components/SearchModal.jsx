@@ -26,7 +26,7 @@ export default function SearchModal({ isOpen, onClose, onSelectProduct }) {
           <div className="p-4 bg-oatly-yellow border-b-4 border-oatly-black flex items-center justify-between">
             <div className="flex items-center gap-2 font-display font-extrabold text-xl uppercase">
               <Sparkles className="w-5 h-5 text-oatly-black" />
-              SEARCH OATLY UNIVERSE
+              SEARCH OATARA UNIVERSE
             </div>
             <button
               onClick={onClose}

@@ -15,7 +15,7 @@ const TAG_COLORS = {
 };
 
 /**
- * FlatCard - Matches oatly.com homepage card style:
+ * FlatCard - Matches oatara.com homepage card style:
  * - Borderless (no outer border, no footer divider), 2px radius
  * - Full-bleed image background
  * - White footer bar with title left + gold badge right

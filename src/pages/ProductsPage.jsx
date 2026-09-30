@@ -21,7 +21,7 @@ export default function ProductsPage({ onSelectProduct }) {
     <>
       <SEO
         title="All Products"
-        description="Every oat drink, oatgurt, ice cream, spread and more — the full Oatly product range."
+        description="Every oat drink, oatgurt, ice cream, spread and more — the full Oatara product range."
         pathname="/products"
       />
       <ProductListing

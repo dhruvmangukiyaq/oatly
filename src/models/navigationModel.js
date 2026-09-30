@@ -20,15 +20,15 @@ const THINGS_SECTIONS = {
 };
 const RECIPE_COLLECTIONS = {
   'look-book-vol-3': {
-    label: 'LOOK BOOK VOL. 3 | OATLY',
+    label: 'LOOK BOOK VOL. 3 | OATARA',
     to: '/recipes/look-book-vol-3',
   },
   'look-book-autumn-winter-2025': {
-    label: 'LOOK BOOK A/W 25 | OATLY',
+    label: 'LOOK BOOK A/W 25 | OATARA',
     to: '/recipes/look-book-autumn-winter-2025',
   },
   'look-book-spring-summer-2025': {
-    label: 'LOOK BOOK S/S 25 | OATLY',
+    label: 'LOOK BOOK S/S 25 | OATARA',
     to: '/recipes/look-book-spring-summer-2025',
   },
 };
@@ -110,11 +110,11 @@ export async function getHeaderBreadcrumbs(pathname = '/') {
       return [{ label: 'Products' }];
     case '/recipes':
     case '/recipes/look-book-vol-3':
-      return [{ label: 'Tastebuds', to: '/recipes/look-book-vol-3' }, { label: 'LOOK BOOK VOL. 3 | OATLY' }];
+      return [{ label: 'Tastebuds', to: '/recipes/look-book-vol-3' }, { label: 'LOOK BOOK VOL. 3 | OATARA' }];
     case '/recipes/look-book-autumn-winter-2025':
-      return [{ label: 'Tastebuds', to: '/recipes/look-book-vol-3' }, { label: 'LOOK BOOK A/W 25 | OATLY' }];
+      return [{ label: 'Tastebuds', to: '/recipes/look-book-vol-3' }, { label: 'LOOK BOOK A/W 25 | OATARA' }];
     case '/recipes/look-book-spring-summer-2025':
-      return [{ label: 'Tastebuds', to: '/recipes/look-book-vol-3' }, { label: 'LOOK BOOK S/S 25 | OATLY' }];
+      return [{ label: 'Tastebuds', to: '/recipes/look-book-vol-3' }, { label: 'LOOK BOOK S/S 25 | OATARA' }];
     case '/things-we-do':
     case '/news':
       return [{ ...THINGS_WE_DO }];
@@ -135,7 +135,7 @@ export async function getHeaderBreadcrumbs(pathname = '/') {
     case '/sustainability':
       return [{ label: 'Sustainability' }];
     case '/health':
-    case '/random-answers/17-facts-about-oatly-and-nutrition':
+    case '/random-answers/17-facts-about-oatara-and-nutrition':
       return [{ label: 'Health' }];
     case '/contact':
       return [{ label: 'Contact' }];
@@ -174,8 +174,8 @@ export async function getHeaderBreadcrumbs(pathname = '/') {
   }
 
   if (
-    path === '/oatly-who' ||
-    path.startsWith('/oatly-who/') ||
+    path === '/oatara-who' ||
+    path.startsWith('/oatara-who/') ||
     path.startsWith('/sustainability/')
   ) {
     return sustainabilitySubBreadcrumbs(path);

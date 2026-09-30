@@ -118,7 +118,7 @@ export default function AppRoutes({ selectProduct, selectRecipe, selectArticle }
           path="/things-we-do/brainwashing"
           element={<ThingsWeDoPage onSelectArticle={selectArticle} />}
         />
-        {/* NEWS nav lands on /things-we-do (sem-to-sem with oatly.com);
+        {/* NEWS nav lands on /things-we-do (sem-to-sem with oatara.com);
             /news kept as a deep link that redirects there */}
         <Route
           path="/news"
@@ -129,7 +129,7 @@ export default function AppRoutes({ selectProduct, selectRecipe, selectArticle }
           element={<Navigate to="/things-we-do/initiatives/pee-for-the-planet" replace />}
         />
         <Route
-          path="/things-we-do/oatly-x-avavav"
+          path="/things-we-do/oatara-x-avavav"
           element={<OatlyXAvavavPage />}
         />
         <Route
@@ -173,7 +173,7 @@ export default function AppRoutes({ selectProduct, selectRecipe, selectArticle }
           element={<PeeForPlanetPage />}
         />
         <Route
-          path="/things-we-do/initiatives/oatly-x-avavav"
+          path="/things-we-do/initiatives/oatara-x-avavav"
           element={<OatlyXAvavavPage />}
         />
 
@@ -183,15 +183,15 @@ export default function AppRoutes({ selectProduct, selectRecipe, selectArticle }
           element={<SustainabilityPage />}
         />
         <Route
-          path="/oatly-who"
+          path="/oatara-who"
           element={<SustainabilitySubPage />}
         />
         <Route
-          path="/oatly-who/sustainability-plan"
+          path="/oatara-who/sustainability-plan"
           element={<SustainabilitySubPage />}
         />
         <Route
-          path="/oatly-who/sustainability-plan/climate-footprint-product-label"
+          path="/oatara-who/sustainability-plan/climate-footprint-product-label"
           element={<SustainabilitySubPage />}
         />
         <Route
@@ -205,7 +205,7 @@ export default function AppRoutes({ selectProduct, selectRecipe, selectArticle }
           element={<HealthPage />}
         />
         <Route
-          path="/random-answers/17-facts-about-oatly-and-nutrition"
+          path="/random-answers/17-facts-about-oatara-and-nutrition"
           element={<HealthPage />}
         />
 

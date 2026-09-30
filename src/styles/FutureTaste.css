@@ -1,10 +1,10 @@
 /* ==========================================================================
-   FUTURE OF TASTE — mirrors oatly.com/things-we-do/initiatives/future-of-taste:
+   FUTURE OF TASTE — mirrors oatara.com/things-we-do/initiatives/future-of-taste:
    breadcrumb → globe hero → red report title → editors letter → collage →
    table of contents → 5 trend sections → stamp.
    TOKENS (src/index.css): --spec-*, --space-*, --font-ui, --font-chunky
-   (Titan One ≈ Oatly's rounded Toni Nouveau headlines). Report red #ED1C24
-   matches Oatly's headline accent (not an error state).
+   (Titan One ≈ Oatara's rounded Toni Nouveau headlines). Report red #ED1C24
+   matches Oatara's headline accent (not an error state).
    BEM: .fot, .fot-hero__*, .fot-letter__*, .fot-toc__*, .fot-trend__*
    ========================================================================== */
 

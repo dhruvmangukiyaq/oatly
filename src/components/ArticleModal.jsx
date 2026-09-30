@@ -29,7 +29,7 @@ export default function ArticleModal({ article, onClose }) {
           <div className="sticky top-0 z-20 p-4 bg-oatly-blue text-white flex items-center justify-between border-b-4 border-oatly-black">
             <div className="flex items-center gap-2 font-display font-extrabold text-lg uppercase text-oatly-yellow">
               <Sparkles className="w-5 h-5" />
-              OATLY STORY & INITIATIVE
+              OATARA STORY & INITIATIVE
             </div>
             <button
               onClick={onClose}
@@ -76,7 +76,7 @@ export default function ArticleModal({ article, onClose }) {
             <div className="prose prose-lg max-w-none text-gray-800 font-sans leading-relaxed text-sm md:text-base space-y-4">
               <p>{article.content}</p>
               <p>
-                At Oatly, we believe that transparency isn't just a corporate buzzword — it's the foundation of everything we do. Whether we're testing experimental fertilizer methods or hosting fashion runway shows in Paris, our goal remains clear: make plant-based living irresistible, fun, and easy for everyone.
+                At Oatara, we believe that transparency isn't just a corporate buzzword — it's the foundation of everything we do. Whether we're testing experimental fertilizer methods or hosting fashion runway shows in Paris, our goal remains clear: make plant-based living irresistible, fun, and easy for everyone.
               </p>
             </div>
 

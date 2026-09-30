@@ -1,9 +1,9 @@
 <div align="center">
 
-# 🥛 Oatly Clone — Full-Stack Web Application
+# 🥛 Oatara — Full-Stack E-commerce Web Application
 
 <p align="center">
-  <strong>A modern, responsive, full-stack recreation of the iconic <a href="https://www.oatly.com" target="_blank">Oatly.com</a> website.</strong><br />
+  <strong>A modern, responsive, full-stack e-commerce website for Oatara — oat drinks, oatgurt, ice cream and more.</strong><br />
   Featuring brutalist aesthetics, dynamic product showcases, interactive recipe look-books, sustainability initiatives, and an Express MVC backend.
 </p>
 
@@ -24,9 +24,9 @@
 
 ## 📖 Overview
 
-This project is a high-fidelity **Oatly Website Clone** built to demonstrate modern full-stack web development practices, clean architecture, and bold UI design. It captures Oatly's distinctive, quirky, brutalist identity—complete with high-contrast borders, playful typography, vibrant pastel palettes, micro-interactions, and a decoupled **Express.js MVC API** backend serving a **React 19** frontend.
+This project is **Oatara**, a full-stack e-commerce website built to demonstrate modern full-stack web development practices, clean architecture, and bold UI design — complete with high-contrast borders, playful typography, vibrant pastel palettes, micro-interactions, cart & checkout, admin panel, and a decoupled **Express.js MVC API** backend serving a **React 19** frontend.
 
-> ⚠️ **Disclaimer:** This project is an independent educational clone created for portfolio and learning purposes. It is not affiliated with, endorsed by, or sponsored by Oatly AB.
+> ℹ️ **Note:** Oatara is an original demo storefront built for portfolio and learning purposes. All brand assets here are placeholder content.
 
 ---
 
@@ -42,21 +42,21 @@ This project is a high-fidelity **Oatly Website Clone** built to demonstrate mod
 - **Cooking Show Pages:** Episode-style stories with embedded films and full recipes — *Last First Dates with Maxence* (`/things-we-do/last-first-dates`).
 
 ### 📰 3. News, Stories & Initiatives
-- **Editorial Hub:** Grid-based news section showcasing Oatly campaigns, video cards, and cultural stories (`/things-we-do`, `/news`).
-- **Special Campaign Pages (copy-to-copy with oatly.com):**
+- **Editorial Hub:** Grid-based news section showcasing brand campaigns, video cards, and cultural stories (`/things-we-do`, `/news`).
+- **Special Campaign Pages:**
   - *Pee for the Planet* — interactive Pee-O-Meter + storybook (`/things-we-do/initiatives/pee-for-the-planet`)
-  - *Oatly x AVAVAV* — Milan Fashion Week black editorial (`/things-we-do/initiatives/oatly-x-avavav`)
+  - *Oatara x AVAVAV* — Milan Fashion Week black editorial (`/things-we-do/initiatives/oatara-x-avavav`)
   - *How Do You Say F.A.R.M. in Canadian?* — Hanover Ridge Farms story with film + photo slideshow (`/things-we-do/how-do-you-say-f-a-r-m-in-canadian`)
   - *Future of Taste* (`/things-we-do/initiatives/future-of-taste`)
 
 ### 🌱 4. Sustainability & Health Information
-- **Sustainability Hub:** Comprehensive overview of environmental impact, climate footprint labeling, and corporate responsibility (`/sustainability`, `/oatly-who/*`).
-- **Nutrition & Health FAQ:** Facts and common consumer questions answered with signature Oatly humor (`/health`).
+- **Sustainability Hub:** Comprehensive overview of environmental impact, climate footprint labeling, and corporate responsibility (`/sustainability`, `/oatara-who/*`).
+- **Nutrition & Health FAQ:** Facts and common consumer questions answered with signature brand humor (`/health`).
 
 ### 🎨 5. Signature Brutalist UI/UX
 - **Bold Brutalist Theme:** Thick borders (`border-2`, `border-black`), tactile drop shadows (`shadow-brutal`), and custom graph-paper grid backgrounds.
-- **Custom Oatly Palette:** Oatly Cream, Yellow, Blue, Pink, Mint, and Orange color schemes.
-- **Dynamic Typography:** Google Fonts pairing (Fredoka, Outfit, Space Grotesk, Special Elite, Courier Prime) plus bundled Oatly brand fonts (Margo Pro, Girdo Black Pro, Toni Noveau Pro).
+- **Custom Palette:** Cream, Yellow, Blue, Pink, Mint, and Orange color schemes.
+- **Dynamic Typography:** Google Fonts pairing (Fredoka, Outfit, Space Grotesk, Special Elite, Courier Prime) plus bundled brand fonts (Margo Pro, Girdo Black Pro, Toni Noveau Pro).
 - **Fluid Micro-Animations:** Motion transitions powered by Framer Motion, plus scroll-triggered entrances built on IntersectionObserver.
 
 ---
@@ -86,7 +86,7 @@ This project is a high-fidelity **Oatly Website Clone** built to demonstrate mod
 oatly/
 ├── index.html                 # HTML shell, fonts & meta tags
 ├── vite.config.js             # Vite configuration with /api reverse proxy
-├── tailwind.config.js         # Custom Oatly theme, brutal shadows & typography
+├── tailwind.config.js         # Custom theme, brutal shadows & typography
 ├── postcss.config.js          # PostCSS plugins
 ├── package.json               # Root dependencies & unified runner scripts
 │
@@ -110,7 +110,7 @@ oatly/
 │   ├── hooks/                 # Utility hooks (e.g., useApiData)
 │   ├── components/            # Reusable UI components
 │   │   ├── Navbar.jsx         # Main navigation with mobile drawer
-│   │   ├── Footer.jsx         # Oatly footer with newsletter & links
+│   │   ├── Footer.jsx         # Store footer with newsletter & links
 │   │   ├── ProductModal.jsx   # Nutritional quick-view dialog
 │   │   ├── RecipeModal.jsx    # Quick recipe viewer
 │   │   ├── ArticleModal.jsx   # Article preview dialog
@@ -118,7 +118,7 @@ oatly/
 │   ├── pages/                 # Full page views (Home, Products, Recipes, News, etc.)
 │   ├── routes/                # Route table (AppRoutes.jsx)
 │   ├── styles/                # Global CSS styles
-│   └── fonts/                 # Bundled Oatly brand webfonts
+│   └── fonts/                 # Bundled brand webfonts
 │
 └── public/                    # Static assets, fonts, icons & images
 ```
@@ -127,7 +127,7 @@ oatly/
 
 ## 🚀 Getting Started
 
-Follow these steps to run the Oatly Clone locally on your machine.
+Follow these steps to run Oatara locally on your machine.
 
 ### 1. Prerequisites
 Ensure you have the following installed:

@@ -36,7 +36,7 @@ if (fs.existsSync(distDir)) {
 }
 
 app.listen(PORT, () => {
-  console.log(`Oatly API listening on http://localhost:${PORT}`);
+  console.log(`Oatara API listening on http://localhost:${PORT}`);
 });
 
 export default app;

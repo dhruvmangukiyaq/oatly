@@ -22,7 +22,7 @@ function shortestAngle(diff) {
 
 export default function Product360({
   src,
-  alt = 'Oatly product',
+  alt = 'Oatara product',
   className = '',
   onClick,
   onError,

@@ -213,12 +213,12 @@ function AdminInner() {
 
   return (
     <div className="sc">
-      <SEO title="Seller Hub | Oatly" description="Seller Hub — manage the Oatly shop." pathname="/admin" />
+      <SEO title="Seller Hub | Oatara" description="Seller Hub — manage the Oatara shop." pathname="/admin" />
 
       {/* Top black bar */}
       <header className="sc-top">
         <Link to="/products" className="sc-logo" title="View storefront">
-          <strong>oatly</strong>
+          <strong>oatara</strong>
         </Link>
         <div className="sc-search">
           <input
@@ -232,6 +232,9 @@ function AdminInner() {
           </button>
         </div>
         <div className="sc-topright">
+          <Link to="/" className="sc-bell" aria-label="Back to home page" title="View storefront home">
+            <Home size={18} />
+          </Link>
           <button type="button" className="sc-bell" aria-label={`${bellCount} notifications`} onClick={() => setView('dashboard')}>
             <Bell size={18} />
             {bellCount > 0 && <span className="sc-bell__n">{bellCount}</span>}
@@ -1204,7 +1207,7 @@ function MessagesView({ ctx }) {
     e.preventDefault();
     if (!reply.trim() || !replyTo) return;
     sendMessage({
-      from: 'seller', name: 'Oatly Store', email: replyTo.email,
+      from: 'seller', name: 'Oatara Store', email: replyTo.email,
       orderId: replyTo.orderId, subject: `Re: ${replyTo.subject}`,
       text: reply.trim(),
     });
@@ -1217,7 +1220,7 @@ function MessagesView({ ctx }) {
   const compose = (e) => {
     e.preventDefault();
     if (!form.email.trim() || !form.text.trim()) return;
-    sendMessage({ from: 'seller', name: 'Oatly Store', ...form });
+    sendMessage({ from: 'seller', name: 'Oatara Store', ...form });
     setForm({ email: '', name: '', orderId: '', subject: '', text: '' });
     setComp(false);
     refresh();
@@ -1919,7 +1922,7 @@ function SetAcctView({ ctx }) {
       </div>
       <div className="sc-card">
         <h2>Admin access</h2>
-        <p className="sc-note">First registered user becomes admin automatically. To pin a specific email, add it to ADMIN_EMAILS in <code>src/config/adminConfig.js</code>.</p>
+        <p className="sc-note">Admin access is locked to one fixed email + password hash in <code>src/config/adminConfig.js</code>. Signup can never create an admin.</p>
         <p><Link to="/products" className="sc-link"><Store size={13} /> View storefront</Link></p>
       </div>
     </div>

@@ -1,6 +1,6 @@
-# Oatly API (Express MVC backend)
+# Oatara API (Express MVC backend)
 
-JSON API for the Oatly clone frontend. Structure:
+JSON API for the Oatara storefront. Structure:
 
 ```
 server/

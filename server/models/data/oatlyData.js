@@ -1,4 +1,4 @@
-// Extracted directly from live Oatly site (https://www.oatly.com/)
+// Product catalog data (prices/stock managed via admin overrides).
 
 export const PRODUCTS_DATA = [
   {
@@ -72,7 +72,7 @@ export const PRODUCTS_DATA = [
   },
   {
     id: 'soft-serve-vanilla',
-    name: 'Oatly Soft Serve Vanilla',
+    name: 'Oatara Soft Serve Vanilla',
     category: 'Soft Serve',
     subCategory: 'Soft Serve',
     volume: 'Commercial / Scoop Shops',
@@ -141,7 +141,7 @@ export const PRODUCTS_DATA = [
   },
   {
     id: 'spread-plain',
-    name: 'Oatly Creamy Spread Plain',
+    name: 'Oatara Creamy Spread Plain',
     category: 'Spread',
     subCategory: 'Spread',
     volume: '8 oz (225g)',
@@ -196,18 +196,18 @@ export const RECIPES_DATA = [
     time: '5 mins',
     difficulty: 'Easy',
     image: 'https://images.unsplash.com/photo-1541167760496-1628856ab772?auto=format&fit=crop&w=800&q=80',
-    quote: '"Warm spice meets velvety Oatly Barista microfoam. A morning ritual upgrade."',
+    quote: '"Warm spice meets velvety Oatara Barista microfoam. A morning ritual upgrade."',
     ingredients: [
-      '1 cup Oatly Barista Edition',
+      '1 cup Oatara Barista Edition',
       '1 shot fresh espresso or 1/2 cup strong coffee',
       '1/4 tsp ground cardamom',
       '1/2 tsp maple syrup',
       'Pinch of cinnamon for dusting'
     ],
     instructions: [
-      'Heat Oatly Barista Edition in a saucepan or steam using espresso steam wand until silky and warm.',
+      'Heat Oatara Barista Edition in a saucepan or steam using espresso steam wand until silky and warm.',
       'In a glass, combine espresso, maple syrup, and ground cardamom.',
-      'Pour steamed Oatly Barista Edition over the spiced coffee base.',
+      'Pour steamed Oatara Barista Edition over the spiced coffee base.',
       'Garnish with a dusting of cinnamon.'
     ]
   },
@@ -222,7 +222,7 @@ export const RECIPES_DATA = [
     quote: '"No eggs, no heavy dairy cream. Just rich, savory oat creaminess that coats every strand of pasta."',
     ingredients: [
       '200g Rigatoni or Spaghetti',
-      '1/2 cup Oatly Whippable Cooking Cream',
+      '1/2 cup Oatara Whippable Cooking Cream',
       '2 tbsp Nutritional yeast',
       '1 cup Crispy smoked mushrooms or vegan bacon',
       '1 clove Garlic, minced',
@@ -231,7 +231,7 @@ export const RECIPES_DATA = [
     instructions: [
       'Boil pasta in salted water until al dente. Reserve 1/4 cup pasta water.',
       'In a pan, crisp up the smoked mushrooms with garlic.',
-      'Whisk Oatly Cooking Cream with nutritional yeast and black pepper.',
+      'Whisk Oatara Cooking Cream with nutritional yeast and black pepper.',
       'Toss hot pasta with cream mixture and pasta water until glossy. Top with crispy mushrooms.'
     ]
   },
@@ -243,20 +243,20 @@ export const RECIPES_DATA = [
     time: '7 mins',
     difficulty: 'Easy',
     image: 'https://images.unsplash.com/photo-1536256263959-770b48d82b0a?auto=format&fit=crop&w=800&q=80',
-    quote: '"Vibrant ceremonial matcha layered with sweet strawberry Oatly cold foam."',
+    quote: '"Vibrant ceremonial matcha layered with sweet strawberry Oatara cold foam."',
     ingredients: [
       '1 tsp Ceremonial Grade Matcha powder',
       '60ml warm water',
-      '150ml Oatly Original Oat Drink',
-      'Oatly Whip-It-Up Cold Foam Vanilla',
+      '150ml Oatara Original Oat Drink',
+      'Oatara Whip-It-Up Cold Foam Vanilla',
       '2 tbsp crushed fresh strawberry puree',
       'Ice cubes'
     ],
     instructions: [
       'Whisk matcha powder into warm water until frothy.',
-      'In a tall glass, layer strawberry puree, ice cubes, and Oatly Original Oat Drink.',
+      'In a tall glass, layer strawberry puree, ice cubes, and Oatara Original Oat Drink.',
       'Pour green matcha over the top.',
-      'Top generously with Oatly Cold Foam.'
+      'Top generously with Oatara Cold Foam.'
     ]
   },
   {
@@ -269,9 +269,9 @@ export const RECIPES_DATA = [
     image: 'https://images.unsplash.com/photo-1567620905732-2d1ec7ab7445?auto=format&fit=crop&w=800&q=80',
     quote: '"Thick, pillow-soft pancakes spiked with Oatgurt for extra fluffiness."',
     ingredients: [
-      '1 cup Oatly Oatgurt Strawberry',
+      '1 cup Oatara Oatgurt Strawberry',
       '1 cup All-purpose flour',
-      '1 cup Oatly Original Oat Drink',
+      '1 cup Oatara Original Oat Drink',
       '1 tsp Baking powder',
       'Fresh wild berries & maple syrup'
     ],
@@ -297,8 +297,8 @@ export const NEWS_DATA = [
     tag: 'SUSTAINABILITY INNOVATION'
   },
   {
-    id: 'oatly-x-avavav',
-    title: 'Oatly x AVAVAV Fashion Collab',
+    id: 'oatara-x-avavav',
+    title: 'Oatara x AVAVAV Fashion Collab',
     type: 'Collaborations',
     date: 'Winter 2025',
     readTime: '3 min read',
@@ -336,18 +336,18 @@ export const NEWS_DATA = [
     date: 'Summer 2025',
     readTime: '6 min read',
     excerpt: 'How pro cyclists rode through the Tour de France powered by oat smoothies.',
-    content: 'Cycling thousands of kilometers through mountains takes raw energy. EF Education-EasyPost riders refueled post-stage with high-carb Oatly rice-and-oat Recovery Shakes. The result? Stage wins and happy stomachs.',
+    content: 'Cycling thousands of kilometers through mountains takes raw energy. EF Education-EasyPost riders refueled post-stage with high-carb Oatara rice-and-oat Recovery Shakes. The result? Stage wins and happy stomachs.',
     image: 'https://images.unsplash.com/photo-1541625602330-2277a4c46184?auto=format&fit=crop&w=800&q=80',
     tag: 'SPORTS & ENDURANCE'
   },
   {
-    id: 'oatly-x-nespresso',
-    title: 'Oatly x Nespresso Pod Partnership',
+    id: 'oatara-x-nespresso',
+    title: 'Oatara x Nespresso Pod Partnership',
     type: 'Collaborations',
     date: 'Autumn 2025',
     readTime: '4 min read',
     excerpt: 'The official pairing for home pod coffee lovers across North America.',
-    content: 'Getting thick, creamy microfoam at home is now a one-button affair. Nespresso Vertuo machines paired with Oatly Barista Edition give you cafe-quality lattes in 30 seconds flat.',
+    content: 'Getting thick, creamy microfoam at home is now a one-button affair. Nespresso Vertuo machines paired with Oatara Barista Edition give you cafe-quality lattes in 30 seconds flat.',
     image: 'https://images.unsplash.com/photo-1514432324607-a09d9b4aefdd?auto=format&fit=crop&w=800&q=80',
     tag: 'PARTNERSHIP'
   }
@@ -357,26 +357,26 @@ export const NUTRITION_FACTS = [
   {
     id: 1,
     question: '1. What are oat beta-glucans?',
-    answer: 'Beta-glucan is a soluble dietary fiber found naturally in oats. Regular consumption of 3 grams of oat beta-glucans per day helps maintain normal cholesterol levels in the blood. One 250ml glass of Oatly provides roughly 1g of beta-glucans!'
+    answer: 'Beta-glucan is a soluble dietary fiber found naturally in oats. Regular consumption of 3 grams of oat beta-glucans per day helps maintain normal cholesterol levels in the blood. One 250ml glass of Oatara provides roughly 1g of beta-glucans!'
   },
   {
     id: 2,
-    question: '2. Does Oatly contain added sugar?',
-    answer: 'No added refined sugars! During our patented enzymatic process, we break down oat starches into natural simple maltose sugars. That gives Oatly its gentle sweetness naturally without adding cane sugar or corn syrup.'
+    question: '2. Does Oatara contain added sugar?',
+    answer: 'No added refined sugars! During our patented enzymatic process, we break down oat starches into natural simple maltose sugars. That gives Oatara its gentle sweetness naturally without adding cane sugar or corn syrup.'
   },
   {
     id: 3,
-    question: '3. Is Oatly gluten-free?',
+    question: '3. Is Oatara gluten-free?',
     answer: 'In the US and Canada, all our products are certified Gluten-Free, made with 100% gluten-free oats. In European markets, check the label, as we use high-purity oats with strict agricultural contamination control.'
   },
   {
     id: 4,
-    question: '4. Is Oatly suitable for vegans and dairy allergies?',
-    answer: '100% YES! Every Oatly product is 100% plant-based, vegan, dairy-free, lactose-free, soy-free, and nut-free. Made safely in dedicated facilities.'
+    question: '4. Is Oatara suitable for vegans and dairy allergies?',
+    answer: '100% YES! Every Oatara product is 100% plant-based, vegan, dairy-free, lactose-free, soy-free, and nut-free. Made safely in dedicated facilities.'
   },
   {
     id: 5,
-    question: '5. How is Oatly fortified with Calcium & Vitamins?',
+    question: '5. How is Oatara fortified with Calcium & Vitamins?',
     answer: 'We fortify our chilled and ambient oat drinks with Calcium carbonate, Vitamin D2, Vitamin B12, and Riboflavin (B2) so you get all the nutritional benefits of traditional cow’s milk without any cows involved.'
   },
   {

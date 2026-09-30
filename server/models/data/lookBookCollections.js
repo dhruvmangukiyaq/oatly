@@ -1,4 +1,4 @@
-// ─── Look Book A/W 25 + S/S 25 collections (mirror oatly.com, scraped 2026-09-15)
+// ─── Look Book A/W 25 + S/S 25 collections (mirror oatara.com, scraped 2026-09-15)
 // Real titles, slugs + official drink artwork (assets.oatly.com, w640).
 // Detail pages reuse RecipeDetailPage via recipeModel lookup (no ingredients yet).
 
@@ -125,9 +125,9 @@ export const AW25_COLLECTION = {
       image: 'https://assets.oatly.com/asset/48463374-aed1-49da-b272-ec589fa7d1a9/w640/WEB_Gochujang_Hot_Choc.png',
     },
     {
-      id: 'ye-olde-oatly',
-      name: 'Ye olde Oatly',
-      slug: 'ye-olde-oatly',
+      id: 'ye-olde-oatara',
+      name: 'Ye olde Oatara',
+      slug: 'ye-olde-oatara',
       collection: 'LOOK BOOK A/W 25',
       collectionPath: '/recipes/look-book-autumn-winter-2025',
       tagline: 'Cozy autumn and winter sip from Look Book A/W 25.',

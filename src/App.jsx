@@ -33,7 +33,7 @@ function sectionTheme(pathname = '/') {
   if (pathname.startsWith('/products')) return '';
   if (pathname.startsWith('/recipes')) return '';
   if (pathname.startsWith('/things-we-do') || pathname.startsWith('/news')) return 'theme-news';
-  if (pathname.startsWith('/sustainability') || pathname.startsWith('/oatly-who')) return 'theme-sustainability';
+  if (pathname.startsWith('/sustainability') || pathname.startsWith('/oatara-who')) return 'theme-sustainability';
   if (pathname.startsWith('/health') || pathname.startsWith('/random-answers')) return 'theme-health';
   if (pathname.startsWith('/contact') || pathname.startsWith('/legal')) return 'theme-info';
   return '';
@@ -77,39 +77,69 @@ function ScrollToTop() {
 
 export default function App() {
   // CONTROLLER: all UI selection state lives here (not in Views)
-  const {
-    selectedProduct,
-    selectProduct,
-    clearProduct,
-    selectedRecipe,
-    selectRecipe,
-    clearRecipe,
-    selectedArticle,
-    selectArticle,
-    clearArticle,
-  } = useAppController();
-  const [cartOpen, setCartOpen] = useState(false);
+  const controller = useAppController();
 
   return (
     <HelmetProvider>
       <BrowserRouter>
         <MotionConfig reducedMotion="user">
         <ScrollToTop />
-        <div className="app-shell bg-graph-paper border-0 sm:border-[4px] md:border-[6px] lg:border-[8px] border-[#466874] text-oatly-black selection:bg-oatly-yellow selection:text-oatly-black font-sans p-0 sm:p-2 md:p-2.5 lg:p-3.5">
-          <div data-app-scroll className="app-frame bg-[#FFFEF8] flex flex-col w-full h-full max-w-full">
-          {/* Navigation Bar */}
-          <Navbar onCartOpen={() => setCartOpen(true)} />
+        <SiteChrome {...controller} />
+        </MotionConfig>
+      </BrowserRouter>
+    </HelmetProvider>
+  );
+}
 
-          {/* Main Content Router (section-themed background) */}
-          <ThemedMain
-            selectProduct={selectProduct}
-            selectRecipe={selectRecipe}
-            selectArticle={selectArticle}
-          />
+// Storefront chrome (header + modals + cart). Admin page (/admin) nu potanu
+// top bar + sidebar chhe — tya storefront header (PRODUCTS/NEWS row) dekhase
+// NAI, etle ahiya route joine hide kariye chhiye.
+function SiteChrome({
+  selectedProduct,
+  selectProduct,
+  clearProduct,
+  selectedRecipe,
+  selectRecipe,
+  clearRecipe,
+  selectedArticle,
+  selectArticle,
+  clearArticle,
+}) {
+  const [cartOpen, setCartOpen] = useState(false);
+  const { pathname } = useLocation();
+  const isAdminPage = pathname.startsWith('/admin');
 
-          </div>
+  // Admin page: potano full-width layout (Seller Hub top bar + sidebar).
+  // Storefront shell (cream frame + padding + teal border) ahiya NAI —
+  // nahitar admin ni aaspaas white border dekhay.
+  if (isAdminPage) {
+    return (
+      <ThemedMain
+        selectProduct={selectProduct}
+        selectRecipe={selectRecipe}
+        selectArticle={selectArticle}
+      />
+    );
+  }
 
-          {/* Modals */}
+  return (
+    <div className="app-shell bg-graph-paper border-0 sm:border-[4px] md:border-[6px] lg:border-[8px] border-[#466874] text-oatly-black selection:bg-oatly-yellow selection:text-oatly-black font-sans p-0 sm:p-2 md:p-2.5 lg:p-3.5">
+      <div data-app-scroll className="app-frame bg-[#FFFEF8] flex flex-col w-full h-full max-w-full">
+      {/* Navigation Bar — admin page par NAI */}
+      {!isAdminPage && <Navbar onCartOpen={() => setCartOpen(true)} />}
+
+      {/* Main Content Router (section-themed background) */}
+      <ThemedMain
+        selectProduct={selectProduct}
+        selectRecipe={selectRecipe}
+        selectArticle={selectArticle}
+      />
+
+      </div>
+
+      {/* Modals + cart — admin page par NAI (tya shopping j nathi) */}
+      {!isAdminPage && (
+        <>
           <ProductModal
             product={selectedProduct}
             onClose={clearProduct}
@@ -125,10 +155,9 @@ export default function App() {
             article={selectedArticle}
             onClose={clearArticle}
           />
+        </>
+      )}
 
-        </div>
-        </MotionConfig>
-      </BrowserRouter>
-    </HelmetProvider>
+    </div>
   );
 }

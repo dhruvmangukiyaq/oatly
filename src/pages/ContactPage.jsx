@@ -37,14 +37,14 @@ export default function ContactPage() {
   return (
     <div className="max-w-4xl mx-auto px-4 sm:px-6 md:px-8 py-8 space-y-10 font-sans pb-16">
       <SEO
-        title="Contact Oatly | Ask Us Anything"
-        description="Got a question, compliment, or weird suggestion about oat milk? Get in touch with the Oatly team."
+        title="Contact Oatara | Ask Us Anything"
+        description="Got a question, compliment, or weird suggestion about oat milk? Get in touch with the Oatara team."
         pathname="/contact"
       />
 
       <div className="bg-oatly-yellow text-oatly-black border-4 border-oatly-black p-8 md:p-12 shadow-brutal-xl space-y-4">
         <span className="badge-sticker bg-oatly-black text-white">HUMAN SUPPORT</span>
-        <h1 className="text-4xl md:text-6xl font-black uppercase font-display">CONTACT OATLY</h1>
+        <h1 className="text-4xl md:text-6xl font-black uppercase font-display">CONTACT OATARA</h1>
         <p className="text-base md:text-lg opacity-90 max-w-2xl">
           Write to us! Whether you want to tell us your favorite coffee shop or report a carton issue, real humans read every single message.
         </p>
@@ -57,7 +57,7 @@ export default function ContactPage() {
             <CheckCircle2 className="w-12 h-12 mx-auto text-oatly-blue" />
             <h2 className="text-3xl font-black uppercase font-display">MESSAGE SENT!</h2>
             <p className="text-sm font-bold max-w-md mx-auto">
-              Thank you for reaching out. An Oatly customer human will get back to you within 24-48 business hours.
+              Thank you for reaching out. An Oatara customer human will get back to you within 24-48 business hours.
             </p>
             <button onClick={() => setSubmitted(false)} className="btn-oatly text-xs py-2 px-6">
               SEND ANOTHER MESSAGE
@@ -119,7 +119,7 @@ export default function ContactPage() {
             </div>
 
             <button type="submit" className="w-full btn-oatly py-4 text-sm font-extrabold flex items-center justify-center gap-2">
-              <Send className="w-4 h-4" /> SUBMIT MESSAGE TO OATLY
+              <Send className="w-4 h-4" /> SUBMIT MESSAGE TO OATARA
             </button>
 
           </form>

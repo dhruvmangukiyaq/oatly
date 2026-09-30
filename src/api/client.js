@@ -20,7 +20,7 @@ const BASE = '/api';
 // Cache version — bump to force a clean slate after backend shape changes.
 // v12: Pee for the Planet links moved to the full initiative page
 // (/things-we-do/initiatives/pee-for-the-planet) in nav + homepage deck.
-const STORAGE_KEY = 'oatly.api.cache.v12';
+const STORAGE_KEY = 'oatara.api.cache.v12';
 
 // Resolved values (URL → JSON), hydrated synchronously from localStorage.
 const stored = (() => {

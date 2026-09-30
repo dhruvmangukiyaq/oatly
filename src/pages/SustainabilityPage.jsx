@@ -92,7 +92,7 @@ export default function SustainabilityPage() {
 
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 pt-2">
               <div className="bg-white border-2 border-oatly-black p-4 shadow-brutal-sm">
-                <div className="text-xs font-mono font-bold text-gray-500 uppercase">OATLY FOOTPRINT</div>
+                <div className="text-xs font-mono font-bold text-gray-500 uppercase">OATARA FOOTPRINT</div>
                 <div className="text-2xl font-black font-display text-oatly-blue">{weeklyOat} kg CO2e</div>
                 <div className="text-[11px] text-gray-600 mt-1 font-mono">per week</div>
               </div>
@@ -111,7 +111,7 @@ export default function SustainabilityPage() {
               -{yearlySavings} kg
             </div>
             <div className="text-sm font-extrabold uppercase text-oatly-black max-w-md mx-auto">
-              CO2e SAVED PER YEAR BY DRINKING OATLY INSTEAD OF COW'S MILK!
+              CO2e SAVED PER YEAR BY DRINKING OATARA INSTEAD OF COW'S MILK!
             </div>
             <p className="text-xs font-hand text-gray-800">
               That's equivalent to driving over {Math.round(yearlySavings * 2.5)} miles less in an average gasoline car.
@@ -129,7 +129,7 @@ export default function SustainabilityPage() {
         <div>
           <span className="badge-sticker bg-oatly-mint text-oatly-black mb-2">4-PILLAR ROADMAP</span>
           <h2 className="text-4xl md:text-5xl font-black uppercase font-display text-oatly-black">
-            OATLY'S SUSTAINABILITY PLAN
+            OATARA'S SUSTAINABILITY PLAN
           </h2>
         </div>
 
@@ -166,18 +166,18 @@ export default function SustainabilityPage() {
       </section>
 
 
-      {/* OATLY WHO? ABOUT SECTION */}
+      {/* OATARA WHO? ABOUT SECTION */}
       <section id="who" className="bg-white border-4 border-oatly-black p-8 md:p-12 shadow-brutal-xl space-y-6">
         <div className="max-w-3xl space-y-4">
           <span className="badge-sticker bg-oatly-pink text-white">ABOUT US</span>
           <h2 className="text-3xl md:text-5xl font-black uppercase font-display text-oatly-black">
-            OATLY WHO?
+            OATARA WHO?
           </h2>
           <p className="text-base text-gray-800 leading-relaxed font-sans">
-            Oatly was founded in the 1990s by Swedish food scientist Rickard Öste at Lund University. Using patented liquid oat enzyme technology, Öste developed a way to convert fiber-rich oats into a delicious, nutritious liquid food without requiring animal farming.
+            Oatara was founded in the 1990s by Swedish food scientist Rickard Öste at Lund University. Using patented liquid oat enzyme technology, Öste developed a way to convert fiber-rich oats into a delicious, nutritious liquid food without requiring animal farming.
           </p>
           <p className="text-base text-gray-800 leading-relaxed font-sans">
-            Today, Oatly is available in over 20 countries worldwide across cafes, supermarkets, ice cream parlors, and stadiums.
+            Today, Oatara is available in over 20 countries worldwide across cafes, supermarkets, ice cream parlors, and stadiums.
           </p>
         </div>
       </section>

@@ -1,10 +1,10 @@
-// Centralized Site Data & Copy Store for Oatly Clone
+// Centralized Site Data & Copy Store for Oatara Clone
 
 import { OATLY_CATALOG_ITEMS } from './oatlyCatalog.js';
 
 export const siteMeta = {
-  title: 'the Original Oat Drink Company | Oatly',
-  description: 'A site filled with everything you could possibly think of, and also probably not think of, related to an oat drink company called Oatly.'
+  title: 'the Original Oat Drink Company | Oatara',
+  description: 'A site filled with everything you could possibly think of, and also probably not think of, related to an oat drink company called Oatara.'
 };
 
 export const productCategories = [
@@ -43,8 +43,8 @@ export const productCategories = [
     items: [
       {
         id: 'soft-serve-vanilla',
-        name: 'Oatly Soft Serve Vanilla',
-        slug: 'oatly-soft-serve-vanilla',
+        name: 'Oatara Soft Serve Vanilla',
+        slug: 'oatara-soft-serve-vanilla',
         category: 'Soft Serve',
         volume: 'Commercial Scoop',
         climateFootprint: '0.71 kg CO2e / kg',
@@ -67,8 +67,8 @@ export const productCategories = [
     items: [
       {
         id: 'spread-plain',
-        name: 'Oatly Creamy Spread Plain',
-        slug: 'oatly-creamy-spread-plain',
+        name: 'Oatara Creamy Spread Plain',
+        slug: 'oatara-creamy-spread-plain',
         category: 'Spread',
         volume: '8 oz (225g)',
         climateFootprint: '0.58 kg CO2e / kg',
@@ -193,7 +193,7 @@ export const productCategories = [
     slug: 'ice-cream',
     name: 'Ice Cream',
     tagline: 'Decadent frozen oat dessert in pints.',
-    description: 'Rich, fudgy, plant-based frozen pints made with Oatly oat cream.',
+    description: 'Rich, fudgy, plant-based frozen pints made with Oatara oat cream.',
     color: 'bg-[#002766] text-white',
     badge: 'INDULGENT',
     items: [
@@ -214,7 +214,7 @@ export const productCategories = [
   }
 ];
 
-// ─── REAL OATLY STORIES (scraped from oatly.com/things-we-do/stories) ────────
+// ─── REAL OATARA STORIES (scraped from oatara.com/things-we-do/stories) ────────
 // Full stories catalog: real titles, slugs, published dates, featured images
 // (a.storyblok.com) and verbatim excerpts. Bodies are condensed from the
 // live articles' opening copy.
@@ -227,19 +227,19 @@ export const newsItems = [
     date: 'November 27, 2025',
     readTime: '5 min read',
     excerpt: 'At Hanover Ridge Farms, the emphasis goes on soil health, biodiversity, and the livelihoods of its farmers.',
-    content: 'When we talk about Oatly\u2019s F.A.R.M. program, we like to show our work. That might come in the form of big numbers and percentages on the sides of oat drink cartons or in publicly reminiscing about the years when we described ourselves as \u201ca sustainable company\u201d. It might also come straight from a farmer\u2019s mouth, which was precisely the case when we met Matt Wallington during our visit to Hanover Ridge Farms in Tisdale, Saskatchewan. Whenever we can get a farmer preaching soil health or fertilizer reduction out in the field, that\u2019s the message we want to amplify.',
+    content: 'When we talk about Oatara\u2019s F.A.R.M. program, we like to show our work. That might come in the form of big numbers and percentages on the sides of oat drink cartons or in publicly reminiscing about the years when we described ourselves as \u201ca sustainable company\u201d. It might also come straight from a farmer\u2019s mouth, which was precisely the case when we met Matt Wallington during our visit to Hanover Ridge Farms in Tisdale, Saskatchewan. Whenever we can get a farmer preaching soil health or fertilizer reduction out in the field, that\u2019s the message we want to amplify.',
     tag: 'FARMER STORIES',
     image: 'https://a.storyblok.com/f/107921/1019x679/cc0af9b463/hanover-ridge-farms-09418.png'
   },
   {
-    id: 'oatly-runs-the-brooklyn-half-marathon',
-    slug: 'oatly-runs-the-brooklyn-half-marathon',
-    title: 'Oatly Runs a Half Marathon in Brooklyn',
+    id: 'oatara-runs-the-brooklyn-half-marathon',
+    slug: 'oatara-runs-the-brooklyn-half-marathon',
+    title: 'Oatara Runs a Half Marathon in Brooklyn',
     type: 'Stories',
     date: 'June 16, 2025',
     readTime: '4 min read',
     excerpt: 'Sort of. We spent most of our time blasting Big Dairy and citing climate-impact statistics. Only some running was involved.',
-    content: 'Oatly sponsoring half marathons might seem a little strange. After all, we don\u2019t have oat drink-infused energy gels to give away (because they don\u2019t exist), and we\u2019re not in the habit of encouraging runners to spike their sports drinks with iced ube lattes. But sponsoring half marathons in response to Big Dairy sponsoring full marathons? And doing it because, in the United States, Oatly Original Oatmilk and Barista have nearly half the climate impact of comparable cow\u2019s milk? That would be a masterclass, and exactly the kind of thing we\u2019d do. So we ran one. Sort of.',
+    content: 'Oatara sponsoring half marathons might seem a little strange. After all, we don\u2019t have oat drink-infused energy gels to give away (because they don\u2019t exist), and we\u2019re not in the habit of encouraging runners to spike their sports drinks with iced ube lattes. But sponsoring half marathons in response to Big Dairy sponsoring full marathons? And doing it because, in the United States, Oatara Original Oatmilk and Barista have nearly half the climate impact of comparable cow\u2019s milk? That would be a masterclass, and exactly the kind of thing we\u2019d do. So we ran one. Sort of.',
     tag: 'SPORTS & ENDURANCE',
     image: 'https://a.storyblok.com/f/107921/1080x720/c43a459b42/oatly_us_25_half_marathon_photos_mascots_original_hi5.png'
   },
@@ -268,73 +268,73 @@ export const newsItems = [
     image: 'https://a.storyblok.com/f/107921/960x540/09f665b78a/nick_featured.png'
   },
   {
-    id: 'bring-oatly-to-your-campus',
-    slug: 'bring-oatly-to-your-campus',
-    title: 'Bring Oatly to Your Campus',
+    id: 'bring-oatara-to-your-campus',
+    slug: 'bring-oatara-to-your-campus',
+    title: 'Bring Oatara to Your Campus',
     type: 'Stories',
     date: 'September 2, 2024',
     readTime: '4 min read',
-    excerpt: 'Oatly salespeople are eager to bring oat stuff to university campuses. Invite them for a visit \u2014 the kids will love it.',
-    content: 'With new fiscal quarters sneaking up on us every three months, we salespeople at Oatly believe it\u2019s time to expand our oat-based product line further into institutions of higher learning. We\u2019ve concluded, through no research of our own \u2013 more of a gut feeling \u2013 that Oatly\u2019s playful, inventive spirit aligns with that of a bright academic tossing a Frisbee on the quad (or scrolling the Tok from a dark dorm room). So: bring Oatly to your campus and see what happens.',
+    excerpt: 'Oatara salespeople are eager to bring oat stuff to university campuses. Invite them for a visit \u2014 the kids will love it.',
+    content: 'With new fiscal quarters sneaking up on us every three months, we salespeople at Oatara believe it\u2019s time to expand our oat-based product line further into institutions of higher learning. We\u2019ve concluded, through no research of our own \u2013 more of a gut feeling \u2013 that Oatara\u2019s playful, inventive spirit aligns with that of a bright academic tossing a Frisbee on the quad (or scrolling the Tok from a dark dorm room). So: bring Oatara to your campus and see what happens.',
     tag: 'UNIVERSITY',
     image: 'https://a.storyblok.com/f/107921/1920x1281/dfc609b7fa/oatly-to-campus.jpg'
   },
   {
-    id: 'oatly-crash-capitol-hill-ice-cream-party',
-    slug: 'oatly-crash-capitol-hill-ice-cream-party',
+    id: 'oatara-crash-capitol-hill-ice-cream-party',
+    slug: 'oatara-crash-capitol-hill-ice-cream-party',
     title: 'Enter the Dairy Deprogramming Zone',
     type: 'Stories',
     date: 'July 9, 2024',
     readTime: '5 min read',
-    excerpt: 'Where harsh truths about Big Dairy come with a cup of Oatly Soft Serve.',
-    content: 'Where harsh truths about Big Dairy come with a cup of Oatly Soft Serve. What\u2019s the reasonable amount of time it should take to deprogram hundreds of people who have been subjected to decades of dairy propaganda perpetrated by an industry that spends billions of dollars obscuring facts about its products\u2019 impact on the climate? We decided to find out \u2014 ice cream in hand.',
+    excerpt: 'Where harsh truths about Big Dairy come with a cup of Oatara Soft Serve.',
+    content: 'Where harsh truths about Big Dairy come with a cup of Oatara Soft Serve. What\u2019s the reasonable amount of time it should take to deprogram hundreds of people who have been subjected to decades of dairy propaganda perpetrated by an industry that spends billions of dollars obscuring facts about its products\u2019 impact on the climate? We decided to find out \u2014 ice cream in hand.',
     tag: 'CULTURE',
     image: 'https://a.storyblok.com/f/107921/2000x1333/f33555bcf0/oatly-crash-the-capitol-hill-ice-cream-party.jpg'
   },
   {
-    id: 'the-giant-oatly-carton',
-    slug: 'the-giant-oatly-carton',
-    title: 'The Giant Oatly Carton',
+    id: 'the-giant-oatara-carton',
+    slug: 'the-giant-oatara-carton',
+    title: 'The Giant Oatara Carton',
     type: 'Stories',
     date: 'January 18, 2024',
     readTime: '4 min read',
     excerpt: 'From Texas baseball stadium to high-school theater department, follow along as we give away an enormous marketing prop.',
-    content: 'Some years back, Oatly partnered with a very popular baseball team from Texas. We\u2019d say which team, but we don\u2019t want to hog credit for their recent success (of which we deserve a great deal). American baseball was a little new to us at the time, and the giant structure we built to celebrate the partnership became a bit of an orphan after the season ended. That\u2019s when the Giant Oatly Carton found its true calling: a tour of high-school theater departments, tiny festivals, and anywhere else an enormous oat drink box could do some good.',
+    content: 'Some years back, Oatara partnered with a very popular baseball team from Texas. We\u2019d say which team, but we don\u2019t want to hog credit for their recent success (of which we deserve a great deal). American baseball was a little new to us at the time, and the giant structure we built to celebrate the partnership became a bit of an orphan after the season ended. That\u2019s when the Giant Oatara Carton found its true calling: a tour of high-school theater departments, tiny festivals, and anywhere else an enormous oat drink box could do some good.',
     tag: 'STUNTS',
     image: 'https://a.storyblok.com/f/107921/1920x1080/5542abf0b2/cartonleadimage.jpg'
   },
   {
-    id: 'oatly-does-the-golden-spurtle',
-    slug: 'oatly-does-the-golden-spurtle',
-    title: 'Oatly Does the Golden Spurtle',
+    id: 'oatara-does-the-golden-spurtle',
+    slug: 'oatara-does-the-golden-spurtle',
+    title: 'Oatara Does the Golden Spurtle',
     type: 'Stories',
     date: 'December 6, 2023',
     readTime: '5 min read',
-    excerpt: 'What do you do when you\u2019re Oatly and you discover that there\u2019s a World Porridge Making Championship in the Scottish Highlands? You show up.',
-    content: 'This might come as a shock, but we don\u2019t know everything about oats here at Oatly. As it turns out, making oat drink all day is incredibly time-consuming, and the relentless oat-related news cycle can be very hard to keep up with. Still, we should\u2019ve known more about the World Porridge Making Championship that happens every year in Carrbridge, Scotland. Once we found out, there was only one reasonable response: pack the oats, book the flights, and show up for the Golden Spurtle.',
+    excerpt: 'What do you do when you\u2019re Oatara and you discover that there\u2019s a World Porridge Making Championship in the Scottish Highlands? You show up.',
+    content: 'This might come as a shock, but we don\u2019t know everything about oats here at Oatara. As it turns out, making oat drink all day is incredibly time-consuming, and the relentless oat-related news cycle can be very hard to keep up with. Still, we should\u2019ve known more about the World Porridge Making Championship that happens every year in Carrbridge, Scotland. Once we found out, there was only one reasonable response: pack the oats, book the flights, and show up for the Golden Spurtle.',
     tag: 'STUNTS',
     image: 'https://a.storyblok.com/f/107921/1600x900/55fd483479/oatlythegoldenspurtle_still_03.jpg'
   },
   {
-    id: 'caroline-schiff-cooks-with-oatly',
-    slug: 'caroline-schiff-cooks-with-oatly',
-    title: 'Caroline Schiff Cooks with Oatly',
+    id: 'caroline-schiff-cooks-with-oatara',
+    slug: 'caroline-schiff-cooks-with-oatara',
+    title: 'Caroline Schiff Cooks with Oatara',
     type: 'Stories',
     date: 'November 6, 2023',
     readTime: '4 min read',
-    excerpt: 'The New York pastry chef came up with three fall recipes that feature Oatly, and they\u2019re delicious. Trust us\u2014we tasted them.',
-    content: 'Cooking with Oatly during the holiday season can be quite a festive and delightful time. But maybe you don\u2019t know just how festive and delightful it can be. So, we asked New York City pastry chef \u2013 and all-around fun human being \u2013 Caroline Schiff to come up with a few fall recipes built around Oatly. The result: Oatly Cream Cheese Apple Fritters and friends. Trust us \u2014 we tasted them.',
+    excerpt: 'The New York pastry chef came up with three fall recipes that feature Oatara, and they\u2019re delicious. Trust us\u2014we tasted them.',
+    content: 'Cooking with Oatara during the holiday season can be quite a festive and delightful time. But maybe you don\u2019t know just how festive and delightful it can be. So, we asked New York City pastry chef \u2013 and all-around fun human being \u2013 Caroline Schiff to come up with a few fall recipes built around Oatara. The result: Oatara Cream Cheese Apple Fritters and friends. Trust us \u2014 we tasted them.',
     tag: 'FOOD',
     image: 'https://a.storyblok.com/f/107921/1920x1080/4a12345474/caroline_01.png'
   },
   {
-    id: 'the-oatly-dragster',
-    slug: 'the-oatly-dragster',
-    title: 'The Oatly Dragster',
+    id: 'the-oatara-dragster',
+    slug: 'the-oatara-dragster',
+    title: 'The Oatara Dragster',
     type: 'Stories',
     date: 'July 12, 2023',
     readTime: '4 min read',
-    excerpt: 'When we learned an old dairy truck in Illinois had been mutated into a dragster, we asked a simple question: Will Oatly make it faster?',
+    excerpt: 'When we learned an old dairy truck in Illinois had been mutated into a dragster, we asked a simple question: Will Oatara make it faster?',
     content: 'Now as fast as dairy \u2026 if not a little faster! Remember those idyllic scenes of a dairy truck ambling down your tree-lined street? The milkman in his crisp white uniform strolling to your front door to deliver milk in glass bottles? Then someone in Illinois strapped a race engine to an old dairy truck and called it a dragster. Naturally, we had one question: what would it take to make it oat-powered?',
     tag: 'STUNTS',
     image: 'https://a.storyblok.com/f/107921/1920x1080/c197629cef/dragster-featured-1080.jpg'
@@ -347,7 +347,7 @@ export const newsItems = [
     date: 'May 10, 2023',
     readTime: '5 min read',
     excerpt: 'More than just a clever acronym, the F.A.R.M. is a global initiative that works with farmers toward solutions in regenerative agriculture.',
-    content: 'Welcome, loyal oat drinkers (and everyone else). More than just a clever acronym, the F.A.R.M. (Future Agriculture Renovation Movement) is Oatly\u2019s global initiative that works directly with farmers to develop regenerative agricultural solutions \u2013 crop rotation, reduced synthetic fertilizer, and soil that keeps more carbon where it belongs. Because the best oat drink in the world is only as good as the oats that go into it.',
+    content: 'Welcome, loyal oat drinkers (and everyone else). More than just a clever acronym, the F.A.R.M. (Future Agriculture Renovation Movement) is Oatara\u2019s global initiative that works directly with farmers to develop regenerative agricultural solutions \u2013 crop rotation, reduced synthetic fertilizer, and soil that keeps more carbon where it belongs. Because the best oat drink in the world is only as good as the oats that go into it.',
     tag: 'FARMER STORIES',
     image: 'https://a.storyblok.com/f/107921/800x450/56d673f655/farm-featured-v2.png'
   },
@@ -358,8 +358,8 @@ export const newsItems = [
     type: 'Stories',
     date: 'April 17, 2023',
     readTime: '6 min read',
-    excerpt: 'Oatly wants to uncover what those mysteries say about oats. So does the Nordic Genetic Resource Center. Can you guess what happens next?',
-    content: 'A long time ago (about 15 years), in a galaxy far, far away (Norway), a brutalist concrete vault was born from a mountain. In its depths lie the spare keys to our global food supply: seeds. Lots and lots of seeds \u2013 millions of them. The Svalbard Global Seed Vault in Longyearbyen evokes awe and bewilderment from both its visitors and anyone who can type \u201cdoomsday seed vault\u201d into an image search. A fortress of biodiversity, the vault offers an insurance policy against global disaster \u2013 and, for Oatly and the Nordic Genetic Resource Center, a chance to trace the ancestry of the oats we love.',
+    excerpt: 'Oatara wants to uncover what those mysteries say about oats. So does the Nordic Genetic Resource Center. Can you guess what happens next?',
+    content: 'A long time ago (about 15 years), in a galaxy far, far away (Norway), a brutalist concrete vault was born from a mountain. In its depths lie the spare keys to our global food supply: seeds. Lots and lots of seeds \u2013 millions of them. The Svalbard Global Seed Vault in Longyearbyen evokes awe and bewilderment from both its visitors and anyone who can type \u201cdoomsday seed vault\u201d into an image search. A fortress of biodiversity, the vault offers an insurance policy against global disaster \u2013 and, for Oatara and the Nordic Genetic Resource Center, a chance to trace the ancestry of the oats we love.',
     tag: 'SUSTAINABILITY',
     image: 'https://a.storyblok.com/f/107921/2048x1372/c0e97cc6ca/nordgen-seedvaultexterior1.jpg'
   },
@@ -377,15 +377,15 @@ export const newsItems = [
     image: "https://a.storyblok.com/f/107921/1920x1080/428fdbc938/dairy-free-berlinale-featured.jpg"
   },
   {
-    id: "everything-you-want-to-know-about-oatlys-secret-lab-in-philadelphia",
-    slug: "everything-you-want-to-know-about-oatlys-secret-lab-in-philadelphia",
-    path: "stories/everything-you-want-to-know-about-oatlys-secret-lab-in-philadelphia",
-    title: "Everything You Want to Know About Oatly’s Secret Lab in Philadelphia",
+    id: "everything-you-want-to-know-about-oataras-secret-lab-in-philadelphia",
+    slug: "everything-you-want-to-know-about-oataras-secret-lab-in-philadelphia",
+    path: "stories/everything-you-want-to-know-about-oataras-secret-lab-in-philadelphia",
+    title: "Everything You Want to Know About Oatara’s Secret Lab in Philadelphia",
     type: "Stories",
     date: "February 9, 2023",
     readTime: "11 min read",
     excerpt: "Except what I can’t tell you.",
-    content: "Philadelphia is known for a lot of things--pronouncing “water\" as “wooder” chief among them--but culinary innovation is not a claim to fame. Exhibit A: One of the city’s most celebrated residents is a man who made national news last year for eating a whole rotisserie chicken every day for 40 straight days.\n\nSo, it comes as a surprise to learn that Philly (it’s short for Philadelphia, everyone) is home to an “innovation lab” that develops plant-based food and drink products. My discovery occurs thanks to an Oatly marketing team, which offers me a nominal fee to learn more, as long as I sign a non-disclosure agreement (better known as an NDA in the business of being top secret.)",
+    content: "Philadelphia is known for a lot of things--pronouncing “water\" as “wooder” chief among them--but culinary innovation is not a claim to fame. Exhibit A: One of the city’s most celebrated residents is a man who made national news last year for eating a whole rotisserie chicken every day for 40 straight days.\n\nSo, it comes as a surprise to learn that Philly (it’s short for Philadelphia, everyone) is home to an “innovation lab” that develops plant-based food and drink products. My discovery occurs thanks to an Oatara marketing team, which offers me a nominal fee to learn more, as long as I sign a non-disclosure agreement (better known as an NDA in the business of being top secret.)",
     tag: "STORIES",
     image: "https://a.storyblok.com/f/107921/1920x1277/017b0adab8/philly-innovation-lab-hero.jpg"
   },
@@ -423,8 +423,8 @@ export const newsItems = [
     type: "Stories",
     date: "January 10, 2023",
     readTime: "9 min read",
-    excerpt: "The food system finally played a key role, but our esteemed Oatly correspondent was left wanting more.",
-    content: "In November, Oatly attended the United Nations Climate Change Conference for the second time. Some might consider that the start of a streak until they realize this was Climate COP number 27 and the first one dates way back to 1995 (when we were but a wee oat-drink brand).\n\nThe core of COP consists of intricate climate negotiations, but for those who may not know, there are also dozens of pavilions that host panel discussions and debates between representatives of national delegations, trade organizations, and coalitions. It’s a little like a trade show of climate-change philosophies and commitments.",
+    excerpt: "The food system finally played a key role, but our esteemed Oatara correspondent was left wanting more.",
+    content: "In November, Oatara attended the United Nations Climate Change Conference for the second time. Some might consider that the start of a streak until they realize this was Climate COP number 27 and the first one dates way back to 1995 (when we were but a wee oat-drink brand).\n\nThe core of COP consists of intricate climate negotiations, but for those who may not know, there are also dozens of pavilions that host panel discussions and debates between representatives of national delegations, trade organizations, and coalitions. It’s a little like a trade show of climate-change philosophies and commitments.",
     tag: "STORIES",
     image: "https://a.storyblok.com/f/107921/1920x1280/dd00cfc2c0/learned-cop27-entrance.jpg"
   },
@@ -449,8 +449,8 @@ export const newsItems = [
     type: "Stories",
     date: "November 23, 2022",
     readTime: "2 min read",
-    excerpt: "Meet Bulent Aslan, the London deli owner and genius designer, creating art out of Oatly cartons.",
-    content: "The Grand Designs of Bulent Aslan’s Camia Deli\n\nBulent Aslan may not be a name you hear listed among the world’s top interior designers, but in the very, very niche world of “Top Interior Designers Who Use Oatly Cartons As Wallpaper”, he is frequently cited as a global visionary. So of course we shamelessly invited ourselves into his London deli, Camia, and brought a camera operator, a producer, a director, a production assistant, and dozens of release forms.",
+    excerpt: "Meet Bulent Aslan, the London deli owner and genius designer, creating art out of Oatara cartons.",
+    content: "The Grand Designs of Bulent Aslan’s Camia Deli\n\nBulent Aslan may not be a name you hear listed among the world’s top interior designers, but in the very, very niche world of “Top Interior Designers Who Use Oatara Cartons As Wallpaper”, he is frequently cited as a global visionary. So of course we shamelessly invited ourselves into his London deli, Camia, and brought a camera operator, a producer, a director, a production assistant, and dozens of release forms.",
     tag: "STORIES",
     image: "https://a.storyblok.com/f/107921/1920x1080/4b256a1027/featured-image-deli.jpg"
   },
@@ -462,7 +462,7 @@ export const newsItems = [
     type: "Stories",
     date: "November 23, 2022",
     readTime: "2 min read",
-    excerpt: "In the summer of 2022, a Colorado man named Nate had a vision: A boat made out of Oatly cartons. This is his story.",
+    excerpt: "In the summer of 2022, a Colorado man named Nate had a vision: A boat made out of Oatara cartons. This is his story.",
     content: "A story about a boat. A story about goodbyes.\n\nThe greatest engineering minds of the past half century have catapulted humankind into unthinkable new worlds: space exploration, artificial intelligence, quantum computing. But some of those brilliant engineering minds have taken different, arguably more impressive paths…",
     tag: "STORIES",
     image: "https://a.storyblok.com/f/107921/1920x1080/f7dd49b4d0/featured-image-boatly.jpg"
@@ -476,7 +476,7 @@ export const newsItems = [
     date: "November 17, 2022",
     readTime: "4 min read",
     excerpt: "Please don’t say we never gave you anything.",
-    content: "At Oatly, we love engaging with our community of oat drinkers. And we think we’re pretty reliable about hearing (and even deeply internalizing) your comments. A lot of them are great. Some of them are not so great. A small percentage of them tell us to go f*ck ourselves. But this is the business we’ve chosen.\n\nWe also recognize when there’s an elephant in the room. And in every LinkedIn reply, every Instagram comment, we sense an undercurrent of curiosity about one thing in particular. And the time has come to address it: Yes, we’re finally going to show you what the inside of an oat mill in Sweden looks like.",
+    content: "At Oatara, we love engaging with our community of oat drinkers. And we think we’re pretty reliable about hearing (and even deeply internalizing) your comments. A lot of them are great. Some of them are not so great. A small percentage of them tell us to go f*ck ourselves. But this is the business we’ve chosen.\n\nWe also recognize when there’s an elephant in the room. And in every LinkedIn reply, every Instagram comment, we sense an undercurrent of curiosity about one thing in particular. And the time has come to address it: Yes, we’re finally going to show you what the inside of an oat mill in Sweden looks like.",
     tag: "STORIES",
     image: "https://a.storyblok.com/f/107921/1920x1080/7231a58ad9/berte-qvarn-featured.jpg"
   },
@@ -536,11 +536,11 @@ export const newsItems = [
     id: "otley",
     slug: "otley",
     path: "stories/otley",
-    title: "Oatly in Otley",
+    title: "Oatara in Otley",
     type: "Stories",
     date: "August 25, 2022",
     readTime: "2 min read",
-    excerpt: "We love Oatly. They love Otley. We met at the 211th Otley Farm Show in West Yorkshire, England. Things got confusing.",
+    excerpt: "We love Oatara. They love Otley. We met at the 211th Otley Farm Show in West Yorkshire, England. Things got confusing.",
     content: "A charming and confusing journey to West Yorkshire\n\nThe Annual Otley Show, held in Otley, a charming market town in West Yorkshire, is a historic event dating back to 1796 and is believed to be the longest-running single-day agricultural event in the UK.",
     tag: "STORIES",
     image: "https://a.storyblok.com/f/107921/3840x2160/f2fd843b19/oatly-in-otley.jpg"
@@ -553,21 +553,21 @@ export const newsItems = [
     type: "Stories",
     date: "June 17, 2022",
     readTime: "5 min read",
-    excerpt: "We heard that OATLY might taste like Satans diarrhea in tea. So we went to investigate this further by asking the tea experts themselves- the British public.",
-    content: "ALL THE NEWS THAT’S FIT TO DRINK\n\nA journey into British tea culture and the quest to answer one simple question: Is Oatly sh*t in tea?",
+    excerpt: "We heard that OATARA might taste like Satans diarrhea in tea. So we went to investigate this further by asking the tea experts themselves- the British public.",
+    content: "ALL THE NEWS THAT’S FIT TO DRINK\n\nA journey into British tea culture and the quest to answer one simple question: Is Oatara sh*t in tea?",
     tag: "STORIES",
     image: "https://a.storyblok.com/f/107921/1200x630/534d4b806d/featured-image.jpg"
   },
   {
-    id: "oatly-lake",
-    slug: "oatly-lake",
-    path: "stories/oatly-lake",
-    title: "Oatly Lake",
+    id: "oatara-lake",
+    slug: "oatara-lake",
+    path: "stories/oatara-lake",
+    title: "Oatara Lake",
     type: "Stories",
     date: "January 13, 2022",
     readTime: "7 min read",
-    excerpt: "In the heart of Northern Michigan, hidden in a dense cedar forest in the small town of Mesick, lies a little-known body of water called Oatly Lake.",
-    content: "A Swedish oat drink company finds an obscure lake in Michigan that shares its name. What happens when they finally decide to go there?\n\nIn the heart of the American Midwest, 30 miles east of Lake Michigan, there’s a town called Mesick. And in this Michigan town of 366 residents is a lake hidden in a dense cedar forest. The name of this lake just happens to be Oatly Lake. And for those who reached this web page by complete accident while in the throes of a deep internet wormhole, Oatly happens to be the name of our company. You’re currently on our website.",
+    excerpt: "In the heart of Northern Michigan, hidden in a dense cedar forest in the small town of Mesick, lies a little-known body of water called Oatara Lake.",
+    content: "A Swedish oat drink company finds an obscure lake in Michigan that shares its name. What happens when they finally decide to go there?\n\nIn the heart of the American Midwest, 30 miles east of Lake Michigan, there’s a town called Mesick. And in this Michigan town of 366 residents is a lake hidden in a dense cedar forest. The name of this lake just happens to be Oatara Lake. And for those who reached this web page by complete accident while in the throes of a deep internet wormhole, Oatara happens to be the name of our company. You’re currently on our website.",
     tag: "STORIES",
     image: "https://a.storyblok.com/f/107921/2048x1152/6cc7e71327/temp-featured-image-oatly-lake.jpg"
   },
@@ -898,7 +898,7 @@ export const newsItems = [
   },
 ];
 
-// ─── REAL OATLY INITIATIVES (scraped from oatly.com/things-we-do/initiatives) ─
+// ─── REAL OATARA INITIATIVES (scraped from oatara.com/things-we-do/initiatives) ─
 // The full initiatives catalog as indexed on the live site: real slugs,
 // titles, first-published dates, storyblok featured images and verbatim
 // excerpts. Bodies are condensed from the live articles' opening copy.
@@ -925,23 +925,23 @@ export const initiativesData = [
     date: 'May 18, 2026',
     readTime: '4 min read',
     excerpt:
-      'Oatly, Malm\u00f6 FF, SLU and Sanitation360 are testing whether human urine can replace fossil-based fertilizer. Meet the Pee for the Planet research project.',
+      'Oatara, Malm\u00f6 FF, SLU and Sanitation360 are testing whether human urine can replace fossil-based fertilizer. Meet the Pee for the Planet research project.',
     content:
-      'Oatly, Swedish football club Malm\u00f6 FF, the Swedish University of Agricultural Sciences (SLU) and the sanitation company Sanitation360 are testing whether human urine can replace fossil-based fertilizers in oat cultivation. Bio-based nutrients are collected at large venues, treated, and spread on the fields that grow our oats \u2014 proof that what goes around grows around.',
+      'Oatara, Swedish football club Malm\u00f6 FF, the Swedish University of Agricultural Sciences (SLU) and the sanitation company Sanitation360 are testing whether human urine can replace fossil-based fertilizers in oat cultivation. Bio-based nutrients are collected at large venues, treated, and spread on the fields that grow our oats \u2014 proof that what goes around grows around.',
     tag: 'SUSTAINABILITY INNOVATION',
     image: 'https://a.storyblok.com/f/107921/1920x1080/7857b665e8/p4tp.png'
   },
   {
-    id: 'oatly-x-avavav',
-    slug: 'oatly-x-avavav',
-    title: 'OATLY x AVAVAV',
+    id: 'oatara-x-avavav',
+    slug: 'oatara-x-avavav',
+    title: 'OATARA x AVAVAV',
     type: 'Initiatives',
     date: 'March 4, 2026',
     readTime: '3 min read',
     excerpt:
-      'Oatly partners with avant-garde fashion brand AVAVAV to bring bold flavor to the runway, serving signature oat-based drinks at Milan Fashion Week.',
+      'Oatara partners with avant-garde fashion brand AVAVAV to bring bold flavor to the runway, serving signature oat-based drinks at Milan Fashion Week.',
     content:
-      'Oatly partners with the avant-garde Italian fashion house AVAVAV to bring a little flavor to the runway. Signature oat-based drinks were served up during Milan Fashion Week \u2014 because if oats can hang backstage at fashion week, they can do anything.',
+      'Oatara partners with the avant-garde Italian fashion house AVAVAV to bring a little flavor to the runway. Signature oat-based drinks were served up during Milan Fashion Week \u2014 because if oats can hang backstage at fashion week, they can do anything.',
     tag: 'FASHION & DESIGN',
     image: 'https://a.storyblok.com/f/107921/2715x1528/47ac2c4b52/oatly-x-avavav.webp'
   },
@@ -967,9 +967,9 @@ export const initiativesData = [
     date: 'October 29, 2024',
     readTime: '6 min read',
     excerpt:
-      'Together with EF Pro Bikers, Oatly is slowly learning about endurance nutrition and the bonding properties of denim vests.',
+      'Together with EF Pro Bikers, Oatara is slowly learning about endurance nutrition and the bonding properties of denim vests.',
     content:
-      'Cycling thousands of kilometres through mountains takes raw energy. Together with EF Pro Bikers, Oatly is slowly (and happily) learning about endurance nutrition \u2014 and the bonding properties of denim vests.',
+      'Cycling thousands of kilometres through mountains takes raw energy. Together with EF Pro Bikers, Oatara is slowly (and happily) learning about endurance nutrition \u2014 and the bonding properties of denim vests.',
     tag: 'SPORTS & ENDURANCE',
     image: 'https://a.storyblok.com/f/107921/3000x2001/af56a497b6/ef-biker-woman.jpg'
   },
@@ -1009,7 +1009,7 @@ export const initiativesData = [
     date: 'May 30, 2022',
     readTime: '4 min read',
     excerpt:
-      'Oatly is recycling leftover oat waste into renewable electricity in New Jersey.',
+      'Oatara is recycling leftover oat waste into renewable electricity in New Jersey.',
     content:
       'Our production facility in New Jersey takes the leftover oat husks and wastewater from making oat drink and feeds them into an on-site digestor, turning them into biogas and renewable electricity. Less waste, more watts.',
     tag: 'SUSTAINABILITY INNOVATION',
@@ -1115,7 +1115,7 @@ export const initiativesData = [
   }
 ];
 
-// ─── REAL OATLY BRAINWASHING (scraped from oatly.com/things-we-do/brainwashing) ─
+// ─── REAL OATARA BRAINWASHING (scraped from oatara.com/things-we-do/brainwashing) ─
 // The live brainwashing catalog: real slugs, titles, first-published dates,
 // storyblok featured images and verbatim excerpts. Bodies are condensed from
 // the live articles' opening copy.
@@ -1123,14 +1123,14 @@ export const brainwashingData = [
   {
     id: 'nespresso',
     slug: 'nespresso',
-    title: 'Oatly x Nespresso',
+    title: 'Oatara x Nespresso',
     type: 'Brainwashing',
     date: 'May 5, 2026',
     readTime: '4 min read',
     excerpt:
-      'Try the new Nespresso Oatly Barista Edition Coffee Capsules! Made for oat drink lovers, with rich, biscuity notes, they pair perfectly with Oatly\u2019s oat drink. Exclusively for Nespresso Vertuo machines. Limited edition!',
+      'Try the new Nespresso Oatara Barista Edition Coffee Capsules! Made for oat drink lovers, with rich, biscuity notes, they pair perfectly with Oatara\u2019s oat drink. Exclusively for Nespresso Vertuo machines. Limited edition!',
     content:
-      'Try the new Nespresso Oatly Barista Edition Coffee Capsules! Made for oat drink lovers, with rich, biscuity notes, they pair perfectly with Oatly\u2019s oat drink. Exclusively for Nespresso Vertuo machines \u2014 and limited edition.',
+      'Try the new Nespresso Oatara Barista Edition Coffee Capsules! Made for oat drink lovers, with rich, biscuity notes, they pair perfectly with Oatara\u2019s oat drink. Exclusively for Nespresso Vertuo machines \u2014 and limited edition.',
     tag: 'PARTNERSHIP',
     image: 'https://a.storyblok.com/f/107921/1920x1080/e8b406df81/shareimage-nespressosummer.png'
   },
@@ -1141,9 +1141,9 @@ export const brainwashingData = [
     type: 'Brainwashing',
     date: 'November 1, 2024',
     readTime: '4 min read',
-    excerpt: 'In a blind test, 53% prefer Oatly to cow\u2019s milk in coffee.',
+    excerpt: 'In a blind test, 53% prefer Oatara to cow\u2019s milk in coffee.',
     content:
-      'In a blind test, 53% prefer Oatly to cow\u2019s milk in coffee. We set up a no-whammies taste experiment and let people decide for themselves which one they\u2019d rather pour in their cup \u2014 the results were hard to argue with.',
+      'In a blind test, 53% prefer Oatara to cow\u2019s milk in coffee. We set up a no-whammies taste experiment and let people decide for themselves which one they\u2019d rather pour in their cup \u2014 the results were hard to argue with.',
     tag: 'CAMPAIGNS',
     image: 'https://a.storyblok.com/f/107921/3200x1800/4ad7a11a8f/grade_ref_still_6421-kopiera_2-min.jpg'
   },
@@ -1155,9 +1155,9 @@ export const brainwashingData = [
     date: 'July 11, 2024',
     readTime: '3 min read',
     excerpt:
-      'Oatly and Malibu \u2014 the collaboration no one asked for. Find out here where to try Pi\u00f1a Oatlada, our new Pi\u00f1a Colada flavored Soft Serve this summer.',
+      'Oatara and Malibu \u2014 the collaboration no one asked for. Find out here where to try Pi\u00f1a Oatlada, our new Pi\u00f1a Colada flavored Soft Serve this summer.',
     content:
-      'Oatly and Malibu \u2014 the collaboration no one asked for. This summer we brought out Pi\u00f1a Oatlada, a Pi\u00f1a Colada flavored Soft Serve, and set it loose on the world. Find out where to try it while it lasts.',
+      'Oatara and Malibu \u2014 the collaboration no one asked for. This summer we brought out Pi\u00f1a Oatlada, a Pi\u00f1a Colada flavored Soft Serve, and set it loose on the world. Find out where to try it while it lasts.',
     tag: 'CAMPAIGNS',
     image: 'https://a.storyblok.com/f/107921/1924x1134/4e3e2530e5/headerimage2.png'
   },
@@ -1176,30 +1176,30 @@ export const brainwashingData = [
     image: 'https://a.storyblok.com/f/107921/1200x675/8cd1f3f2b9/oatly-oatgurt_tour-thumb.png'
   },
   {
-    id: 'wisconsin-supper-club-swaps-dairy-with-oatly',
-    slug: 'wisconsin-supper-club-swaps-dairy-with-oatly',
-    title: 'A Wisconsin Supper Club Swaps Dairy With Oatly',
+    id: 'wisconsin-supper-club-swaps-dairy-with-oatara',
+    slug: 'wisconsin-supper-club-swaps-dairy-with-oatara',
+    title: 'A Wisconsin Supper Club Swaps Dairy With Oatara',
     type: 'Brainwashing',
     date: 'November 16, 2023',
     readTime: '5 min read',
     excerpt:
-      'We visited The Duck Inn Supper Club in America\u2019s Dairy State and made Oatly grasshoppers and creme br\u00fbl\u00e9es. Surprisingly, no chaos ensued and we made it out alive.',
+      'We visited The Duck Inn Supper Club in America\u2019s Dairy State and made Oatara grasshoppers and creme br\u00fbl\u00e9es. Surprisingly, no chaos ensued and we made it out alive.',
     content:
-      'We visited The Duck Inn Supper Club in America\u2019s Dairy State and made Oatly grasshoppers and creme br\u00fbl\u00e9es with the kitchen crew. Surprisingly, no chaos ensued \u2014 and we made it out alive.',
+      'We visited The Duck Inn Supper Club in America\u2019s Dairy State and made Oatara grasshoppers and creme br\u00fbl\u00e9es with the kitchen crew. Surprisingly, no chaos ensued \u2014 and we made it out alive.',
     tag: 'WILL IT SWAP',
     image: 'https://a.storyblok.com/f/107921/8082x5388/feeec3369a/oatlyduckinn_086.jpg'
   },
   {
-    id: 'louisiana-diner-swaps-dairy-with-oatly',
-    slug: 'louisiana-diner-swaps-dairy-with-oatly',
-    title: 'We Swapped Dairy for Oatly at a Diner in Louisiana',
+    id: 'louisiana-diner-swaps-dairy-with-oatara',
+    slug: 'louisiana-diner-swaps-dairy-with-oatara',
+    title: 'We Swapped Dairy for Oatara at a Diner in Louisiana',
     type: 'Brainwashing',
     date: 'May 18, 2023',
     readTime: '5 min read',
     excerpt:
-      'We convinced a Louisiana diner to swap dairy with Oatly in their most popular dishes. Almost everyone enjoyed the Oatly jambalaya and crawfish fettuccine, except for a few individuals who asked to be removed from the video.',
+      'We convinced a Louisiana diner to swap dairy with Oatara in their most popular dishes. Almost everyone enjoyed the Oatara jambalaya and crawfish fettuccine, except for a few individuals who asked to be removed from the video.',
     content:
-      'We convinced a Louisiana diner to swap dairy with Oatly in their most popular dishes. Almost everyone enjoyed the Oatly jambalaya and crawfish fettuccine \u2014 except for a few individuals who asked to be removed from the video.',
+      'We convinced a Louisiana diner to swap dairy with Oatara in their most popular dishes. Almost everyone enjoyed the Oatara jambalaya and crawfish fettuccine \u2014 except for a few individuals who asked to be removed from the video.',
     tag: 'WILL IT SWAP',
     image: 'https://a.storyblok.com/f/107921/1920x1080/8df224ce27/yt_thumbnail_diner.jpg'
   },
@@ -1248,14 +1248,14 @@ export const brainwashingData = [
   {
     id: 'odds',
     slug: 'odds',
-    title: 'Oatly Department of distraction services',
+    title: 'Oatara Department of distraction services',
     type: 'Brainwashing',
     date: 'March 17, 2020',
     readTime: '5 min read',
     excerpt:
-      'When COVID struck the world in 2019, our creative department, known as the Oatly Department of Mind Control, momentarily lost all interest in trying to sell you our oat drink. Instead, we focused the few skills we actually possess on the birth of the ODDS.',
+      'When COVID struck the world in 2019, our creative department, known as the Oatara Department of Mind Control, momentarily lost all interest in trying to sell you our oat drink. Instead, we focused the few skills we actually possess on the birth of the ODDS.',
     content:
-      'When COVID struck the world, our creative department \u2014 known as the Oatly Department of Mind Control \u2014 momentarily lost all interest in trying to sell you our oat drink. Instead, we focused the few skills we actually possess on the birth of the O.D.D.S.: the Oatly Department of Distraction Services.',
+      'When COVID struck the world, our creative department \u2014 known as the Oatara Department of Mind Control \u2014 momentarily lost all interest in trying to sell you our oat drink. Instead, we focused the few skills we actually possess on the birth of the O.D.D.S.: the Oatara Department of Distraction Services.',
     tag: 'CAMPAIGNS',
     image: 'https://a.storyblok.com/f/107921/600x338/03df5814c7/odds.png'
   },
@@ -1299,12 +1299,12 @@ export const sustainabilityData = {
   ],
   sections: {
     who: {
-      title: "OATLY WHO?",
-      slug: "oatly-who",
-      copy: "Oatly was founded in the 1990s by Swedish food scientist Rickard Öste at Lund University. Using patented liquid oat enzyme technology, Öste developed a way to convert fiber-rich oats into a delicious, nutritious liquid food without requiring animal farming. Today, Oatly is available in over 20 countries worldwide."
+      title: "OATARA WHO?",
+      slug: "oatara-who",
+      copy: "Oatara was founded in the 1990s by Swedish food scientist Rickard Öste at Lund University. Using patented liquid oat enzyme technology, Öste developed a way to convert fiber-rich oats into a delicious, nutritious liquid food without requiring animal farming. Today, Oatara is available in over 20 countries worldwide."
     },
     plan: {
-      title: "OATLY'S SUSTAINABILITY PLAN",
+      title: "OATARA'S SUSTAINABILITY PLAN",
       slug: "sustainability-plan",
       pillars: [
         { title: "1. Drive Plant-Based Shift", desc: "Shifting global food consumption away from land-intensive animal agriculture." },
@@ -1321,14 +1321,14 @@ export const sustainabilityData = {
     solutions: {
       title: "WE'RE A CLIMATE SOLUTIONS COMPANY",
       slug: "climate-solutions-company",
-      copy: "Oatly exists to make it easy for people to eat and drink what is good for them and the planet, without sacrificing taste or fun."
+      copy: "Oatara exists to make it easy for people to eat and drink what is good for them and the planet, without sacrificing taste or fun."
     }
   }
 };
 
 // ─── Real catalog override ──────────────────────────────────────────────────
-// Swap each category's hand-written `items` with the real Oatly catalog
-// (names + official packshots from oatly.com/products, see oatlyCatalog.js).
+// Swap each category's hand-written `items` with the real Oatara catalog
+// (names + official packshots from oatara.com/products, see oatlyCatalog.js).
 // Category metadata above (tagline, color, badge) is untouched — only the
 // item lists are replaced, so every consumer (listing pages, modal) gets the
 // real products with zero further changes.

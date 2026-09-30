@@ -2,15 +2,38 @@ import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import SEO from '../components/SEO';
 import { useShop } from '../hooks/useShop.js';
+import { useAuth } from '../hooks/useAuth.js';
 import { useCatalog, findProduct } from '../hooks/useCatalog.js';
 import { calcTotals, validateCoupon } from '../models/shopStore.js';
 import '../styles/Shop.css';
 
 export default function CartPage() {
   const { cart, updateQty, remove, clear, couponCode, setCouponCode, settings } = useShop();
+  const { isAdmin } = useAuth();
   const { products } = useCatalog();
   const [input, setInput] = useState(couponCode);
   const [msg, setMsg] = useState('');
+
+  // Admin account thi shopping NAHI — cart page j nai khule.
+  if (isAdmin) {
+    return (
+      <div className="shop-page">
+        <SEO title="Cart | Oatara Shop" description="Your shopping cart." pathname="/cart" />
+        <div className="shop-shell">
+          <p className="shop-kicker">Oatara shop</p>
+          <h1>Your cart.</h1>
+          <div className="shop-card">
+            <p><strong>Admin account thi shopping thati nathi.</strong></p>
+            <p className="shop-sub">Tame admin chho — kharidi mate customer account thi login karo, athava Seller Hub vapro.</p>
+            <div className="shop-actions">
+              <Link to="/admin" className="shop-btn shop-btn--small">Seller Hub</Link>
+              <Link to="/products" className="shop-btn shop-btn--small shop-btn--ghost">View products</Link>
+            </div>
+          </div>
+        </div>
+      </div>
+    );
+  }
 
   const lines = Object.entries(cart)
     .map(([id, qty]) => {
@@ -32,9 +55,9 @@ export default function CartPage() {
 
   return (
     <div className="shop-page">
-      <SEO title="Cart | Oatly Shop" description="Your shopping cart." pathname="/cart" />
+      <SEO title="Cart | Oatara Shop" description="Your shopping cart." pathname="/cart" />
       <div className="shop-shell">
-        <p className="shop-kicker">Oatly shop</p>
+        <p className="shop-kicker">Oatara shop</p>
         <h1>Your cart.</h1>
         {lines.length === 0 ? (
           <div className="shop-card shop-empty">

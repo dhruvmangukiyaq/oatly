@@ -8,6 +8,7 @@ import { Heart, ArrowUpDown } from 'lucide-react';
 import ProcessBand from './ProcessBand.jsx';
 import Product360 from './Product360.jsx';
 import { useShop } from '../hooks/useShop.js';
+import { isAdmin as checkIsAdmin, useAuth } from '../hooks/useAuth.js';
 import { enrichProduct, getSettings } from '../models/shopStore.js';
 import { getProductOverrides } from '../models/adminStore.js';
 import '../styles/ProductListing.css';
@@ -21,7 +22,7 @@ const SORTS = [
   { id: 'off', label: 'Discount' },
 ];
 
-function ProductCard({ item, onSelect, onAdded }) {
+function ProductCard({ item, onSelect, onAdded, adminView }) {
   const [imgOk, setImgOk] = useState(!!item.image);
   const { add, wishlist, toggleWish } = useShop();
   const src = item.image;
@@ -62,26 +63,28 @@ function ProductCard({ item, onSelect, onAdded }) {
         ) : low ? (
           <p className="plist-card__stock plist-card__stock--low">Only {item.stock} left</p>
         ) : null}
-        {/* Quiet text actions — underline on hover, like the rest of the site */}
-        <div className="plist-card__buy" onClick={(e) => e.stopPropagation()}>
-          <button
-            type="button"
-            className="plist-card__add"
-            disabled={out}
-            onClick={() => { add(key, 1); if (onAdded) onAdded(); }}
-          >
-            {out ? 'Sold out' : 'Add to cart +'}
-          </button>
-          <button
-            type="button"
-            aria-label={wished ? 'Remove from wishlist' : 'Add to wishlist'}
-            aria-pressed={wished}
-            className={`plist-card__wish${wished ? ' is-active' : ''}`}
-            onClick={() => toggleWish(key)}
-          >
-            <Heart size={14} fill={wished ? 'currentColor' : 'none'} aria-hidden="true" />
-          </button>
-        </div>
+        {/* Quiet text actions — admin ne DEKHASE J NAHI (admin buy na kare) */}
+        {!adminView && (
+          <div className="plist-card__buy" onClick={(e) => e.stopPropagation()}>
+            <button
+              type="button"
+              className="plist-card__add"
+              disabled={out}
+              onClick={() => { add(key, 1); if (onAdded) onAdded(); }}
+            >
+              {out ? 'Sold out' : 'Add to cart +'}
+            </button>
+            <button
+              type="button"
+              aria-label={wished ? 'Remove from wishlist' : 'Add to wishlist'}
+              aria-pressed={wished}
+              className={`plist-card__wish${wished ? ' is-active' : ''}`}
+              onClick={() => toggleWish(key)}
+            >
+              <Heart size={14} fill={wished ? 'currentColor' : 'none'} aria-hidden="true" />
+            </button>
+          </div>
+        )}
       </div>
     </li>
   );
@@ -89,6 +92,8 @@ function ProductCard({ item, onSelect, onAdded }) {
 
 export default function ProductListing({ categories, activeSlug, items, onSelectProduct, onAdded }) {
   const activeCategory = categories.find((c) => c.slug === activeSlug) || null;
+  const { user } = useAuth();
+  const adminView = checkIsAdmin(user); // admin ne buy row dekhase j nahi
   const [sort, setSort] = useState('pop');
   const [q, setQ] = useState('');
   const overrides = getProductOverrides();
@@ -177,6 +182,7 @@ export default function ProductListing({ categories, activeSlug, items, onSelect
                   item={item}
                   onSelect={onSelectProduct}
                   onAdded={onAdded}
+                  adminView={adminView}
                 />
               ))}
             </ul>

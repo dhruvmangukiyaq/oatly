@@ -2,8 +2,8 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import '../styles/ProcessBand.css';
 
-// ─── Hand-drawn TV illustration (Oatly marker style, original redraw) ───────
-// Oatly's TV is wobbly hand-drawn paths; this recreates that feel:
+// ─── Hand-drawn TV illustration (Oatara marker style, original redraw) ───────
+// Oatara's TV is wobbly hand-drawn paths; this recreates that feel:
 // feTurbulence wobble filter on the frame, doodle faces inside the dials,
 // lemon-shaped speaker dots, white gap dot, chunky base bar.
 const LEMON = 'M0,-4.5 C3,-1.5 3,1.8 0,5 C-3,1.8 -3,-1.5 0,-4.5 Z';
@@ -23,7 +23,7 @@ function TvIllustration() {
     }
   }
   return (
-    <svg viewBox="0 0 640 430" role="img" aria-label="Retro television showing The Oatly Process">
+    <svg viewBox="0 0 640 430" role="img" aria-label="Retro television showing The Oatara Process">
       <defs>
         {/* Marker-wobble: roughens perfect geometry like hand ink */}
         <filter id="oatly-wobble" x="-5%" y="-5%" width="110%" height="110%">
@@ -44,7 +44,7 @@ function TvIllustration() {
         <rect x={43} y={31} width={554} height={356} rx={28} fill="none" stroke="#fff" strokeWidth={5} />
         {/* screen */}
         <rect x={64} y={54} width={322} height={310} rx={16} fill="#fff" />
-        {/* thin inner screen outline (Oatly's screen has a visible inset line) */}
+        {/* thin inner screen outline (Oatara's screen has a visible inset line) */}
         <rect x={74} y={64} width={302} height={290} rx={12} fill="none" stroke="#111" strokeWidth={3} />
         {/* side panel */}
         <rect x={400} y={54} width={158} height={310} rx={16} fill="#fff" />
@@ -52,9 +52,9 @@ function TvIllustration() {
         <circle cx={576} cy={240} r={6} fill="#fff" />
       </g>
 
-      {/* screen lettering (chunky rounded, like Oatly's) */}
+      {/* screen lettering (chunky rounded, like Oatara's) */}
       <g fontFamily="'Titan One','Arial Rounded MT Bold',sans-serif" fill="#111" textAnchor="middle">
-        <text x={225} y={170} fontSize={54}>THE OATLY</text>
+        <text x={225} y={170} fontSize={54}>THE OATARA</text>
         <text x={225} y={230} fontSize={54}>PROCESS</text>
       </g>
 
@@ -75,7 +75,7 @@ function TvIllustration() {
         </text>
       </g>
 
-      {/* dials with quirky doodle faces (Oatly's knobs have odd little faces) */}
+      {/* dials with quirky doodle faces (Oatara's knobs have odd little faces) */}
       <g stroke="#111" strokeWidth={6} fill="none">
         <circle cx={479} cy={120} r={27} />
         <circle cx={479} cy={196} r={27} />
@@ -96,22 +96,22 @@ function TvIllustration() {
 }
 
 // ─── PROCESS BAND (View) ────────────────────────────────────────────────────
-// Same UI + same copy as oatly.com product pages. PLAY (the TV) links to our
-// process story (/oatly-who); Oatly's own player loads its film dynamically,
+// Same UI + same copy as oatara.com product pages. PLAY (the TV) links to our
+// process story (/oatara-who); Oatara's own player loads its film dynamically,
 // which can't be hotlinked, so on-site story is the honest equivalent.
 export default function ProcessBand() {
   return (
     <section className="process" aria-label="How we make our oat drinks">
       <div className="process__inner">
-        <Link to="/oatly-who" className="process__tv" aria-label="Play: how we make our oat drinks">
+        <Link to="/oatara-who" className="process__tv" aria-label="Play: how we make our oat drinks">
           <TvIllustration />
         </Link>
         <div>
           <h2 className="process__headline">How do we make our oat drinks?</h2>
           <p className="process__copy">
             Our oat base is just oats and water. But it&rsquo;s{' '}
-            <Link to="/oatly-who">what we do</Link> with those oats and that
-            water that makes Oatly so special.
+            <Link to="/oatara-who">what we do</Link> with those oats and that
+            water that makes Oatara so special.
           </p>
         </div>
       </div>

@@ -4,8 +4,8 @@ import ResponsiveImage from '../components/ResponsiveImage';
 import '../styles/OatlyXAvavav.css';
 
 /* ==========================================================================
-   OATLY x AVAVAV — copy-to-copy of
-   oatly.com/things-we-do/initiatives/oatly-x-avavav
+   OATARA x AVAVAV — copy-to-copy of
+   oatara.com/things-we-do/initiatives/oatara-x-avavav
    Black editorial, white hairline frames, matcha green #a0cb8a accents.
    All copy + official Storyblok artwork preserved.
    ========================================================================== */
@@ -42,13 +42,13 @@ export default function OatlyXAvavavPage() {
   return (
     <div className="avax">
       <SEO
-        title="Oatly x AVAVAV | Oatly"
-        description="Oatly partners with avant-garde fashion brand AVAVAV to bring bold flavor to the runway, serving signature oat-based drinks at Milan Fashion Week."
-        pathname="/things-we-do/initiatives/oatly-x-avavav"
+        title="Oatara x AVAVAV | Oatara"
+        description="Oatara partners with avant-garde fashion brand AVAVAV to bring bold flavor to the runway, serving signature oat-based drinks at Milan Fashion Week."
+        pathname="/things-we-do/initiatives/oatara-x-avavav"
       />
 
       {/* ═══ HERO — full-bleed collage + centered lockup ═══ */}
-      <section className="avax-hero" aria-label="AVAVAV x Oatly hero">
+      <section className="avax-hero" aria-label="AVAVAV x Oatara hero">
         <picture>
           <source media="(max-width: 700px)" srcSet={IMG.heroBgMobile} />
           <img src={IMG.heroBg} alt="" aria-hidden="true" className="avax-hero__bg" />
@@ -63,11 +63,11 @@ export default function OatlyXAvavavPage() {
           <h3 className="avax-h3">we made it drinkable</h3>
           <div className="avax-cols">
             <div>
-              <p>Avavav and Oatly come together at Milan Fashion Week for Avavav&rsquo;s A/W 2026 show, to blur the lines between fashion, performance and flavour. The show ran in reverse: guests were observed; models became spectators. It was fashion as performance rather than presentation — playing with exposure, perspective and power. Our part? Take those ideas and pour them into the glass.</p>
+              <p>Avavav and Oatara come together at Milan Fashion Week for Avavav&rsquo;s A/W 2026 show, to blur the lines between fashion, performance and flavour. The show ran in reverse: guests were observed; models became spectators. It was fashion as performance rather than presentation — playing with exposure, perspective and power. Our part? Take those ideas and pour them into the glass.</p>
               <p>Avavav&rsquo;s reversed format reframed who gets seen and who does the seeing. Inside that world, we didn&rsquo;t just show up with trays; we translated silhouettes into sips so the concept travelled from fabric to flavour.</p>
             </div>
             <div>
-              <ResponsiveImage src={IMG.og} alt="AVAVAV x Oatly — Milan Fashion Week" className="avax-sideimg" />
+              <ResponsiveImage src={IMG.og} alt="AVAVAV x Oatara — Milan Fashion Week" className="avax-sideimg" />
             </div>
           </div>
         </div>
@@ -75,8 +75,8 @@ export default function OatlyXAvavavPage() {
 
       {/* ═══ RUNWAY SPLIT — two full-bleed fashion frames ═══ */}
       <section className="avax-split" aria-label="Runway looks">
-        <ResponsiveImage src={IMG.g1} alt="Model holding an Oatly Matcha carton styled as a handbag" className="avax-split__img" />
-        <ResponsiveImage src={IMG.g2} alt="Model walking the reversed runway holding an Oatly carton" className="avax-split__img" />
+        <ResponsiveImage src={IMG.g1} alt="Model holding an Oatara Matcha carton styled as a handbag" className="avax-split__img" />
+        <ResponsiveImage src={IMG.g2} alt="Model walking the reversed runway holding an Oatara carton" className="avax-split__img" />
       </section>
 
       {/* ═══ A SHARED LANGUAGE ═══ */}
@@ -86,10 +86,10 @@ export default function OatlyXAvavavPage() {
           <h3 className="avax-h3 avax-h3--sm">of culture and experimentation</h3>
           <p className="avax-p">Avavav&rsquo;s reversed format reframed who gets seen and who does the seeing. Inside that world, we didn&rsquo;t just show up with trays; we translated silhouettes into sips so the concept travelled from fabric to flavour.</p>
           <blockquote className="avax-quote">
-            &ldquo;For me, fashion is about creating worlds — not just clothes. This format let us work with contrast — observation vs exposure, depth vs entertainment — while responding to an industry still shaped by a male gaze. Working with Oatly felt natural because they don&rsquo;t just make oat drinks, they build culture. The drinks became an extension of the collection — playful, strange, thoughtful and very Avavav&rdquo;
+            &ldquo;For me, fashion is about creating worlds — not just clothes. This format let us work with contrast — observation vs exposure, depth vs entertainment — while responding to an industry still shaped by a male gaze. Working with Oatara felt natural because they don&rsquo;t just make oat drinks, they build culture. The drinks became an extension of the collection — playful, strange, thoughtful and very Avavav&rdquo;
           </blockquote>
           <p className="avax-attr"><span>– Beate Karlsson, Creative Director at Avavav.</span></p>
-          <p className="avax-p">The creative exchange reflects a shared belief in expression without boundaries. Both Swedish-born brands are known for challenging convention in their respective industries, Avavav through radical runway performances, and Oatly through culture-shaping brand storytelling and plant-based innovation.</p>
+          <p className="avax-p">The creative exchange reflects a shared belief in expression without boundaries. Both Swedish-born brands are known for challenging convention in their respective industries, Avavav through radical runway performances, and Oatara through culture-shaping brand storytelling and plant-based innovation.</p>
         </div>
       </section>
 
@@ -101,7 +101,7 @@ export default function OatlyXAvavavPage() {
           <blockquote className="avax-quote avax-quote--sm">
             &ldquo;We wanted to support Avavav in a way that felt meaningful and fully inside the performance. It wasn&rsquo;t about pouring drinks; it was about building something unexpected together&rdquo;
           </blockquote>
-          <p className="avax-attr"><span>– Rowena Roos, Head of FADE at Oatly.</span></p>
+          <p className="avax-attr"><span>– Rowena Roos, Head of FADE at Oatara.</span></p>
         </div>
       </section>
 
@@ -120,7 +120,7 @@ export default function OatlyXAvavavPage() {
             <p>A non-alcoholic serve in a cocoa-butter-laced glass, nodding to fragility, texture and contrast.</p>
           </article>
           <article>
-            <ResponsiveImage src={IMG.jell} alt="Square matcha coloured jell-o cube with Oatly logos on a doily" className="avax-drink__img" />
+            <ResponsiveImage src={IMG.jell} alt="Square matcha coloured jell-o cube with Oatara logos on a doily" className="avax-drink__img" />
             <h3>Jell-oat shot</h3>
             <p>A playful oat-based jelly shot with Oat Drink Matcha, apple and herbs. Somewhere between drink, dessert and design object.</p>
           </article>
@@ -133,10 +133,10 @@ export default function OatlyXAvavavPage() {
           <h2 className="avax-h2 avax-h2--green">Why this matters</h2>
           <h3 className="avax-h3">(beyond one night in Milan)</h3>
           <p className="avax-p">This collaboration is part of our ongoing experiment to stretch oat-based creativity beyond the usual drinks menu — into culture, design and the places where ideas collide.</p>
-          <ResponsiveImage src={IMG.all} alt="AVAVAV x Oatly — Milan Fashion Week" className="avax-wide" />
+          <ResponsiveImage src={IMG.all} alt="AVAVAV x Oatara — Milan Fashion Week" className="avax-wide" />
           <div className="avax-grid14" aria-label="Backstage and runway gallery">
             {GRID14.map((src, i) => (
-              <ResponsiveImage key={i} src={src} alt={`AVAVAV x Oatly gallery ${i + 1}`} className="avax-grid14__img" loading="lazy" />
+              <ResponsiveImage key={i} src={src} alt={`AVAVAV x Oatara gallery ${i + 1}`} className="avax-grid14__img" loading="lazy" />
             ))}
           </div>
           <p className="avax-more">Want more taste-bending ideas? Check out our <a href="/recipes/look-book-autumn-winter-2025">Look book</a>.</p>
@@ -155,7 +155,7 @@ export default function OatlyXAvavavPage() {
           <a href="/things-we-do/initiatives/pee-for-the-planet">
             <ResponsiveImage src={IMG.peeRoom} alt="Pee for the Planet" className="avax-related__img" />
             <h3>Pee for the planet</h3>
-            <p>Oatly, Malmö FF, SLU and Sanitation360 are testing whether human urine can replace fossil-based fertilizer. Meet the Pee for the Planet research project.</p>
+            <p>Oatara, Malmö FF, SLU and Sanitation360 are testing whether human urine can replace fossil-based fertilizer. Meet the Pee for the Planet research project.</p>
             <span>Initiatives • May 18, 2026</span>
           </a>
         </div>

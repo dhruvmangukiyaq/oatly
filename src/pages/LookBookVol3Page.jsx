@@ -2,7 +2,7 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import SEO from '../components/SEO';
 // ─── MVC: View ──────────────────────────────────────────────────────────────
-// Mirrors oatly.com/recipes/look-book-vol-3 top to bottom. All content +
+// Mirrors oatara.com/recipes/look-book-vol-3 top to bottom. All content +
 // official assets arrive from the Model (async Express API);
 // recipe detail pages (/recipes/look-book-vol-3/:slug) keep working on the
 // same slugs.
@@ -33,12 +33,12 @@ export default function LookBookVol3Page() {
   return (
     <div className="lb3">
       <SEO
-        title="Oatly Look Book Vol. 3 | 18 Drink Recipes With Oatly"
-        description="18 drink recipes with Oatly — tracking South American flavour waves, from Tortilla & Agave Latte to Hojicha Old Fashioned."
+        title="Oatara Look Book Vol. 3 | 18 Drink Recipes With Oatara"
+        description="18 drink recipes with Oatara — tracking South American flavour waves, from Tortilla & Agave Latte to Hojicha Old Fashioned."
         pathname="/recipes/look-book-vol-3"
       />
       <div className="lb3__inner">
-        {/* Giant blackletter hero logo (official Oatly artwork) */}
+        {/* Giant blackletter hero logo (official Oatara artwork) */}
         <img src={page.logo} alt="Look Book Vol.3" className="lb3-logo" />
 
         {/* Intro: hand-lettered note (real text) + hero drink photo */}
@@ -115,7 +115,7 @@ export default function LookBookVol3Page() {
       <div className="lb3__inner">
         {/* Full-bleed sink photo */}
         <div className="lb3-bleed">
-          <img src={page.sinkImage} alt="Oatly drinks by the sink" loading="lazy" />
+          <img src={page.sinkImage} alt="Oatara drinks by the sink" loading="lazy" />
         </div>
 
         {/* Trend stories */}

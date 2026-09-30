@@ -98,7 +98,7 @@ export default function SustainabilitySubPage() {
             footerAtBottom
           />
           <FlatCard
-            title="THE OATLY LOOK BOOK AUTUMN/WINTER 2025"
+            title="THE OATARA LOOK BOOK AUTUMN/WINTER 2025"
             tag="TASTEBUDS"
             imageSrc={IMAGES.lookbookDrinks}
             linkTo="/recipes/look-book-autumn-winter-2025"

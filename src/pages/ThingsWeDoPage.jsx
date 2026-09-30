@@ -11,7 +11,7 @@ import BrainwashingHeading from '../assets/oatly/heading-brainwashing.svg';
 import '../styles/ThingsWeDo.css';
 
 /* ==========================================================================
-   THINGS WE DO — faithful replica of oatly.com/things-we-do
+   THINGS WE DO — faithful replica of oatara.com/things-we-do
     Layout (matches live reference):
       • the global header breadcrumb beside Home shows the current page/section
       • an accessible, visually hidden h1 preserves the page title
@@ -35,12 +35,12 @@ const FILTERS = [
   { label: 'Brainwashing', slug: 'brainwashing', path: '/things-we-do/brainwashing' },
 ];
 
-// Slug → category, matching oatly.com's own grouping of these stories.
+// Slug → category, matching oatara.com's own grouping of these stories.
 const SLUG_CATEGORY = {
-  // initiatives (oatly.com/things-we-do/initiatives)
+  // initiatives (oatara.com/things-we-do/initiatives)
   aftertaste: 'initiatives',
   'pee-for-the-planet': 'initiatives',
-  'oatly-x-avavav': 'initiatives',
+  'oatara-x-avavav': 'initiatives',
   'future-of-taste': 'initiatives',
   'ef-pro-cycling': 'initiatives',
   'the-sca-outdated-rule': 'initiatives',
@@ -53,21 +53,21 @@ const SLUG_CATEGORY = {
   'stop-plant-based-censorship': 'initiatives',
   'hey-food-industry': 'initiatives',
   'resurrecting-oats-in-the-us': 'initiatives',
-  // stories (full live order from oatly.com/things-we-do/stories)
+  // stories (full live order from oatara.com/things-we-do/stories)
   'how-do-you-say-f-a-r-m-in-canadian': 'stories',
-  'oatly-runs-the-brooklyn-half-marathon': 'stories',
+  'oatara-runs-the-brooklyn-half-marathon': 'stories',
   'last-first-dates': 'stories',
   'tastes-like-miami': 'stories',
-  'bring-oatly-to-your-campus': 'stories',
-  'oatly-crash-capitol-hill-ice-cream-party': 'stories',
-  'the-giant-oatly-carton': 'stories',
-  'oatly-does-the-golden-spurtle': 'stories',
-  'caroline-schiff-cooks-with-oatly': 'stories',
-  'the-oatly-dragster': 'stories',
+  'bring-oatara-to-your-campus': 'stories',
+  'oatara-crash-capitol-hill-ice-cream-party': 'stories',
+  'the-giant-oatara-carton': 'stories',
+  'oatara-does-the-golden-spurtle': 'stories',
+  'caroline-schiff-cooks-with-oatara': 'stories',
+  'the-oatara-dragster': 'stories',
   'the-farm': 'stories',
   'the-mysteries-locked-inside-nordic-seed-vaults': 'stories',
   'dairy-free-at-the-berlinale': 'stories',
-  'everything-you-want-to-know-about-oatlys-secret-lab-in-philadelphia': 'stories',
+  'everything-you-want-to-know-about-oataras-secret-lab-in-philadelphia': 'stories',
   'lunch-with-al': 'stories',
   'long-ago-horses-were-tractors-and-oats-were-gas': 'stories',
   'what-we-learned-at-cop-27-and-what-we-didnt': 'stories',
@@ -81,7 +81,7 @@ const SLUG_CATEGORY = {
   'shove-your-vegan-burgers-up-your-arse': 'stories',
   otley: 'stories',
   teareport: 'stories',
-  'oatly-lake': 'stories',
+  'oatara-lake': 'stories',
   'project-fearless': 'stories',
   'hey-barista': 'stories',
   'black-queer-travel-guide': 'stories',
@@ -107,13 +107,13 @@ const SLUG_CATEGORY = {
   'sunt-banana-bread': 'stories',
   'bee-protector': 'stories',
   'hopeful-traders': 'stories',
-  // brainwashing (oatly.com/things-we-do/brainwashing)
+  // brainwashing (oatara.com/things-we-do/brainwashing)
   nespresso: 'brainwashing',
   'blind-test': 'brainwashing',
   malibu: 'brainwashing',
   'oatgurt-tour-2024': 'brainwashing',
-  'wisconsin-supper-club-swaps-dairy-with-oatly': 'brainwashing',
-  'louisiana-diner-swaps-dairy-with-oatly': 'brainwashing',
+  'wisconsin-supper-club-swaps-dairy-with-oatara': 'brainwashing',
+  'louisiana-diner-swaps-dairy-with-oatara': 'brainwashing',
   'will-it-swap': 'brainwashing',
   'milk-myths': 'brainwashing',
   'help-dad': 'brainwashing',
@@ -123,13 +123,13 @@ const SLUG_CATEGORY = {
 };
 
 // Sub-index page header (per category), mirroring ThingsPageSubIndex on
-// oatly.com: an SVG wordmark heading + intro paragraph under the filter nav.
+// oatara.com: an SVG wordmark heading + intro paragraph under the filter nav.
 const CATEGORY_HEADERS = {
   stories: {
     label: 'Stories',
     heading: StoriesHeading,
     intro:
-      "There's only so many weird and interesting stories we can tell on the side of an Oatly package, so we carved out a little space for updates on the work we're doing and the issues we care about.",
+      "There's only so many weird and interesting stories we can tell on the side of an Oatara package, so we carved out a little space for updates on the work we're doing and the issues we care about.",
   },
   initiatives: {
     label: 'Initiatives',
@@ -147,10 +147,10 @@ const CATEGORY_HEADERS = {
 
 // Display order for category pages (keeps each category's live grouping/order).
 const DISPLAY_ORDER = [
-  // initiatives (real site order from oatly.com/things-we-do/initiatives)
+  // initiatives (real site order from oatara.com/things-we-do/initiatives)
   'aftertaste',
   'pee-for-the-planet',
-  'oatly-x-avavav',
+  'oatara-x-avavav',
   'future-of-taste',
   'ef-pro-cycling',
   'the-sca-outdated-rule',
@@ -163,21 +163,21 @@ const DISPLAY_ORDER = [
   'stop-plant-based-censorship',
   'hey-food-industry',
   'resurrecting-oats-in-the-us',
-  // stories (full live order from oatly.com/things-we-do/stories)
+  // stories (full live order from oatara.com/things-we-do/stories)
   'how-do-you-say-f-a-r-m-in-canadian',
-  'oatly-runs-the-brooklyn-half-marathon',
+  'oatara-runs-the-brooklyn-half-marathon',
   'last-first-dates',
   'tastes-like-miami',
-  'bring-oatly-to-your-campus',
-  'oatly-crash-capitol-hill-ice-cream-party',
-  'the-giant-oatly-carton',
-  'oatly-does-the-golden-spurtle',
-  'caroline-schiff-cooks-with-oatly',
-  'the-oatly-dragster',
+  'bring-oatara-to-your-campus',
+  'oatara-crash-capitol-hill-ice-cream-party',
+  'the-giant-oatara-carton',
+  'oatara-does-the-golden-spurtle',
+  'caroline-schiff-cooks-with-oatara',
+  'the-oatara-dragster',
   'the-farm',
   'the-mysteries-locked-inside-nordic-seed-vaults',
   'dairy-free-at-the-berlinale',
-  'everything-you-want-to-know-about-oatlys-secret-lab-in-philadelphia',
+  'everything-you-want-to-know-about-oataras-secret-lab-in-philadelphia',
   'lunch-with-al',
   'long-ago-horses-were-tractors-and-oats-were-gas',
   'what-we-learned-at-cop-27-and-what-we-didnt',
@@ -191,7 +191,7 @@ const DISPLAY_ORDER = [
   'shove-your-vegan-burgers-up-your-arse',
   'otley',
   'teareport',
-  'oatly-lake',
+  'oatara-lake',
   'project-fearless',
   'hey-barista',
   'black-queer-travel-guide',
@@ -217,13 +217,13 @@ const DISPLAY_ORDER = [
   'sunt-banana-bread',
   'bee-protector',
   'hopeful-traders',
-  // brainwashing (newest first, per oatly.com/things-we-do/brainwashing)
+  // brainwashing (newest first, per oatara.com/things-we-do/brainwashing)
   'nespresso',
   'blind-test',
   'malibu',
   'oatgurt-tour-2024',
-  'wisconsin-supper-club-swaps-dairy-with-oatly',
-  'louisiana-diner-swaps-dairy-with-oatly',
+  'wisconsin-supper-club-swaps-dairy-with-oatara',
+  'louisiana-diner-swaps-dairy-with-oatara',
   'will-it-swap',
   'milk-myths',
   'help-dad',
@@ -233,34 +233,34 @@ const DISPLAY_ORDER = [
 ];
 
 // Display order for the root "Everything" view. This follows the live
-// oatly.com/things-we-do sequence, with the remaining local archive cards
+// oatara.com/things-we-do sequence, with the remaining local archive cards
 // appended after the live initial feed.
 const EVERYTHING_ORDER = [
   'pee-for-the-planet',
   'aftertaste',
   'nespresso',
-  'oatly-x-avavav',
+  'oatara-x-avavav',
   'how-do-you-say-f-a-r-m-in-canadian',
   'future-of-taste',
-  'oatly-runs-the-brooklyn-half-marathon',
+  'oatara-runs-the-brooklyn-half-marathon',
   'last-first-dates',
   'tastes-like-miami',
   'blind-test',
   'ef-pro-cycling',
-  'bring-oatly-to-your-campus',
+  'bring-oatara-to-your-campus',
   'malibu',
-  'oatly-crash-capitol-hill-ice-cream-party',
+  'oatara-crash-capitol-hill-ice-cream-party',
   'oatgurt-tour-2024',
-  'the-giant-oatly-carton',
-  'oatly-does-the-golden-spurtle',
-  'wisconsin-supper-club-swaps-dairy-with-oatly',
-  'caroline-schiff-cooks-with-oatly',
-  'the-oatly-dragster',
-  'louisiana-diner-swaps-dairy-with-oatly',
+  'the-giant-oatara-carton',
+  'oatara-does-the-golden-spurtle',
+  'wisconsin-supper-club-swaps-dairy-with-oatara',
+  'caroline-schiff-cooks-with-oatara',
+  'the-oatara-dragster',
+  'louisiana-diner-swaps-dairy-with-oatara',
   'the-farm',
   'the-mysteries-locked-inside-nordic-seed-vaults',
   'dairy-free-at-the-berlinale',
-  'everything-you-want-to-know-about-oatlys-secret-lab-in-philadelphia',
+  'everything-you-want-to-know-about-oataras-secret-lab-in-philadelphia',
   'lunch-with-al',
   'long-ago-horses-were-tractors-and-oats-were-gas',
   'what-we-learned-at-cop-27-and-what-we-didnt',
@@ -274,7 +274,7 @@ const EVERYTHING_ORDER = [
   'shove-your-vegan-burgers-up-your-arse',
   'otley',
   'teareport',
-  'oatly-lake',
+  'oatara-lake',
   'project-fearless',
   'hey-barista',
   'black-queer-travel-guide',
@@ -323,7 +323,7 @@ const EVERYTHING_ORDER = [
 const DESKTOP_PAGE_SIZE = 6;
 const MOBILE_PAGE_SIZE = 2;
 
-// Real Oatly assets where available (closest to the live reference).
+// Real Oatara assets where available (closest to the live reference).
 const IMAGE_OVERRIDES = {
   'tastes-like-miami':
     'https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=900&q=75',
@@ -537,7 +537,7 @@ export default function ThingsWeDoPage({ onSelectArticle }) {
   return (
     <div className="twd">
       <SEO
-        title="Things we do | Oatly"
+        title="Things we do | Oatara"
         description="From urine recycling experiments in Sweden to high-fashion Paris runway shows, read all about what we do when we're not turning oats into drinkable liquid."
         pathname={`/things-we-do${activeCategory ? `/${activeCategory}` : ''}`}
       />

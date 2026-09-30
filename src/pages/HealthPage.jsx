@@ -18,7 +18,7 @@ export default function HealthPage() {
         <div className="max-w-3xl space-y-4">
           <span className="badge-sticker bg-oatly-black text-white">NUTRITION & HEALTH</span>
           <h1 className="text-4xl md:text-6xl font-black uppercase font-display text-oatly-black leading-tight">
-            17 FACTS ABOUT OATLY AND NUTRITION.
+            17 FACTS ABOUT OATARA AND NUTRITION.
           </h1>
           <p className="text-base md:text-lg font-medium text-oatly-black/90">
             Got questions about oat beta-glucan fiber, vitamins, calcium, sugar, or allergies? We answered them all with zero corporate filter.

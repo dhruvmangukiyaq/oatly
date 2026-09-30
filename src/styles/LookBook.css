@@ -1,5 +1,5 @@
 /* ==========================================================================
-   LOOK BOOK VOL. 3 — mirrors oatly.com/recipes/look-book-vol-3 top to bottom:
+   LOOK BOOK VOL. 3 — mirrors oatara.com/recipes/look-book-vol-3 top to bottom:
    breadcrumb → blackletter logo → intro (handwritten text + hero photo) →
    18 recipe cards → article → collage → sink photo → trends → portraits →
    previous-collection teaser.
@@ -24,7 +24,7 @@
   padding: var(--space-24);
 }
 
-/* --- Breadcrumb: Home icon > LOOK BOOK VOL. 3 | OATLY --- */
+/* --- Breadcrumb: Home icon > LOOK BOOK VOL. 3 | OATARA --- */
 .lb3-crumb__list {
   display: flex;
   align-items: center;
@@ -63,7 +63,7 @@
   text-underline-offset: 3px;
 }
 
-/* --- Giant blackletter hero logo (official Oatly SVG, full width) --- */
+/* --- Giant blackletter hero logo (official Oatara SVG, full width) --- */
 .lb3-logo {
   display: block;
   width: 100%;
@@ -167,7 +167,7 @@
   margin-bottom: var(--space-16);
 }
 
-/* Oatly collection theme colors (secondaryRed / primaryBlue on oatly.com) */
+/* Oatara collection theme colors (secondaryRed / primaryBlue on oatara.com) */
 .lb3-tag--red { background: #ed1c24; }
 .lb3-tag--blue { background: #0050ff; }
 .lb3-tag--black { background: var(--spec-ink); }
@@ -262,7 +262,7 @@
 }
 
 /* --- Article: giant Didone headline + 3-column typewriter body
-   (mirrors the oatly.com look-book article format) --- */
+   (mirrors the oatara.com look-book article format) --- */
 .lb3-article {
   margin-bottom: var(--space-80);
 }

@@ -22,24 +22,28 @@ export default function AccountPage() {
 
   return (
     <div className="shop-page">
-      <SEO title="My Account | Oatly Shop" description="Orders, wishlist and profile." pathname="/account" />
+      <SEO title="My Account | Oatara Shop" description="Orders, wishlist and profile." pathname="/account" />
       <div className="shop-shell">
-        <p className="shop-kicker">Oatly shop</p>
+        <p className="shop-kicker">Oatara shop</p>
         <h1>Hi, {session.name}.</h1>
         <p className="shop-sub">{session.email} · {session.role === 'admin' ? 'ADMIN' : 'CUSTOMER'}</p>
         <div className="acct-tabs">
-          <button type="button" className={tab === 'orders' ? 'is-active' : ''} onClick={() => setTab('orders')}>
-            <Package size={14} className="acct-ic" /> My orders
-          </button>
-          <button type="button" className={tab === 'returns' ? 'is-active' : ''} onClick={() => setTab('returns')}>
-            <RotateCcw size={14} className="acct-ic" /> Returns
-          </button>
-          <button type="button" className={tab === 'messages' ? 'is-active' : ''} onClick={() => setTab('messages')}>
-            <MessageSquare size={14} className="acct-ic" /> Messages
-          </button>
-          <button type="button" className={tab === 'wishlist' ? 'is-active' : ''} onClick={() => setTab('wishlist')}>
-            <Heart size={14} className="acct-ic" /> Wishlist
-          </button>
+          {session.role !== 'admin' && (
+            <>
+              <button type="button" className={tab === 'orders' ? 'is-active' : ''} onClick={() => setTab('orders')}>
+                <Package size={14} className="acct-ic" /> My orders
+              </button>
+              <button type="button" className={tab === 'returns' ? 'is-active' : ''} onClick={() => setTab('returns')}>
+                <RotateCcw size={14} className="acct-ic" /> Returns
+              </button>
+              <button type="button" className={tab === 'messages' ? 'is-active' : ''} onClick={() => setTab('messages')}>
+                <MessageSquare size={14} className="acct-ic" /> Messages
+              </button>
+              <button type="button" className={tab === 'wishlist' ? 'is-active' : ''} onClick={() => setTab('wishlist')}>
+                <Heart size={14} className="acct-ic" /> Wishlist
+              </button>
+            </>
+          )}
           <button type="button" className={tab === 'profile' ? 'is-active' : ''} onClick={() => setTab('profile')}>
             <UserIcon size={14} className="acct-ic" /> Profile
           </button>
@@ -48,10 +52,10 @@ export default function AccountPage() {
             <LogOut size={14} /> Logout
           </button>
         </div>
-        {tab === 'orders' && <MyOrders email={session.email} />}
-        {tab === 'returns' && <MyReturns email={session.email} name={session.name} />}
-        {tab === 'messages' && <MyMessages email={session.email} name={session.name} />}
-        {tab === 'wishlist' && <MyWishlist />}
+        {session.role !== 'admin' && tab === 'orders' && <MyOrders email={session.email} />}
+        {session.role !== 'admin' && tab === 'returns' && <MyReturns email={session.email} name={session.name} />}
+        {session.role !== 'admin' && tab === 'messages' && <MyMessages email={session.email} name={session.name} />}
+        {session.role !== 'admin' && tab === 'wishlist' && <MyWishlist />}
         {tab === 'profile' && <Profile session={session} />}
       </div>
     </div>

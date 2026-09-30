@@ -3,8 +3,8 @@
 export const LOOK_BOOK_VOL_3_HERO = {
   title: "LOOK BOOK VOL. 3",
   subtitle: "AN EXPLORATION OF THE FUTURE OF FLAVOUR",
-  quote: "Welcome to Volume 3 of the Oatly Look Book. We gathered visionary baristas, flavor scientists, and culinary anarchists from Tokyo to Mexico City to reimagine what coffee, tea, and plant-based indulgence can look like.",
-  author: "Oatly Global Taste Lab",
+  quote: "Welcome to Volume 3 of the Oatara Look Book. We gathered visionary baristas, flavor scientists, and culinary anarchists from Tokyo to Mexico City to reimagine what coffee, tea, and plant-based indulgence can look like.",
+  author: "Oatara Global Taste Lab",
   role: "Curated by Chef & Beverage Innovation Team",
   // TODO: Swap in real licensed image file here (e.g., /assets/lookbook-vol3-hero.jpg)
   heroImage: "https://a.storyblok.com/f/107921/1920x2546/614724c22d/lookbook_header.webp"
@@ -16,22 +16,22 @@ export const LOOK_BOOK_VOL_3_RECIPES = [
     name: 'The Grape Cooler',
     slug: 'the-grape-cooler',
     collection: 'LOOK BOOK VOL. 3',
-    tagline: 'Juicy Kyoho grapes blended with Oatly Cold Foam and jasmine tea.',
+    tagline: 'Juicy Kyoho grapes blended with Oatara Cold Foam and jasmine tea.',
     prepTime: '5 mins',
     difficulty: 'Easy',    image: 'https://a.storyblok.com/f/217844/1920x1920/a2a776e1b3/grape_cooler.png/m/1200x0/filters:quality(75):format(webp)',
     ingredients: [
-      '150ml Oatly Barista Edition',
+      '150ml Oatara Barista Edition',
       '50ml Brewed Jasmine Green Tea (chilled)',
       '6 Fresh Kyoho Grapes or Concord Grapes (muddled)',
       '15ml Elderflower Syrup',
-      'Oatly Whip-It-Up Cold Foam Vanilla for top',
+      'Oatara Whip-It-Up Cold Foam Vanilla for top',
       'Ice cubes'
     ],
     instructions: [
       'Muddle fresh grapes and elderflower syrup at the bottom of a tall glass.',
       'Fill glass with ice cubes and chilled jasmine green tea.',
-      'Pour Oatly Barista Edition gently over the tea base.',
-      'Top generously with a layer of Oatly Cold Foam and garnish with halved grape.'
+      'Pour Oatara Barista Edition gently over the tea base.',
+      'Top generously with a layer of Oatara Cold Foam and garnish with halved grape.'
     ]
   },
   {
@@ -44,8 +44,8 @@ export const LOOK_BOOK_VOL_3_RECIPES = [
     difficulty: 'Easy',    image: 'https://a.storyblok.com/f/217844/1920x1920/0995d3161c/papaya_and_basil_seed_smoothie.png/m/1200x0/filters:quality(75):format(webp)',
     ingredients: [
       '1 cup Ripe Papaya chunks',
-      '150ml Oatly Oatgurt Plain',
-      '100ml Oatly Original Oat Drink',
+      '150ml Oatara Oatgurt Plain',
+      '100ml Oatara Original Oat Drink',
       '1 tbsp Basil seeds (soaked in warm water for 10 mins)',
       '1 tbsp Honey or agave syrup',
       'Squeeze of fresh lime juice'
@@ -65,7 +65,7 @@ export const LOOK_BOOK_VOL_3_RECIPES = [
     prepTime: '10 mins',
     difficulty: 'Medium',    image: 'https://a.storyblok.com/f/217844/1920x1920/0518ab61ae/teas_-_black_sugar.png/m/1200x0/filters:quality(75):format(webp)',
     ingredients: [
-      '200ml Oatly Barista Edition',
+      '200ml Oatara Barista Edition',
       '100ml Strong Lapsang Souchong Black Tea',
       '30ml Kokuto (Okinawa Black Sugar) syrup',
       'Tapioca pearls (optional)',
@@ -74,7 +74,7 @@ export const LOOK_BOOK_VOL_3_RECIPES = [
     instructions: [
       'Coat the inside walls of a glass with rich black sugar syrup.',
       'Add warm tapioca pearls if desired and fill glass with ice.',
-      'Pour in concentrated black tea and top with micro-foamed Oatly Barista.'
+      'Pour in concentrated black tea and top with micro-foamed Oatara Barista.'
     ]
   },
   {
@@ -86,13 +86,13 @@ export const LOOK_BOOK_VOL_3_RECIPES = [
     prepTime: '12 mins',
     difficulty: 'Medium',    image: 'https://a.storyblok.com/f/217844/1920x1920/0acb86aeea/koji_caramel_hot_choc.png/m/1200x0/filters:quality(75):format(webp)',
     ingredients: [
-      '250ml Oatly Barista Edition',
+      '250ml Oatara Barista Edition',
       '40g Dark 70% Swiss Chocolate chips',
       '2 tbsp Rice Koji Caramel sauce',
       'Pinch of flaky sea salt'
     ],
     instructions: [
-      'Heat Oatly Barista Edition in a small saucepan until steaming.',
+      'Heat Oatara Barista Edition in a small saucepan until steaming.',
       'Whisk in dark chocolate until fully melted and glossy.',
       'Swirl in koji caramel sauce and serve in a heavy mug with sea salt.'
     ]
@@ -106,14 +106,14 @@ export const LOOK_BOOK_VOL_3_RECIPES = [
     prepTime: '6 mins',
     difficulty: 'Easy',    image: 'https://a.storyblok.com/f/217844/1920x1920/22cb46401b/campfire_latte.png/m/1200x0/filters:quality(75):format(webp)',
     ingredients: [
-      '180ml Oatly Barista Edition',
+      '180ml Oatara Barista Edition',
       '2 shots Espresso',
       '20ml Smoked maple marshmallow syrup',
       'Toasted vegan marshmallow for garnish'
     ],
     instructions: [
       'Combine espresso and marshmallow syrup in a cup.',
-      'Steam Oatly Barista Edition to 65°C into fine microfoam.',
+      'Steam Oatara Barista Edition to 65°C into fine microfoam.',
       'Pour latte art and skew a torch-charred marshmallow on top.'
     ]
   },
@@ -129,7 +129,7 @@ export const LOOK_BOOK_VOL_3_RECIPES = [
       '100ml Cold Brew Coffee concentrate',
       '120ml Premium Tonic Water',
       '15ml Osmanthus flower syrup',
-      'Splash of Oatly Original',
+      'Splash of Oatara Original',
       'Ice'
     ],
     instructions: [
@@ -148,7 +148,7 @@ export const LOOK_BOOK_VOL_3_RECIPES = [
     ingredients: [
       '150ml Brewed Silver Needle White Tea',
       '30g Fresh Pomelo segments',
-      '100ml Oatly Barista whipped with white chocolate ganache'
+      '100ml Oatara Barista whipped with white chocolate ganache'
     ],
     instructions: [
       'Muddle pomelo segments into warm white tea.',
@@ -160,18 +160,18 @@ export const LOOK_BOOK_VOL_3_RECIPES = [
     name: 'Mate Cola Latte',
     slug: 'mate-cola-latte',
     collection: 'LOOK BOOK VOL. 3',
-    tagline: 'Roasted Yerba Mate infused with natural cola spice and Oatly Barista.',
+    tagline: 'Roasted Yerba Mate infused with natural cola spice and Oatara Barista.',
     prepTime: '8 mins',
     difficulty: 'Easy',    image: 'https://a.storyblok.com/f/217844/1920x1920/49cb896c44/mate_cola_latte.png/m/1200x0/filters:quality(75):format(webp)',
     ingredients: [
-      '150ml Oatly Barista Edition',
+      '150ml Oatara Barista Edition',
       '100ml Strong Roasted Yerba Mate brew',
       '15ml Artisanal Cola spice syrup',
       'Orange twist'
     ],
     instructions: [
       'Brew roasted mate with cola spice syrup.',
-      'Froth Oatly Barista and combine. Garnish with an expressed orange peel.'
+      'Froth Oatara Barista and combine. Garnish with an expressed orange peel.'
     ]
   },
   {
@@ -185,12 +185,12 @@ export const LOOK_BOOK_VOL_3_RECIPES = [
     ingredients: [
       '2g Uji Ceremonial Matcha',
       '60ml Warm water',
-      '150ml Oatly Original Oat Drink',
+      '150ml Oatara Original Oat Drink',
       '15ml Housemade Fig Leaf syrup'
     ],
     instructions: [
       'Whisk matcha powder into 80°C water with bamboo whisk until frothy.',
-      'Fill glass with ice, fig leaf syrup, and Oatly Original.',
+      'Fill glass with ice, fig leaf syrup, and Oatara Original.',
       'Pour vibrant green matcha over the top.'
     ]
   },
@@ -199,12 +199,12 @@ export const LOOK_BOOK_VOL_3_RECIPES = [
     name: 'Oat Tepache',
     slug: 'oat-tepache',
     collection: 'LOOK BOOK VOL. 3',
-    tagline: 'Fermented pineapple peel tepache softened with smooth Oatly cream.',
+    tagline: 'Fermented pineapple peel tepache softened with smooth Oatara cream.',
     prepTime: '5 mins',
     difficulty: 'Easy',    image: 'https://a.storyblok.com/f/217844/1920x1920/c834b85b19/oat_tepache.png/m/1200x0/filters:quality(75):format(webp)',
     ingredients: [
       '150ml Housemade Pineapple Tepache',
-      '50ml Oatly Whippable Cooking Cream (lightly frothed)',
+      '50ml Oatara Whippable Cooking Cream (lightly frothed)',
       '10ml Piloncillo brown sugar syrup',
       'Cinnamon stick'
     ],
@@ -222,14 +222,14 @@ export const LOOK_BOOK_VOL_3_RECIPES = [
     prepTime: '6 mins',
     difficulty: 'Easy',    image: 'https://a.storyblok.com/f/217844/1920x1920/517c0692b4/persimmon_cold_brew_latte.png/m/1200x0/filters:quality(75):format(webp)',
     ingredients: [
-      '120ml Oatly Barista Edition',
+      '120ml Oatara Barista Edition',
       '100ml Cold brew coffee',
       '2 tbsp Sweet Persimmon purée',
       'Pinch of star anise powder'
     ],
     instructions: [
       'Layer persimmon purée at the base of glass.',
-      'Add ice and cold brew, then top with creamy Oatly Barista.'
+      'Add ice and cold brew, then top with creamy Oatara Barista.'
     ]
   },
   {
@@ -242,7 +242,7 @@ export const LOOK_BOOK_VOL_3_RECIPES = [
     difficulty: 'Easy',    image: 'https://a.storyblok.com/f/217844/1920x1920/29b067b062/acai_frozen_flat.png/m/1200x0/filters:quality(75):format(webp)',
     ingredients: [
       '1 frozen Acai packet (100g)',
-      '150ml Oatly Oatgurt Plain',
+      '150ml Oatara Oatgurt Plain',
       '1/2 Banana',
       'Toasted coconut chips & cacao nibs'
     ],
@@ -256,11 +256,11 @@ export const LOOK_BOOK_VOL_3_RECIPES = [
     name: 'Matcha Jell-Oat Shot',
     slug: 'matcha-jell-oat-shot',
     collection: 'LOOK BOOK VOL. 3',
-    tagline: 'Playful agar-agar matcha jelly cubes swimming in sweetened Oatly Barista.',
+    tagline: 'Playful agar-agar matcha jelly cubes swimming in sweetened Oatara Barista.',
     prepTime: '15 mins + chilling',
     difficulty: 'Medium',    image: 'https://a.storyblok.com/f/217844/1920x1920/0b7961f48f/matcha_jell-oat_shot.png/m/1200x0/filters:quality(75):format(webp)',
     ingredients: [
-      '200ml Oatly Barista Edition',
+      '200ml Oatara Barista Edition',
       '1 tsp Matcha powder',
       '1 tsp Agar-agar powder',
       '150ml Hot water',
@@ -268,7 +268,7 @@ export const LOOK_BOOK_VOL_3_RECIPES = [
     ],
     instructions: [
       'Boil water, matcha, agave, and agar-agar. Pour into mold and chill until set into jelly cubes.',
-      'Cube the jelly and serve in glasses submerged in chilled Oatly Barista.'
+      'Cube the jelly and serve in glasses submerged in chilled Oatara Barista.'
     ]
   },
   {
@@ -280,7 +280,7 @@ export const LOOK_BOOK_VOL_3_RECIPES = [
     prepTime: '10 mins',
     difficulty: 'Medium',    image: 'https://a.storyblok.com/f/217844/1920x1920/ab60eb8d2e/mochi_matcha.png/m/1200x0/filters:quality(75):format(webp)',
     ingredients: [
-      '150ml Oatly Barista Edition',
+      '150ml Oatara Barista Edition',
       '1 tsp Matcha',
       '40g Mini sweet mochi balls',
       '10ml Simple syrup'
@@ -301,12 +301,12 @@ export const LOOK_BOOK_VOL_3_RECIPES = [
     ingredients: [
       '150ml Brewed Oolong Tea',
       '30ml Fresh Lychee juice',
-      '100ml Oatly Original',
+      '100ml Oatara Original',
       'Lychee fruit for garnish'
     ],
     instructions: [
       'Combine lychee juice and oolong tea over ice.',
-      'Top with Oatly Original and whole pitted lychees.'
+      'Top with Oatara Original and whole pitted lychees.'
     ]
   },
   {
@@ -321,7 +321,7 @@ export const LOOK_BOOK_VOL_3_RECIPES = [
       '80ml Concentrated Hojicha roast tea',
       '2 dashes Non-alcoholic aromatic bitters',
       '10ml Maple syrup',
-      '30ml Oatly Whippable Cooking Cream float',
+      '30ml Oatara Whippable Cooking Cream float',
       'Orange twist'
     ],
     instructions: [
@@ -338,14 +338,14 @@ export const LOOK_BOOK_VOL_3_RECIPES = [
     prepTime: '10 mins',
     difficulty: 'Medium',    image: 'https://a.storyblok.com/f/217844/1920x1920/6288f534f9/tortilla_-_agave_latte.png/m/1200x0/filters:quality(75):format(webp)',
     ingredients: [
-      '180ml Oatly Barista Edition (steeped with toasted corn tortilla)',
+      '180ml Oatara Barista Edition (steeped with toasted corn tortilla)',
       '2 shots Espresso',
       '15ml Blue agave nectar',
       'Pinch of smoked salt'
     ],
     instructions: [
-      'Steep toasted corn tortilla in warm Oatly Barista for 10 minutes, then strain.',
-      'Steam tortilla-infused Oatly and pour over agave espresso shot.'
+      'Steep toasted corn tortilla in warm Oatara Barista for 10 minutes, then strain.',
+      'Steam tortilla-infused Oatara and pour over agave espresso shot.'
     ]
   },
   {
@@ -359,22 +359,22 @@ export const LOOK_BOOK_VOL_3_RECIPES = [
     ingredients: [
       '2 shots Espresso with fresh Meyer lemon zest',
       '15ml Sour cherry syrup',
-      'Oatly Whip-It-Up Cold Foam Vanilla'
+      'Oatara Whip-It-Up Cold Foam Vanilla'
     ],
     instructions: [
       'Express lemon peel into espresso shot and stir in cherry syrup.',
-      'Top with a thick cloud of Oatly Cold Foam and a luxardo cherry.'
+      'Top with a thick cloud of Oatara Cold Foam and a luxardo cherry.'
     ]
   }
 ];
 
 export const EDITORIAL_SECTION = {
   headline: "WHAT'S NEXT IN THE GLOBAL ARENA OF TASTE",
-  author: "Jonas Hultqvist & The Oatly Creative Lab",
+  author: "Jonas Hultqvist & The Oatara Creative Lab",
   byline: "Published in Malmö, Sweden • Edition Vol. 3",
   paragraphs: [
     "The landscape of plant-based drink innovation is shifting rapidly. Where once plant milk was treated purely as a direct substitute for dairy in standard drip coffee, today's forward-thinking baristas and flavor architects view oat milk as an expressive culinary canvas in its own right.",
-    "In Volume 3 of the Oatly Look Book, we examine five emerging global beverage paradigms: fermented botanicals, tea-based espresso hybrids, wood-infused smoke profiles, ancestral grain pairing, and texture-forward jelly infusions.",
+    "In Volume 3 of the Oatara Look Book, we examine five emerging global beverage paradigms: fermented botanicals, tea-based espresso hybrids, wood-infused smoke profiles, ancestral grain pairing, and texture-forward jelly infusions.",
     "Through hundreds of bench trials across Northern Europe, East Asia, and North America, our research reveals that the natural lipids and oat beta-glucan starches create a superior emulsification matrix for fragile essential oils and botanical acids that would otherwise curdle traditional dairy milk."
   ],
   blurbs: [
@@ -446,10 +446,10 @@ export const NEXT_COLLECTION_TEASER = {
   ]
 };
 
-// ─── Real Look Book Vol. 3 page content (mirrors oatly.com/recipes/look-book-vol-3)
+// ─── Real Look Book Vol. 3 page content (mirrors oatara.com/recipes/look-book-vol-3)
 // Scraped 2026-09-15: official logo/intro/photo assets, article copy, trends.
 export const LOOKBOOK_PAGE = {
-  breadcrumb: 'LOOK BOOK VOL. 3 | OATLY',
+  breadcrumb: 'LOOK BOOK VOL. 3 | OATARA',
   // Giant blackletter hero logo + handwritten intro + hero drink photo
   logo: 'https://a.storyblok.com/f/107921/1380x223/dea6cdbb20/lookbookvol-3.svg',
   introTextImage:
@@ -463,7 +463,7 @@ export const LOOKBOOK_PAGE = {
     "Here's our theory: the greatest drinks begin as doodles in the margins of a boring meeting. So this season we chased flavour from Oaxaca to Osaka — toasting tortillas, whisking hojicha, fermenting tepache — and spilled most of it down our shirts. Totally worth it.",
   introText2:
     "Inside you'll find 18 recipes built for slow mornings, loud friends and second servings. No fancy equipment, no gatekeeping — just oats doing the heavy lifting. Flip a page, follow a craving, and make something worth talking about.",
-  introSign: 'The Oatly Taste Lab',
+  introSign: 'The Oatara Taste Lab',
   introSignRole: 'STOCKHOLM · MALMÖ · EVERYWHERE',
   heroImage:
     'https://a.storyblok.com/f/107921/1920x2546/614724c22d/lookbook_header.webp',
@@ -489,7 +489,7 @@ export const LOOKBOOK_PAGE = {
     },
     {
       title: 'Experimental Drinks',
-      text: "Creators across industries are challenging themselves to develop new techniques, surprising flavour pairings and visually striking drink experiences. The bar keeps rising, and apparently, it's now normal to enjoy something like a clarified Oatly Hojicha Old Fashioned.",
+      text: "Creators across industries are challenging themselves to develop new techniques, surprising flavour pairings and visually striking drink experiences. The bar keeps rising, and apparently, it's now normal to enjoy something like a clarified Oatara Hojicha Old Fashioned.",
     },
     {
       title: 'Woody Flavours',

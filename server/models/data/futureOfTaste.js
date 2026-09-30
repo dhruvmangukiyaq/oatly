@@ -1,9 +1,9 @@
-// ─── Future of Taste report (mirrors oatly.com/things-we-do/initiatives/future-of-taste)
+// ─── Future of Taste report (mirrors oatara.com/things-we-do/initiatives/future-of-taste)
 // Scraped 2026-09-15: hero, editors letter, TOC, 5 trend sections + official imagery.
 
 export const FUTURE_OF_TASTE = {
   breadcrumb: 'A REPORT ON THE FUTURE OF TASTE',
-  heroBadge: 'Oatly Intelligence World Wide',
+  heroBadge: 'Oatara Intelligence World Wide',
   heroKicker: 'PRESENTS:',
   heroTitle: 'A REPORT ON THE FUTURE OF TASTE',
   heroSubtitle: 'Predicting what’s next in beverage culture. Flavours, numbers, trends (and guesses).',
@@ -13,7 +13,7 @@ export const FUTURE_OF_TASTE = {
   letterParagraphs: [
     'The best thing about predicting the future is that no one remembers what you got wrong; they only remember what you got right. Unless it’s written down and shared with the public. Ah, oops.',
     'In most areas of popular culture, predicting trends is a tricky business. They move fast, sometimes sideways and regularly confound logic (we’re talking about you, Labubu’s). Nowhere is this more true than in food and beverage culture.',
-    'At Oatly, we have two powerful sources of information to lean on: our network of world-renowned baristas and our partners at CultureLab, a cultural intelligence platform built to objectively quantify popular culture. Bringing these two together, and combining them with the power of qualitative insights from over 200 expert interviews with quantitative rigour, gives us a more accurate way of looking at how future trends may evolve.',
+    'At Oatara, we have two powerful sources of information to lean on: our network of world-renowned baristas and our partners at CultureLab, a cultural intelligence platform built to objectively quantify popular culture. Bringing these two together, and combining them with the power of qualitative insights from over 200 expert interviews with quantitative rigour, gives us a more accurate way of looking at how future trends may evolve.',
     'What we’ve found is that people’s daily drink choices, especially younger generations, are being shaped by a world in flux. Drink trends go viral and are seen from London to Seoul, and technology is making it easier to order, customize and share. Tighter budgets mean value matters, but a unique drink is still worth the splurge. Health, sustainability trends and global flavours are blending as a generation raised online is seeking both identity and connection in every cup.',
     'In this report, we set out to capture the next wave of trends we expect to see gracing the menus of high street shops and your favourite coffee spots in the coming months. From fibremaxxing and the dawn of decaf to the fusion of East and West and the explosive rise of Southeast Asian flavours. Plus, of course, some bets on what’s next for matcha.',
   ],

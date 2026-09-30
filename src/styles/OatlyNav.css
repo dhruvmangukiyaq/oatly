@@ -1,5 +1,5 @@
 /* ==========================================================================
-   OATLY HEADER + NAV — polish layer (spec §§3–4, 6)
+   OATARA HEADER + NAV — polish layer (spec §§3–4, 6)
    --------------------------------------------------------------------------
     SCOPE: header visuals plus the global breadcrumb cell.
       toolbar: Home icon (left) | current-page breadcrumb | spacer | FAQ BIZ Globe X (right)
@@ -323,7 +323,7 @@
 
 /* Dropdown list stays plain canvas — tint lives on the tab only. */
 
-/* --- Dropdown panel: FULL-WIDTH plain text list (reference: oatly.com) ---
+/* --- Dropdown panel: FULL-WIDTH plain text list (reference: oatara.com) ---
    - Spans edge-to-edge of the nav bar (left:0 right:0 of .oatly-navrow)
    - Absolute overlay: covers page content below, never pushes it down
    - Solid canvas background, flat (no shadow, no radius)

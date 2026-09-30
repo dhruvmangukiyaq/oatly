@@ -3,7 +3,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import SEO from '../components/SEO';
 import { useShop } from '../hooks/useShop.js';
 import { useCatalog, findProduct } from '../hooks/useCatalog.js';
-import { getSession } from '../hooks/useAuth.js';
+import { getSession, isAdmin } from '../hooks/useAuth.js';
 import { calcTotals, markCouponUsed, validateCoupon } from '../models/shopStore.js';
 import { saveOrder } from '../models/adminStore.js';
 import '../styles/Shop.css';
@@ -19,6 +19,7 @@ export default function CheckoutPage() {
   const { products } = useCatalog();
   const navigate = useNavigate();
   const session = getSession();
+  const adminBlocked = isAdmin(session);
 
   const [form, setForm] = useState({
     name: session?.name || '', email: session?.email || '', phone: '',
@@ -27,6 +28,26 @@ export default function CheckoutPage() {
   const [pay, setPay] = useState('cod');
   const [note, setNote] = useState('');
   const [error, setError] = useState('');
+
+  // Admin account thi checkout NAHI (hooks pachhi return — rules-of-hooks).
+  if (adminBlocked) {
+    return (
+      <div className="shop-page">
+        <SEO title="Checkout | Oatara Shop" description="Checkout securely." pathname="/checkout" />
+        <div className="shop-shell">
+          <p className="shop-kicker">Oatara shop</p>
+          <h1>Checkout.</h1>
+          <div className="shop-card">
+            <p><strong>Admin account thi order thato nathi.</strong></p>
+            <p className="shop-sub">Tame admin chho — kharidi mate customer account thi login karo.</p>
+            <div className="shop-actions">
+              <Link to="/admin" className="shop-btn shop-btn--small">Seller Hub</Link>
+            </div>
+          </div>
+        </div>
+      </div>
+    );
+  }
 
   const lines = Object.entries(cart)
     .map(([id, qty]) => {
@@ -77,9 +98,9 @@ export default function CheckoutPage() {
 
   return (
     <div className="shop-page">
-      <SEO title="Checkout | Oatly Shop" description="Checkout securely." pathname="/checkout" />
+      <SEO title="Checkout | Oatara Shop" description="Checkout securely." pathname="/checkout" />
       <div className="shop-shell">
-        <p className="shop-kicker">Oatly shop</p>
+        <p className="shop-kicker">Oatara shop</p>
         <h1>Checkout.</h1>
         <div className="steps">
           <span>Cart</span><span className="is-active">Details</span><span>Done</span>

@@ -4,7 +4,7 @@ import '../styles/LastFirstDates.css';
 
 /* ==========================================================================
    LAST FIRST DATES WITH MAXENCE — copy-to-copy of
-   oatly.com/things-we-do/stories/last-first-dates
+   oatara.com/things-we-do/stories/last-first-dates
    Cooking-show story: cover hero → trailer → recipe index → 6 recipe
    films with full ingredients. All copy + official artwork preserved.
    ========================================================================== */
@@ -129,8 +129,8 @@ export default function LastFirstDatesPage() {
   return (
     <div className="lfd">
       <SEO
-        title="Last First Dates with Maxence | Oatly"
-        description="Maxence the French Chef meets a rotating cast of dates and cooks them delicious meals made with Oatly. Watch the cooking show and get the recipes."
+        title="Last First Dates with Maxence | Oatara"
+        description="Maxence the French Chef meets a rotating cast of dates and cooks them delicious meals made with Oatara. Watch the cooking show and get the recipes."
         pathname="/things-we-do/stories/last-first-dates"
       />
 
@@ -145,7 +145,7 @@ export default function LastFirstDatesPage() {
           Maxence the French Chef lives in Copenhagen, cooks at an Italian restaurant, and is looking for love.
           That makes him a decent enough lead for our newest cooking show, during which the sort-of-charming,
           occasionally moody Max meets a rotating cast of &ldquo;dates&rdquo;—we use that term loosely—and cooks
-          them delicious meals made with Oatly. It gets slightly awkward at times.
+          them delicious meals made with Oatara. It gets slightly awkward at times.
         </p>
       </header>
 
@@ -176,14 +176,14 @@ export default function LastFirstDatesPage() {
         id="spicy-mushroom-tantamen-ramen" no="01" group="Savoury"
         title="Spicy Mushroom Tantanmen Ramen" video="6JslwXtFvAU"
         serves="2" prep="20 min" extra={['Cook time', '30 min']}
-        desc="This Tantanmen Ramen includes a rich, spicy broth made with Oatly Barista, complemented by a fragrant mushroom and ginger duxelles, pan-fried king oyster mushrooms, and fresh coriander."
+        desc="This Tantanmen Ramen includes a rich, spicy broth made with Oatara Barista, complemented by a fragrant mushroom and ginger duxelles, pan-fried king oyster mushrooms, and fresh coriander."
         ingredients={[
           { h: 'Ramen Broth', items: [
             '<strong>20g</strong> crispy, spicy chili sauce',
             '<strong>20g</strong> sweet white miso paste',
             '<strong>20g</strong> sesame oil',
             '<strong>40g</strong> soy sauce',
-            '<strong>700g</strong> Oatly Barista',
+            '<strong>700g</strong> Oatara Barista',
           ]},
           { h: 'Mushroom and Ginger Duxelles', items: [
             '<strong>100g</strong> shiitake or brown cap mushrooms, finely diced',
@@ -220,7 +220,7 @@ export default function LastFirstDatesPage() {
           { t: 'Cooking the Mushroom and Ginger Duxelles & King Oyster Mushrooms.',
             d: 'Heat neutral oil in a medium skillet over medium heat. Sauté the shallot for 2 to 3 minutes until translucent. Add the ginger and garlic and cook for another minute. Add the finely diced mushrooms, season with sea salt, and cook until they release their moisture and become golden, about 8 to 10 minutes. Season with freshly ground black pepper. Set aside. In a large frying pan, season the scored side of the king oyster mushrooms with sea salt and pepper. Pan fry scored side down for 5 to 6 minutes until golden and crispy. Flip and cook for another 2 minutes. Set aside.' },
           { t: 'Make the Broth.',
-            d: 'In a mixing bowl, whisk together chili sauce, miso paste, sesame oil, and soy sauce until smooth. In the medium saucepan, bring the Oatly Barista to a boil and remove from heat. Little by little, whisk the hot Oatly Barista into the paste mixture until fully combined and smooth.' },
+            d: 'In a mixing bowl, whisk together chili sauce, miso paste, sesame oil, and soy sauce until smooth. In the medium saucepan, bring the Oatara Barista to a boil and remove from heat. Little by little, whisk the hot Oatara Barista into the paste mixture until fully combined and smooth.' },
           { t: 'Assemble the Ramen Bowls.',
             d: 'Return your broth to a full boil so it is piping hot and ladle into your ramen bowls. Cook your noodles until al dente, strain and divide evenly between two bowls. Top each bowl with the mushroom and ginger duxelles, pan-fried king oyster mushrooms, blanched broccolini, and fresh coriander leaves. Serve straight away.' },
         ]}
@@ -237,7 +237,7 @@ export default function LastFirstDatesPage() {
           '<strong>30g</strong> plant butter',
           '<strong>30g</strong> flat-leaf parsley',
           '<strong>30g</strong> celery leaves',
-          '<strong>200ml</strong> Oatly Barista',
+          '<strong>200ml</strong> Oatara Barista',
           '<strong>2</strong> celery stalks, washed, stripped from the leaves (reserve leaves for the sauce)',
           '<strong>80g</strong> kale leaves (30g for herb sauce, 50g for garnish) stripped from stalks',
           'Olive oil',
@@ -256,7 +256,7 @@ export default function LastFirstDatesPage() {
           { t: 'Cook the Kohlrabi.',
             d: 'Pre-steam the kohlrabi steaks in a bamboo steamer for 10 minutes. Transfer to a pre-heated, fan-assisted oven or air fryer at 180°C. Add plant butter and 60ml of water to cook kohlrabi like a fondant. Cook until tender and lightly caramelised, basting occasionally.' },
           { t: 'Prepare the Leaf Sauce.',
-            d: 'Bring the Oatly Barista to a simmer with the reserved kohlrabi peelings, celery leaves, and parsley. Cook until softened. Strain into a small blender and blend into a smooth sauce. Taste and adjust the seasoning with salt and pepper.' },
+            d: 'Bring the Oatara Barista to a simmer with the reserved kohlrabi peelings, celery leaves, and parsley. Cook until softened. Strain into a small blender and blend into a smooth sauce. Taste and adjust the seasoning with salt and pepper.' },
           { t: 'Pan Fry the Kale and Celery.',
             d: 'In a medium frying pan on medium heat, cook the kale and celery with a drizzle of olive oil and a sprinkle of salt for 8 to 12 minutes, until the celery is tender and the kale is green with a crunch and lightly caramelised.' },
           { t: 'Serving.',
@@ -272,7 +272,7 @@ export default function LastFirstDatesPage() {
         desc="The plant-based riff on classic crêpes features light and tender pancakes with a chantilly cream and rich melted chocolate."
         ingredients={[
           { h: 'Crêpes Batter', items: [
-            '<strong>125ml</strong> Oatly oat drink',
+            '<strong>125ml</strong> Oatara oat drink',
             '<strong>40g</strong> flour',
             '<strong>10g</strong> corn starch',
             '<strong>12g</strong> sugar',
@@ -280,13 +280,13 @@ export default function LastFirstDatesPage() {
             '<strong>1 splash</strong> of rum (optional)',
           ]},
           { h: 'Chantilly Cream', items: [
-            '<strong>100ml</strong> Oatly Whippable Creamy Oat',
+            '<strong>100ml</strong> Oatara Whippable Creamy Oat',
             '<strong>10g</strong> icing sugar (or to taste)',
             '<strong>½ tsp</strong> vanilla extract',
           ]},
           { h: 'Chocolate Sauce', items: [
             '<strong>50g</strong> dark chocolate (70% or vegan-certified)',
-            '<strong>25ml</strong> Oatly oat drink',
+            '<strong>25ml</strong> Oatara oat drink',
           ]},
         ]}
         equipment={[
@@ -296,7 +296,7 @@ export default function LastFirstDatesPage() {
         ]}
         steps={[
           { t: 'Prepare the Crêpes Batter.',
-            d: 'Whisk together the flour, corn starch, and sugar. Gradually pour in the Oatly oat drink, whisking continuously to avoid lumps. Add the oil and rum (if using) and whisk until smooth. Cover and rest in the fridge for 1 hour.' },
+            d: 'Whisk together the flour, corn starch, and sugar. Gradually pour in the Oatara oat drink, whisking continuously to avoid lumps. Add the oil and rum (if using) and whisk until smooth. Cover and rest in the fridge for 1 hour.' },
           { t: 'Cook the Crêpes.',
             d: 'Heat a nonstick crêpe pan over medium heat and lightly grease. Ladle batter, swirling to a thin layer. Cook 1 to 2 minutes until edges lift, flip and cook 30 seconds more. Repeat and stack.' },
           { t: 'Make the Chantilly Cream.',
@@ -313,19 +313,19 @@ export default function LastFirstDatesPage() {
         id="ile-flottante" no="04" group="Sweet"
         title="île Flottante" video="aurYghk4zjk"
         serves="2" prep="15 min" extra={['Cook time', '10 min (4-24h cooling)']}
-        desc="A delicate oat-based version of the classic Île Flottante: meringue poached in Oatly Barista and infused with vanilla, served with creamy Oatly Vanilla Custard."
+        desc="A delicate oat-based version of the classic Île Flottante: meringue poached in Oatara Barista and infused with vanilla, served with creamy Oatara Vanilla Custard."
         ingredients={[
           { h: 'Meringue', items: [
             '<strong>2</strong> eggs (egg whites only)',
             '<strong>2 tbsp</strong> caster sugar',
             'Seeds of 1 vanilla pod',
-            '<strong>300g</strong> Oatly Vanilla Custard',
-            '<strong>300ml</strong> Oatly Barista, used for poaching',
+            '<strong>300g</strong> Oatara Vanilla Custard',
+            '<strong>300ml</strong> Oatara Barista, used for poaching',
           ]},
           { h: 'Caramel', items: [
             '<strong>120g</strong> caster sugar',
             '<strong>100ml</strong> water',
-            '<strong>100ml</strong> Oatly oat drink to finish',
+            '<strong>100ml</strong> Oatara oat drink to finish',
           ]},
         ]}
         equipment={[
@@ -336,11 +336,11 @@ export default function LastFirstDatesPage() {
         ]}
         steps={[
           { t: 'Make the Meringue.',
-            d: 'Beat the egg whites, adding sugar slowly, until thick and glossy — do not over-beat. Heat Oatly Barista in a wide pan until steaming, not boiling. Poach heaped teaspoons of meringue for 3 to 4 minutes until set. Remove and cool on a plate.' },
+            d: 'Beat the egg whites, adding sugar slowly, until thick and glossy — do not over-beat. Heat Oatara Barista in a wide pan until steaming, not boiling. Poach heaped teaspoons of meringue for 3 to 4 minutes until set. Remove and cool on a plate.' },
           { t: 'Make the Caramel.',
-            d: 'Melt caster sugar slowly without stirring, from blond to golden, until the first plume of smoke. Stop the cooking with water (careful, it may splatter), add the Oatly oat drink and cook until it coats the back of a spoon. Cool slightly.' },
+            d: 'Melt caster sugar slowly without stirring, from blond to golden, until the first plume of smoke. Stop the cooking with water (careful, it may splatter), add the Oatara oat drink and cook until it coats the back of a spoon. Cool slightly.' },
           { t: 'Assemble the Île Flottante.',
-            d: 'Pour chilled Oatly Vanilla Custard into a plate or glass, top with meringues and spoon over the caramel.' },
+            d: 'Pour chilled Oatara Vanilla Custard into a plate or glass, top with meringues and spoon over the caramel.' },
         ]}
       />
 
@@ -354,16 +354,16 @@ export default function LastFirstDatesPage() {
         id="golden-milk" no="05" group="Drinks"
         title="Golden Milk" video="_dDpBObFizM"
         serves="2" prep="5 min" extra={['Cook time', '—']}
-        desc="A warming, vibrant drink made with turmeric and Oatly Barista. The recipe uses a small blender to create a light, airy texture in the creamy and frothy delight."
+        desc="A warming, vibrant drink made with turmeric and Oatara Barista. The recipe uses a small blender to create a light, airy texture in the creamy and frothy delight."
         ingredients={[{ h: '', items: [
           '<strong>1 tbsp</strong> turmeric',
           '<strong>1 tbsp</strong> cinnamon',
           '<strong>1 tbsp</strong> vanilla sugar',
           '<strong>1 tbsp</strong> cardamon',
-          'Oatly Barista', 'Honey', 'Ginger', 'Salt', 'Pepper',
+          'Oatara Barista', 'Honey', 'Ginger', 'Salt', 'Pepper',
         ]}]}
         equipment={['Small blender', 'Fine mesh strainer (optional)', 'Measuring spoons', 'Tall serving glasses']}
-        steps={[{ t: '', d: 'In a small blender, combine dry ingredients. Heat the Oatly Barista milk, honey and the dry mix. Pour into two tall glasses. Serve hot.' }]}
+        steps={[{ t: '', d: 'In a small blender, combine dry ingredients. Heat the Oatara Barista milk, honey and the dry mix. Pour into two tall glasses. Serve hot.' }]}
       />
 
       {/* ═══ 06 MEXICAN COFFEE ═══ */}
@@ -375,12 +375,12 @@ export default function LastFirstDatesPage() {
         ingredients={[{ h: '', items: [
           '<strong>1 vol</strong> Tequila',
           '<strong>2 vol</strong> Coffee liqueur',
-          'Oatly Whippable Creamy Oat',
+          'Oatara Whippable Creamy Oat',
           'Sugar / sugar syrup',
           '<strong>10 shots</strong> of freshly brewed coffee',
         ]}]}
         equipment={['Shaker', 'Measuring spoons', 'Tall serving glasses']}
-        steps={[{ t: '', d: 'Add the tequila, liqueur, sugar syrup, and chilled coffee to your shaker. Add ice and shake it cold! Strain into a bottom-filled highball glass. Add the whipped Oatly on top. Serve!' }]}
+        steps={[{ t: '', d: 'Add the tequila, liqueur, sugar syrup, and chilled coffee to your shaker. Add ice and shake it cold! Strain into a bottom-filled highball glass. Add the whipped Oatara on top. Serve!' }]}
       />
 
       <section className="lfd-more">

@@ -1,7 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import SEO from './SEO';
-// ─── Shared Oatly collection layout (A/W 25, S/S 25) ─────────────────────────
+// ─── Shared Oatara collection layout (A/W 25, S/S 25) ─────────────────────────
 // Theme tag → serif title → intro → hero banner → recipe cards.
 // Only content props change per collection; UI stays 100% consistent.
 import '../styles/LookBook.css';
