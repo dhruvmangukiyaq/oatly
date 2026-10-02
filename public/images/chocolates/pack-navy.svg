@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 640" role="img" aria-label="Navy chocolate pack illustration">
+  <ellipse cx="320" cy="548" rx="140" ry="22" fill="#1A2340" opacity="0.12"/>
+  <rect x="205" y="86" width="230" height="440" rx="14" fill="#2E3A5A"/>
+  <rect x="205" y="86" width="230" height="40" rx="14" fill="#1A2340"/>
+  <path d="M215 106 h210 M215 118 h210" stroke="#46538A" stroke-width="3"/>
+  <path d="M230 260 q90 -50 180 0" stroke="#46538A" stroke-width="9" fill="none"/>
+  <path d="M230 300 q90 -50 180 0" stroke="#8A97C9" stroke-width="7" fill="none"/>
+  <circle cx="290" cy="360" r="13" fill="#8A97C9"/>
+  <circle cx="360" cy="200" r="11" fill="#46538A"/>
+  <rect x="205" y="420" width="230" height="58" fill="#C9962E"/>
+  <rect x="205" y="478" width="230" height="48" rx="14" fill="#1A2340"/>
+</svg>

@@ -10,8 +10,9 @@ export const POPULAR_SEARCHES = [
   'Cold Foam',
   'Oatgurt',
   'Ice Cream',
-  'Butterscotch',
-  'Kulfi',
+  'Magnum',
+  'Godiva',
+  'Truffle',
 ];
 
 export function searchAll(query = '') {

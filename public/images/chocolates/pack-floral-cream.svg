@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 640" role="img" aria-label="Floral cream chocolate pack illustration">
+  <ellipse cx="320" cy="548" rx="140" ry="22" fill="#6B5A33" opacity="0.12"/>
+  <rect x="205" y="86" width="230" height="440" rx="14" fill="#F3E7C8"/>
+  <rect x="205" y="86" width="230" height="40" rx="14" fill="#D9C69A"/>
+  <path d="M215 106 h210 M215 118 h210" stroke="#B8A276" stroke-width="3"/>
+  <ellipse cx="270" cy="220" rx="34" ry="48" fill="#C0392B" opacity="0.85" transform="rotate(-18 270 220)"/>
+  <ellipse cx="360" cy="250" rx="30" ry="44" fill="#E8A93D" opacity="0.85" transform="rotate(14 360 250)"/>
+  <ellipse cx="300" cy="320" rx="26" ry="40" fill="#7A9E5A" opacity="0.8" transform="rotate(-10 300 320)"/>
+  <circle cx="320" cy="200" r="12" fill="#C9962E"/>
+  <circle cx="255" cy="300" r="9" fill="#C9962E"/>
+  <circle cx="375" cy="330" r="9" fill="#C9962E"/>
+  <rect x="205" y="420" width="230" height="58" fill="#C9962E"/>
+  <rect x="205" y="478" width="230" height="48" rx="14" fill="#D9C69A"/>
+</svg>

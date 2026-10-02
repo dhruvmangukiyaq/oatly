@@ -80,7 +80,7 @@ function ProductCard({ item, onSelect, onAdded, adminView }) {
   const low = !out && Number(item.stock) <= 5;
 
   const media = (
-    <div className="plist-card__media">
+    <div className={`plist-card__media${imgOk && item.hoverImage ? ' has-hover' : ''}`}>
       {imgOk && src ? (
         <img
           src={src}
@@ -88,6 +88,20 @@ function ProductCard({ item, onSelect, onAdded, adminView }) {
           className="plist-card__img"
           loading="lazy"
           onError={() => setImgOk(false)}
+        />
+      ) : null}
+      {/* Hover swap: open-box close-up (Godiva.com jevu). Keval jyare second
+          photo hoy tyare j render — touch users mate detail page ma gallery. */}
+      {imgOk && item.hoverImage ? (
+        <img
+          src={item.hoverImage}
+          alt=""
+          aria-hidden="true"
+          className="plist-card__img plist-card__img--hover"
+          loading="lazy"
+          decoding="async"
+          draggable={false}
+          onError={(e) => { e.currentTarget.style.display = 'none'; }}
         />
       ) : null}
     </div>

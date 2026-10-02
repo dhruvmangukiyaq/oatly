@@ -211,6 +211,36 @@ export const ICE_CREAM_PRESENTATION = {
     accent: '#D99A4E',
     blurb: 'Festive saffron-kesar tub with pistachio notes.',
   },
+  'magnum-chocolate-truffle-80ml': {
+    flavor: 'Chocolate Truffle',
+    format: 'Bars',
+    packSize: '80 ml',
+    price: 2.79,
+    mrp: 3.29,
+    image: '/images/magnum/truffle.avif',
+    accent: '#3A2317',
+    blurb: 'Cracking chocolate shell over a smooth truffle centre.',
+  },
+  'magnum-almond-80ml': {
+    flavor: 'Almond',
+    format: 'Bars',
+    packSize: '80 ml',
+    price: 2.99,
+    mrp: 3.49,
+    image: '/images/magnum/almond.avif',
+    accent: '#8A5A33',
+    blurb: 'Roasted almond pieces in a chocolate-coated bar.',
+  },
+  'magnum-brownie-80ml': {
+    flavor: 'Brownie',
+    format: 'Bars',
+    packSize: '80 ml',
+    price: 2.79,
+    mrp: 3.29,
+    image: '/images/magnum/brownie.avif',
+    accent: '#4A2C1A',
+    blurb: 'Chewy brownie bits inside a chocolate-coated bar.',
+  },
 };
 
 // Fallback presentation for any future ice-cream SKU (keyword-matched).

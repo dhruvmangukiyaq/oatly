@@ -182,12 +182,42 @@ button.plist-card {
 }
 
 .plist-card__media {
+  position: relative;
   aspect-ratio: 1 / 1;
   overflow: hidden;
   background: transparent;
   display: flex;
   align-items: center;
   justify-content: center;
+}
+
+/* Hover swap: CLEAN hide/show (no crossfade ghosting) — cursor aave etle
+   pelo photo hide + hover photo only; cursor jay etle paachu. Keval
+   .has-hover cards par (hover photo hoy tyare j). Touch par detail gallery. */
+.plist-card__media .plist-card__img--hover {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  opacity: 0;
+  pointer-events: none;
+}
+
+.plist-card:hover .has-hover .plist-card__img:not(.plist-card__img--hover),
+.plist-card:focus-within .has-hover .plist-card__img:not(.plist-card__img--hover) {
+  opacity: 0;
+}
+
+.plist-card:hover .plist-card__img--hover,
+.plist-card:focus-within .plist-card__img--hover {
+  opacity: 1;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .plist-card__img--hover {
+    display: none;
+  }
 }
 
 .plist-card__img {

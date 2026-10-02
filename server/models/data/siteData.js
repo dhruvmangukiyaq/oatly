@@ -3,7 +3,11 @@
 import { OATLY_CATALOG_ITEMS } from './oatlyCatalog.js';
 import { BRANDS as ALL_BRANDS, MULTI_BRAND_ITEMS } from './multiBrandCatalog.js';
 import { AMUL_TAGLINES, AMUL_ITEMS } from './amulCatalog.js';
+import { MAGNUM_ITEMS } from './magnumCatalog.js';
+import { GODIVA_CATEGORIES } from './godivaChocolates.js';
 import { applyIceCreamPresentation } from './iceCreamPresentation.js';
+// NOTE: amedeiChocolates.js data + public/images/chocolates art files stay on
+// disk (unused) so the range can be restored later with user-provided photos.
 
 export const siteMeta = {
   title: 'the Original Oat Drink Company | Oatara',
@@ -1419,9 +1423,52 @@ Object.entries(AMUL_ITEMS).forEach(([displayName, items]) => {
   });
 });
 
-// ─── STORE SCOPE: full Oatly range + Amul ice cream ─────────────────────────
-// Oatly ni badhi categories paachi (oatly.com/products jevi range) + Amul ice
-// cream. Bahaar: non-Oatly brands ane non-ice-cream Amul categories.
+// ─── MAGNUM (magnumicecream.com/in/products range) ─────────────────────────
+// Stick bars merged into the existing Ice Cream category. Original names kept
+// as identifiers; copy + artwork are our own (no brand assets copied).
+Object.entries(MAGNUM_ITEMS).forEach(([, items]) => {
+  if (!items || items.length === 0) return;
+  const target = productCategories.find((c) => c.slug === 'ice-cream');
+  if (!target) return;
+  const ids = new Set((target.items || []).map((p) => String(p.id)));
+  items.forEach((p) => {
+    if (!ids.has(String(p.id))) {
+      target.items.push({ ...p, category: target.name });
+      ids.add(String(p.id));
+    }
+  });
+});
+
+// ─── GODIVA CHOCOLATES (user-provided photos) ───────────────────────────────
+// Godiva Bars + Gift Boxes categories from GODIVA_CATEGORIES. Photos are
+// user-supplied files (no brand assets copied by us).
+GODIVA_CATEGORIES.forEach((incoming) => {
+  let cat = productCategories.find((c) => c.slug === incoming.slug);
+  if (!cat) {
+    cat = {
+      id: incoming.slug,
+      slug: incoming.slug,
+      name: incoming.name,
+      tagline: incoming.tagline,
+      description: incoming.description,
+      color: incoming.color,
+      badge: incoming.badge,
+      items: [],
+    };
+    productCategories.push(cat);
+  }
+  const ids = new Set((cat.items || []).map((p) => String(p.id)));
+  (incoming.items || []).forEach((p) => {
+    if (!ids.has(String(p.id))) {
+      cat.items.push({ ...p, category: cat.name });
+      ids.add(String(p.id));
+    }
+  });
+});
+
+// ─── STORE SCOPE: Oatly range + Amul & Magnum ice cream ────────────────────
+// Oatly ni badhi categories (oatly.com/products jevi range) + Amul/Magnum ice
+// cream. Bahaar: biji brands ane non-ice-cream Amul categories.
 // REMOVED_IDS: screenshot/user request thi explicit hide kareli items.
 const REMOVED_IDS = new Set([
   'califia-oat-ice-cream-vanilla-500ml',
@@ -1431,7 +1478,8 @@ const REMOVED_IDS = new Set([
 function keepProduct(p) {
   if (REMOVED_IDS.has(String(p.id))) return false;
   if (p.brand === 'Oatara') return true;
-  if (p.brand === 'Amul' && p.category === 'Ice Cream') return true;
+  if (p.brand === 'Magnum' && p.category === 'Ice Cream') return true;
+  if (p.brand === 'Godiva') return true;
   return false;
 }
 {
@@ -1439,7 +1487,7 @@ function keepProduct(p) {
   if (ice) {
     ice.items = applyIceCreamPresentation(ice.items || []);
     ice.tagline = 'Scoops, bars, cones, kulfi & sundaes.';
-    ice.description = 'Oatly and Amul frozen treats — pints, tubs, bars, cones, kulfi, sandwiches and sundaes in one clean grid.';
+    ice.description = 'Oatly and Magnum frozen treats — pints, tubs and bars in one clean grid.';
   }
   productCategories.forEach((cat) => {
     cat.items = (cat.items || []).filter(keepProduct);
@@ -1451,6 +1499,16 @@ function keepProduct(p) {
 }
 
 // ─── BRANDS: keval catalog ma hajer brands (dead brand filters nahi) ───────
-export const BRANDS = ALL_BRANDS.filter((b) =>
-  productCategories.some((c) => (c.items || []).some((p) => p.brand === b.name)),
-);
+// Master list ma na hoy ae brands (e.g. Magnum) pan ahiya umeray chhe.
+export const BRANDS = (() => {
+  const present = new Set(
+    productCategories.flatMap((c) => (c.items || []).map((p) => p.brand).filter(Boolean)),
+  );
+  const list = ALL_BRANDS.filter((b) => present.has(b.name));
+  present.forEach((name) => {
+    if (!list.some((b) => b.name === name)) {
+      list.push({ id: String(name).toLowerCase().replace(/[^a-z0-9]+/g, '-'), name });
+    }
+  });
+  return list;
+})();

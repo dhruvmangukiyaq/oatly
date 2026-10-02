@@ -551,7 +551,7 @@ function catOptions(baseCategories) {
 
 function brandOptions(products) {
   const fromProducts = (products || []).map((p) => p.brand).filter(Boolean);
-  return ['Oatara', 'Amul', ...fromProducts]
+  return ['Oatara', ...fromProducts]
     .filter((v, i, a) => a.indexOf(v) === i);
 }
 

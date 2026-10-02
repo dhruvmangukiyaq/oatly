@@ -58,7 +58,9 @@ export default function ProductDetailPage() {
   }
 
   const pid = String(product.id ?? product.slug ?? product.name);
-  const gallery = product.images && product.images.length > 0 ? product.images : [product.image];
+  const gallery = product.images && product.images.length > 0
+    ? product.images
+    : [product.image, product.hoverImage].filter(Boolean);
   const activeSrc = gallery[Math.min(activeImg, gallery.length - 1)];
   const imgBroken = brokenFor === pid;
   const settings = getSettings();

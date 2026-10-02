@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 640" role="img" aria-label="Dark floral chocolate pack illustration">
+  <ellipse cx="320" cy="548" rx="140" ry="22" fill="#000000" opacity="0.12"/>
+  <rect x="205" y="86" width="230" height="440" rx="14" fill="#2E1A10"/>
+  <rect x="205" y="86" width="230" height="40" rx="14" fill="#1D0D06"/>
+  <path d="M215 106 h210 M215 118 h210" stroke="#4A2C1A" stroke-width="3"/>
+  <ellipse cx="270" cy="220" rx="32" ry="46" fill="#C0392B" opacity="0.9" transform="rotate(-18 270 220)"/>
+  <ellipse cx="360" cy="250" rx="28" ry="42" fill="#E8A93D" opacity="0.9" transform="rotate(14 360 250)"/>
+  <ellipse cx="300" cy="320" rx="24" ry="38" fill="#7A2E3F" opacity="0.9" transform="rotate(-10 300 320)"/>
+  <circle cx="320" cy="200" r="12" fill="#C9962E"/>
+  <circle cx="255" cy="300" r="9" fill="#E8C86A"/>
+  <circle cx="375" cy="330" r="9" fill="#E8C86A"/>
+  <rect x="205" y="420" width="230" height="58" fill="#C9962E"/>
+  <rect x="205" y="478" width="230" height="48" rx="14" fill="#1D0D06"/>
+</svg>

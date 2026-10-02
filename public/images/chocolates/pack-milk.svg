@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 640" role="img" aria-label="Milk chocolate pack illustration">
+  <ellipse cx="320" cy="548" rx="140" ry="22" fill="#4A2C1A" opacity="0.12"/>
+  <rect x="205" y="86" width="230" height="440" rx="14" fill="#A8743F"/>
+  <rect x="205" y="86" width="230" height="40" rx="14" fill="#7A5228"/>
+  <path d="M215 106 h210 M215 118 h210" stroke="#54381A" stroke-width="3"/>
+  <circle cx="270" cy="235" r="42" fill="none" stroke="#7A5228" stroke-width="10"/>
+  <circle cx="360" cy="315" r="30" fill="none" stroke="#F3D9A8" stroke-width="8"/>
+  <ellipse cx="290" cy="355" rx="14" ry="18" fill="#F3D9A8"/>
+  <circle cx="368" cy="195" r="11" fill="#7A5228"/>
+  <rect x="205" y="420" width="230" height="58" fill="#5A3626"/>
+  <rect x="205" y="478" width="230" height="48" rx="14" fill="#7A5228"/>
+</svg>

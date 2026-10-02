@@ -14,6 +14,8 @@ export const NAV_ITEMS = [
       { name: 'Oat Drink', path: '/products/oat-drink', desc: 'The OG oat milk carton' },
       { name: 'Oatgurt', path: '/products/oatgurt', desc: 'Spoonable oat yogurt' },
       { name: 'Ice Cream', path: '/products/ice-cream', desc: 'Tubs, bars, cones, kulfi & sundaes' },
+      { name: 'Godiva Bars', path: '/products/godiva-bars', desc: 'Signature mini bars and bar sets' },
+      { name: 'Godiva Gift Boxes', path: '/products/godiva-gifts', desc: 'Assorted gift boxes' },
     ],
   },
   {

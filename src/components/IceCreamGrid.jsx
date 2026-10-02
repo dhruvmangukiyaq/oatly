@@ -174,17 +174,8 @@ export default function IceCreamGrid({ items, onSelect, onAdded }) {
   const tabs = [{ name: 'All', n: enriched.length }, ...formats];
 
   return (
-    <section className="ice" aria-labelledby="ice-heading">
+    <section className="ice">
       <div className="ice__inner">
-        <header className="ice-hero">
-          <p className="ice-hero__eyebrow">Scoops, bars, cones & kulfi</p>
-          <h1 id="ice-heading" className="ice-hero__title">Ice Cream</h1>
-          <p className="ice-hero__sub">
-            Every pint, tub, bar and kulfi in one clean grid — pick a format,
-            compare pack sizes and prices, and add to cart.
-          </p>
-        </header>
-
         <div className="ice-tabs" role="group" aria-label="Filter ice cream by format">
           {tabs.map((t) => (
             <button

@@ -12,15 +12,17 @@
 // PERFORMANCE: responses are cached twice —
 //   1. In-memory dedupe: concurrent/duplicate calls to the same path share
 //      one fetch promise (no repeated network round-trips while navigating).
-//   2. localStorage with TTL: resolved JSON is persisted so a revisit paints
-//      instantly, but entries older than CACHE_TTL_MS refetch — stale data
-//      (e.g. an older catalog) can never stick around forever.
+//   2. localStorage with TTL: genuine BACKEND answers are persisted so a
+//      revisit paints instantly, but entries older than CACHE_TTL_MS refetch.
+//      Bundled fallback answers are NEVER persisted — otherwise an offline
+//      moment could glue an older catalog to the screen. Stale data can never
+//      stick around: worst case it refreshes within CACHE_TTL_MS.
 
 // Cache version — bump to force a clean slate after backend shape changes.
-// v15: TTL-based cache (see below); v13/v14 leftovers are cleaned on load.
-const STORAGE_KEY = 'oatara.api.cache.v15';
-const OLD_KEYS = ['oatara.api.cache.v13', 'oatara.api.cache.v14'];
-const CACHE_TTL_MS = 15 * 60 * 1000;
+// v16: TTL-based cache (see below); v13/v14/v15 leftovers are cleaned on load.
+const STORAGE_KEY = 'oatara.api.cache.v16';
+const OLD_KEYS = ['oatara.api.cache.v13', 'oatara.api.cache.v14', 'oatara.api.cache.v15'];
+const CACHE_TTL_MS = 5 * 60 * 1000;
 
 // Resolved values (URL → { data, fetchedAt }), hydrated synchronously from
 // localStorage. Expired or malformed entries are dropped on the floor.
@@ -106,13 +108,11 @@ export async function apiGet(path) {
 
     // 2. Bundled static fallback — same backend models, same JSON shapes.
     // Lazy chunk: only downloaded when the backend is unreachable.
+    // Deliberately NOT persisted: it must never overwrite/mask live data.
     try {
       const { getStaticResponse } = await import('./staticFallback.js');
       const fb = getStaticResponse(path);
-      if (fb.found) {
-        remember(url, fb.data);
-        return fb.data;
-      }
+      if (fb.found) return fb.data;
     } catch {
       /* bundling edge — behave as before */
     }

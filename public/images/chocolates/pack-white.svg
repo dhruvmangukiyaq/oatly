@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 640" role="img" aria-label="Ivory white chocolate pack illustration">
+  <ellipse cx="320" cy="548" rx="140" ry="22" fill="#6B5A33" opacity="0.12"/>
+  <rect x="205" y="86" width="230" height="440" rx="14" fill="#F7F1E2"/>
+  <rect x="205" y="86" width="230" height="40" rx="14" fill="#D9C69A"/>
+  <path d="M215 106 h210 M215 118 h210" stroke="#B8A276" stroke-width="3"/>
+  <circle cx="270" cy="235" r="42" fill="none" stroke="#D9C69A" stroke-width="10"/>
+  <circle cx="360" cy="315" r="30" fill="none" stroke="#C9962E" stroke-width="8"/>
+  <circle cx="290" cy="355" r="13" fill="#C9962E"/>
+  <circle cx="368" cy="195" r="11" fill="#D9C69A"/>
+  <rect x="205" y="420" width="230" height="58" fill="#C9962E"/>
+  <rect x="205" y="478" width="230" height="48" rx="14" fill="#D9C69A"/>
+</svg>

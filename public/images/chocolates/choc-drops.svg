@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 640" role="img" aria-label="Chocolate drops bag illustration">
+  <ellipse cx="320" cy="530" rx="170" ry="24" fill="#2E1A10" opacity="0.10"/>
+  <path d="M200 220 h240 l-24 290 a80 24 0 0 1 -152 0 z" fill="#C9A06A"/>
+  <path d="M200 220 h240 l-6 60 h-228 z" fill="#8A5A33"/>
+  <rect x="230" y="190" width="180" height="44" rx="12" fill="#3A2317"/>
+  <ellipse cx="320" cy="190" rx="70" ry="20" fill="#241209"/>
+  <circle cx="280" cy="150" r="20" fill="#3A2317"/>
+  <circle cx="320" cy="130" r="24" fill="#4A2C1A"/>
+  <circle cx="362" cy="152" r="20" fill="#3A2317"/>
+  <circle cx="300" cy="105" r="14" fill="#4A2C1A"/>
+  <circle cx="345" cy="100" r="16" fill="#3A2317"/>
+  <rect x="250" y="320" width="140" height="22" rx="11" fill="#3A2317" opacity="0.8"/>
+</svg>
