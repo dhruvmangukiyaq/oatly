@@ -85,16 +85,23 @@ export default function LoginPage() {
         description="Log in or create your Oatara shop account to check out faster."
         pathname="/login"
       />
-      <div className="login-card">
-        <p className="login-kicker">Oatara shop</p>
-        <h1>{mode === 'login' ? 'Welcome back.' : 'Join the oat club.'}</h1>
-        <p className="login-sub">
-          {mode === 'login'
-            ? 'Log in to check out faster and track your orders.'
-            : 'One account for faster checkout, order history and oatara-mail.'}
-        </p>
-
-        <div className="login-tabs" role="tablist" aria-label="Log in or sign up">
+      <div className="login-card login-card--split">
+        <div className="login-brand">
+          <p className="login-kicker">Oatara shop</p>
+          <h1>{mode === 'login' ? 'Welcome back.' : 'Join the oat club.'}</h1>
+          <p className="login-sub">
+            {mode === 'login'
+              ? 'Log in to check out faster and track your orders.'
+              : 'One account for faster checkout, order history and oatara-mail.'}
+          </p>
+          <ul className="login-perks">
+            <li><span className="login-dot login-dot--gold" aria-hidden="true" /> Faster checkout</li>
+            <li><span className="login-dot login-dot--mint" aria-hidden="true" /> Track your orders</li>
+            <li><span className="login-dot login-dot--blush" aria-hidden="true" /> Member-only drops</li>
+          </ul>
+        </div>
+        <div className="login-form">
+          <div className="login-tabs" role="tablist" aria-label="Log in or sign up">
           <button
             type="button" role="tab" aria-selected={mode === 'login'}
             className={mode === 'login' ? 'is-active' : ''}
@@ -150,11 +157,12 @@ export default function LoginPage() {
           <button type="submit" className="login-btn login-btn--big">
             {mode === 'login' ? 'Log in →' : 'Create account →'}
           </button>
-        </form>
+          </form>
 
-        <p className="login-fine">
-          Demo shop — accounts live only in this browser. No oatara-mails, promise.
-        </p>
+          <p className="login-fine">
+            Demo shop — accounts live only in this browser. No oatara-mails, promise.
+          </p>
+        </div>
       </div>
     </div>
   );

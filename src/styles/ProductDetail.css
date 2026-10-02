@@ -1,0 +1,365 @@
+/* ==========================================================================
+   PRODUCT DETAIL PAGE — listing page jevi j bhasha (--font-ui, uppercase,
+   spec borders, underline hover). Amazon/Flipkart jevu layout:
+   gallery | buy box | offers | specs | reviews | related.
+   ========================================================================== */
+
+.pdetail {
+  background: transparent;
+}
+
+.pdetail__inner {
+  max-width: var(--max-width);
+  margin: 0 auto;
+  padding: var(--space-24);
+}
+
+/* Breadcrumb — listing crumb jevu */
+.pdetail-crumb {
+  margin: 0 0 var(--space-24);
+  font-family: var(--font-ui);
+  font-size: 0.875rem;
+  letter-spacing: 0.02em;
+  text-transform: uppercase;
+  color: var(--spec-ink);
+  overflow-x: auto;
+  white-space: nowrap;
+}
+
+.pdetail-crumb__link {
+  color: var(--spec-ink);
+  text-decoration: none;
+}
+
+.pdetail-crumb__link:hover {
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+.pdetail-crumb__current {
+  opacity: 0.65;
+}
+
+/* Top: gallery + buy box */
+.pdetail__top {
+  display: grid;
+  grid-template-columns: minmax(0, 1.05fr) minmax(0, 1fr);
+  gap: var(--space-48);
+  align-items: start;
+}
+
+@media (max-width: 900px) {
+  .pdetail__top {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* Gallery */
+.pdetail-gallery {
+  display: flex;
+  gap: var(--space-16);
+  align-items: flex-start;
+  position: sticky;
+  top: 90px;
+}
+
+@media (max-width: 900px) {
+  .pdetail-gallery {
+    position: static;
+  }
+}
+
+.pdetail-thumbs {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-8);
+}
+
+.pdetail-thumb {
+  width: 52px;
+  height: 52px;
+  padding: 0;
+  background: var(--spec-canvas);
+  border: 1px solid var(--spec-border);
+  border-radius: 2px;
+  overflow: hidden;
+  cursor: pointer;
+  opacity: 0.7;
+}
+
+.pdetail-thumb:hover {
+  opacity: 1;
+}
+
+.pdetail-thumb.is-active {
+  border-color: var(--spec-ink);
+  opacity: 1;
+}
+
+.pdetail-thumb img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.pdetail-mainimg {
+  position: relative;
+  flex: 1;
+  min-width: 0;
+  aspect-ratio: 1 / 1;
+  overflow: hidden;
+  background: var(--spec-canvas);
+  cursor: zoom-in;
+}
+
+.pdetail-mainimg img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  transition: transform 0.2s ease;
+}
+
+.pdetail-badge {
+  position: absolute;
+  top: var(--space-12);
+  left: var(--space-12);
+  z-index: 2;
+}
+
+/* Buy box */
+.pdetail-kicker {
+  margin: 0 0 var(--space-8);
+  font-family: var(--font-ui);
+  font-size: 0.875rem;
+  letter-spacing: 0.02em;
+  text-transform: uppercase;
+  color: var(--spec-ink);
+  opacity: 0.65;
+}
+
+.pdetail-info h1 {
+  margin: 0 0 var(--space-8);
+  font-family: var(--font-ui);
+  font-size: 1.25rem;
+  font-weight: 400;
+  line-height: 1.4;
+  text-transform: uppercase;
+  letter-spacing: 0.02em;
+  color: var(--spec-ink);
+}
+
+.pdetail-price {
+  font-size: 1.25rem;
+}
+
+.pdetail-tax {
+  margin: var(--space-4) 0 0;
+  font-family: var(--font-ui);
+  font-size: 0.75rem;
+  color: var(--spec-ink);
+  opacity: 0.65;
+}
+
+.pdetail-instock {
+  margin: var(--space-8) 0 0;
+  font-family: var(--font-ui);
+  font-size: 0.875rem;
+  text-transform: uppercase;
+  letter-spacing: 0.02em;
+  color: var(--spec-ink);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+.pdetail-buyrow {
+  display: flex;
+  gap: var(--space-16);
+  align-items: center;
+  margin: var(--space-16) 0;
+  flex-wrap: wrap;
+}
+
+.pdetail-buyrow .qty {
+  margin-top: 0;
+}
+
+.pdetail-info .shop-btn--big {
+  margin-bottom: var(--space-8);
+  max-width: 420px;
+}
+
+.pdetail-link {
+  color: var(--spec-ink);
+}
+
+.pdetail-link:hover {
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+.pdetail-delivery {
+  list-style: none;
+  margin: var(--space-24) 0 0;
+  padding: var(--space-16) 0 0;
+  border-top: 1px solid var(--spec-border);
+  display: grid;
+  gap: var(--space-8);
+}
+
+.pdetail-delivery li {
+  display: flex;
+  align-items: center;
+  gap: var(--space-8);
+  font-family: var(--font-ui);
+  font-size: 0.875rem;
+  color: var(--spec-ink);
+}
+
+.pdetail-offers {
+  margin-top: var(--space-24);
+  padding-top: var(--space-16);
+  border-top: 1px solid var(--spec-border);
+}
+
+.pdetail-offers h2 {
+  margin: 0 0 var(--space-8);
+  font-family: var(--font-ui);
+  font-size: 0.875rem;
+  font-weight: 700;
+  letter-spacing: 0.02em;
+  text-transform: uppercase;
+  display: flex;
+  align-items: center;
+  gap: var(--space-8);
+}
+
+.pdetail-offers ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: var(--space-8);
+}
+
+.pdetail-offers li {
+  font-family: var(--font-ui);
+  font-size: 0.875rem;
+  color: var(--spec-ink);
+}
+
+/* Lower sections */
+.pdetail-sections {
+  margin-top: var(--space-48);
+  display: grid;
+  gap: var(--space-48);
+  max-width: 900px;
+}
+
+.pdetail-sec h2 {
+  margin: 0 0 var(--space-16);
+  padding-bottom: var(--space-8);
+  border-bottom: 1px solid var(--spec-border);
+  font-family: var(--font-ui);
+  font-size: 0.875rem;
+  font-weight: 700;
+  letter-spacing: 0.02em;
+  text-transform: uppercase;
+  color: var(--spec-ink);
+}
+
+.pdetail-sec p {
+  font-family: var(--font-ui);
+  font-size: 0.875rem;
+  line-height: 1.6;
+  color: var(--spec-ink);
+}
+
+.pdetail-tagline {
+  opacity: 0.7;
+}
+
+.pdetail-points {
+  margin: 0;
+  padding-left: var(--space-24);
+  display: grid;
+  gap: var(--space-8);
+  font-family: var(--font-ui);
+  font-size: 0.875rem;
+  line-height: 1.6;
+}
+
+.pdetail-specs {
+  width: 100%;
+  border-collapse: collapse;
+  font-family: var(--font-ui);
+  font-size: 0.875rem;
+}
+
+.pdetail-specs th,
+.pdetail-specs td {
+  text-align: left;
+  padding: var(--space-8) var(--space-12);
+  border-bottom: 1px solid var(--spec-border);
+  vertical-align: top;
+}
+
+.pdetail-specs th {
+  font-weight: 400;
+  text-transform: uppercase;
+  letter-spacing: 0.02em;
+  opacity: 0.65;
+  width: 40%;
+}
+
+.pdetail-reviews {
+  list-style: none;
+  margin: 0 0 var(--space-24);
+  padding: 0;
+  display: grid;
+  gap: var(--space-16);
+}
+
+.pdetail-reviews li {
+  font-family: var(--font-ui);
+  font-size: 0.875rem;
+  line-height: 1.6;
+}
+
+.pdetail-reviews small {
+  opacity: 0.6;
+}
+
+.pdetail-reviewform {
+  max-width: 520px;
+}
+
+.pdetail-reviewform h3 {
+  margin: 0;
+  font-family: var(--font-ui);
+  font-size: 0.875rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.02em;
+}
+
+/* Related */
+.pdetail-related {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+  gap: var(--space-48) var(--space-32);
+}
+
+.pdetail-related .plist-card {
+  text-decoration: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .pdetail-mainimg img {
+    transition: none;
+  }
+}

@@ -1,16 +1,24 @@
 // ─── BACKEND MODEL ──────────────────────────────────────────────────────────
 // Products data-access layer (pure functions over local data, no HTTP here).
 // Mirrors the frontend contract so the API stays in sync with the UI.
+//
+// SINGLE SOURCE OF TRUTH: category items (productCategories) j badhu chhe.
+// Listing (63 items) ane detail/search/cart badha ej list parthi ave chhe,
+// etle card click → detail page hammesha malse (be alag list no mismatch nai).
 
-import { PRODUCTS_DATA } from './data/oatlyData.js';
 import { productCategories } from './data/siteData.js';
 
+function allItems() {
+  return productCategories.flatMap((cat) => cat.items || []);
+}
+
 export function getAllProducts() {
-  return PRODUCTS_DATA;
+  return allItems();
 }
 
 export function getProductById(id) {
-  return PRODUCTS_DATA.find((p) => p.id === id) || null;
+  const key = String(id);
+  return allItems().find((p) => String(p.id) === key || String(p.slug) === key) || null;
 }
 
 export function getProductCategories() {
@@ -24,31 +32,19 @@ export function getCategoryBySlug(slug) {
 export function getProductsByCategorySlug(categorySlug) {
   const category = getCategoryBySlug(categorySlug);
   if (!category) return [];
-  const flat = PRODUCTS_DATA.filter(
-    (p) =>
-      p.category === category.name ||
-      p.subCategory === category.name ||
-      p.category.toLowerCase() === category.name.toLowerCase()
-  );
-  const nested = category.items || [];
-  const seen = new Set(flat.map((p) => p.id));
-  const merged = [...flat];
-  for (const item of nested) {
-    if (!seen.has(item.id)) merged.push(item);
-  }
-  return merged;
+  return category.items || [];
 }
 
 export function filterProducts({ category = 'All', query = '' } = {}) {
   const q = query.trim().toLowerCase();
-  return PRODUCTS_DATA.filter((p) => {
+  return allItems().filter((p) => {
     const matchesCategory =
       category === 'All' ||
       p.category === category ||
       p.subCategory === category;
     const matchesQuery =
       q === '' ||
-      p.name.toLowerCase().includes(q) ||
+      (p.name || '').toLowerCase().includes(q) ||
       (p.tagline || '').toLowerCase().includes(q) ||
       (p.description || '').toLowerCase().includes(q) ||
       (p.category || '').toLowerCase().includes(q);
@@ -57,6 +53,6 @@ export function filterProducts({ category = 'All', query = '' } = {}) {
 }
 
 export function getProductCategoryNames() {
-  const fromData = PRODUCTS_DATA.map((p) => p.category);
+  const fromData = productCategories.map((c) => c.name);
   return ['All', ...Array.from(new Set(fromData))];
 }

@@ -1,12 +1,11 @@
 import React, { useMemo, useState } from 'react';
 import { Link } from 'react-router-dom';
-import { Heart, ArrowUpDown } from 'lucide-react';
+import { Heart, ArrowUpDown, SlidersHorizontal } from 'lucide-react';
 // ─── MVC: View (shared) ─────────────────────────────────────────────────────
 // Filter bar + product grid, reused by /products (ALL PRODUCTS)
 // and every /products/:category page. Shop-ready: price, rating, stock,
 // add-to-cart, wishlist, sort + search (standard marketplace features).
 import ProcessBand from './ProcessBand.jsx';
-import Product360 from './Product360.jsx';
 import { useShop } from '../hooks/useShop.js';
 import { isAdmin as checkIsAdmin, useAuth } from '../hooks/useAuth.js';
 import { enrichProduct, getSettings } from '../models/shopStore.js';
@@ -22,6 +21,52 @@ const SORTS = [
   { id: 'off', label: 'Discount' },
 ];
 
+// ── Facet helpers (Amazon/Flipkart jeva sidebar filters) ────────────────────
+// Badha facets CURRENT search results parthi ganay — search badlay etle
+// categories, brands, specs badha badlay (phone search → phone brands,
+// clothing search → clothing brands).
+const RATING_OPTS = [
+  { id: 0, label: 'All ratings' },
+  { id: 4, label: '4 Stars & Up' },
+  { id: 3, label: '3 Stars & Up' },
+];
+
+const OFF_OPTS = [
+  { id: 0, label: 'All discounts' },
+  { id: 10, label: '10% Off or more' },
+  { id: 25, label: '25% Off or more' },
+  { id: 50, label: '50% Off or more' },
+];
+
+const NEW_DAYS = 90;
+
+// Data parthi dynamic price buckets (Amazon jeva ranges)
+function priceBuckets(items) {
+  const prices = items.map((p) => Number(p.price) || 0).filter((n) => n > 0);
+  if (prices.length < 2) return [];
+  const lo = Math.min(...prices);
+  const hi = Math.max(...prices);
+  if (hi - lo < 0.01) return [];
+  const raw = (hi - lo) / 5;
+  const mag = 10 ** Math.floor(Math.log10(raw));
+  const step = [1, 2, 2.5, 5, 10].map((m) => m * mag).find((m) => m >= raw) || raw;
+  const out = [];
+  let b = Math.floor(lo / step) * step;
+  while (b < hi && out.length < 6) {
+    const clean = (n) => Math.round(n * 100) / 100;
+    out.push({ min: clean(b), max: clean(b + step) });
+    b += step;
+  }
+  return out;
+}
+
+const fmtBucket = (bk, cur) => {
+  const f = (n) => `${cur}${Number(n).toFixed(Number(n) < 100 ? 2 : 0)}`;
+  return `${f(bk.min)} – ${f(bk.max)}`;
+};
+
+const toggleIn = (arr, v) => (arr.includes(v) ? arr.filter((x) => x !== v) : [...arr, v]);
+
 function ProductCard({ item, onSelect, onAdded, adminView }) {
   const [imgOk, setImgOk] = useState(!!item.image);
   const { add, wishlist, toggleWish } = useShop();
@@ -35,11 +80,12 @@ function ProductCard({ item, onSelect, onAdded, adminView }) {
 
   const media = (
     <div className="plist-card__media">
-      {imgOk ? (
-        <Product360
+      {imgOk && src ? (
+        <img
           src={src}
           alt={item.name}
-          onClick={() => onSelect && onSelect({ ...item, image: src })}
+          className="plist-card__img"
+          loading="lazy"
           onError={() => setImgOk(false)}
         />
       ) : null}
@@ -97,17 +143,101 @@ export default function ProductListing({ categories, activeSlug, items, onSelect
   const [sort, setSort] = useState('pop');
   const [q, setQ] = useState('');
   const overrides = getProductOverrides();
+  const cur = getSettings().currency || '$';
+
+  // ── Facet state (sidebar) ──
+  const [selCats, setSelCats] = useState([]);
+  const [selBrands, setSelBrands] = useState([]);
+  const [priceIdx, setPriceIdx] = useState(-1);
+  const [minRating, setMinRating] = useState(0);
+  const [minOff, setMinOff] = useState(0);
+  const [inStockOnly, setInStockOnly] = useState(false);
+  const [onlyNew, setOnlyNew] = useState(false);
+  const [specSel, setSpecSel] = useState({}); // {SpecKey: [values]}
+  const [filtersOpen, setFiltersOpen] = useState(false); // mobile drawer
 
   const enriched = useMemo(
     () => (items || []).map((p) => enrichProduct(p, overrides)),
     [items, overrides],
   );
 
-  const visible = useMemo(() => {
+  // Search scope — facets aa list parthi ganay (search-aware)
+  const searched = useMemo(() => {
     const query = q.trim().toLowerCase();
-    let list = enriched.filter((p) =>
-      !query || [p.name, p.category, p.tagline].filter(Boolean).join(' ').toLowerCase().includes(query),
+    return enriched.filter((p) =>
+      !query || [p.name, p.brand, p.category, p.tagline].filter(Boolean).join(' ').toLowerCase().includes(query),
     );
+  }, [enriched, q]);
+
+  // ── Facet options (searched results parthi) ──
+  const catOpts = useMemo(() => {
+    const map = new Map();
+    searched.forEach((p) => {
+      if (!p.category) return;
+      map.set(p.category, (map.get(p.category) || 0) + 1);
+    });
+    return [...map.entries()].map(([name, n]) => ({ name, n })).sort((a, b) => b.n - a.n);
+  }, [searched]);
+
+  const brandOpts = useMemo(() => {
+    const map = new Map();
+    searched.forEach((p) => {
+      if (!p.brand) return;
+      map.set(p.brand, (map.get(p.brand) || 0) + 1);
+    });
+    return [...map.entries()].map(([name, n]) => ({ name, n })).sort((a, b) => b.n - a.n);
+  }, [searched]);
+
+  const buckets = useMemo(() => priceBuckets(searched), [searched]);
+
+  const specFacets = useMemo(() => {
+    const keys = new Map();
+    searched.forEach((p) => {
+      if (!p.specs) return;
+      Object.entries(p.specs).forEach(([k, v]) => {
+        if (!keys.has(k)) keys.set(k, new Map());
+        const vals = keys.get(k);
+        vals.set(v, (vals.get(v) || 0) + 1);
+      });
+    });
+    return [...keys.entries()].slice(0, 8).map(([k, vals]) => ({
+      key: k,
+      values: [...vals.entries()].map(([v, n]) => ({ v: String(v), n })).sort((a, b) => b.n - a.n).slice(0, 10),
+    }));
+  }, [searched]);
+
+  const hasDates = useMemo(() => searched.some((p) => p.createdAt), [searched]);
+
+  // ── Apply facets + sort ──
+  const visible = useMemo(() => {
+    const now = Date.now();
+    let list = searched.filter((p) => {
+      if (selCats.length > 0 && !selCats.includes(p.category)) return false;
+      if (selBrands.length > 0 && !selBrands.includes(p.brand)) return false;
+      if (priceIdx >= 0 && buckets[priceIdx]) {
+        const bk = buckets[priceIdx];
+        const pr = Number(p.price) || 0;
+        const isLast = bk === buckets[buckets.length - 1];
+        const inBk = isLast ? (pr >= bk.min && pr <= bk.max) : (pr >= bk.min && pr < bk.max);
+        if (!inBk) return false;
+      }
+      if (minRating > 0 && Number(p.rating || 0) < minRating) return false;
+      if (minOff > 0) {
+        const off = p.mrp > p.price ? ((p.mrp - p.price) / p.mrp) * 100 : 0;
+        if (off < minOff) return false;
+      }
+      if (inStockOnly && Number(p.stock ?? 0) <= 0) return false;
+      if (onlyNew) {
+        if (!p.createdAt) return false;
+        if ((now - new Date(p.createdAt).getTime()) / 86400000 > NEW_DAYS) return false;
+      }
+      const sel = specSel;
+      const keys = Object.keys(sel).filter((k) => sel[k].length > 0);
+      for (const k of keys) {
+        if (!sel[k].includes(String(p.specs?.[k]))) return false;
+      }
+      return true;
+    });
     switch (sort) {
       case 'low': list = [...list].sort((a, b) => a.price - b.price); break;
       case 'high': list = [...list].sort((a, b) => b.price - a.price); break;
@@ -122,7 +252,40 @@ export default function ProductListing({ categories, activeSlug, items, onSelect
       default: break;
     }
     return list.filter((p) => p.status !== 'archived');
-  }, [enriched, sort, q]);
+  }, [searched, selCats, selBrands, priceIdx, buckets, minRating, minOff, inStockOnly, onlyNew, specSel, sort]);
+
+  const activeCount =
+    selCats.length + selBrands.length + (priceIdx >= 0 ? 1 : 0) +
+    (minRating > 0 ? 1 : 0) + (minOff > 0 ? 1 : 0) + (inStockOnly ? 1 : 0) +
+    (onlyNew ? 1 : 0) + Object.values(specSel).reduce((s, v) => s + v.length, 0);
+
+  const clearAll = () => {
+    setSelCats([]);
+    setSelBrands([]);
+    setPriceIdx(-1);
+    setMinRating(0);
+    setMinOff(0);
+    setInStockOnly(false);
+    setOnlyNew(false);
+    setSpecSel({});
+  };
+
+  const toggleSpec = (k, v) => setSpecSel((prev) => ({ ...prev, [k]: toggleIn(prev[k] || [], v) }));
+
+  const facet = (title, body) => (
+    <details className="pf-group" open>
+      <summary className="pf-title">{title}</summary>
+      <div className="pf-opts">{body}</div>
+    </details>
+  );
+
+  const checkRow = (checked, onChange, label, count, key) => (
+    <label className="pf-opt" key={key}>
+      <input type="checkbox" checked={checked} onChange={onChange} />
+      <span className="pf-label">{label}</span>
+      {count != null && <span className="pf-n">({count})</span>}
+    </label>
+  );
 
   return (
     <>
@@ -154,43 +317,152 @@ export default function ProductListing({ categories, activeSlug, items, onSelect
             </ul>
           </nav>
 
-          {/* ── Shop toolbar: search + sort (same quiet row style as filter) ── */}
-          <div className="plist-tools">
-            <input
-              value={q}
-              onChange={(e) => setQ(e.target.value)}
-              placeholder="Search products…"
-              aria-label="Search products"
-              className="plist-tools__search"
-            />
-            <label className="plist-tools__sort">
-              <ArrowUpDown size={14} aria-hidden="true" /> Sort
-              <select value={sort} onChange={(e) => setSort(e.target.value)} aria-label="Sort products">
-                {SORTS.map((s) => <option key={s.id} value={s.id}>{s.label}</option>)}
-              </select>
-            </label>
-          </div>
+          {/* ── 2. LAYOUT: sidebar facets + results ── */}
+          <div className="plist-layout">
+            <aside className={`plist-side${filtersOpen ? ' plist-side--open' : ''}`} aria-label="Product filters">
+              <div className="plist-side__head">
+                <strong>Filters{activeCount > 0 && ` (${activeCount})`}</strong>
+                {activeCount > 0 && (
+                  <button type="button" className="pf-clear" onClick={clearAll}>Clear all</button>
+                )}
+              </div>
 
-          {/* ── 2. PRODUCT GRID ── */}
-          {visible.length === 0 ? (
-            <p className="plist-empty">No products found. Try another search.</p>
-          ) : (
-            <ul className="plist-grid">
-              {visible.map((item) => (
-                <ProductCard
-                  key={item.id || item.slug}
-                  item={item}
-                  onSelect={onSelectProduct}
-                  onAdded={onAdded}
-                  adminView={adminView}
-                />
+              {/* Category / Department — SAUTHI PAHELA (Amazon jevu) */}
+              {catOpts.length > 1 && facet(
+                'Category',
+                catOpts.map((c) => checkRow(
+                  selCats.includes(c.name),
+                  () => setSelCats((prev) => toggleIn(prev, c.name)),
+                  c.name, c.n, c.name,
+                )),
+              )}
+
+              {/* Brand — search pramane badlay (phone search → phone brands) */}
+              {brandOpts.length > 0 && facet(
+                'Brand',
+                brandOpts.map((b) => checkRow(
+                  selBrands.includes(b.name),
+                  () => setSelBrands((prev) => toggleIn(prev, b.name)),
+                  b.name, b.n, b.name,
+                )),
+              )}
+
+              {buckets.length > 0 && facet(
+                'Price',
+                buckets.map((bk, i) => (
+                  <label className="pf-opt" key={i}>
+                    <input
+                      type="radio" name="pf-price"
+                      checked={priceIdx === i}
+                      onChange={() => setPriceIdx(i)}
+                    />
+                    <span className="pf-label">{fmtBucket(bk, cur)}</span>
+                  </label>
+                )),
+              )}
+
+              {facet(
+                'Customer Reviews',
+                RATING_OPTS.map((r) => (
+                  <label className="pf-opt" key={r.id}>
+                    <input
+                      type="radio" name="pf-rating"
+                      checked={minRating === r.id}
+                      onChange={() => setMinRating(r.id)}
+                    />
+                    <span className="pf-label">{r.id > 0 ? `★ ${r.label}` : r.label}</span>
+                  </label>
+                )),
+              )}
+
+              {facet(
+                'Discount',
+                OFF_OPTS.map((o) => (
+                  <label className="pf-opt" key={o.id}>
+                    <input
+                      type="radio" name="pf-off"
+                      checked={minOff === o.id}
+                      onChange={() => setMinOff(o.id)}
+                    />
+                    <span className="pf-label">{o.label}</span>
+                  </label>
+                )),
+              )}
+
+              {facet(
+                'Availability',
+                checkRow(inStockOnly, () => setInStockOnly((v) => !v), 'In stock only', null, 'stock'),
+              )}
+
+              {hasDates && facet(
+                'New Arrivals',
+                checkRow(onlyNew, () => setOnlyNew((v) => !v), `Last ${NEW_DAYS} days`, null, 'new'),
+              )}
+
+              {/* Spec facets — data parthi auto (RAM, Storage, Pack size…) */}
+              {specFacets.map((g) => facet(
+                g.key,
+                g.values.map((o) => checkRow(
+                  (specSel[g.key] || []).includes(o.v),
+                  () => toggleSpec(g.key, o.v),
+                  o.v, o.n, `${g.key}-${o.v}`,
+                )),
               ))}
-            </ul>
-          )}
+            </aside>
+
+            <div className="plist-main">
+              {/* ── Shop toolbar: filters toggle (mobile) + search + sort ── */}
+              <div className="plist-tools">
+                <button
+                  type="button"
+                  className="plist-tools__filters"
+                  aria-expanded={filtersOpen}
+                  onClick={() => setFiltersOpen((v) => !v)}
+                >
+                  <SlidersHorizontal size={14} aria-hidden="true" /> Filters{activeCount > 0 && ` (${activeCount})`}
+                </button>
+                <input
+                  value={q}
+                  onChange={(e) => setQ(e.target.value)}
+                  placeholder="Search products…"
+                  aria-label="Search products"
+                  className="plist-tools__search"
+                />
+                <label className="plist-tools__sort">
+                  <ArrowUpDown size={14} aria-hidden="true" /> Sort
+                  <select value={sort} onChange={(e) => setSort(e.target.value)} aria-label="Sort products">
+                    {SORTS.map((s) => <option key={s.id} value={s.id}>{s.label}</option>)}
+                  </select>
+                </label>
+              </div>
+
+              {/* ── 3. PRODUCT GRID ── */}
+              {visible.length === 0 ? (
+                <div>
+                  <p className="plist-empty">No products match these filters.</p>
+                  <button type="button" className="pf-clear" onClick={() => { clearAll(); setQ(''); }}>
+                    Clear search &amp; filters
+                  </button>
+                </div>
+              ) : (
+                <ul className="plist-grid">
+                  {visible.map((item) => (
+                    <ProductCard
+                      key={item.id || item.slug}
+                      item={item}
+                      onSelect={onSelectProduct}
+                      onAdded={onAdded}
+                      adminView={adminView}
+                    />
+                  ))}
+                </ul>
+              )}
+            </div>
+          </div>
         </div>
       </div>
 
-      {/* ── 3. PROCESS BAND: same UI under every product listing ── */}
+      {/* ── 4. PROCESS BAND: same UI under every product listing ── */}
       <ProcessBand />
     </>
   );

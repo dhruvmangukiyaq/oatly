@@ -11,6 +11,7 @@ import { Routes, Route, Navigate } from 'react-router-dom';
 // Page Views (one file per page → src/pages/) — lazy-loaded.
 const HomePage = lazy(() => import('../pages/HomePage'));
 const ProductsPage = lazy(() => import('../pages/ProductsPage'));
+const ProductDetailPage = lazy(() => import('../pages/ProductDetailPage'));
 const CategoryProductsPage = lazy(() => import('../pages/CategoryProductsPage'));
 const LookBookVol3Page = lazy(() => import('../pages/LookBookVol3Page'));
 const RecipeDetailPage = lazy(() => import('../pages/RecipeDetailPage'));
@@ -36,7 +37,7 @@ const AccountPage = lazy(() => import('../pages/AccountPage'));
 const LegalPage = lazy(() => import('../pages/LegalPage'));
 const PrivacyPolicyPage = lazy(() => import('../pages/PrivacyPolicyPage'));
 
-export default function AppRoutes({ selectProduct, selectRecipe, selectArticle }) {
+export default function AppRoutes({ selectRecipe, selectArticle }) {
   return (
     <Suspense fallback={<div className="page-loading" aria-hidden="true" />}>
       <Routes>
@@ -45,7 +46,6 @@ export default function AppRoutes({ selectProduct, selectRecipe, selectArticle }
           path="/"
           element={
             <HomePage
-              onSelectProduct={selectProduct}
               onSelectRecipe={selectRecipe}
               onSelectArticle={selectArticle}
             />
@@ -56,17 +56,20 @@ export default function AppRoutes({ selectProduct, selectRecipe, selectArticle }
         <Route
           path="/products"
           element={
-            <ProductsPage
-              onSelectProduct={selectProduct}
-            />
+            <ProductsPage />
+          }
+        />
+        {/* Detail page — static 'item' outranks :category param */}
+        <Route
+          path="/products/item/:id"
+          element={
+            <ProductDetailPage />
           }
         />
         <Route
           path="/products/:category"
           element={
-            <CategoryProductsPage
-              onSelectProduct={selectProduct}
-            />
+            <CategoryProductsPage />
           }
         />
 
@@ -244,7 +247,6 @@ export default function AppRoutes({ selectProduct, selectRecipe, selectArticle }
           path="*"
           element={
             <HomePage
-              onSelectProduct={selectProduct}
               onSelectRecipe={selectRecipe}
               onSelectArticle={selectArticle}
             />

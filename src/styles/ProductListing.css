@@ -310,6 +310,177 @@ button.plist-card {
   opacity: 1;
 }
 
+/* --- LAYOUT: sidebar facets + results (Amazon/Flipkart jevu) --- */
+.plist-layout {
+  display: grid;
+  grid-template-columns: 240px minmax(0, 1fr);
+  gap: var(--space-32);
+  align-items: start;
+}
+
+.plist-main {
+  min-width: 0;
+}
+
+.plist-side {
+  position: sticky;
+  top: 90px;
+  max-height: calc(100vh - 110px);
+  overflow-y: auto;
+  padding-right: var(--space-8);
+}
+
+.plist-side__head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-8);
+  margin-bottom: var(--space-8);
+  font-family: var(--font-ui);
+  font-size: 0.875rem;
+  letter-spacing: 0.02em;
+  text-transform: uppercase;
+  color: var(--spec-ink);
+}
+
+.pf-clear {
+  padding: 0;
+  background: none;
+  border: none;
+  font-family: var(--font-ui);
+  font-size: 0.875rem;
+  color: var(--spec-ink);
+  cursor: pointer;
+  opacity: 0.65;
+  white-space: nowrap;
+}
+
+.pf-clear:hover {
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  opacity: 1;
+}
+
+/* Facet group: quiet divider list, native collapse */
+.pf-group {
+  border-top: 1px solid var(--spec-border);
+  padding: var(--space-12) 0;
+}
+
+.pf-group:last-child {
+  border-bottom: 1px solid var(--spec-border);
+}
+
+.pf-title {
+  font-family: var(--font-ui);
+  font-size: 0.875rem;
+  font-weight: 700;
+  letter-spacing: 0.02em;
+  text-transform: uppercase;
+  color: var(--spec-ink);
+  cursor: pointer;
+  list-style: none;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.pf-title::-webkit-details-marker {
+  display: none;
+}
+
+.pf-title::after {
+  content: '−';
+  font-weight: 400;
+  opacity: 0.6;
+}
+
+.pf-group:not([open]) .pf-title::after {
+  content: '+';
+}
+
+.pf-opts {
+  display: grid;
+  gap: var(--space-8);
+  margin-top: var(--space-12);
+}
+
+.pf-opt {
+  display: flex;
+  align-items: center;
+  gap: var(--space-8);
+  font-family: var(--font-ui);
+  font-size: 0.875rem;
+  color: var(--spec-ink);
+  cursor: pointer;
+}
+
+.pf-opt:hover .pf-label {
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+.pf-opt input {
+  width: 15px;
+  height: 15px;
+  margin: 0;
+  accent-color: #111111;
+  cursor: pointer;
+  flex-shrink: 0;
+}
+
+.pf-label {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.pf-n {
+  opacity: 0.55;
+  font-size: 0.75rem;
+}
+
+/* Filters toggle — desktop par hidden, mobile par drawer button */
+.plist-tools__filters {
+  display: none;
+  align-items: center;
+  gap: var(--space-8);
+  padding: var(--space-8) var(--space-12);
+  border: 1px solid var(--spec-border);
+  border-radius: 2px;
+  background: var(--spec-canvas);
+  font-family: var(--font-ui);
+  font-size: 0.875rem;
+  letter-spacing: 0.02em;
+  text-transform: uppercase;
+  color: var(--spec-ink);
+  cursor: pointer;
+  white-space: nowrap;
+}
+
+@media (max-width: 900px) {
+  .plist-layout {
+    grid-template-columns: 1fr;
+  }
+  .plist-side {
+    display: none;
+    position: static;
+    max-height: none;
+    overflow: visible;
+    border: 1px solid var(--spec-border);
+    border-radius: 2px;
+    padding: var(--space-16);
+    margin-bottom: var(--space-16);
+    background: var(--spec-canvas);
+  }
+  .plist-side--open {
+    display: block;
+  }
+  .plist-tools__filters {
+    display: inline-flex;
+  }
+}
+
 /* Empty category fallback */
 .plist-empty {
   padding: var(--space-48) 0;

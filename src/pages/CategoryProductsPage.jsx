@@ -1,17 +1,19 @@
 import React from 'react';
-import { useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import SEO from '../components/SEO';
 import ProductListing from '../components/ProductListing';
 // ─── MVC: View ──────────────────────────────────────────────────────────────
 // /products/:category = the same ProductListing layout with that tab active.
 // Categories arrive from the Model (async Express API); unknown slugs fall
 // back to ALL PRODUCTS.
+// Card click → dedicated detail page (/products/item/:id).
 
 import ProductModel from '../models/productModel.js';
 import { useApiData } from '../hooks/useApiData.js';
 
-export default function CategoryProductsPage({ onSelectProduct }) {
+export default function CategoryProductsPage() {
   const { category } = useParams();
+  const navigate = useNavigate();
   // MODEL (async API — page renders once categories arrive)
   const categories = useApiData(() => ProductModel.getProductCategories(), []);
   if (!categories) return null;
@@ -22,6 +24,11 @@ export default function CategoryProductsPage({ onSelectProduct }) {
     ? // Unknown slug: show everything, no tab highlighted as current.
       categories.flatMap((cat) => cat.items || [])
     : currentCategory.items || [];
+
+  const openDetail = (p) => {
+    if (!p) return;
+    navigate(`/products/item/${p.id ?? p.slug ?? p.name}`);
+  };
 
   return (
     <>
@@ -38,7 +45,7 @@ export default function CategoryProductsPage({ onSelectProduct }) {
         categories={categories}
         activeSlug={currentCategory ? currentCategory.slug : null}
         items={items}
-        onSelectProduct={onSelectProduct}
+        onSelectProduct={openDetail}
       />
     </>
   );

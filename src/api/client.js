@@ -18,9 +18,9 @@
 const BASE = '/api';
 
 // Cache version — bump to force a clean slate after backend shape changes.
-// v12: Pee for the Planet links moved to the full initiative page
-// (/things-we-do/initiatives/pee-for-the-planet) in nav + homepage deck.
-const STORAGE_KEY = 'oatara.api.cache.v12';
+// v13: products now come from the single category-items source (63 items,
+// not the old flat 8) — old cached lists would break detail pages.
+const STORAGE_KEY = 'oatara.api.cache.v13';
 
 // Resolved values (URL → JSON), hydrated synchronously from localStorage.
 const stored = (() => {

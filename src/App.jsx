@@ -23,7 +23,6 @@ import Navbar from './components/Navbar';
 import CartDrawer from './components/CartDrawer';
 
 // Interactive Modal Components
-import ProductModal from './components/ProductModal';
 import RecipeModal from './components/RecipeModal';
 import ArticleModal from './components/ArticleModal';
 
@@ -39,12 +38,13 @@ function sectionTheme(pathname = '/') {
   return '';
 }
 
-function ThemedMain({ selectProduct, selectRecipe, selectArticle }) {
+function ThemedMain({ selectRecipe, selectArticle }) {
   const { pathname } = useLocation();
+  // Login page: wash full-height fill (niche white patti na dekhay)
+  const fill = pathname.startsWith('/login') ? ' login-fill' : '';
   return (
-    <main className={`flex-grow ${sectionTheme(pathname)}`}>
+    <main className={`flex-grow${fill} ${sectionTheme(pathname)}`}>
       <AppRoutes
-        selectProduct={selectProduct}
         selectRecipe={selectRecipe}
         selectArticle={selectArticle}
       />
@@ -95,9 +95,6 @@ export default function App() {
 // top bar + sidebar chhe — tya storefront header (PRODUCTS/NEWS row) dekhase
 // NAI, etle ahiya route joine hide kariye chhiye.
 function SiteChrome({
-  selectedProduct,
-  selectProduct,
-  clearProduct,
   selectedRecipe,
   selectRecipe,
   clearRecipe,
@@ -115,7 +112,6 @@ function SiteChrome({
   if (isAdminPage) {
     return (
       <ThemedMain
-        selectProduct={selectProduct}
         selectRecipe={selectRecipe}
         selectArticle={selectArticle}
       />
@@ -130,7 +126,6 @@ function SiteChrome({
 
       {/* Main Content Router (section-themed background) */}
       <ThemedMain
-        selectProduct={selectProduct}
         selectRecipe={selectRecipe}
         selectArticle={selectArticle}
       />
@@ -140,10 +135,6 @@ function SiteChrome({
       {/* Modals + cart — admin page par NAI (tya shopping j nathi) */}
       {!isAdminPage && (
         <>
-          <ProductModal
-            product={selectedProduct}
-            onClose={clearProduct}
-          />
           <CartDrawer open={cartOpen} onClose={() => setCartOpen(false)} />
 
           <RecipeModal
