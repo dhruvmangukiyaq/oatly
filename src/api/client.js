@@ -18,9 +18,9 @@
 const BASE = '/api';
 
 // Cache version — bump to force a clean slate after backend shape changes.
-// v13: products now come from the single category-items source (63 items,
-// not the old flat 8) — old cached lists would break detail pages.
-const STORAGE_KEY = 'oatara.api.cache.v13';
+// v14: catalog is now ice-cream only (19 Oatly+Amul items, local artwork) —
+// old cached lists (63-item Oatara catalog) must never paint again.
+const STORAGE_KEY = 'oatara.api.cache.v14';
 
 // Resolved values (URL → JSON), hydrated synchronously from localStorage.
 const stored = (() => {
