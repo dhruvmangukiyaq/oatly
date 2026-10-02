@@ -100,7 +100,7 @@
   height: 72px;
   object-fit: cover;
   display: block;
-  background: var(--spec-surface);
+  background: transparent;
 }
 
 .shop-line__name {

@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 640" role="img" aria-label="Salted caramel frozen dessert pint illustration">
+  <ellipse cx="320" cy="508" rx="150" ry="26" fill="#6B3F14" opacity="0.12"/>
+  <rect x="205" y="210" width="230" height="270" rx="36" fill="#D99A4E"/>
+  <rect x="205" y="210" width="230" height="86" rx="36" fill="#A8641F"/>
+  <rect x="205" y="258" width="230" height="38" fill="#A8641F"/>
+  <rect x="235" y="330" width="170" height="96" rx="20" fill="#FFF8EE"/>
+  <path d="M245 360 h150 c-10 26 -34 40 -75 40 s-65 -14 -75 -40z" fill="#D99A4E"/>
+  <circle cx="275" cy="180" r="34" fill="#D99A4E"/>
+  <circle cx="320" cy="162" r="40" fill="#E8B573"/>
+  <circle cx="365" cy="180" r="34" fill="#D99A4E"/>
+  <path d="M290 150 q30 -18 60 0" stroke="#A8641F" stroke-width="8" fill="none" stroke-linecap="round"/>
+  <rect x="262" y="392" width="116" height="14" rx="7" fill="#6B3F14" opacity="0.35"/>
+</svg>

@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 640" role="img" aria-label="Coconut frozen dessert cup illustration">
+  <ellipse cx="320" cy="505" rx="140" ry="24" fill="#2A4A3A" opacity="0.12"/>
+  <path d="M225 300 h190 l-22 160 a75 28 0 0 1 -146 0 z" fill="#FFFFFF" stroke="#CFE0D4" stroke-width="6"/>
+  <circle cx="275" cy="265" r="46" fill="#FFFFFF" stroke="#CFE0D4" stroke-width="5"/>
+  <circle cx="330" cy="250" r="52" fill="#F7FBF8" stroke="#CFE0D4" stroke-width="5"/>
+  <circle cx="378" cy="268" r="42" fill="#FFFFFF" stroke="#CFE0D4" stroke-width="5"/>
+  <path d="M290 235 l14 -22 M330 222 l4 -24 M365 238 l18 -16" stroke="#8FB573" stroke-width="8" stroke-linecap="round"/>
+  <rect x="250" y="360" width="140" height="20" rx="10" fill="#2A4A3A" opacity="0.75"/>
+  <rect x="275" y="390" width="90" height="12" rx="6" fill="#2A4A3A" opacity="0.3"/>
+</svg>

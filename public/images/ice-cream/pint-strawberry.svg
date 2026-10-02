@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 640" role="img" aria-label="Strawberry frozen dessert pint illustration">
+  <ellipse cx="320" cy="508" rx="150" ry="26" fill="#7A2E3F" opacity="0.12"/>
+  <rect x="205" y="210" width="230" height="270" rx="36" fill="#F4A7BE"/>
+  <rect x="205" y="210" width="230" height="86" rx="36" fill="#E56B8C"/>
+  <rect x="205" y="258" width="230" height="38" fill="#E56B8C"/>
+  <rect x="235" y="330" width="170" height="96" rx="20" fill="#FFF5F7"/>
+  <circle cx="275" cy="180" r="34" fill="#F4A7BE"/>
+  <circle cx="320" cy="162" r="40" fill="#E56B8C"/>
+  <circle cx="365" cy="180" r="34" fill="#F4A7BE"/>
+  <path d="M305 148 c-6 -12 6 -20 12 -10 c6 -10 18 -2 12 10 c-4 8 -12 12 -12 12 s-8 -4 -12 -12z" fill="#2F7A44"/>
+  <rect x="262" y="362" width="116" height="18" rx="9" fill="#7A2E3F" opacity="0.85"/>
+  <rect x="282" y="388" width="76" height="12" rx="6" fill="#7A2E3F" opacity="0.3"/>
+</svg>

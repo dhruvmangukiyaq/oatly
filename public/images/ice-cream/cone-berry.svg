@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 640" role="img" aria-label="Berry ice cream cone illustration">
+  <ellipse cx="320" cy="540" rx="120" ry="22" fill="#3A2A5A" opacity="0.12"/>
+  <path d="M250 300 L320 520 L390 300 Z" fill="#D9A45B"/>
+  <path d="M268 340 L372 340 M280 380 L360 380 M292 420 L348 420" stroke="#B07E35" stroke-width="8" stroke-linecap="round"/>
+  <circle cx="270" cy="260" r="52" fill="#7A4E9E"/>
+  <circle cx="320" cy="230" r="62" fill="#8E5FB5"/>
+  <circle cx="370" cy="260" r="52" fill="#7A4E9E"/>
+  <circle cx="300" cy="225" r="10" fill="#C9A8E0"/>
+  <circle cx="340" cy="245" r="8" fill="#C9A8E0"/>
+  <circle cx="320" cy="165" r="18" fill="#4E2E6E"/>
+</svg>

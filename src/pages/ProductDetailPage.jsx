@@ -28,14 +28,18 @@ export default function ProductDetailPage() {
   const [activeImg, setActiveImg] = useState(0);
   const [zoom, setZoom] = useState(null);
   const [qty, setQty] = useState(1);
+  const [brokenFor, setBrokenFor] = useState(null);
+  // Broken-image flag is keyed by product id, so navigating between products
+  // never leaves a stale broken state behind (no effect needed).
 
   const related = useMemo(() => {
     if (!product) return [];
-    return (products || [])
-      .filter((p) => String(p.id ?? p.slug ?? p.name) !== String(product.id ?? product.slug ?? product.name))
-      .filter((p) => (p.category || '') === (product.category || ''))
-      .concat((products || []).filter((p) => (p.category || '') !== (product.category || '')))
-      .slice(0, 8);
+    const others = (products || [])
+      .filter((p) => String(p.id ?? p.slug ?? p.name) !== String(product.id ?? product.slug ?? product.name));
+    const sameBrand = others.filter((p) => (p.brand || '') && p.brand === product.brand);
+    const sameCat = others.filter((p) => p.brand !== product.brand && (p.category || '') === (product.category || ''));
+    const rest = others.filter((p) => p.brand !== product.brand && (p.category || '') !== (product.category || ''));
+    return [...sameBrand, ...sameCat, ...rest].slice(0, 8);
   }, [products, product]);
 
   if (!products || products.length === 0) return null;
@@ -55,6 +59,8 @@ export default function ProductDetailPage() {
 
   const pid = String(product.id ?? product.slug ?? product.name);
   const gallery = product.images && product.images.length > 0 ? product.images : [product.image];
+  const activeSrc = gallery[Math.min(activeImg, gallery.length - 1)];
+  const imgBroken = brokenFor === pid;
   const settings = getSettings();
   const cur = settings.currency || '$';
   const off = product.mrp > product.price ? Math.round(((product.mrp - product.price) / product.mrp) * 100) : 0;
@@ -108,10 +114,10 @@ export default function ProductDetailPage() {
                 {gallery.map((src, i) => (
                   <button
                     key={i} type="button" aria-label={`View image ${i + 1}`}
-                    onClick={() => { setActiveImg(i); setZoom(null); }}
+                    onClick={() => { setActiveImg(i); setZoom(null); setBrokenFor(null); }}
                     className={`pdetail-thumb${i === activeImg ? ' is-active' : ''}`}
                   >
-                    <img src={src} alt="" loading="lazy" />
+                    <img src={src} alt="" loading="lazy" onError={(e) => { e.currentTarget.style.visibility = 'hidden'; }} />
                   </button>
                 ))}
               </div>
@@ -122,11 +128,18 @@ export default function ProductDetailPage() {
               onMouseLeave={() => setZoom(null)}
             >
               {product.badge && <span className="badge-sticker pdetail-badge">{product.badge}</span>}
-              <img
-                src={gallery[Math.min(activeImg, gallery.length - 1)]}
-                alt={product.name}
-                style={zoom ? { transform: 'scale(2)', transformOrigin: `${zoom.x}% ${zoom.y}%` } : undefined}
-              />
+              {activeSrc && !imgBroken ? (
+                <img
+                  src={activeSrc}
+                  alt={product.name}
+                  onError={() => setBrokenFor(pid)}
+                  style={zoom ? { transform: 'scale(2)', transformOrigin: `${zoom.x}% ${zoom.y}%` } : undefined}
+                />
+              ) : (
+                <span className="pdetail-imgfallback" role="img" aria-label={`${product.name} product image unavailable`}>
+                  {product.name}
+                </span>
+              )}
             </div>
           </div>
 
@@ -136,6 +149,14 @@ export default function ProductDetailPage() {
               {product.brand ? `${product.brand} · ` : ''}{product.category}
             </p>
             <h1>{product.name}</h1>
+            {(product.flavor || product.packSize || product.format) && (
+              <p className="pdetail-tax">
+                {[product.flavor, product.format, product.packSize || product.volume].filter(Boolean).join(' · ')}
+              </p>
+            )}
+            {product.brand && (
+              <p className="pdetail-tax">Sold by: <strong>{product.brand}</strong>{product.volume ? ` · ${product.volume}` : ''}</p>
+            )}
             <p className="plist-card__rating">
               ★ {Number(product.rating || 4.5).toFixed(1)} · {product.reviewsCount || 0} ratings
               {' · '}<a href="#pdetail-reviews" className="pdetail-link">See reviews</a>
@@ -275,6 +296,7 @@ export default function ProductDetailPage() {
                   <li key={rid}>
                     <Link to={`/products/item/${rid}`} className="plist-card">
                       {r.image && <div className="plist-card__media"><img src={r.image} alt={r.name} className="plist-card__img" loading="lazy" /></div>}
+                      {r.brand && <p className="plist-card__brand">{r.brand}</p>}
                       <p className="plist-card__name">{r.name}</p>
                       <p className="plist-card__price"><span>{cur}{Number(r.price).toFixed(2)}</span></p>
                     </Link>

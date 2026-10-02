@@ -454,12 +454,13 @@ function DashboardView({ ctx, go }) {
 }
 
 /* ═══════════ CATALOG ═══════════ */
-const EMPTY_PRODUCT = { name: '', category: 'Oat Drink', price: '', mrp: '', stock: 20, status: 'active', featured: false, image: '', tagline: '', description: '' };
+const EMPTY_PRODUCT = { name: '', brand: 'Amul', category: 'Ice Cream', price: '', mrp: '', stock: 20, status: 'active', featured: false, image: '', tagline: '', description: '' };
 
-function ProductModalForm({ initial, categories, onClose, onSaved }) {
+function ProductModalForm({ initial, categories, brands, onClose, onSaved }) {
   const [f, setF] = useState({
     name: initial?.name || '',
-    category: initial?.category || categories[0] || 'Oat Drink',
+    brand: initial?.brand || 'Amul',
+    category: initial?.category || categories[0] || 'Ice Cream',
     price: initial?.price ?? '',
     mrp: initial?.mrp ?? '',
     stock: initial?.stock ?? 20,
@@ -475,7 +476,7 @@ function ProductModalForm({ initial, categories, onClose, onSaved }) {
     e.preventDefault();
     if (f.name.trim().length < 2) return;
     const payload = {
-      name: f.name.trim(), category: f.category,
+      name: f.name.trim(), brand: (f.brand || 'Amul').trim() || 'Amul', category: f.category,
       price: Number(f.price) || 0, mrp: Number(f.mrp) || 0, stock: Number(f.stock) || 0,
       status: f.status, featured: f.featured, image: f.image,
       tagline: f.tagline, description: f.description || f.tagline,
@@ -502,6 +503,18 @@ function ProductModalForm({ initial, categories, onClose, onSaved }) {
         <form className="sc-stackform" onSubmit={save}>
           <label>Product name *<input className="sc-input" value={f.name} onChange={set('name')} /></label>
           <div className="sc-form" style={{ marginBottom: 0 }}>
+            <label>Brand / Company *
+              <input
+                className="sc-input"
+                value={f.brand}
+                onChange={set('brand')}
+                placeholder="e.g. Oatara, Alpro, Silk…"
+                list="sc-brand-list"
+              />
+              <datalist id="sc-brand-list">
+                {(brands || []).map((b) => <option key={b} value={b}>{b}</option>)}
+              </datalist>
+            </label>
             <label>Category
               <select className="sc-select" value={f.category} onChange={set('category')}>
                 {categories.map((c) => <option key={c} value={c}>{c}</option>)}
@@ -531,13 +544,19 @@ function ProductModalForm({ initial, categories, onClose, onSaved }) {
 
 function catOptions(baseCategories) {
   const customs = getCustomCategories().map((c) => c.name);
-  return ['Oat Drink', 'Oatgurt', 'Ice Cream', 'Cold Foam', 'Spread',
+  return ['Ice Cream',
     ...(baseCategories || []).map((c) => c.name), ...customs]
     .filter((v, i, a) => a.indexOf(v) === i);
 }
 
+function brandOptions(products) {
+  const fromProducts = (products || []).map((p) => p.brand).filter(Boolean);
+  return ['Amul', ...fromProducts]
+    .filter((v, i, a) => a.indexOf(v) === i);
+}
+
 function CatalogAddView({ ctx }) {
-  const { reload, baseCategories } = ctx;
+  const { reload, baseCategories, products } = ctx;
   const [done, setDone] = useState(null);
   return (
     <div>
@@ -545,20 +564,20 @@ function CatalogAddView({ ctx }) {
       <p className="sc-sub">Create a new listing. Drafts stay hidden until you set them Active.</p>
       {done && <div className="sc-card"><p><CheckCircle2 size={15} color="#067647" /> Listing saved: <strong>{done}</strong></p></div>}
       <div className="sc-card">
-        <ProductFormInline categories={catOptions(baseCategories)} onSaved={(name) => { setDone(name); reload(); }} />
+        <ProductFormInline categories={catOptions(baseCategories)} brands={brandOptions(products)} onSaved={(name) => { setDone(name); reload(); }} />
       </div>
     </div>
   );
 }
 
-function ProductFormInline({ categories, onSaved }) {
+function ProductFormInline({ categories, brands, onSaved }) {
   const [f, setF] = useState(EMPTY_PRODUCT);
   const set = (k) => (e) => setF({ ...f, [k]: e.target.type === 'checkbox' ? e.target.checked : e.target.value });
   const save = (e) => {
     e.preventDefault();
     if (f.name.trim().length < 2) return;
     addCustomProduct({
-      name: f.name.trim(), category: f.category,
+      name: f.name.trim(), brand: (f.brand || 'Amul').trim() || 'Amul', category: f.category,
       price: Number(f.price) || 0, mrp: Number(f.mrp) || 0, stock: Number(f.stock) || 0,
       status: f.status, featured: f.featured, image: f.image,
       tagline: f.tagline, description: f.description || f.tagline,
@@ -570,6 +589,18 @@ function ProductFormInline({ categories, onSaved }) {
     <form className="sc-stackform" onSubmit={save}>
       <label>Product name *<input className="sc-input" value={f.name} onChange={set('name')} placeholder="e.g. Oat Drink Barista Edition" /></label>
       <div className="sc-form" style={{ marginBottom: 0 }}>
+        <label>Brand / Company *
+          <input
+            className="sc-input"
+            value={f.brand}
+            onChange={set('brand')}
+            placeholder="e.g. Oatara, Alpro, Silk…"
+            list="sc-brand-list-inline"
+          />
+          <datalist id="sc-brand-list-inline">
+            {(brands || []).map((b) => <option key={b} value={b}>{b}</option>)}
+          </datalist>
+        </label>
         <label>Category
           <select className="sc-select" value={f.category} onChange={set('category')}>
             {categories.map((c) => <option key={c} value={c}>{c}</option>)}
@@ -595,17 +626,30 @@ function ProductFormInline({ categories, onSaved }) {
 function CatalogView({ ctx }) {
   const { products, query, reload } = ctx;
   const [editing, setEditing] = useState(null);
+  const [brandFilter, setBrandFilter] = useState('All');
   const q = query.trim().toLowerCase();
-  const list = products.filter((p) => !q || [p.name, p.category, p.id].filter(Boolean).join(' ').toLowerCase().includes(q));
+  const brands = brandOptions(products);
+  const list = products.filter((p) => {
+    if (brandFilter !== 'All' && (p.brand || 'Amul') !== brandFilter) return false;
+    return !q || [p.name, p.brand, p.category, p.id].filter(Boolean).join(' ').toLowerCase().includes(q);
+  });
   const drafts = list.filter((p) => p.status === 'draft');
   return (
     <div>
       <h1 className="sc-h1">View Catalog</h1>
-      <p className="sc-sub">{products.length} listing(s) · {drafts.length} draft(s) need completion.</p>
+      <p className="sc-sub">{products.length} listing(s) · {brands.length} brand(s) · {drafts.length} draft(s) need completion.</p>
       <div className="sc-card">
+        <div className="sc-card__head">
+          <label className="sc-note">Brand:{' '}
+            <select className="sc-select" value={brandFilter} onChange={(e) => setBrandFilter(e.target.value)}>
+              <option value="All">All brands</option>
+              {brands.map((b) => <option key={b} value={b}>{b}</option>)}
+            </select>
+          </label>
+        </div>
         <div className="sc-tablewrap">
           <table className="sc-table">
-            <thead><tr><th>Image</th><th>Product</th><th>Status</th><th>Price</th><th>Quantity</th><th /></tr></thead>
+            <thead><tr><th>Image</th><th>Product</th><th>Brand</th><th>Status</th><th>Price</th><th>Quantity</th><th /></tr></thead>
             <tbody>
               {list.map((p) => {
                 const key = String(p.id ?? p.slug ?? p.name);
@@ -613,6 +657,7 @@ function CatalogView({ ctx }) {
                   <tr key={key}>
                     <td>{p.image ? <img src={p.image} alt="" className="sc-thumb" /> : <span className="sc-thumb" />}</td>
                     <td><strong>{p.name}</strong><br /><small>{key} · {p.category}</small></td>
+                    <td><span className="sc-badge sc-b-gray">{p.brand || 'Amul'}</span></td>
                     <td>
                       <span className={`sc-badge ${p.status === 'active' ? 'sc-b-green' : p.status === 'draft' ? 'sc-b-orange' : 'sc-b-gray'}`}>
                         {p.status || 'active'}
@@ -638,6 +683,7 @@ function CatalogView({ ctx }) {
         <ProductModalForm
           initial={editing}
           categories={catOptions(ctx.baseCategories)}
+          brands={brandOptions(ctx.products)}
           onClose={() => setEditing(null)}
           onSaved={() => { setEditing(null); reload(); }}
         />
@@ -666,7 +712,7 @@ function InvManageView({ ctx }) {
     if (f === 'oos' && !(Number(p.stock ?? 1) <= 0)) return false;
     if (f === 'active' && (p.status || 'active') !== 'active') return false;
     if (!q) return true;
-    return [p.name, p.category, p.id].filter(Boolean).join(' ').toLowerCase().includes(q);
+    return [p.name, p.brand, p.category, p.id].filter(Boolean).join(' ').toLowerCase().includes(q);
   });
 
   return (
@@ -692,7 +738,7 @@ function InvManageView({ ctx }) {
                 return (
                   <tr key={key}>
                     <td>{p.image ? <img src={p.image} alt="" className="sc-thumb" /> : <span className="sc-thumb" />}</td>
-                    <td><strong>{p.name}</strong><br /><small>{key}</small></td>
+                    <td><strong>{p.name}</strong><br /><small>{key} · {p.brand || 'Amul'}</small></td>
                     <td>{money(p.price)}</td>
                     <td>
                       {oos ? <span className="sc-badge sc-b-red">Out of stock</span> : <strong>{p.stock}</strong>}
@@ -716,6 +762,7 @@ function InvManageView({ ctx }) {
         <ProductModalForm
           initial={editing}
           categories={catOptions(ctx.baseCategories)}
+          brands={brandOptions(ctx.products)}
           onClose={() => setEditing(null)}
           onSaved={() => { setEditing(null); reload(); }}
         />

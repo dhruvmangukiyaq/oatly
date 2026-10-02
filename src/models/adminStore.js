@@ -79,6 +79,22 @@ export function mergeProducts(baseProducts = []) {
   return [...(overrides.__custom || []), ...merged];
 }
 
+// ── Storefront visibility (admin deletes respected on website) ─────────────
+// Listing grids MUST hide Admin-deleted products (__deleted) and show
+// admin-added customs scoped to the listed category. Detail/cart pages already
+// handle this via mergeProducts; grids use this helper before enrichProduct.
+export function applyAdminVisibility(items = [], { category = null } = {}) {
+  const overrides = getProductOverrides();
+  const key = (p) => String(p.id ?? p.slug ?? p.name);
+  const deleted = new Set((overrides.__deleted || []).map(String));
+  const customs = (overrides.__custom || []).filter(
+    (p) => !deleted.has(key(p)) && (!category || !p.category || p.category === category),
+  );
+  const seen = new Set(customs.map(key));
+  const base = (items || []).filter((p) => !seen.has(key(p)) && !deleted.has(key(p)));
+  return [...customs, ...base];
+}
+
 // ── Orders ──
 export function getOrders() {
   return read(ORDERS_KEY, []);

@@ -27,6 +27,11 @@ function answer(pathname, params) {
   // ── Products (static paths first, like server/routes/products.js) ──
   if (pathname === '/products/categories') return Products.getProductCategories();
   if (pathname === '/products/category-names') return Products.getProductCategoryNames();
+  if (pathname === '/products/brands') return Products.getBrands();
+  if (pathname.startsWith('/products/brand/')) {
+    const brand = decodeURIComponent(pathname.replace('/products/brand/', ''));
+    return { brand, products: Products.getProductsByBrand(brand) };
+  }
   if (pathname.startsWith('/products/category/')) {
     const slug = decodeURIComponent(pathname.replace('/products/category/', ''));
     const category = Products.getCategoryBySlug(slug);
@@ -40,6 +45,7 @@ function answer(pathname, params) {
     return Products.filterProducts({
       category: params.get('category') || 'All',
       query: params.get('q') || '',
+      brand: params.get('brand') || 'All',
     });
   }
 

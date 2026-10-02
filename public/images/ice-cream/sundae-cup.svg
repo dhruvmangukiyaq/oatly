@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 640" role="img" aria-label="Sundae cup with scoops illustration">
+  <ellipse cx="320" cy="510" rx="150" ry="24" fill="#6B3F14" opacity="0.12"/>
+  <path d="M220 330 h200 l-30 140 a70 30 0 0 1 -140 0 z" fill="#DCEBF5"/>
+  <path d="M220 330 h200 l-8 36 h-184 z" fill="#B9D2E8"/>
+  <rect x="300" y="470" width="40" height="30" fill="#B9D2E8"/>
+  <rect x="270" y="500" width="100" height="14" rx="7" fill="#B9D2E8"/>
+  <circle cx="270" cy="290" r="48" fill="#F4A7BE"/>
+  <circle cx="330" cy="275" r="55" fill="#FFFDF4" stroke="#E8C86A" stroke-width="5"/>
+  <circle cx="380" cy="295" r="44" fill="#6B4226"/>
+  <path d="M320 215 q10 -30 34 -34" stroke="#7A2E1F" stroke-width="8" fill="none" stroke-linecap="round"/>
+  <circle cx="356" cy="178" r="14" fill="#C0392B"/>
+  <circle cx="310" cy="258" r="7" fill="#E8B573"/>
+  <circle cx="350" cy="270" r="7" fill="#E56B8C"/>
+</svg>

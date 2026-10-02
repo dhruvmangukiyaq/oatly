@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 640" role="img" aria-label="Vanilla ice cream sandwich illustration">
+  <ellipse cx="320" cy="470" rx="170" ry="24" fill="#3A2A1A" opacity="0.10"/>
+  <rect x="170" y="220" width="300" height="80" rx="20" fill="#4A2C1A"/>
+  <rect x="170" y="340" width="300" height="80" rx="20" fill="#4A2C1A"/>
+  <rect x="185" y="292" width="270" height="56" rx="24" fill="#FFFDF4"/>
+  <circle cx="230" cy="252" r="10" fill="#6B4226"/>
+  <circle cx="300" cy="252" r="10" fill="#6B4226"/>
+  <circle cx="370" cy="252" r="10" fill="#6B4226"/>
+  <circle cx="265" cy="388" r="10" fill="#6B4226"/>
+  <circle cx="335" cy="388" r="10" fill="#6B4226"/>
+  <circle cx="405" cy="388" r="10" fill="#6B4226"/>
+</svg>

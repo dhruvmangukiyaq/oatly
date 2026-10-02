@@ -68,14 +68,17 @@ function defaultPrice(p) {
 export function enrichProduct(p, overrides = {}) {
   const key = String(p.id ?? p.slug ?? p.name);
   const ov = overrides[key] || {};
-  const price = ov.price != null ? Number(ov.price) : defaultPrice(p);
-  const mrp = ov.mrp != null ? Number(ov.mrp) : Math.round(price * 1.2 * 100) / 100;
+  const basePrice = p.price != null && Number(p.price) > 0 ? Number(p.price) : defaultPrice(p);
+  const price = ov.price != null ? Number(ov.price) : basePrice;
+  const baseMrp = p.mrp != null && Number(p.mrp) > 0 ? Number(p.mrp) : Math.round(price * 1.2 * 100) / 100;
+  const mrp = ov.mrp != null ? Number(ov.mrp) : baseMrp;
   return {
     rating: 4 + ((String(key).length % 10) / 10), // 4.0–4.9 deterministic
     reviewsCount: 20 + (String(key).length * 13) % 300,
     stock: 25,
     status: 'active',
     featured: false,
+    brand: 'Oatara',
     ...p,
     ...ov,
     price,

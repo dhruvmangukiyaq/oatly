@@ -1,6 +1,9 @@
 // Centralized Site Data & Copy Store for Oatara Clone
 
 import { OATLY_CATALOG_ITEMS } from './oatlyCatalog.js';
+import { BRANDS as ALL_BRANDS, MULTI_BRAND_ITEMS } from './multiBrandCatalog.js';
+import { AMUL_TAGLINES, AMUL_ITEMS } from './amulCatalog.js';
+import { applyIceCreamPresentation } from './iceCreamPresentation.js';
 
 export const siteMeta = {
   title: 'the Original Oat Drink Company | Oatara',
@@ -1335,3 +1338,118 @@ export const sustainabilityData = {
 productCategories.forEach((cat) => {
   if (OATLY_CATALOG_ITEMS[cat.slug]) cat.items = OATLY_CATALOG_ITEMS[cat.slug];
 });
+
+// ─── MULTI-BRAND (Option B) ───────────────────────────────────────────────
+// 1. Existing Oatara items ne default brand apo (backward compatible).
+// 2. Biji company na items ne matching category slug ma merge karo.
+// Original Oatara packshot images (assets.oatly.com) untouched rahe che.
+productCategories.forEach((cat) => {
+  cat.items = (cat.items || []).map((p) => ({
+    brand: 'Oatara',
+    ...p,
+  }));
+  const extra = MULTI_BRAND_ITEMS[cat.slug];
+  if (extra && extra.length > 0) {
+    cat.items = [...cat.items, ...extra];
+  }
+});
+
+// ─── AMUL (amul.com/products range) ───────────────────────────────────────
+// Ice Cream + Cream merge into existing categories; baaki mate new dairy
+// categories banavo (slug → display name). Images = original Amul packshots.
+const AMUL_MERGE = { 'Ice Cream': 'ice-cream', Cream: 'cooking' };
+const AMUL_NEW_CATS = [
+  { slug: 'milk', name: 'Milk', badge: 'TASTE OF INDIA', color: 'bg-[#DAEDEF] text-oatly-black' },
+  { slug: 'butter-spreads', name: 'Butter & Spreads', badge: 'UTTERLY BUTTERLY', color: 'bg-[#FCEB50] text-oatly-black' },
+  { slug: 'cheese', name: 'Cheese', badge: 'REAL MILK CHEESE', color: 'bg-[#FCEB50] text-oatly-black' },
+  { slug: 'ghee', name: 'Ghee', badge: 'DANEDAR SHUDH', color: 'bg-[#F5C518] text-oatly-black' },
+  { slug: 'paneer', name: 'Paneer', badge: 'MALAI SOFT', color: 'bg-[#E7F1DF] text-oatly-black' },
+  { slug: 'dahi', name: 'Dahi & More', badge: 'FRESH DAILY', color: 'bg-white text-oatly-black' },
+  { slug: 'chocolates', name: 'Chocolates', badge: 'PREMIUM COCOA', color: 'bg-[#4A2C1A] text-white' },
+  { slug: 'beverages', name: 'Beverages', badge: 'KOOL & FRESH', color: 'bg-[#FF5C8D] text-white' },
+  { slug: 'milk-powder', name: 'Milk Powder & Protein', badge: 'EVERYDAY NUTRITION', color: 'bg-[#E5F8FF] text-oatly-black' },
+  { slug: 'sweets', name: 'Sweets & Mithai', badge: 'MITHAAS', color: 'bg-[#FDF1E3] text-oatly-black' },
+  { slug: 'bakery', name: 'Bakery', badge: 'BAKED FRESH', color: 'bg-[#FCEB50] text-oatly-black' },
+];
+
+Object.entries(AMUL_ITEMS).forEach(([displayName, items]) => {
+  if (!items || items.length === 0) return;
+  const mergeSlug = AMUL_MERGE[displayName];
+  if (mergeSlug) {
+    const target = productCategories.find((c) => c.slug === mergeSlug);
+    if (target) {
+      const withCat = items.map((p) => ({ ...p, category: target.name }));
+      const ids = new Set((target.items || []).map((p) => String(p.id)));
+      withCat.forEach((p) => {
+        if (!ids.has(String(p.id))) {
+          target.items.push(p);
+          ids.add(String(p.id));
+        }
+      });
+    }
+    return;
+  }
+  const meta = AMUL_NEW_CATS.find((m) => m.name === displayName || m.slug === displayName.toLowerCase().replace(/[^a-z]+/g, '-'));
+  const match = meta || AMUL_NEW_CATS.find((m) => displayName.toLowerCase().includes(m.name.toLowerCase().split(' ')[0]));
+  if (!match) return;
+  let cat = productCategories.find((c) => c.slug === match.slug);
+  if (!cat) {
+    cat = {
+      id: match.slug,
+      slug: match.slug,
+      name: displayName === 'Dahi & More' ? 'Dahi & More' : match.name,
+      tagline: AMUL_TAGLINES[displayName] || 'The Taste of India.',
+      description: `Original Amul ${displayName} range — the Taste of India, now on this store.`,
+      color: match.color,
+      badge: match.badge,
+      items: [],
+    };
+    productCategories.push(cat);
+  }
+  const ids = new Set((cat.items || []).map((p) => String(p.id)));
+  items.forEach((p) => {
+    if (!ids.has(String(p.id))) {
+      cat.items.push(p);
+      ids.add(String(p.id));
+    }
+  });
+  // category field ne display name sathe sync rakho
+  cat.items.forEach((p) => {
+    if (p.brand === 'Amul' && AMUL_ITEMS[displayName]?.some((a) => a.id === p.id)) p.category = cat.name;
+  });
+});
+
+// ─── STORE SCOPE: Oatly + Amul ice cream only ───────────────────────────────
+// Biji badhi categories + brands ahiyathi j remove — productCategories ej
+// single source of truth chhe, etle listing, search, cart, admin badha
+// aapoaap keval Oatly/Amul ice cream batavshe.
+// REMOVED_IDS: screenshot/user request thi explicit hide kareli items.
+const REMOVED_IDS = new Set([
+  'califia-oat-ice-cream-vanilla-500ml',
+  'minor-figures-oat-ice-coffee-500ml',
+  'amul-punjabi-kulfi-mawa-elaichi',
+]);
+const STORE_BRANDS = new Set(['Oatara', 'Amul']);
+{
+  const ice = productCategories.find((c) => c.slug === 'ice-cream');
+  if (ice) ice.items = applyIceCreamPresentation(ice.items || []);
+  const kept = ice
+    ? (ice.items || []).filter(
+        (p) => STORE_BRANDS.has(String(p.brand || '')) && !REMOVED_IDS.has(String(p.id)),
+      )
+    : [];
+  productCategories.length = 0;
+  if (ice) {
+    productCategories.push({
+      ...ice,
+      tagline: 'Scoops, bars, cones, kulfi & sundaes.',
+      description: 'Oatly and Amul frozen treats — pints, tubs, bars, cones, kulfi, sandwiches and sundaes in one clean grid.',
+      items: kept,
+    });
+  }
+}
+
+// ─── BRANDS: keval catalog ma hajer brands (dead brand filters nahi) ───────
+export const BRANDS = ALL_BRANDS.filter((b) =>
+  productCategories.some((c) => (c.items || []).some((p) => p.brand === b.name)),
+);

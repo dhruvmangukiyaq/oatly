@@ -29,6 +29,11 @@
   list-style: none;
   overflow-x: auto;
   white-space: nowrap;
+  scrollbar-width: none;
+}
+
+.plist-crumb__list::-webkit-scrollbar {
+  display: none;
 }
 
 .plist-crumb__sep {
@@ -107,9 +112,15 @@
 }
 
 /* --- 2. FILTER BAR: single left-aligned row, active tab gets gray box --- */
+/* Scrollbar hidden (scroll touch/wheel/keyboard thi chalu j raheshe) */
 .plist-filter {
   margin-bottom: var(--space-40);
   overflow-x: auto;
+  scrollbar-width: none;
+}
+
+.plist-filter::-webkit-scrollbar {
+  display: none;
 }
 
 .plist-filter__list {
@@ -173,14 +184,18 @@ button.plist-card {
 .plist-card__media {
   aspect-ratio: 1 / 1;
   overflow: hidden;
-  background: var(--spec-canvas);
+  background: transparent;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .plist-card__img {
   width: 100%;
   height: 100%;
-  object-fit: cover;
+  object-fit: contain;
   display: block;
+  mix-blend-mode: multiply;
 }
 
 .plist-card__name {
@@ -190,6 +205,19 @@ button.plist-card {
   font-weight: 400;
   line-height: 1.5;
   color: var(--spec-ink);
+}
+
+.plist-card__brand {
+  margin: var(--space-12) 0 0;
+  font-family: var(--font-ui);
+  font-size: 0.72rem;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  opacity: 0.62;
+}
+.plist-card__brand + .plist-card__name {
+  margin-top: 2px;
 }
 
 .plist-card:hover .plist-card__name {
@@ -328,6 +356,11 @@ button.plist-card {
   max-height: calc(100vh - 110px);
   overflow-y: auto;
   padding-right: var(--space-8);
+  scrollbar-width: none;
+}
+
+.plist-side::-webkit-scrollbar {
+  display: none;
 }
 
 .plist-side__head {

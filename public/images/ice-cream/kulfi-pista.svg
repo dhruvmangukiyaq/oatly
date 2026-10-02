@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 640" role="img" aria-label="Pistachio kulfi on stick illustration">
+  <ellipse cx="320" cy="540" rx="110" ry="22" fill="#2A4A2A" opacity="0.12"/>
+  <rect x="298" y="450" width="44" height="80" rx="16" fill="#C9A06A"/>
+  <path d="M240 170 h160 l-24 280 a56 56 0 0 1 -112 0 z" fill="#BFD9A8"/>
+  <path d="M240 170 h160 l-6 70 h-148 z" fill="#8FB573"/>
+  <circle cx="290" cy="300" r="12" fill="#5A7A44"/>
+  <circle cx="335" cy="350" r="10" fill="#5A7A44"/>
+  <circle cx="310" cy="400" r="12" fill="#5A7A44"/>
+  <circle cx="345" cy="280" r="8" fill="#5A7A44"/>
+  <rect x="282" y="210" width="76" height="14" rx="7" fill="#2A4A2A" opacity="0.35"/>
+</svg>

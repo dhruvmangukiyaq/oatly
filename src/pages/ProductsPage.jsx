@@ -29,7 +29,7 @@ export default function ProductsPage() {
     <>
       <SEO
         title="All Products"
-        description="Every oat drink, oatgurt, ice cream, spread and more — the full Oatara product range."
+        description="Oatly and Amul ice cream — pints, tubs, bars, cones, kulfi and sundaes in one clean grid."
         pathname="/products"
       />
       <ProductListing

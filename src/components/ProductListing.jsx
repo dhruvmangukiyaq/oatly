@@ -6,10 +6,11 @@ import { Heart, ArrowUpDown, SlidersHorizontal } from 'lucide-react';
 // and every /products/:category page. Shop-ready: price, rating, stock,
 // add-to-cart, wishlist, sort + search (standard marketplace features).
 import ProcessBand from './ProcessBand.jsx';
+import IceCreamGrid from './IceCreamGrid.jsx';
 import { useShop } from '../hooks/useShop.js';
 import { isAdmin as checkIsAdmin, useAuth } from '../hooks/useAuth.js';
 import { enrichProduct, getSettings } from '../models/shopStore.js';
-import { getProductOverrides } from '../models/adminStore.js';
+import { applyAdminVisibility, getProductOverrides } from '../models/adminStore.js';
 import '../styles/ProductListing.css';
 import '../styles/Shop.css';
 
@@ -96,6 +97,7 @@ function ProductCard({ item, onSelect, onAdded, adminView }) {
     <li>
       <div className="plist-card" onClick={() => onSelect && onSelect({ ...item, image: src })}>
         {media}
+        {item.brand && <p className="plist-card__brand">{item.brand}</p>}
         <p className="plist-card__name">{item.name}</p>
         {/* Price row — same plain small type as the name (spec minimal) */}
         <p className="plist-card__price" onClick={(e) => e.stopPropagation()}>
@@ -136,8 +138,65 @@ function ProductCard({ item, onSelect, onAdded, adminView }) {
   );
 }
 
+function CategoryNav({ categories, activeSlug }) {
+  return (
+    <nav className="plist-filter" aria-label="Product categories">
+      <ul className="plist-filter__list">
+        <li>
+          <Link
+            to="/products"
+            className={`plist-filter__link${!activeSlug ? ' plist-filter__link--active' : ''}`}
+            aria-current={!activeSlug ? 'page' : undefined}
+          >
+            All Products
+          </Link>
+        </li>
+        {categories.map((cat) => (
+          <li key={cat.slug}>
+            <Link
+              to={`/products/${cat.slug}`}
+              className={`plist-filter__link${cat.slug === activeSlug ? ' plist-filter__link--active' : ''}`}
+              aria-current={cat.slug === activeSlug ? 'page' : undefined}
+            >
+              {cat.name}
+            </Link>
+          </li>
+        ))}
+      </ul>
+    </nav>
+  );
+}
+
 export default function ProductListing({ categories, activeSlug, items, onSelectProduct, onAdded }) {
-  const activeCategory = categories.find((c) => c.slug === activeSlug) || null;
+  // ── ICE CREAM: clean product-grid (rounded cards, format tabs, local art) ──
+  // Branch BEFORE any hooks so both paths keep unconditional hook order.
+  // Brand navigation + ProcessBand stay identical; only the results area is
+  // swapped so other categories keep the existing facet layout untouched.
+  if (activeSlug === 'ice-cream') {
+    return (
+      <>
+        <div className="plist">
+          <div className="plist__inner">
+            <CategoryNav categories={categories} activeSlug={activeSlug} />
+            <IceCreamGrid items={items} onSelect={onSelectProduct} onAdded={onAdded} />
+          </div>
+        </div>
+        <ProcessBand />
+      </>
+    );
+  }
+  return (
+    <StandardListing
+      categories={categories}
+      activeSlug={activeSlug}
+      items={items}
+      onSelectProduct={onSelectProduct}
+      onAdded={onAdded}
+    />
+  );
+}
+
+function StandardListing({ categories, activeSlug, items, onSelectProduct, onAdded }) {
   const { user } = useAuth();
   const adminView = checkIsAdmin(user); // admin ne buy row dekhase j nahi
   const [sort, setSort] = useState('pop');
@@ -156,9 +215,15 @@ export default function ProductListing({ categories, activeSlug, items, onSelect
   const [specSel, setSpecSel] = useState({}); // {SpecKey: [values]}
   const [filtersOpen, setFiltersOpen] = useState(false); // mobile drawer
 
+  // Admin-deleted products website par DEKHASE J NAHI (bug fix); customs
+  // keval aa category na scope ma dekhashe.
+  const scopeCategory = activeSlug
+    ? categories.find((c) => c.slug === activeSlug)?.name || null
+    : null;
+
   const enriched = useMemo(
-    () => (items || []).map((p) => enrichProduct(p, overrides)),
-    [items, overrides],
+    () => applyAdminVisibility(items, { category: scopeCategory }).map((p) => enrichProduct(p, overrides)),
+    [items, overrides, scopeCategory],
   );
 
   // Search scope — facets aa list parthi ganay (search-aware)
@@ -292,30 +357,7 @@ export default function ProductListing({ categories, activeSlug, items, onSelect
       <div className="plist">
         <div className="plist__inner">
           {/* ── 1. FILTER BAR: ALL + every category, route-driven ── */}
-          <nav className="plist-filter" aria-label="Product categories">
-            <ul className="plist-filter__list">
-              <li>
-                <Link
-                  to="/products"
-                  className={`plist-filter__link${!activeCategory ? ' plist-filter__link--active' : ''}`}
-                  aria-current={!activeCategory ? 'page' : undefined}
-                >
-                  All Products
-                </Link>
-              </li>
-              {categories.map((cat) => (
-                <li key={cat.slug}>
-                  <Link
-                    to={`/products/${cat.slug}`}
-                    className={`plist-filter__link${cat.slug === activeSlug ? ' plist-filter__link--active' : ''}`}
-                    aria-current={cat.slug === activeSlug ? 'page' : undefined}
-                  >
-                    {cat.name}
-                  </Link>
-                </li>
-              ))}
-            </ul>
-          </nav>
+          <CategoryNav categories={categories} activeSlug={activeSlug} />
 
           {/* ── 2. LAYOUT: sidebar facets + results ── */}
           <div className="plist-layout">

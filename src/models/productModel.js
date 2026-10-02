@@ -7,6 +7,8 @@ import {
   fetchCategory,
   fetchFilteredProducts,
   fetchCategoryNames,
+  fetchBrands,
+  fetchBrand,
 } from '../api/products.js';
 
 export async function getAllProducts() {
@@ -27,12 +29,21 @@ export async function getProductsByCategorySlug(categorySlug) {
   return data ? data.products : [];
 }
 
-export async function filterProducts({ category = 'All', query = '' } = {}) {
-  return fetchFilteredProducts({ category, q: query });
+export async function filterProducts({ category = 'All', query = '', brand = 'All' } = {}) {
+  return fetchFilteredProducts({ category, q: query, brand });
 }
 
 export async function getProductCategoryNames() {
   return fetchCategoryNames();
+}
+
+export async function getBrands() {
+  return fetchBrands();
+}
+
+export async function getProductsByBrand(brand) {
+  const data = await fetchBrand(brand);
+  return data ? data.products : [];
 }
 
 const ProductModel = {
@@ -42,6 +53,8 @@ const ProductModel = {
   getProductsByCategorySlug,
   filterProducts,
   getProductCategoryNames,
+  getBrands,
+  getProductsByBrand,
 };
 
 export default ProductModel;

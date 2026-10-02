@@ -7,6 +7,8 @@ const router = Router();
 // NOTE: static paths first, param paths last.
 router.get('/categories', C.listCategories);
 router.get('/category-names', C.getCategoryNames);
+router.get('/brands', C.listBrands);
+router.get('/brand/:brand', C.getBrand);
 router.get('/category/:slug', C.getCategory);
 router.get('/item/:id', C.getProduct);
 router.get('/', C.listProducts);

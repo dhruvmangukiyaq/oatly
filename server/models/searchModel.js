@@ -6,12 +6,12 @@ import { searchRecipes } from './recipeModel.js';
 import { searchNews } from './newsModel.js';
 
 export const POPULAR_SEARCHES = [
-  'Barista Edition',
-  'Cold Foam',
-  'Oatgurt',
+  'Vanilla',
+  'Butterscotch',
+  'Kulfi',
+  'Sundae',
+  'Chocolate',
   'Ice Cream',
-  'Carbon Footprint',
-  'LOOK BOOK VOL 3',
 ];
 
 export function searchAll(query = '') {
