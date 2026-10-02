@@ -8,7 +8,7 @@
 // chocolates/. Wired into productCategories in siteData.js (new Chocolates
 // family of categories).
 
-const B = (id, name, volume, price, image, blurb) => ({
+const B = (id, name, volume, price, image, blurb, hover = null) => ({
   id,
   name,
   slug: id,
@@ -19,17 +19,16 @@ const B = (id, name, volume, price, image, blurb) => ({
   tagline: 'Tuscan bean-to-bar chocolate.',
   description: blurb,
   image,
+  ...(hover ? { hoverImage: hover } : {}),
 });
 
 const BOX = '/images/chocolates/choc-box.svg';
 const JAR = '/images/chocolates/choc-jar.svg';
 const DROPS = '/images/chocolates/choc-drops.svg';
 // Distinct original pack designs per line (no logos/text copied).
-const P_FLORAL_CREAM = '/images/chocolates/pack-floral-cream.svg';
 const P_FLORAL_DARK = '/images/chocolates/pack-floral-dark.svg';
 const P_ORANGE = '/images/chocolates/pack-orange.svg';
 const P_GREEN = '/images/chocolates/pack-green.svg';
-const P_NAVY = '/images/chocolates/pack-navy.svg';
 const P_CORAL = '/images/chocolates/pack-coral.svg';
 const P_BLACK = '/images/chocolates/pack-black.svg';
 const P_MILK = '/images/chocolates/pack-milk.svg';
@@ -44,19 +43,19 @@ export const AMEDEI_CATEGORIES = [
     color: 'bg-[#4A2C1A] text-white',
     badge: 'BEAN TO BAR',
     items: [
-      B('amedei-porcelana-50g', 'Amedei Porcelana', '50 g', 11.29, P_FLORAL_CREAM, 'Rare Porcelana cacao, 70% dark bar.'),
+      B('amedei-porcelana-50g', 'Amedei Porcelana', '50 g', 11.29, '/images/amedei/porcelana-50g.webp', 'Rare Porcelana cacao, 70% dark bar.'),
       B('amedei-toscano-black-80-50g', 'Amedei Toscano Black 80', '50 g', 6.49, P_ORANGE, '80% extra-dark bar, intense and smooth.'),
       B('amedei-toscano-black-100-50g', 'Amedei Toscano Black 100', '50 g', 6.49, P_GREEN, '100% unsweetened dark bar.'),
-      B('amedei-venezuela-50g', 'Amedei Venezuela', '50 g', 7.49, P_NAVY, 'Single-origin Venezuelan cacao, 70% dark.'),
+      B('amedei-venezuela-50g', 'Amedei Venezuela', '50 g', 7.49, '/images/amedei/venezuela-50g.webp', 'Single-origin Venezuelan cacao, 70% dark.'),
       B('amedei-grenada-50g', 'Amedei Grenada', '50 g', 7.49, P_CORAL, 'Single-origin Grenadian cacao, 70% dark.'),
-      B('amedei-chuao-50g', 'Amedei Chuao', '50 g', 11.29, P_FLORAL_DARK, 'Single-origin Chuao cacao, 70% dark.'),
+      B('amedei-chuao-50g', 'Amedei Chuao', '50 g', 11.29, '/images/amedei/chuao-50g.webp', 'Single-origin Chuao cacao, 70% dark.'),
       B('amedei-acero-50g', 'Amedei Acero', '50 g', 11.29, P_FLORAL_DARK, 'Toscano 70% dark bar with a round finish.'),
       B('amedei-toscano-black-70-50g', 'Amedei Toscano Black 70', '50 g', 6.49, P_BLACK, 'The house 70% dark bar.'),
       B('amedei-toscano-black-90-50g', 'Amedei Toscano Black 90', '50 g', 6.49, P_BLACK, '90% extra-dark bar.'),
       B('amedei-blanco-de-criollo-50g', 'Amedei Blanco de Criollo', '50 g', 11.29, P_WHITE, 'White Criollo chocolate bar.'),
       B('amedei-ecuador-50g', 'Amedei Ecuador', '50 g', 7.49, P_BLACK, 'Single-origin Ecuadorian cacao, 70% dark.'),
       B('amedei-nove-50g', 'Amedei Nove', '50 g', 11.29, P_BLACK, 'Nine-cacao blend, 70% dark bar.'),
-      B('amedei-madagascar-50g', 'Amedei Madagascar', '50 g', 7.49, P_BLACK, 'Single-origin Madagascan cacao, 70% dark.'),
+      B('amedei-madagascar-50g', 'Amedei Madagascar', '50 g', 7.49, '/images/amedei/madagascar-50g.webp', 'Single-origin Madagascan cacao, 70% dark.'),
       B('amedei-toscano-frutti-rossi-50g', 'Amedei Toscano Frutti Rossi', '50 g', 6.49, P_CORAL, '70% dark bar with red fruits.'),
       B('amedei-toscano-pistacchio-50g', 'Amedei Toscano Pistacchio', '50 g', 6.49, P_MILK, 'Milk chocolate bar with pistachio.'),
       B('amedei-toscano-latte-50g', 'Amedei Toscano Latte', '50 g', 6.49, P_MILK, 'Classic milk chocolate bar.'),
@@ -85,7 +84,7 @@ export const AMEDEI_CATEGORIES = [
     items: [
       B('amedei-fondenti-36-napolitains', 'Amedei I Fondenti - 36 Napolitains', '36 pcs', 27.99, BOX, 'Box of 36 dark napolitains.'),
       B('amedei-cru-36-napolitains', 'Amedei I Cru - 36 Napolitains', '36 pcs', 27.99, BOX, 'Box of 36 single-origin napolitains.'),
-      B('amedei-selezione-porcelana-12', 'Amedei Selezione Porcelana - 12 Napolitains', '12 pcs', 12.99, BOX, 'Box of 12 Porcelana napolitains.'),
+      B('amedei-selezione-porcelana-12', 'Amedei Selezione Porcelana - 12 Napolitains', '12 pcs', 12.99, '/images/amedei/napolitains-porcelana.webp', 'Box of 12 Porcelana napolitains.', '/images/amedei/napolitains-porcelana-open.webp'),
       B('amedei-selezione-neri-12', 'Amedei Selezione I Neri - 12 Napolitains', '12 pcs', 12.99, BOX, 'Box of 12 extra-dark napolitains.'),
       B('amedei-selezione-cru-12', 'Amedei Selezione I Cru - 12 Napolitains', '12 pcs', 11.99, BOX, 'Box of 12 single-origin napolitains.'),
       B('amedei-selezione-chuao-12', 'Amedei Selezione Chuao - 12 Napolitains', '12 pcs', 12.99, BOX, 'Box of 12 Chuao napolitains.'),

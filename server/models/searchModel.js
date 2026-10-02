@@ -12,6 +12,7 @@ export const POPULAR_SEARCHES = [
   'Ice Cream',
   'Magnum',
   'Godiva',
+  'Amedei',
   'Truffle',
 ];
 

@@ -4,10 +4,11 @@ import { OATLY_CATALOG_ITEMS } from './oatlyCatalog.js';
 import { BRANDS as ALL_BRANDS, MULTI_BRAND_ITEMS } from './multiBrandCatalog.js';
 import { AMUL_TAGLINES, AMUL_ITEMS } from './amulCatalog.js';
 import { MAGNUM_ITEMS } from './magnumCatalog.js';
+import { AMEDEI_CATEGORIES } from './amedeiChocolates.js';
 import { GODIVA_CATEGORIES } from './godivaChocolates.js';
 import { applyIceCreamPresentation } from './iceCreamPresentation.js';
-// NOTE: amedeiChocolates.js data + public/images/chocolates art files stay on
-// disk (unused) so the range can be restored later with user-provided photos.
+// NOTE: Amedei range shows ONLY user-photo-backed products (see
+// AMEDEI_PHOTO_IDS below) — bare-SVG entries stay hidden until photos arrive.
 
 export const siteMeta = {
   title: 'the Original Oat Drink Company | Oatara',
@@ -1466,6 +1467,31 @@ GODIVA_CATEGORIES.forEach((incoming) => {
   });
 });
 
+// ─── AMEDEI CHOCOLATES (user-provided photos only) ──────────────────────────
+AMEDEI_CATEGORIES.forEach((incoming) => {
+  let cat = productCategories.find((c) => c.slug === incoming.slug);
+  if (!cat) {
+    cat = {
+      id: incoming.slug,
+      slug: incoming.slug,
+      name: incoming.name,
+      tagline: incoming.tagline,
+      description: incoming.description,
+      color: incoming.color,
+      badge: incoming.badge,
+      items: [],
+    };
+    productCategories.push(cat);
+  }
+  const ids = new Set((cat.items || []).map((p) => String(p.id)));
+  (incoming.items || []).forEach((p) => {
+    if (!ids.has(String(p.id))) {
+      cat.items.push({ ...p, category: cat.name });
+      ids.add(String(p.id));
+    }
+  });
+});
+
 // ─── STORE SCOPE: Oatly range + Amul & Magnum ice cream ────────────────────
 // Oatly ni badhi categories (oatly.com/products jevi range) + Amul/Magnum ice
 // cream. Bahaar: biji brands ane non-ice-cream Amul categories.
@@ -1475,11 +1501,19 @@ const REMOVED_IDS = new Set([
   'minor-figures-oat-ice-coffee-500ml',
   'amul-punjabi-kulfi-mawa-elaichi',
 ]);
+const AMEDEI_PHOTO_IDS = new Set([
+  'amedei-chuao-50g',
+  'amedei-porcelana-50g',
+  'amedei-madagascar-50g',
+  'amedei-venezuela-50g',
+  'amedei-selezione-porcelana-12',
+]);
 function keepProduct(p) {
   if (REMOVED_IDS.has(String(p.id))) return false;
   if (p.brand === 'Oatara') return true;
   if (p.brand === 'Magnum' && p.category === 'Ice Cream') return true;
   if (p.brand === 'Godiva') return true;
+  if (p.brand === 'Amedei') return AMEDEI_PHOTO_IDS.has(String(p.id));
   return false;
 }
 {
