@@ -1,10 +1,9 @@
-// ─── ICE CREAM PRESENTATION (original, royalty-free) ─────────────────────────
-// Replaces hotlinked third-party packshots for the Ice Cream category with
-// locally-created original SVG illustrations in public/images/ice-cream/.
-// No brand logos, pack photos, or copied copy are used here — names are kept
-// as plain product identifiers while flavor/format/pack-size/price copy is
-// written fresh for this store. Applied in siteData.js after the catalog
-// merges, so backend + static fallback + detail pages all share it.
+// ─── ICE CREAM PRESENTATION ─────────────────────────────────────────────────
+// Merchandising fields (flavor/format/pack-size/price) + fresh copy for the
+// Ice Cream category. Photos: ORIGINAL catalog packshots are kept (owner
+// request) — local SVG illustrations in public/images/ice-cream/ stay only as
+// automatic fallback when a product has no photo. Applied in siteData.js
+// after the catalog merges, so backend + static fallback + detail pages share it.
 
 export const ICE_CREAM_IMAGE_BASE = '/images/ice-cream';
 
@@ -235,9 +234,9 @@ export function fallbackPresentation(product = {}) {
   );
 }
 
-// Apply original presentation over raw ice-cream items. Keeps the product id,
-// name and brand intact; replaces only artwork + merchandising fields with
-// our own original copy and local images.
+// Apply presentation over raw ice-cream items. Keeps the product id, name,
+// brand AND original photo intact; only merchandising fields get our fresh
+// copy. Local SVG art is used solely as fallback for photo-less items.
 export function applyIceCreamPresentation(items = []) {
   return (items || []).map((p) => {
     const key = String(p.id || '');
@@ -254,7 +253,7 @@ export function applyIceCreamPresentation(items = []) {
       volume: packSize || p.volume,
       price: preset && preset.price != null ? preset.price : p.price,
       mrp: preset && preset.mrp != null ? preset.mrp : p.mrp,
-      image: use.image,
+      image: p.image || use.image,
       accent: use.accent,
       tagline: (preset && preset.blurb) || p.tagline,
       description: (preset && preset.blurb) || p.description,

@@ -50,7 +50,7 @@ function IceCreamCard({ item, onSelect, onAdded, adminView }) {
   const flavor = item.flavor || '';
   const packSize = item.packSize || item.volume || '';
   const format = item.format || '';
-  const alt = `${item.name}${flavor ? ` — ${flavor} flavour` : ''}${packSize ? `, ${packSize}` : ''} frozen dessert illustration`;
+  const alt = `${item.name}${flavor ? ` — ${flavor} flavour` : ''}${packSize ? `, ${packSize}` : ''} product photo`;
   const detailLabel = `View details for ${item.name}${flavor ? `, ${flavor}` : ''}${packSize ? `, ${packSize}` : ''}`;
 
   const showImg = imgOk && item.image;
