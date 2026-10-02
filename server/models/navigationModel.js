@@ -6,6 +6,13 @@ export const NAV_ITEMS = [
     name: 'PRODUCTS',
     path: '/products',
     dropdown: [
+      { name: 'Cold Foam', path: '/products/cold-foam', desc: 'Instant foam magic in a can' },
+      { name: 'Soft Serve', path: '/products/soft-serve', desc: 'Plant-based soft serve perfection' },
+      { name: 'Spread', path: '/products/spread', desc: 'Tangy oat schmear for bagels' },
+      { name: 'Cooking', path: '/products/cooking', desc: 'Heavy cream alternative for cooking' },
+      { name: 'Chilled Oat Drinks', path: '/products/chilled-oat-drink', desc: 'Fresh from the dairy aisle' },
+      { name: 'Oat Drink', path: '/products/oat-drink', desc: 'The OG oat milk carton' },
+      { name: 'Oatgurt', path: '/products/oatgurt', desc: 'Spoonable oat yogurt' },
       { name: 'Ice Cream', path: '/products/ice-cream', desc: 'Tubs, bars, cones, kulfi & sundaes' },
     ],
   },

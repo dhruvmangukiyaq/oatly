@@ -454,13 +454,13 @@ function DashboardView({ ctx, go }) {
 }
 
 /* ═══════════ CATALOG ═══════════ */
-const EMPTY_PRODUCT = { name: '', brand: 'Amul', category: 'Ice Cream', price: '', mrp: '', stock: 20, status: 'active', featured: false, image: '', tagline: '', description: '' };
+const EMPTY_PRODUCT = { name: '', brand: 'Oatara', category: 'Oat Drink', price: '', mrp: '', stock: 20, status: 'active', featured: false, image: '', tagline: '', description: '' };
 
 function ProductModalForm({ initial, categories, brands, onClose, onSaved }) {
   const [f, setF] = useState({
     name: initial?.name || '',
-    brand: initial?.brand || 'Amul',
-    category: initial?.category || categories[0] || 'Ice Cream',
+    brand: initial?.brand || 'Oatara',
+    category: initial?.category || categories[0] || 'Oat Drink',
     price: initial?.price ?? '',
     mrp: initial?.mrp ?? '',
     stock: initial?.stock ?? 20,
@@ -476,7 +476,7 @@ function ProductModalForm({ initial, categories, brands, onClose, onSaved }) {
     e.preventDefault();
     if (f.name.trim().length < 2) return;
     const payload = {
-      name: f.name.trim(), brand: (f.brand || 'Amul').trim() || 'Amul', category: f.category,
+      name: f.name.trim(), brand: (f.brand || 'Oatara').trim() || 'Oatara', category: f.category,
       price: Number(f.price) || 0, mrp: Number(f.mrp) || 0, stock: Number(f.stock) || 0,
       status: f.status, featured: f.featured, image: f.image,
       tagline: f.tagline, description: f.description || f.tagline,
@@ -544,14 +544,14 @@ function ProductModalForm({ initial, categories, brands, onClose, onSaved }) {
 
 function catOptions(baseCategories) {
   const customs = getCustomCategories().map((c) => c.name);
-  return ['Ice Cream',
+  return ['Oat Drink', 'Oatgurt', 'Ice Cream', 'Cold Foam', 'Spread',
     ...(baseCategories || []).map((c) => c.name), ...customs]
     .filter((v, i, a) => a.indexOf(v) === i);
 }
 
 function brandOptions(products) {
   const fromProducts = (products || []).map((p) => p.brand).filter(Boolean);
-  return ['Amul', ...fromProducts]
+  return ['Oatara', 'Amul', ...fromProducts]
     .filter((v, i, a) => a.indexOf(v) === i);
 }
 
@@ -577,7 +577,7 @@ function ProductFormInline({ categories, brands, onSaved }) {
     e.preventDefault();
     if (f.name.trim().length < 2) return;
     addCustomProduct({
-      name: f.name.trim(), brand: (f.brand || 'Amul').trim() || 'Amul', category: f.category,
+      name: f.name.trim(), brand: (f.brand || 'Oatara').trim() || 'Oatara', category: f.category,
       price: Number(f.price) || 0, mrp: Number(f.mrp) || 0, stock: Number(f.stock) || 0,
       status: f.status, featured: f.featured, image: f.image,
       tagline: f.tagline, description: f.description || f.tagline,
@@ -630,7 +630,7 @@ function CatalogView({ ctx }) {
   const q = query.trim().toLowerCase();
   const brands = brandOptions(products);
   const list = products.filter((p) => {
-    if (brandFilter !== 'All' && (p.brand || 'Amul') !== brandFilter) return false;
+    if (brandFilter !== 'All' && (p.brand || 'Oatara') !== brandFilter) return false;
     return !q || [p.name, p.brand, p.category, p.id].filter(Boolean).join(' ').toLowerCase().includes(q);
   });
   const drafts = list.filter((p) => p.status === 'draft');
@@ -657,7 +657,7 @@ function CatalogView({ ctx }) {
                   <tr key={key}>
                     <td>{p.image ? <img src={p.image} alt="" className="sc-thumb" /> : <span className="sc-thumb" />}</td>
                     <td><strong>{p.name}</strong><br /><small>{key} · {p.category}</small></td>
-                    <td><span className="sc-badge sc-b-gray">{p.brand || 'Amul'}</span></td>
+                    <td><span className="sc-badge sc-b-gray">{p.brand || 'Oatara'}</span></td>
                     <td>
                       <span className={`sc-badge ${p.status === 'active' ? 'sc-b-green' : p.status === 'draft' ? 'sc-b-orange' : 'sc-b-gray'}`}>
                         {p.status || 'active'}
@@ -738,7 +738,7 @@ function InvManageView({ ctx }) {
                 return (
                   <tr key={key}>
                     <td>{p.image ? <img src={p.image} alt="" className="sc-thumb" /> : <span className="sc-thumb" />}</td>
-                    <td><strong>{p.name}</strong><br /><small>{key} · {p.brand || 'Amul'}</small></td>
+                    <td><strong>{p.name}</strong><br /><small>{key} · {p.brand || 'Oatara'}</small></td>
                     <td>{money(p.price)}</td>
                     <td>
                       {oos ? <span className="sc-badge sc-b-red">Out of stock</span> : <strong>{p.stock}</strong>}

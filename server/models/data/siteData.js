@@ -1419,33 +1419,34 @@ Object.entries(AMUL_ITEMS).forEach(([displayName, items]) => {
   });
 });
 
-// ─── STORE SCOPE: Oatly + Amul ice cream only ───────────────────────────────
-// Biji badhi categories + brands ahiyathi j remove — productCategories ej
-// single source of truth chhe, etle listing, search, cart, admin badha
-// aapoaap keval Oatly/Amul ice cream batavshe.
+// ─── STORE SCOPE: full Oatly range + Amul ice cream ─────────────────────────
+// Oatly ni badhi categories paachi (oatly.com/products jevi range) + Amul ice
+// cream. Bahaar: non-Oatly brands ane non-ice-cream Amul categories.
 // REMOVED_IDS: screenshot/user request thi explicit hide kareli items.
 const REMOVED_IDS = new Set([
   'califia-oat-ice-cream-vanilla-500ml',
   'minor-figures-oat-ice-coffee-500ml',
   'amul-punjabi-kulfi-mawa-elaichi',
 ]);
-const STORE_BRANDS = new Set(['Oatara', 'Amul']);
+function keepProduct(p) {
+  if (REMOVED_IDS.has(String(p.id))) return false;
+  if (p.brand === 'Oatara') return true;
+  if (p.brand === 'Amul' && p.category === 'Ice Cream') return true;
+  return false;
+}
 {
   const ice = productCategories.find((c) => c.slug === 'ice-cream');
-  if (ice) ice.items = applyIceCreamPresentation(ice.items || []);
-  const kept = ice
-    ? (ice.items || []).filter(
-        (p) => STORE_BRANDS.has(String(p.brand || '')) && !REMOVED_IDS.has(String(p.id)),
-      )
-    : [];
-  productCategories.length = 0;
   if (ice) {
-    productCategories.push({
-      ...ice,
-      tagline: 'Scoops, bars, cones, kulfi & sundaes.',
-      description: 'Oatly and Amul frozen treats — pints, tubs, bars, cones, kulfi, sandwiches and sundaes in one clean grid.',
-      items: kept,
-    });
+    ice.items = applyIceCreamPresentation(ice.items || []);
+    ice.tagline = 'Scoops, bars, cones, kulfi & sundaes.';
+    ice.description = 'Oatly and Amul frozen treats — pints, tubs, bars, cones, kulfi, sandwiches and sundaes in one clean grid.';
+  }
+  productCategories.forEach((cat) => {
+    cat.items = (cat.items || []).filter(keepProduct);
+  });
+  // Khali thayeli categories kadho (navigations/facets ma dead tabs nahi).
+  for (let i = productCategories.length - 1; i >= 0; i--) {
+    if ((productCategories[i].items || []).length === 0) productCategories.splice(i, 1);
   }
 }
 

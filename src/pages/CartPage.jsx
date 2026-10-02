@@ -62,7 +62,7 @@ export default function CartPage() {
         {lines.length === 0 ? (
           <div className="shop-card shop-empty">
             <p><strong>Cart khali chhe.</strong></p>
-            <p className="shop-sub">Chalo ice cream umeriye.</p>
+            <p className="shop-sub">Chalo oat milk, oatgurt ane ice cream umeriye.</p>
             <Link to="/products" className="shop-btn">Shop products</Link>
           </div>
         ) : (
