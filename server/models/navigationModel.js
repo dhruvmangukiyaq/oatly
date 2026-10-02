@@ -18,6 +18,10 @@ export const NAV_ITEMS = [
       { name: 'Napolitains', path: '/products/napolitains', desc: 'Single-serve tasting squares' },
       { name: 'Godiva Bars', path: '/products/godiva-bars', desc: 'Signature mini bars and bar sets' },
       { name: 'Godiva Gift Boxes', path: '/products/godiva-gifts', desc: 'Assorted gift boxes' },
+      { name: 'Bleu de Chanel', path: '/products/bleu-de-chanel', desc: 'Citrus-woody fragrance for men' },
+      { name: 'Allure Homme Sport', path: '/products/allure-homme-sport', desc: 'Energetic sport fragrance' },
+      { name: 'Allure Homme', path: '/products/allure-homme', desc: 'Timeless elegance in white and gold' },
+      { name: 'Les Exclusifs de Chanel', path: '/products/les-exclusifs', desc: 'Rare, storied compositions' },
     ],
   },
   {

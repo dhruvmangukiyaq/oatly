@@ -39,6 +39,15 @@ const OFF_OPTS = [
   { id: 50, label: '50% Off or more' },
 ];
 
+// ── Brand houses: facet ma parent groups (CHANEL under traney lines) ────────
+const BRAND_GROUPS = {
+  Chanel: ['Bleu de Chanel', 'Allure Homme Sport', 'Allure Homme', 'Les Exclusifs de Chanel'],
+};
+
+const BRAND_HOUSE = Object.fromEntries(
+  Object.entries(BRAND_GROUPS).flatMap(([house, members]) => members.map((m) => [m, house])),
+);
+
 const NEW_DAYS = 90;
 
 // Data parthi dynamic price buckets (Amazon jeva ranges)
@@ -240,11 +249,12 @@ function StandardListing({ categories, activeSlug, items, onSelectProduct, onAdd
     [items, overrides, scopeCategory],
   );
 
-  // Search scope — facets aa list parthi ganay (search-aware)
+  // Search scope — facets aa list parthi ganay (search-aware).
+  // Brand house pan match thay (chanel → traney perfume lines).
   const searched = useMemo(() => {
     const query = q.trim().toLowerCase();
     return enriched.filter((p) =>
-      !query || [p.name, p.brand, p.category, p.tagline].filter(Boolean).join(' ').toLowerCase().includes(query),
+      !query || [p.name, p.brand, BRAND_HOUSE[p.brand], p.category, p.tagline].filter(Boolean).join(' ').toLowerCase().includes(query),
     );
   }, [enriched, q]);
 
@@ -268,6 +278,22 @@ function StandardListing({ categories, activeSlug, items, onSelectProduct, onAdd
   }, [searched]);
 
   const buckets = useMemo(() => priceBuckets(searched), [searched]);
+
+  // ── Brand facet: house groups (CHANEL parent + children), baki single ────
+  const brandFacet = useMemo(() => {
+    const byName = new Map(brandOpts.map((b) => [b.name, b.n]));
+    const used = new Set();
+    const groups = [];
+    Object.entries(BRAND_GROUPS).forEach(([house, members]) => {
+      const children = members
+        .filter((m) => byName.has(m))
+        .map((m) => ({ name: m, n: byName.get(m) }));
+      if (children.length === 0) return;
+      children.forEach((c) => used.add(c.name));
+      groups.push({ house, children, total: children.reduce((s, c) => s + c.n, 0) });
+    });
+    return { groups, singles: brandOpts.filter((b) => !used.has(b.name)) };
+  }, [brandOpts]);
 
   const specFacets = useMemo(() => {
     const keys = new Map();
@@ -393,14 +419,44 @@ function StandardListing({ categories, activeSlug, items, onSelectProduct, onAdd
                 )),
               )}
 
-              {/* Brand — search pramane badlay (phone search → phone brands) */}
+              {/* Brand — house groups (CHANEL parent + lines), baki single */}
               {brandOpts.length > 0 && facet(
                 'Brand',
-                brandOpts.map((b) => checkRow(
-                  selBrands.includes(b.name),
-                  () => setSelBrands((prev) => toggleIn(prev, b.name)),
-                  b.name, b.n, b.name,
-                )),
+                <>
+                  {brandFacet.groups.map((g) => {
+                    const kids = g.children.map((c) => c.name);
+                    const all = kids.every((k) => selBrands.includes(k));
+                    const some = !all && kids.some((k) => selBrands.includes(k));
+                    const toggleAll = () => setSelBrands((prev) =>
+                      all ? prev.filter((x) => !kids.includes(x)) : [...new Set([...prev, ...kids])]);
+                    return (
+                      <div className="pf-house" key={`house-${g.house}`}>
+                        <label className="pf-opt pf-opt--house">
+                          <input
+                            type="checkbox"
+                            ref={(el) => { if (el) el.indeterminate = some; }}
+                            checked={all}
+                            onChange={toggleAll}
+                          />
+                          <span className="pf-label"><strong>{g.house}</strong></span>
+                          <span className="pf-n">({g.total})</span>
+                        </label>
+                        <div className="pf-kids">
+                          {g.children.map((c) => checkRow(
+                            selBrands.includes(c.name),
+                            () => setSelBrands((prev) => toggleIn(prev, c.name)),
+                            c.name, c.n, `brand-${c.name}`,
+                          ))}
+                        </div>
+                      </div>
+                    );
+                  })}
+                  {brandFacet.singles.map((b) => checkRow(
+                    selBrands.includes(b.name),
+                    () => setSelBrands((prev) => toggleIn(prev, b.name)),
+                    b.name, b.n, b.name,
+                  ))}
+                </>,
               )}
 
               {buckets.length > 0 && facet(

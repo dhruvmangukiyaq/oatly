@@ -503,6 +503,25 @@ button.plist-card {
   font-size: 0.75rem;
 }
 
+/* Brand house: parent row + indented line rows */
+.pf-house {
+  display: grid;
+  gap: var(--space-8);
+}
+
+.pf-opt--house .pf-label {
+  font-size: 0.875rem;
+  letter-spacing: 0.04em;
+}
+
+.pf-kids {
+  display: grid;
+  gap: var(--space-8);
+  padding-left: var(--space-16);
+  border-left: 2px solid var(--spec-border);
+  margin-left: 7px;
+}
+
 /* Filters toggle — desktop par hidden, mobile par drawer button */
 .plist-tools__filters {
   display: none;
