@@ -307,14 +307,10 @@
 .oatly-navrow__item--products { --nav-tint: 253, 207, 133; }
 .oatly-navrow__item--tastebuds { --nav-tint: 248, 200, 216; }
 .oatly-navrow__item--news { --nav-tint: 172, 216, 240; }
-.oatly-navrow__item--sustainability { --nav-tint: 172, 216, 180; }
-.oatly-navrow__item--health { --nav-tint: 196, 178, 222; }
 
 .oatly-navrow__item--products .oatly-navrow__link:hover,
 .oatly-navrow__item--tastebuds .oatly-navrow__link:hover,
 .oatly-navrow__item--news .oatly-navrow__link:hover,
-.oatly-navrow__item--sustainability .oatly-navrow__link:hover,
-.oatly-navrow__item--health .oatly-navrow__link:hover,
 .oatly-navrow__item--open .oatly-navrow__link {
   background: rgba(var(--nav-tint), 0.45);
   border-radius: 10px;

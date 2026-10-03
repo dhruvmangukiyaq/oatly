@@ -18,7 +18,7 @@ export default function Footer() {
       {/* Footer Grid - White BG with Black Borders */}
       <div className="footer-grid">
         
-        {/* Row 1: Scroll Top Arrow | FAQ | SUSTAINABILITY */}
+        {/* Row 1: Scroll Top Arrow | FAQ */}
         <div className="footer-row">
           <button
             onClick={scrollToTop}
@@ -28,16 +28,10 @@ export default function Footer() {
             <ArrowUp className="w-4 h-4 text-[#111111] stroke-[3]" />
           </button>
           <Link
-            to="/health"
+            to="/contact"
             className="footer-cell-link px-2 text-[11px] sm:text-xs"
           >
             FAQ
-          </Link>
-          <Link
-            to="/sustainability"
-            className="footer-cell-link px-2 text-[11px] sm:text-xs"
-          >
-            SUSTAINABILITY
           </Link>
         </div>
 

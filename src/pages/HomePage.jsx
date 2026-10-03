@@ -79,7 +79,7 @@ export default function HomePage() {
                   </h1>
                   <div className="mt-8 flex justify-center">
                     <Link
-                      to="/sustainability/climate-solutions-company"
+                      to="/things-we-do"
                       className="inline-block border border-black rounded-[2px] bg-white px-6 py-2.5 font-ui-spec font-bold shadow-[2px_2px_0_#000] hover:bg-[#F5F5F5] transition-colors"
                     >
                       READ MORE →

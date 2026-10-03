@@ -47,13 +47,6 @@ function storySectionFromType(type = '') {
   return null;
 }
 
-function sustainabilitySectionKey(path) {
-  if (path.includes('sustainability-plan/climate-footprint')) return 'footprint';
-  if (path.includes('sustainability-plan')) return 'plan';
-  if (path.includes('climate-solutions')) return 'solutions';
-  return 'who';
-}
-
 async function productBreadcrumbs(path) {
   if (path === '/products') return [{ label: 'Products' }];
   const categorySlug = decodeURIComponent(path.replace('/products/', ''));
@@ -91,16 +84,6 @@ async function thingsDetailBreadcrumbs(section, slug) {
   return trail;
 }
 
-async function sustainabilitySubBreadcrumbs(path) {
-  const section = await ContentModel.getSustainabilitySection(
-    sustainabilitySectionKey(path),
-  );
-  return [
-    { label: 'Sustainability', to: '/sustainability' },
-    { label: section?.title || 'Sustainability' },
-  ];
-}
-
 export async function getHeaderBreadcrumbs(pathname = '/') {
   const path = normalizePathname(pathname);
   if (path === '/') return [];
@@ -132,11 +115,6 @@ export async function getHeaderBreadcrumbs(pathname = '/') {
         { label: page?.breadcrumb || 'A REPORT ON THE FUTURE OF TASTE' },
       ];
     }
-    case '/sustainability':
-      return [{ label: 'Sustainability' }];
-    case '/health':
-    case '/random-answers/17-facts-about-oatara-and-nutrition':
-      return [{ label: 'Health' }];
     case '/contact':
       return [{ label: 'Contact' }];
     case '/legal':
@@ -171,14 +149,6 @@ export async function getHeaderBreadcrumbs(pathname = '/') {
   const storyMatch = path.match(/^\/things-we-do\/([^/]+)$/);
   if (storyMatch) {
     return thingsDetailBreadcrumbs(null, decodeURIComponent(storyMatch[1]));
-  }
-
-  if (
-    path === '/oatara-who' ||
-    path.startsWith('/oatara-who/') ||
-    path.startsWith('/sustainability/')
-  ) {
-    return sustainabilitySubBreadcrumbs(path);
   }
 
   return [];

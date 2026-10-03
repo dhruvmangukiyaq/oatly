@@ -32,8 +32,6 @@ function sectionTheme(pathname = '/') {
   if (pathname.startsWith('/products')) return '';
   if (pathname.startsWith('/recipes')) return '';
   if (pathname.startsWith('/things-we-do') || pathname.startsWith('/news')) return 'theme-news';
-  if (pathname.startsWith('/sustainability') || pathname.startsWith('/oatara-who')) return 'theme-sustainability';
-  if (pathname.startsWith('/health') || pathname.startsWith('/random-answers')) return 'theme-health';
   if (pathname.startsWith('/contact') || pathname.startsWith('/legal')) return 'theme-info';
   return '';
 }

@@ -51,18 +51,6 @@ export const NAV_ITEMS = [
       { name: 'Oatara x Nespresso', path: '/things-we-do/nespresso', desc: 'Home cafe pod perfection' },
     ],
   },
-  {
-    name: 'SUSTAINABILITY',
-    path: '/sustainability',
-    dropdown: [
-      { name: 'Oatara Who?', path: '/oatara-who', desc: 'Our mission and origin story' },
-      { name: "Oatara's Sustainability Plan", path: '/oatara-who/sustainability-plan', desc: '4-pillar climate reduction strategy' },
-      { name: 'Product climate footprint', path: '/oatara-who/sustainability-plan/climate-footprint-product-label', desc: 'Transparent CO2e labeling' },
-      { name: "We're a climate solutions company", path: '/sustainability/climate-solutions-company', desc: 'Why we exist as a company' },
-    ],
-  },
-  // HEALTH has no dropdown — single direct link per spec.
-  { name: 'HEALTH', path: '/health', dropdown: null },
 ];
 
 export function getNavItems() {

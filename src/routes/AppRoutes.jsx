@@ -24,9 +24,6 @@ const FarmCanadianPage = lazy(() => import('../pages/FarmCanadianPage'));
 const LastFirstDatesPage = lazy(() => import('../pages/LastFirstDatesPage'));
 const NewsStoryDetailPage = lazy(() => import('../pages/NewsStoryDetailPage'));
 const ThingsWeDoPage = lazy(() => import('../pages/ThingsWeDoPage'));
-const SustainabilityPage = lazy(() => import('../pages/SustainabilityPage'));
-const SustainabilitySubPage = lazy(() => import('../pages/SustainabilitySubPage'));
-const HealthPage = lazy(() => import('../pages/HealthPage'));
 const ContactPage = lazy(() => import('../pages/ContactPage'));
 const LoginPage = lazy(() => import('../pages/LoginPage'));
 const AdminPage = lazy(() => import('../pages/AdminPage'));
@@ -180,37 +177,13 @@ export default function AppRoutes({ selectRecipe, selectArticle }) {
           element={<OatlyXAvavavPage />}
         />
 
-        {/* Sustainability Hub & Sub-pages */}
-        <Route
-          path="/sustainability"
-          element={<SustainabilityPage />}
-        />
-        <Route
-          path="/oatara-who"
-          element={<SustainabilitySubPage />}
-        />
-        <Route
-          path="/oatara-who/sustainability-plan"
-          element={<SustainabilitySubPage />}
-        />
-        <Route
-          path="/oatara-who/sustainability-plan/climate-footprint-product-label"
-          element={<SustainabilitySubPage />}
-        />
-        <Route
-          path="/sustainability/climate-solutions-company"
-          element={<SustainabilitySubPage />}
-        />
-
-        {/* Health & Nutrition FAQ */}
-        <Route
-          path="/health"
-          element={<HealthPage />}
-        />
-        <Route
-          path="/random-answers/17-facts-about-oatara-and-nutrition"
-          element={<HealthPage />}
-        />
+        {/* Redirect removed Sustainability & Health pages to Home */}
+        <Route path="/sustainability" element={<Navigate to="/" replace />} />
+        <Route path="/sustainability/*" element={<Navigate to="/" replace />} />
+        <Route path="/oatara-who" element={<Navigate to="/" replace />} />
+        <Route path="/oatara-who/*" element={<Navigate to="/" replace />} />
+        <Route path="/health" element={<Navigate to="/" replace />} />
+        <Route path="/random-answers/*" element={<Navigate to="/" replace />} />
 
         {/* Contact, Legal & Privacy */}
         <Route

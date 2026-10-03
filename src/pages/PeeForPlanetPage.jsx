@@ -847,7 +847,7 @@ export default function PeeForPlanetPage() {
             <a href="https://www.slu.se/">SLU</a> · <a href="https://sanitation360.se/">Sanitation 360</a> ·{' '}
             <a href="https://www.mff.se/">Malmö FF</a> · <a href="https://malmo.se/">City of Malmö</a> ·{' '}
             <a href="https://www.vasyd.se/">VA Syd</a> ·{' '}
-            <a href="/oatara-who/sustainability-plan">Sustainability Update 2025</a>
+            <span>Sustainability Update 2025</span>
           </p>
         </section>
 

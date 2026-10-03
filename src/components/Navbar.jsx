@@ -122,7 +122,7 @@ export default function Navbar({ onCartOpen }) {
               ADMIN
             </Link>
           )}
-          <Link to="/health" className="oatly-toolbar__link">
+          <Link to="/contact" className="oatly-toolbar__link">
             FAQ
           </Link>
           <Link
