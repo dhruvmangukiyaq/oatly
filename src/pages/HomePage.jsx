@@ -13,7 +13,7 @@ import {
 } from 'lucide-react';
 // ─── MVC: View ──────────────────────────────────────────────────────────────
 // Storefront home: ticker → hero (search) → deals rail → brand roster →
-// wardrobe rail (ZARA & MUFTI) → aisle tiles → oat-drink rail → scent rail →
+// wardrobe rail (ZARA & MUFTI) → oat-drink rail → scent rail →
 // promos → service strip. Category/product data comes from
 // the Model (one call to /products/categories), the same payload /products
 // uses, so every count, colour and price below is real — nothing is hardcoded.
@@ -119,23 +119,6 @@ function ProductTile({ item, currency, added, onAdd }) {
     </article>
   );
 }
-
-// Aisle tiles: every shelf in the shop — food, fragrance AND the wardrobe
-const TILES = [
-  { slug: 'oat-drink', span: 'hp-tile--wide' },
-  { slug: 'ice-cream', span: 'hp-tile--third' },
-  { slug: 'oatgurt', span: 'hp-tile--third' },
-  { slug: 'spread', span: 'hp-tile--fourth' },
-  { slug: 'godiva-gifts', span: 'hp-tile--fourth' },
-  { slug: 'bleu-de-chanel', span: 'hp-tile--fourth' },
-  { slug: 'mens-clothes', span: 'hp-tile--wide' },
-  { slug: 'womens-clothes', span: 'hp-tile--third' },
-  { slug: 'zara-fragrances', span: 'hp-tile--third' },
-  { slug: 'chilled-oat-drink', span: 'hp-tile--third' },
-  { slug: 'cooking', span: 'hp-tile--third' },
-  { slug: 'chocolate-bars', span: 'hp-tile--third' },
-  { slug: 'godiva-bars', span: 'hp-tile--third' },
-];
 
 // Brand roster: every house the counter carries. Order is editorial (the
 // house brand first, then the ranges a shopper looks for); counts and the
@@ -302,12 +285,6 @@ export default function HomePage() {
   const pintFrom = pints.length
     ? `${currency}${Math.min(...pints.map((p) => Number(p.price))).toFixed(2)}`
     : null;
-
-  const tiles = TILES.map((t) => {
-    const cat = categories.find((c) => c.slug === t.slug);
-    if (!cat) return null;
-    return { ...t, cat };
-  }).filter(Boolean);
 
   // Brand roster — real counts, three thumbs spread across each house's range
   const roster = BRAND_ROSTER.map((b) => {
@@ -489,30 +466,7 @@ export default function HomePage() {
           </section>
         )}
 
-        {/* ── 6. AISLE TILES — every shelf, real badge colours ── */}
-        <section className="hp-section">
-          <SectionHead title="Shop by aisle" note="Pick a shelf" />
-          <div className="hp-tiles">
-            {tiles.map(({ cat, span }) => (
-              <Link
-                key={cat.slug}
-                to={`/products/${cat.slug}`}
-                className={`hp-tile ${span}`}
-              >
-                <div>
-                  <h3 className="hp-tile__name">{cat.name}</h3>
-                  <p className="hp-tile__tag">{cat.tagline}</p>
-                </div>
-                <span className="hp-tile__foot">
-                  {(cat.items || []).length} products
-                  <ArrowRight size={16} aria-hidden="true" />
-                </span>
-              </Link>
-            ))}
-          </div>
-        </section>
-
-        {/* ── 7. OAT DRINK RAIL — the shelf the brand is named after ── */}
+        {/* ── 6. OAT DRINK RAIL — the shelf the brand is named after ── */}
         <section className="hp-section">
           <SectionHead
             title="The oat drink aisle"
@@ -533,7 +487,7 @@ export default function HomePage() {
           </div>
         </section>
 
-        {/* ── 8. SCENT RAIL — Chanel's lines interleaved with ZARA parfums ── */}
+        {/* ── 7. SCENT RAIL — Chanel's lines interleaved with ZARA parfums ── */}
         {scent.length > 0 && (
           <section className="hp-section">
             <SectionHead
@@ -560,7 +514,7 @@ export default function HomePage() {
           </section>
         )}
 
-        {/* ── 9. PROMOS ── */}
+        {/* ── 8. PROMOS ── */}
         <section className="hp-section">
           <div className="hp-promos">
             <Link to="/products/item/cold-foam-barista-1l" className="hp-promo hp-promo--surface">
@@ -605,7 +559,7 @@ export default function HomePage() {
           </div>
         </section>
 
-        {/* ── 10. SERVICE STRIP ── */}
+        {/* ── 9. SERVICE STRIP ── */}
         <ul className="hp-service">
           {services.map(({ icon: Icon, title, text }) => (
             <li key={title} className="hp-service__item">

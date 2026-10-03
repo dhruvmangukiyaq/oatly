@@ -2,7 +2,7 @@
    HOME — storefront front page ("the counter")
    --------------------------------------------------------------------------
    Section plan comes from marketplace homepages (ticker → hero → deal rail
-   → brand roster → wardrobe rail → aisle tiles → oat/scent rails → promos
+   → brand roster → wardrobe rail → oat/scent rails → promos
    → service strip); the VISUAL LANGUAGE
    is the product page's, not a separate theme:
      - type       → --font-ui (Margo Pro) 14px/400 for all copy, labels and
@@ -13,7 +13,7 @@
      - cards      → borderless like .plist-card: transparent media with
                     multiply-blended product shots, quiet text actions
    BEM: .hp, .hp-ticker__*, .hp-hero__*, .hp-head__*, .hp-rail,
-        .hp-card__*, .hp-tile, .hp-brand__*, .hp-promo__*, .hp-service__*
+        .hp-card__*, .hp-brand__*, .hp-promo__*, .hp-service__*
    TOKENS: --font-ui / --font-chunky / --spec-* / --space-* (src/styles/index.css)
    ========================================================================== */
 
@@ -278,7 +278,6 @@
 .hp-search:focus-visible,
 .hp-card__add:focus-visible,
 .hp-card__wish:focus-visible,
-.hp-tile:focus-visible,
 .hp-brand:focus-visible,
 .hp-head__link:focus-visible,
 .hp-promo:focus-visible {
@@ -453,72 +452,7 @@
   opacity: 1;
 }
 
-/* --- 5. AISLE TILES — same surface + hairline as the shop panels --------- */
-.hp-tiles {
-  display: grid;
-  grid-template-columns: repeat(12, 1fr);
-  gap: var(--space-16);
-}
-
-.hp-tile {
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  min-height: 168px;
-  padding: var(--space-24);
-  background: var(--hp-canvas);
-  border: var(--hp-hair);
-  border-radius: 2px;
-  text-decoration: none;
-  color: var(--hp-ink);
-  transition: background 120ms ease;
-}
-
-.hp-tile:hover {
-  background: var(--hp-surface);
-}
-
-.hp-tile--wide { grid-column: span 6; }
-.hp-tile--third { grid-column: span 3; }
-.hp-tile--fourth { grid-column: span 4; }
-
-.hp-tile__name {
-  margin: 0;
-  font-family: var(--font-chunky, 'Titan One', 'Arial Rounded MT Bold', Arial, sans-serif);
-  font-weight: 400;
-  font-size: clamp(1.25rem, 2vw, 1.75rem);
-  line-height: 1.08;
-  text-transform: uppercase;
-  color: var(--hp-ink);
-}
-
-.hp-tile__tag {
-  max-width: 36ch;
-  margin: 8px 0 0;
-  font-family: var(--font-ui);
-  font-weight: 400;
-  font-size: 0.875rem;
-  line-height: 1.5;
-  color: var(--hp-ink);
-  opacity: 0.75;
-}
-
-.hp-tile__foot {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 8px;
-  margin-top: var(--space-24);
-  font-family: var(--font-ui);
-  font-weight: 400;
-  font-size: 0.72rem;
-  letter-spacing: 0.06em;
-  text-transform: uppercase;
-  color: var(--hp-ink);
-  opacity: 0.6;
-}
-
-/* --- 6. BRAND ROSTER — contact-sheet thumbs over a spec-sheet meta line --- */
+/* --- 5. BRAND ROSTER — contact-sheet thumbs over a spec-sheet meta line --- */
 .hp-brands {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(210px, 1fr));
@@ -631,7 +565,7 @@
   transform: translateX(3px);
 }
 
-/* --- 7. PROMOS ----------------------------------------------------------- */
+/* --- 6. PROMOS ----------------------------------------------------------- */
 .hp-promos {
   display: grid;
   grid-template-columns: 1fr 1fr;
@@ -730,7 +664,7 @@
   color: var(--hp-ink);
 }
 
-/* --- 8. SERVICE STRIP ---------------------------------------------------- */
+/* --- 7. SERVICE STRIP ---------------------------------------------------- */
 .hp-service {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
@@ -777,12 +711,6 @@
 }
 
 /* --- RESPONSIVE ---------------------------------------------------------- */
-@media (max-width: 1024px) {
-  .hp-tile--wide { grid-column: span 12; }
-  .hp-tile--third { grid-column: span 6; }
-  .hp-tile--fourth { grid-column: span 6; }
-}
-
 @media (max-width: 900px) {
   .hp-promos {
     grid-template-columns: 1fr;
@@ -806,11 +734,6 @@
   .hp-hero {
     padding-left: var(--space-16);
     padding-right: var(--space-16);
-  }
-
-  .hp-tile--third,
-  .hp-tile--fourth {
-    grid-column: span 12;
   }
 
   .hp-brands {
