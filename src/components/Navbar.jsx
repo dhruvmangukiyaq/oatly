@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { Link, useLocation } from 'react-router-dom';
-import { Home, Globe, X, Menu, ChevronDown, ChevronRight, User as UserIcon, ShoppingCart, Heart } from 'lucide-react';
+import { Home, Globe, X, Menu, ChevronRight, User as UserIcon, ShoppingCart, Heart } from 'lucide-react';
 // ─── MVC: View ──────────────────────────────────────────────────────────────
 // Item order/labels come from the Model (navigationModel.js); this file only
 // renders. NOTE: react-router <Link> outputs a semantic <a href> in the DOM,
@@ -15,9 +15,9 @@ import { useShop } from '../hooks/useShop.js';
 import '../styles/OatlyNav.css';
 
 export default function Navbar({ onCartOpen }) {
-  const [openMenu, setOpenMenu] = useState(null); // desktop hover dropdown
+  const [, setOpenMenu] = useState(null); // kept for menu-reset timers (no dropdown UI)
   const [mobileOpen, setMobileOpen] = useState(false); // X/Menu drawer toggle
-  const [expandedSection, setExpandedSection] = useState(null); // mobile accordion
+  const [, setExpandedSection] = useState(null); // kept for nav-reset (no sublist UI)
   const closeTimer = useRef(null);
   const location = useLocation();
   const { user } = useAuth();
@@ -193,108 +193,49 @@ export default function Navbar({ onCartOpen }) {
         </div>
       </div>
 
-      {/* ── Main nav row: same 5 items, same order, centred ── */}
+      {/* ── Main nav row: same 5 items, same order, centred ──
+          Hover dropdown REMOVED — khali links, koi hover list nai. */}
       <nav className="oatly-navrow" aria-label="Primary">
         <ul className="oatly-navrow__list" onMouseLeave={scheduleClose}>
           {navItems.map((item) => {
-            const hasDropdown = Boolean(item.dropdown);
-            const isOpen = openMenu === item.name;
             const slug = item.name.toLowerCase().replace(/[^a-z]+/g, '-');
             return (
               <li
                 key={item.name}
-                className={`oatly-navrow__item oatly-navrow__item--${slug}${isOpen ? ' oatly-navrow__item--open' : ''}`}
+                className={`oatly-navrow__item oatly-navrow__item--${slug}`}
                 onMouseEnter={() => {
                   cancelClose();
-                  setOpenMenu(hasDropdown ? item.name : null);
+                  setOpenMenu(null);
                 }}
               >
                 <Link
                   to={item.path}
                   className="oatly-navrow__link"
-                  aria-haspopup={hasDropdown ? 'true' : undefined}
-                  aria-expanded={hasDropdown ? isOpen : undefined}
-                  onFocus={() => setOpenMenu(hasDropdown ? item.name : null)}
+                  onFocus={() => setOpenMenu(null)}
                   onBlur={scheduleClose}
                 >
                   {item.name}
                 </Link>
-
-                {/* Dropdown: full-width plain text list — names only, no
-                    descriptions, no arrows (same pattern for every tab) */}
-                {hasDropdown && (
-                  <div
-                    className="oatly-drop"
-                    onMouseEnter={cancelClose}
-                    onMouseLeave={scheduleClose}
-                  >
-                    <div className="oatly-drop__inner">
-                      <ul className="oatly-drop__list" aria-label={`${item.name} submenu`}>
-                        {item.dropdown.map((sub) => (
-                          <li key={sub.name}>
-                            <Link to={sub.path} className="oatly-drop__link">
-                              {sub.name}
-                            </Link>
-                          </li>
-                        ))}
-                      </ul>
-                    </div>
-                  </div>
-                )}
               </li>
             );
           })}
         </ul>
       </nav>
 
-      {/* ── Mobile drawer: same 5 items, same order, expand/collapse ── */}
+      {/* ── Mobile drawer: same 5 items, direct links (no sublist) ── */}
       <nav
         id="oatly-mobile-menu"
         className={`oatly-mobile${mobileOpen ? ' oatly-mobile--open' : ''}`}
         aria-label="Mobile"
       >
         <ul className="oatly-mobile__list">
-          {navItems.map((item) => {
-            const hasDropdown = Boolean(item.dropdown);
-            const expanded = expandedSection === item.name;
-            // HEALTH: direct link, no toggle (unchanged behaviour)
-            if (!hasDropdown) {
-              return (
-                <li key={item.name} className="oatly-mobile__section">
-                  <Link to={item.path} className="oatly-mobile__row">
-                    {item.name}
-                  </Link>
-                </li>
-              );
-            }
-            return (
-              <li
-                key={item.name}
-                className={`oatly-mobile__section${expanded ? ' oatly-mobile__section--open' : ''}`}
-              >
-                <button
-                  type="button"
-                  className="oatly-mobile__row"
-                  aria-expanded={expanded}
-                  onClick={() => setExpandedSection(expanded ? null : item.name)}
-                >
-                  {item.name}
-                  <ChevronDown size={16} className="oatly-mobile__caret" aria-hidden="true" />
-                </button>
-                {expanded && (
-                  <ul className="oatly-mobile__sublist">
-                    {item.dropdown.map((sub) => (
-                      <li key={sub.name}>
-                        <Link to={sub.path} className="oatly-mobile__sublink">
-                          {sub.name}
-                        </Link>
-                      </li>
-                    ))}
-                  </ul>
-                )}
-              </li>
-            );
-          })}
+          {navItems.map((item) => (
+            <li key={item.name} className="oatly-mobile__section">
+              <Link to={item.path} className="oatly-mobile__row">
+                {item.name}
+              </Link>
+            </li>
+          ))}
         </ul>
       </nav>
     </header>

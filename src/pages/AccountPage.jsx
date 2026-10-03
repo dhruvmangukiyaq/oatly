@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
-import { Link, Navigate, useNavigate } from 'react-router-dom';
-import { Heart, Package, User as UserIcon, LogOut, RotateCcw, MessageSquare } from 'lucide-react';
+import { Link, Navigate } from 'react-router-dom';
+import { Heart, Package, User as UserIcon, RotateCcw, MessageSquare } from 'lucide-react';
 import SEO from '../components/SEO';
-import { useAuth, getSession } from '../hooks/useAuth.js';
+import { getSession } from '../hooks/useAuth.js';
 import { useShop } from '../hooks/useShop.js';
 import { useCatalog, findProduct } from '../hooks/useCatalog.js';
 import { getOrders } from '../models/adminStore.js';
@@ -14,8 +14,6 @@ import '../styles/Shop.css';
 
 export default function AccountPage() {
   const session = getSession();
-  const { logout } = useAuth();
-  const navigate = useNavigate();
   const [tab, setTab] = useState('orders');
 
   if (!session) return <Navigate to="/login" replace />;
@@ -48,9 +46,6 @@ export default function AccountPage() {
             <UserIcon size={14} className="acct-ic" /> Profile
           </button>
           {session.role === 'admin' && <Link to="/admin" className="shop-btn shop-btn--small">Seller Hub</Link>}
-          <button type="button" className="shop-btn shop-btn--small shop-btn--ghost" onClick={() => { logout(); navigate('/'); }}>
-            <LogOut size={14} /> Logout
-          </button>
         </div>
         {session.role !== 'admin' && tab === 'orders' && <MyOrders email={session.email} />}
         {session.role !== 'admin' && tab === 'returns' && <MyReturns email={session.email} name={session.name} />}
@@ -63,6 +58,8 @@ export default function AccountPage() {
 }
 
 function MyOrders({ email }) {
+  const { products } = useCatalog();
+  const { add } = useShop();
   const mine = getOrders().filter((o) => String(o.email || '').toLowerCase() === String(email).toLowerCase());
   if (mine.length === 0) {
     return (
@@ -73,21 +70,55 @@ function MyOrders({ email }) {
     );
   }
   return (
-    <div>
-      {mine.map((o) => (
-        <div key={o.id} className="order-card">
-          <div className="order-card__head">
-            <strong>{o.id}</strong>
-            <span className={`status-pill status-${o.status}`}>{o.status}</span>
+    <div className="orders-list">
+      {mine.map((o) => {
+        const count = (o.items || []).reduce((s, it) => s + (Number(it.qty) || 0), 0);
+        return (
+          <div key={o.id} className="order-card order-card--detailed">
+            <div className="order-card__head">
+              <div>
+                <strong>{o.id}</strong>
+                <p className="shop-sub order-card__meta">
+                  {new Date(o.date).toLocaleString()} · {count} item{count !== 1 ? 's' : ''} · ${(Number(o.total) || 0).toFixed(2)}
+                </p>
+              </div>
+              <span className={`status-pill status-${o.status}`}>{o.status}</span>
+            </div>
+            <div className="order-items--grid">
+              {(o.items || []).map((it, i) => {
+                const p = findProduct(products, it.id);
+                const img = it.image || p?.image;
+                const pid = it.id ?? p?.id ?? p?.slug;
+                return (
+                  <div key={i} className="shop-line order-item">
+                    {img ? <img src={img} alt={it.name} loading="lazy" /> : <span className="shop-line__ph" />}
+                    <div className="order-item__body">
+                      <p className="shop-line__name">{it.name}</p>
+                      <p className="shop-line__meta">
+                        Qty {it.qty} · ${(Number(it.price) || 0).toFixed(2)} each
+                        {p?.brand ? ` · ${p.brand}` : ''}
+                      </p>
+                      <div className="order-item__actions">
+                        {pid && <Link to={`/products/item/${pid}`} className="shop-linkbtn">View product →</Link>}
+                        {pid && (
+                          <button type="button" className="shop-linkbtn" onClick={() => add(String(pid), Number(it.qty) || 1)}>
+                            Buy again +
+                          </button>
+                        )}
+                      </div>
+                    </div>
+                    <span className="shop-line__price">${(Number(it.price) * Number(it.qty)).toFixed(2)}</span>
+                  </div>
+                );
+              })}
+            </div>
+            <div className="shop-row shop-row--total">
+              <span>Order total</span>
+              <span>${(Number(o.total) || 0).toFixed(2)}</span>
+            </div>
           </div>
-          <p className="shop-sub">{new Date(o.date).toLocaleString()} · ${(Number(o.total) || 0).toFixed(2)}</p>
-          <ul className="order-items">
-            {(o.items || []).map((it, i) => (
-              <li key={i}>{it.name} × {it.qty} — ${(Number(it.price) * Number(it.qty)).toFixed(2)}</li>
-            ))}
-          </ul>
-        </div>
-      ))}
+        );
+      })}
     </div>
   );
 }

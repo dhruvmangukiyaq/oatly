@@ -1,5 +1,5 @@
 import React, { useMemo, useState } from 'react';
-import { Heart, Search, ArrowUpDown } from 'lucide-react';
+import { Heart, Search } from 'lucide-react';
 // ─── ICE CREAM GRID (View) ──────────────────────────────────────────────────
 // Clean product-grid for /products/ice-cream: format tabs, search + sort and
 // rounded cards showing name, category, flavor, pack size and price.
@@ -8,19 +8,12 @@ import { Heart, Search, ArrowUpDown } from 'lucide-react';
 // reuse the same shop hooks as the standard listing, so brand behaviour is
 // preserved.
 import { useShop } from '../hooks/useShop.js';
-import { isAdmin as checkIsAdmin, useAuth } from '../hooks/useAuth.js';
 import { enrichProduct, getSettings } from '../models/shopStore.js';
 import { applyAdminVisibility, getProductOverrides } from '../models/adminStore.js';
+import { matchesProduct } from '../utils/productSearch.js';
 import '../styles/IceCreamGrid.css';
 
 const FORMAT_ORDER = ['Tubs', 'Bars', 'Cones', 'Cups', 'Kulfi', 'Sandwich', 'Sundae'];
-
-const SORTS = [
-  { id: 'featured', label: 'Featured' },
-  { id: 'low', label: 'Price: Low to High' },
-  { id: 'high', label: 'Price: High to Low' },
-  { id: 'az', label: 'Name: A to Z' },
-];
 
 function formatFallbackImage() {
   return (
@@ -34,7 +27,7 @@ function formatFallbackImage() {
   );
 }
 
-function IceCreamCard({ item, onSelect, onAdded, adminView }) {
+function IceCreamCard({ item, onSelect, onAdded }) {
   const [imgOk, setImgOk] = useState(true);
   const { add, wishlist, toggleWish } = useShop();
   const key = String(item.id ?? item.slug ?? item.name);
@@ -105,39 +98,34 @@ function IceCreamCard({ item, onSelect, onAdded, adminView }) {
             </span>
           </span>
         </button>
-        {!adminView && (
-          <span className="ice-card__actions">
-            <button
-              type="button"
-              className="ice-card__add"
-              disabled={out}
-              onClick={() => { add(key, 1); if (onAdded) onAdded(); }}
-              aria-label={out ? `${item.name} is sold out` : `Add ${item.name} to cart`}
-            >
-              {out ? 'Sold out' : 'Add to cart +'}
-            </button>
-            <button
-              type="button"
-              aria-label={wished ? `Remove ${item.name} from wishlist` : `Add ${item.name} to wishlist`}
-              aria-pressed={wished}
-              className={`ice-card__wish${wished ? ' is-active' : ''}`}
-              onClick={() => toggleWish(key)}
-            >
-              <Heart size={15} fill={wished ? 'currentColor' : 'none'} aria-hidden="true" />
-            </button>
-          </span>
-        )}
+        <span className="ice-card__actions">
+          <button
+            type="button"
+            className="ice-card__add"
+            disabled={out}
+            onClick={() => { add(key, 1); if (onAdded) onAdded(); }}
+            aria-label={out ? `${item.name} is sold out` : `Add ${item.name} to cart`}
+          >
+            {out ? 'Sold out' : 'Add to cart +'}
+          </button>
+          <button
+            type="button"
+            aria-label={wished ? `Remove ${item.name} from wishlist` : `Add ${item.name} to wishlist`}
+            aria-pressed={wished}
+            className={`ice-card__wish${wished ? ' is-active' : ''}`}
+            onClick={() => toggleWish(key)}
+          >
+            <Heart size={15} fill={wished ? 'currentColor' : 'none'} aria-hidden="true" />
+          </button>
+        </span>
       </article>
     </li>
   );
 }
 
 export default function IceCreamGrid({ items, onSelect, onAdded }) {
-  const { user } = useAuth();
-  const adminView = checkIsAdmin(user);
   const [tab, setTab] = useState('All');
   const [q, setQ] = useState('');
-  const [sort, setSort] = useState('featured');
   // Admin-deleted products grid ma DEKHASE J NAHI (bug fix); customs keval
   // Ice Cream scope ma. Memo nathi — list nanaki chhe ane admin state
   // darek render par fresh vabani joiye (delete → listing ma tarat effect).
@@ -155,21 +143,12 @@ export default function IceCreamGrid({ items, onSelect, onAdded }) {
   }, [enriched]);
 
   const visible = useMemo(() => {
-    const query = q.trim().toLowerCase();
-    let list = enriched.filter((p) => {
+    const list = enriched.filter((p) => {
       if (tab !== 'All' && p.format !== tab) return false;
-      if (!query) return true;
-      return [p.name, p.flavor, p.format, p.brand, p.category, p.packSize, p.volume]
-        .filter(Boolean)
-        .join(' ')
-        .toLowerCase()
-        .includes(query);
+      return matchesProduct(p, q);
     });
-    if (sort === 'low') list = [...list].sort((a, b) => Number(a.price) - Number(b.price));
-    else if (sort === 'high') list = [...list].sort((a, b) => Number(b.price) - Number(a.price));
-    else if (sort === 'az') list = [...list].sort((a, b) => String(a.name).localeCompare(String(b.name)));
     return list;
-  }, [enriched, tab, q, sort]);
+  }, [enriched, tab, q]);
 
   const tabs = [{ name: 'All', n: enriched.length }, ...formats];
 
@@ -203,12 +182,6 @@ export default function IceCreamGrid({ items, onSelect, onAdded }) {
               type="search"
             />
           </label>
-          <label className="ice-tools__sort">
-            <ArrowUpDown size={14} aria-hidden="true" /> Sort
-            <select value={sort} onChange={(e) => setSort(e.target.value)} aria-label="Sort ice cream">
-              {SORTS.map((s) => <option key={s.id} value={s.id}>{s.label}</option>)}
-            </select>
-          </label>
         </div>
 
         <p className="ice-count" aria-live="polite">
@@ -234,7 +207,6 @@ export default function IceCreamGrid({ items, onSelect, onAdded }) {
                 item={item}
                 onSelect={onSelect}
                 onAdded={onAdded}
-                adminView={adminView}
               />
             ))}
           </ul>

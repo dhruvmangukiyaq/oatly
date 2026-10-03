@@ -3,7 +3,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import SEO from '../components/SEO';
 import { useShop } from '../hooks/useShop.js';
 import { useCatalog, findProduct } from '../hooks/useCatalog.js';
-import { getSession, isAdmin } from '../hooks/useAuth.js';
+import { getSession } from '../hooks/useAuth.js';
 import { calcTotals, markCouponUsed, validateCoupon } from '../models/shopStore.js';
 import { saveOrder } from '../models/adminStore.js';
 import '../styles/Shop.css';
@@ -14,40 +14,56 @@ const PAYMENTS = [
   { id: 'upi', label: 'UPI (demo)' },
 ];
 
+// ── All countries (ISO list) — Country dropdown ma badhi countries ──────────
+const COUNTRIES = [
+  'Afghanistan', 'Albania', 'Algeria', 'Andorra', 'Angola', 'Antigua and Barbuda',
+  'Argentina', 'Armenia', 'Australia', 'Austria', 'Azerbaijan', 'Bahamas',
+  'Bahrain', 'Bangladesh', 'Barbados', 'Belarus', 'Belgium', 'Belize', 'Benin',
+  'Bhutan', 'Bolivia', 'Bosnia and Herzegovina', 'Botswana', 'Brazil',
+  'Brunei', 'Bulgaria', 'Burkina Faso', 'Burundi', 'Cabo Verde', 'Cambodia',
+  'Cameroon', 'Canada', 'Central African Republic', 'Chad', 'Chile', 'China',
+  'Colombia', 'Comoros', 'Congo', 'Costa Rica', 'Croatia', 'Cuba', 'Cyprus',
+  'Czech Republic', 'Denmark', 'Djibouti', 'Dominica', 'Dominican Republic',
+  'Ecuador', 'Egypt', 'El Salvador', 'Equatorial Guinea', 'Eritrea', 'Estonia',
+  'Eswatini', 'Ethiopia', 'Fiji', 'Finland', 'France', 'Gabon', 'Gambia',
+  'Georgia', 'Germany', 'Ghana', 'Greece', 'Grenada', 'Guatemala', 'Guinea',
+  'Guinea-Bissau', 'Guyana', 'Haiti', 'Honduras', 'Hungary', 'Iceland', 'India',
+  'Indonesia', 'Iran', 'Iraq', 'Ireland', 'Israel', 'Italy', 'Jamaica', 'Japan',
+  'Jordan', 'Kazakhstan', 'Kenya', 'Kiribati', 'Korea, North', 'Korea, South',
+  'Kosovo', 'Kuwait', 'Kyrgyzstan', 'Laos', 'Latvia', 'Lebanon', 'Lesotho',
+  'Liberia', 'Libya', 'Liechtenstein', 'Lithuania', 'Luxembourg', 'Madagascar',
+  'Malawi', 'Malaysia', 'Maldives', 'Mali', 'Malta', 'Marshall Islands',
+  'Mauritania', 'Mauritius', 'Mexico', 'Micronesia', 'Moldova', 'Monaco',
+  'Mongolia', 'Montenegro', 'Morocco', 'Mozambique', 'Myanmar', 'Namibia',
+  'Nauru', 'Nepal', 'Netherlands', 'New Zealand', 'Nicaragua', 'Niger',
+  'Nigeria', 'North Macedonia', 'Norway', 'Oman', 'Pakistan', 'Palau',
+  'Palestine', 'Panama', 'Papua New Guinea', 'Paraguay', 'Peru', 'Philippines',
+  'Poland', 'Portugal', 'Qatar', 'Romania', 'Russia', 'Rwanda',
+  'Saint Kitts and Nevis', 'Saint Lucia', 'Saint Vincent and the Grenadines',
+  'Samoa', 'San Marino', 'Sao Tome and Principe', 'Saudi Arabia', 'Senegal',
+  'Serbia', 'Seychelles', 'Sierra Leone', 'Singapore', 'Slovakia', 'Slovenia',
+  'Solomon Islands', 'Somalia', 'South Africa', 'South Sudan', 'Spain',
+  'Sri Lanka', 'Sudan', 'Suriname', 'Sweden', 'Switzerland', 'Syria', 'Taiwan',
+  'Tajikistan', 'Tanzania', 'Thailand', 'Timor-Leste', 'Togo', 'Tonga',
+  'Trinidad and Tobago', 'Tunisia', 'Turkey', 'Turkmenistan', 'Tuvalu',
+  'Uganda', 'Ukraine', 'United Arab Emirates', 'United Kingdom', 'United States',
+  'Uruguay', 'Uzbekistan', 'Vanuatu', 'Vatican City', 'Venezuela', 'Vietnam',
+  'Yemen', 'Zambia', 'Zimbabwe',
+];
+
 export default function CheckoutPage() {
   const { cart, clear, couponCode, setCouponCode, settings } = useShop();
   const { products } = useCatalog();
   const navigate = useNavigate();
   const session = getSession();
-  const adminBlocked = isAdmin(session);
 
   const [form, setForm] = useState({
     name: session?.name || '', email: session?.email || '', phone: '',
-    address: '', city: '', zip: '', country: 'USA',
+    address: '', city: '', country: 'United States',
   });
   const [pay, setPay] = useState('cod');
   const [note, setNote] = useState('');
   const [error, setError] = useState('');
-
-  // Admin account thi checkout NAHI (hooks pachhi return — rules-of-hooks).
-  if (adminBlocked) {
-    return (
-      <div className="shop-page">
-        <SEO title="Checkout | Oatara Shop" description="Checkout securely." pathname="/checkout" />
-        <div className="shop-shell">
-          <p className="shop-kicker">Oatara shop</p>
-          <h1>Checkout.</h1>
-          <div className="shop-card">
-            <p><strong>Admin account thi order thato nathi.</strong></p>
-            <p className="shop-sub">Tame admin chho — kharidi mate customer account thi login karo.</p>
-            <div className="shop-actions">
-              <Link to="/admin" className="shop-btn shop-btn--small">Seller Hub</Link>
-            </div>
-          </div>
-        </div>
-      </div>
-    );
-  }
 
   const lines = Object.entries(cart)
     .map(([id, qty]) => {
@@ -68,13 +84,13 @@ export default function CheckoutPage() {
     if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(form.email.trim())) { setError('Email barabar lakho.'); return; }
     if (form.address.trim().length < 5) { setError('Address lakho.'); return; }
     if (form.city.trim().length < 2) { setError('City lakho.'); return; }
-    if (form.zip.trim().length < 3) { setError('ZIP lakho.'); return; }
+    if (!form.country) { setError('Country select karo.'); return; }
 
     const order = saveOrder({
       customer: form.name.trim(),
       email: form.email.trim(),
       phone: form.phone.trim(),
-      address: { line: form.address.trim(), city: form.city.trim(), zip: form.zip.trim(), country: form.country },
+      address: { line: form.address.trim(), city: form.city.trim(), zip: '', country: form.country },
       items: lines.map((l) => ({ id: l.id, name: l.name, price: l.price, qty: l.qty, image: l.image })),
       subtotal: totals.subtotal,
       discount: totals.discount,
@@ -122,16 +138,13 @@ export default function CheckoutPage() {
                     <label>Phone<input value={form.phone} onChange={set('phone')} placeholder="+1 …" /></label>
                     <label>Country
                       <select value={form.country} onChange={set('country')}>
-                        <option>USA</option><option>India</option><option>UK</option><option>Canada</option><option>Other</option>
+                        {COUNTRIES.map((c) => <option key={c} value={c}>{c}</option>)}
                       </select>
                     </label>
                   </div>
                   <div className="shop-form shop-stack">
                     <label>Address *<input value={form.address} onChange={set('address')} placeholder="STREET, APT" /></label>
-                    <div className="shop-form shop-form--2">
-                      <label>City *<input value={form.city} onChange={set('city')} placeholder="CITY" /></label>
-                      <label>ZIP *<input value={form.zip} onChange={set('zip')} placeholder="ZIP" /></label>
-                    </div>
+                    <label>City *<input value={form.city} onChange={set('city')} placeholder="CITY" /></label>
                     <label>Order note (optional)<textarea rows={2} value={note} onChange={(e) => setNote(e.target.value)} placeholder="Delivery note…" /></label>
                   </div>
                 </div>

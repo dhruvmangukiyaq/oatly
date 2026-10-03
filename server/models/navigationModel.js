@@ -22,6 +22,10 @@ export const NAV_ITEMS = [
       { name: 'Allure Homme Sport', path: '/products/allure-homme-sport', desc: 'Energetic sport fragrance' },
       { name: 'Allure Homme', path: '/products/allure-homme', desc: 'Timeless elegance in white and gold' },
       { name: 'Les Exclusifs de Chanel', path: '/products/les-exclusifs', desc: 'Rare, storied compositions' },
+      { name: 'Les Eaux de Chanel', path: '/products/les-eaux-de-chanel', desc: 'Fresh city-inspired eaux' },
+      { name: 'Égoïste', path: '/products/egoiste', desc: 'Bold and magnetic' },
+      { name: 'Pour Monsieur', path: '/products/pour-monsieur', desc: 'Timeless citrus elegance' },
+      { name: 'Antaeus', path: '/products/antaeus', desc: 'Powerful and seductive' },
     ],
   },
   {

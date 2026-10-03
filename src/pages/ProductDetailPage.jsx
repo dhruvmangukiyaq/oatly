@@ -4,7 +4,7 @@ import { Heart, ShoppingCart, Truck, RotateCcw, ShieldCheck, Tag } from 'lucide-
 import SEO from '../components/SEO';
 import { useCatalog, findProduct } from '../hooks/useCatalog.js';
 import { useShop } from '../hooks/useShop.js';
-import { useAuth, getSession, isAdmin } from '../hooks/useAuth.js';
+import { getSession } from '../hooks/useAuth.js';
 import { getCoupons, getReviews, addReview, getSettings } from '../models/shopStore.js';
 import '../styles/ProductListing.css';
 import '../styles/ProductDetail.css';
@@ -20,8 +20,6 @@ export default function ProductDetailPage() {
   const { id } = useParams();
   const { products, categories } = useCatalog();
   const { add, wishlist, toggleWish } = useShop();
-  const { user } = useAuth();
-  const adminView = isAdmin(user);
   const navigate = useNavigate();
 
   const product = useMemo(() => findProduct(products, id), [products, id]);
@@ -177,9 +175,9 @@ export default function ProductDetailPage() {
               <p className="pdetail-instock">In stock</p>
             )}
 
-            {!adminView ? (
-              <>
-                <div className="pdetail-buyrow">
+            {/* Buy box — badha roles mate same (guest, customer, admin) */}
+            <>
+              <div className="pdetail-buyrow">
                   <span className="qty">
                     <button type="button" aria-label="Decrease quantity" onClick={() => setQty((v) => Math.max(1, v - 1))}>−</button>
                     <span>{qty}</span>
@@ -209,9 +207,6 @@ export default function ProductDetailPage() {
                   Buy now →
                 </button>
               </>
-            ) : (
-              <p className="pdetail-tax">Admin view — buying disabled.</p>
-            )}
 
             {/* Delivery promises */}
             <ul className="pdetail-delivery">
@@ -289,7 +284,7 @@ export default function ProductDetailPage() {
 
         {/* Related */}
         {related.length > 0 && (
-          <section className="pdetail-sec">
+          <section className="pdetail-sec pdetail-sec--related">
             <h2>Related products</h2>
             <ul className="pdetail-related">
               {related.map((r) => {

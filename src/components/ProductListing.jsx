@@ -1,6 +1,6 @@
 import React, { useMemo, useState } from 'react';
 import { Link } from 'react-router-dom';
-import { Heart, ArrowUpDown, SlidersHorizontal } from 'lucide-react';
+import { Heart, SlidersHorizontal } from 'lucide-react';
 // ─── MVC: View (shared) ─────────────────────────────────────────────────────
 // Filter bar + product grid, reused by /products (ALL PRODUCTS)
 // and every /products/:category page. Shop-ready: price, rating, stock,
@@ -8,24 +8,13 @@ import { Heart, ArrowUpDown, SlidersHorizontal } from 'lucide-react';
 import ProcessBand from './ProcessBand.jsx';
 import IceCreamGrid from './IceCreamGrid.jsx';
 import { useShop } from '../hooks/useShop.js';
-import { isAdmin as checkIsAdmin, useAuth } from '../hooks/useAuth.js';
 import { enrichProduct, getSettings } from '../models/shopStore.js';
 import { applyAdminVisibility, getProductOverrides } from '../models/adminStore.js';
+import { BRAND_GROUPS, matchesProduct } from '../utils/productSearch.js';
 import '../styles/ProductListing.css';
 import '../styles/Shop.css';
 
-const SORTS = [
-  { id: 'pop', label: 'Popularity' },
-  { id: 'low', label: 'Price: Low → High' },
-  { id: 'high', label: 'Price: High → Low' },
-  { id: 'rate', label: 'Rating' },
-  { id: 'off', label: 'Discount' },
-];
-
-// ── Facet helpers (Amazon/Flipkart jeva sidebar filters) ────────────────────
-// Badha facets CURRENT search results parthi ganay — search badlay etle
-// categories, brands, specs badha badlay (phone search → phone brands,
-// clothing search → clothing brands).
+// ── Facet helpers ────────────────────────────────────────────────────
 const RATING_OPTS = [
   { id: 0, label: 'All ratings' },
   { id: 4, label: '4 Stars & Up' },
@@ -38,15 +27,6 @@ const OFF_OPTS = [
   { id: 25, label: '25% Off or more' },
   { id: 50, label: '50% Off or more' },
 ];
-
-// ── Brand houses: facet ma parent groups (CHANEL under traney lines) ────────
-const BRAND_GROUPS = {
-  Chanel: ['Bleu de Chanel', 'Allure Homme Sport', 'Allure Homme', 'Les Exclusifs de Chanel'],
-};
-
-const BRAND_HOUSE = Object.fromEntries(
-  Object.entries(BRAND_GROUPS).flatMap(([house, members]) => members.map((m) => [m, house])),
-);
 
 const NEW_DAYS = 90;
 
@@ -77,7 +57,7 @@ const fmtBucket = (bk, cur) => {
 
 const toggleIn = (arr, v) => (arr.includes(v) ? arr.filter((x) => x !== v) : [...arr, v]);
 
-function ProductCard({ item, onSelect, onAdded, adminView }) {
+function ProductCard({ item, onSelect, onAdded }) {
   const [imgOk, setImgOk] = useState(!!item.image);
   const { add, wishlist, toggleWish } = useShop();
   const src = item.image;
@@ -134,28 +114,26 @@ function ProductCard({ item, onSelect, onAdded, adminView }) {
         ) : low ? (
           <p className="plist-card__stock plist-card__stock--low">Only {item.stock} left</p>
         ) : null}
-        {/* Quiet text actions — admin ne DEKHASE J NAHI (admin buy na kare) */}
-        {!adminView && (
-          <div className="plist-card__buy" onClick={(e) => e.stopPropagation()}>
-            <button
-              type="button"
-              className="plist-card__add"
-              disabled={out}
-              onClick={() => { add(key, 1); if (onAdded) onAdded(); }}
-            >
-              {out ? 'Sold out' : 'Add to cart +'}
-            </button>
-            <button
-              type="button"
-              aria-label={wished ? 'Remove from wishlist' : 'Add to wishlist'}
-              aria-pressed={wished}
-              className={`plist-card__wish${wished ? ' is-active' : ''}`}
-              onClick={() => toggleWish(key)}
-            >
-              <Heart size={14} fill={wished ? 'currentColor' : 'none'} aria-hidden="true" />
-            </button>
-          </div>
-        )}
+        {/* Quiet text actions — badha roles mate same */}
+        <div className="plist-card__buy" onClick={(e) => e.stopPropagation()}>
+          <button
+            type="button"
+            className="plist-card__add"
+            disabled={out}
+            onClick={() => { add(key, 1); if (onAdded) onAdded(); }}
+          >
+            {out ? 'Sold out' : 'Add to cart +'}
+          </button>
+          <button
+            type="button"
+            aria-label={wished ? 'Remove from wishlist' : 'Add to wishlist'}
+            aria-pressed={wished}
+            className={`plist-card__wish${wished ? ' is-active' : ''}`}
+            onClick={() => toggleWish(key)}
+          >
+            <Heart size={14} fill={wished ? 'currentColor' : 'none'} aria-hidden="true" />
+          </button>
+        </div>
       </div>
     </li>
   );
@@ -220,9 +198,6 @@ export default function ProductListing({ categories, activeSlug, items, onSelect
 }
 
 function StandardListing({ categories, activeSlug, items, onSelectProduct, onAdded }) {
-  const { user } = useAuth();
-  const adminView = checkIsAdmin(user); // admin ne buy row dekhase j nahi
-  const [sort, setSort] = useState('pop');
   const [q, setQ] = useState('');
   const overrides = getProductOverrides();
   const cur = getSettings().currency || '$';
@@ -236,7 +211,7 @@ function StandardListing({ categories, activeSlug, items, onSelectProduct, onAdd
   const [inStockOnly, setInStockOnly] = useState(false);
   const [onlyNew, setOnlyNew] = useState(false);
   const [specSel, setSpecSel] = useState({}); // {SpecKey: [values]}
-  const [filtersOpen, setFiltersOpen] = useState(false); // mobile drawer
+  const [filtersOpen, setFiltersOpen] = useState(false); // filters panel (toggle thi)
 
   // Admin-deleted products website par DEKHASE J NAHI (bug fix); customs
   // keval aa category na scope ma dekhashe.
@@ -249,13 +224,9 @@ function StandardListing({ categories, activeSlug, items, onSelectProduct, onAdd
     [items, overrides, scopeCategory],
   );
 
-  // Search scope — facets aa list parthi ganay (search-aware).
-  // Brand house pan match thay (chanel → traney perfume lines).
+  // Search scope — smart matcher (synonyms + all fields), facets aa parthi.
   const searched = useMemo(() => {
-    const query = q.trim().toLowerCase();
-    return enriched.filter((p) =>
-      !query || [p.name, p.brand, BRAND_HOUSE[p.brand], p.category, p.tagline].filter(Boolean).join(' ').toLowerCase().includes(query),
-    );
+    return enriched.filter((p) => matchesProduct(p, q));
   }, [enriched, q]);
 
   // ── Facet options (searched results parthi) ──
@@ -279,21 +250,35 @@ function StandardListing({ categories, activeSlug, items, onSelectProduct, onAdd
 
   const buckets = useMemo(() => priceBuckets(searched), [searched]);
 
-  // ── Brand facet: house groups (CHANEL parent + children), baki single ────
-  const brandFacet = useMemo(() => {
+  // ── Brand facet: KHALI house/brand name (sub-sections NAI) ─────────────
+  // Category ma badhu avi j jay chhe, etle Brand ma flat list:
+  // Chanel (house) + baki single brands. House select = badha member lines.
+  const brandDisplayOpts = useMemo(() => {
     const byName = new Map(brandOpts.map((b) => [b.name, b.n]));
     const used = new Set();
-    const groups = [];
+    const houses = [];
     Object.entries(BRAND_GROUPS).forEach(([house, members]) => {
-      const children = members
-        .filter((m) => byName.has(m))
-        .map((m) => ({ name: m, n: byName.get(m) }));
+      const children = members.filter((m) => byName.has(m));
       if (children.length === 0) return;
-      children.forEach((c) => used.add(c.name));
-      groups.push({ house, children, total: children.reduce((s, c) => s + c.n, 0) });
+      children.forEach((c) => used.add(c));
+      houses.push({
+        name: house,
+        n: children.reduce((s, c) => s + (byName.get(c) || 0), 0),
+        members: children,
+      });
     });
-    return { groups, singles: brandOpts.filter((b) => !used.has(b.name)) };
+    const singles = brandOpts
+      .filter((b) => !used.has(b.name))
+      .map((b) => ({ name: b.name, n: b.n, members: [b.name] }));
+    return [...houses, ...singles].sort((a, b) => b.n - a.n);
   }, [brandOpts]);
+
+  const matchesSelectedBrand = (productBrand, sel) => {
+    if (sel === productBrand) return true;
+    const members = BRAND_GROUPS[sel];
+    if (members && members.includes(productBrand)) return true;
+    return false;
+  };
 
   const specFacets = useMemo(() => {
     const keys = new Map();
@@ -313,12 +298,15 @@ function StandardListing({ categories, activeSlug, items, onSelectProduct, onAdd
 
   const hasDates = useMemo(() => searched.some((p) => p.createdAt), [searched]);
 
-  // ── Apply facets + sort ──
+  // ── Apply facets (default order) ──
   const visible = useMemo(() => {
     const now = Date.now();
-    let list = searched.filter((p) => {
+    const list = searched.filter((p) => {
       if (selCats.length > 0 && !selCats.includes(p.category)) return false;
-      if (selBrands.length > 0 && !selBrands.includes(p.brand)) return false;
+      if (selBrands.length > 0) {
+        const ok = selBrands.some((sel) => matchesSelectedBrand(p.brand, sel));
+        if (!ok) return false;
+      }
       if (priceIdx >= 0 && buckets[priceIdx]) {
         const bk = buckets[priceIdx];
         const pr = Number(p.price) || 0;
@@ -343,26 +331,17 @@ function StandardListing({ categories, activeSlug, items, onSelectProduct, onAdd
       }
       return true;
     });
-    switch (sort) {
-      case 'low': list = [...list].sort((a, b) => a.price - b.price); break;
-      case 'high': list = [...list].sort((a, b) => b.price - a.price); break;
-      case 'rate': list = [...list].sort((a, b) => (b.rating || 0) - (a.rating || 0)); break;
-      case 'off':
-        list = [...list].sort((a, b) => {
-          const ao = a.mrp > a.price ? (a.mrp - a.price) / a.mrp : 0;
-          const bo = b.mrp > b.price ? (b.mrp - b.price) / b.mrp : 0;
-          return bo - ao;
-        });
-        break;
-      default: break;
-    }
     return list.filter((p) => p.status !== 'archived');
-  }, [searched, selCats, selBrands, priceIdx, buckets, minRating, minOff, inStockOnly, onlyNew, specSel, sort]);
+  }, [searched, selCats, selBrands, priceIdx, buckets, minRating, minOff, inStockOnly, onlyNew, specSel]);
 
   const activeCount =
     selCats.length + selBrands.length + (priceIdx >= 0 ? 1 : 0) +
     (minRating > 0 ? 1 : 0) + (minOff > 0 ? 1 : 0) + (inStockOnly ? 1 : 0) +
     (onlyNew ? 1 : 0) + Object.values(specSel).reduce((s, v) => s + v.length, 0);
+
+  // Filters sidebar default HIDDEN — toggle keval search karyu hoy,
+  // panel khullu hoy, athva filters active hoy tyare j dekhashe.
+  const showFilterToggle = q.trim() !== '' || filtersOpen || activeCount > 0;
 
   const clearAll = () => {
     setSelCats([]);
@@ -399,9 +378,9 @@ function StandardListing({ categories, activeSlug, items, onSelectProduct, onAdd
           {/* ── 1. FILTER BAR: ALL + every category, route-driven ── */}
           <CategoryNav categories={categories} activeSlug={activeSlug} />
 
-          {/* ── 2. LAYOUT: sidebar facets + results ── */}
-          <div className="plist-layout">
-            <aside className={`plist-side${filtersOpen ? ' plist-side--open' : ''}`} aria-label="Product filters">
+          {/* ── 2. LAYOUT: results full-width; sidebar keval toggle par ── */}
+          <div className={`plist-layout${filtersOpen ? '' : ' plist-layout--full'}`}>
+            <aside id="plist-filters" className={`plist-side${filtersOpen ? ' plist-side--open' : ''}`} aria-label="Product filters" aria-hidden={!filtersOpen}>
               <div className="plist-side__head">
                 <strong>Filters{activeCount > 0 && ` (${activeCount})`}</strong>
                 {activeCount > 0 && (
@@ -419,44 +398,15 @@ function StandardListing({ categories, activeSlug, items, onSelectProduct, onAdd
                 )),
               )}
 
-              {/* Brand — house groups (CHANEL parent + lines), baki single */}
-              {brandOpts.length > 0 && facet(
+              {/* Brand — KHALI brand name (flat), sub-sections NAI.
+                  Category ma lines avi j jay chhe. House = badha lines. */}
+              {brandDisplayOpts.length > 0 && facet(
                 'Brand',
-                <>
-                  {brandFacet.groups.map((g) => {
-                    const kids = g.children.map((c) => c.name);
-                    const all = kids.every((k) => selBrands.includes(k));
-                    const some = !all && kids.some((k) => selBrands.includes(k));
-                    const toggleAll = () => setSelBrands((prev) =>
-                      all ? prev.filter((x) => !kids.includes(x)) : [...new Set([...prev, ...kids])]);
-                    return (
-                      <div className="pf-house" key={`house-${g.house}`}>
-                        <label className="pf-opt pf-opt--house">
-                          <input
-                            type="checkbox"
-                            ref={(el) => { if (el) el.indeterminate = some; }}
-                            checked={all}
-                            onChange={toggleAll}
-                          />
-                          <span className="pf-label"><strong>{g.house}</strong></span>
-                          <span className="pf-n">({g.total})</span>
-                        </label>
-                        <div className="pf-kids">
-                          {g.children.map((c) => checkRow(
-                            selBrands.includes(c.name),
-                            () => setSelBrands((prev) => toggleIn(prev, c.name)),
-                            c.name, c.n, `brand-${c.name}`,
-                          ))}
-                        </div>
-                      </div>
-                    );
-                  })}
-                  {brandFacet.singles.map((b) => checkRow(
-                    selBrands.includes(b.name),
-                    () => setSelBrands((prev) => toggleIn(prev, b.name)),
-                    b.name, b.n, b.name,
-                  ))}
-                </>,
+                brandDisplayOpts.map((b) => checkRow(
+                  selBrands.includes(b.name),
+                  () => setSelBrands((prev) => toggleIn(prev, b.name)),
+                  b.name, b.n, `brand-${b.name}`,
+                )),
               )}
 
               {buckets.length > 0 && facet(
@@ -523,16 +473,19 @@ function StandardListing({ categories, activeSlug, items, onSelectProduct, onAdd
             </aside>
 
             <div className="plist-main">
-              {/* ── Shop toolbar: filters toggle (mobile) + search + sort ── */}
+              {/* ── Shop toolbar: filters toggle + search (sort removed) ── */}
               <div className="plist-tools">
-                <button
-                  type="button"
-                  className="plist-tools__filters"
-                  aria-expanded={filtersOpen}
-                  onClick={() => setFiltersOpen((v) => !v)}
-                >
-                  <SlidersHorizontal size={14} aria-hidden="true" /> Filters{activeCount > 0 && ` (${activeCount})`}
-                </button>
+                {showFilterToggle && (
+                  <button
+                    type="button"
+                    className="plist-tools__filters plist-tools__filters--show"
+                    aria-expanded={filtersOpen}
+                    aria-controls="plist-filters"
+                    onClick={() => setFiltersOpen((v) => !v)}
+                  >
+                    <SlidersHorizontal size={14} aria-hidden="true" /> Filters{activeCount > 0 && ` (${activeCount})`}
+                  </button>
+                )}
                 <input
                   value={q}
                   onChange={(e) => setQ(e.target.value)}
@@ -540,12 +493,6 @@ function StandardListing({ categories, activeSlug, items, onSelectProduct, onAdd
                   aria-label="Search products"
                   className="plist-tools__search"
                 />
-                <label className="plist-tools__sort">
-                  <ArrowUpDown size={14} aria-hidden="true" /> Sort
-                  <select value={sort} onChange={(e) => setSort(e.target.value)} aria-label="Sort products">
-                    {SORTS.map((s) => <option key={s.id} value={s.id}>{s.label}</option>)}
-                  </select>
-                </label>
               </div>
 
               {/* ── 3. PRODUCT GRID ── */}
@@ -564,7 +511,6 @@ function StandardListing({ categories, activeSlug, items, onSelectProduct, onAdd
                       item={item}
                       onSelect={onSelectProduct}
                       onAdded={onAdded}
-                      adminView={adminView}
                     />
                   ))}
                 </ul>

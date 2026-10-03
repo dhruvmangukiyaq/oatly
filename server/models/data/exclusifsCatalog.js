@@ -13,7 +13,7 @@ const E = (id, name, volume, price, image, blurb, hover = null) => ({
   volume,
   price,
   mrp: price,
-  tagline: 'Rare, storied compositions.',
+  tagline: 'Rare parfum compositions.',
   description: blurb,
   image: `/images/exclusifs/${image}`,
   ...(hover ? { hoverImage: `/images/exclusifs/${hover}` } : {}),
@@ -23,7 +23,7 @@ export const EXCLUSIFS_CATEGORIES = [
   {
     slug: 'les-exclusifs',
     name: 'Les Exclusifs de Chanel',
-    tagline: 'Rare, storied compositions.',
+    tagline: 'Rare parfum compositions.',
     description: 'Les Exclusifs de Chanel — eau de parfum, body oils and creams.',
     color: 'bg-[#111111] text-white',
     badge: 'EXCEPTIONAL',

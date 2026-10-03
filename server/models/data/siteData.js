@@ -9,6 +9,7 @@ import { GODIVA_CATEGORIES } from './godivaChocolates.js';
 import { CHANEL_CATEGORIES } from './chanelCatalog.js';
 import { ALLURE_CATEGORIES } from './allureCatalog.js';
 import { EXCLUSIFS_CATEGORIES } from './exclusifsCatalog.js';
+import { CHANEL_COLLECTION_CATEGORIES } from './chanelCollections.js';
 import { applyIceCreamPresentation } from './iceCreamPresentation.js';
 // NOTE: Amedei range shows ONLY user-photo-backed products (see
 // AMEDEI_PHOTO_IDS below) — bare-SVG entries stay hidden until photos arrive.
@@ -1570,6 +1571,31 @@ EXCLUSIFS_CATEGORIES.forEach((incoming) => {
   });
 });
 
+// ─── CHANEL COLLECTIONS (user-provided photos) ──────────────────────────────
+CHANEL_COLLECTION_CATEGORIES.forEach((incoming) => {
+  let cat = productCategories.find((c) => c.slug === incoming.slug);
+  if (!cat) {
+    cat = {
+      id: incoming.slug,
+      slug: incoming.slug,
+      name: incoming.name,
+      tagline: incoming.tagline,
+      description: incoming.description,
+      color: incoming.color,
+      badge: incoming.badge,
+      items: [],
+    };
+    productCategories.push(cat);
+  }
+  const ids = new Set((cat.items || []).map((p) => String(p.id)));
+  (incoming.items || []).forEach((p) => {
+    if (!ids.has(String(p.id))) {
+      cat.items.push({ ...p, category: cat.name });
+      ids.add(String(p.id));
+    }
+  });
+});
+
 // ─── STORE SCOPE: Oatly range + Amul & Magnum ice cream ────────────────────
 // Oatly ni badhi categories (oatly.com/products jevi range) + Amul/Magnum ice
 // cream. Bahaar: biji brands ane non-ice-cream Amul categories.
@@ -1595,6 +1621,12 @@ function keepProduct(p) {
   if (p.brand === 'Allure Homme Sport') return true;
   if (p.brand === 'Allure Homme') return true;
   if (p.brand === 'Les Exclusifs de Chanel') return true;
+  if (
+    p.brand === 'Les Eaux de Chanel' ||
+    p.brand === 'Égoïste' ||
+    p.brand === 'Pour Monsieur' ||
+    p.brand === 'Antaeus'
+  ) return true;
   if (p.brand === 'Amedei') return AMEDEI_PHOTO_IDS.has(String(p.id));
   return false;
 }

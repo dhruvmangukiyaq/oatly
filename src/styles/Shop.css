@@ -81,10 +81,10 @@
   color: var(--spec-ink);
 }
 
-/* --- Line items --- */
+/* --- Line items — proper media, aligned price --- */
 .shop-line {
   display: grid;
-  grid-template-columns: 72px 1fr auto;
+  grid-template-columns: 84px 1fr auto;
   gap: var(--space-16);
   align-items: start;
   padding: var(--space-16) 0;
@@ -96,11 +96,15 @@
 }
 
 .shop-line img {
-  width: 72px;
-  height: 72px;
-  object-fit: cover;
+  width: 84px;
+  height: 84px;
+  object-fit: contain;
   display: block;
-  background: transparent;
+  background: #fff;
+  border: 1px solid var(--spec-border);
+  border-radius: 2px;
+  padding: 6px;
+  box-sizing: border-box;
 }
 
 .shop-line__name {
@@ -226,7 +230,8 @@
   outline-offset: 1px;
 }
 
-/* --- Buttons: same brutalist language as the site modals --- */
+/* --- Buttons: same brutalist language as the site modals ---
+   Shadow mate margin — parent ma clip/overlap NAI thay. */
 .shop-btn {
   display: inline-flex;
   align-items: center;
@@ -245,6 +250,10 @@
   text-decoration: none;
   cursor: pointer;
   box-shadow: 4px 4px 0px 0px rgba(17, 17, 17, 1);
+  box-sizing: border-box;
+  max-width: 100%;
+  margin: 0 4px 4px 0;
+  white-space: nowrap;
 }
 
 .shop-btn:hover {
@@ -253,7 +262,9 @@
 }
 
 .shop-btn--big {
-  width: 100%;
+  width: calc(100% - 4px);
+  white-space: normal;
+  text-align: center;
 }
 
 .shop-btn--ghost {
@@ -357,8 +368,31 @@
 .shop-actions {
   display: flex;
   gap: var(--space-16);
+  row-gap: var(--space-12);
   flex-wrap: wrap;
   margin-top: var(--space-16);
+  padding: 0 4px 4px 0;
+}
+
+.shop-actions .shop-btn {
+  flex: 1 1 auto;
+  min-width: 180px;
+}
+
+/* Summary card: desktop par sticky, mobile par static */
+.shop-grid2 > .shop-card:last-child {
+  position: sticky;
+  top: 90px;
+}
+
+@media (max-width: 900px) {
+  .shop-grid2 > .shop-card:last-child {
+    position: static;
+  }
+  .shop-actions .shop-btn {
+    min-width: 0;
+    width: calc(100% - 4px);
+  }
 }
 
 /* --- Cart drawer: frosted glass like the header --- */
@@ -544,11 +578,63 @@
 .order-card__head {
   display: flex;
   justify-content: space-between;
-  gap: var(--space-8);
+  gap: var(--space-12);
   flex-wrap: wrap;
-  align-items: center;
+  align-items: flex-start;
   font-family: var(--font-ui);
   font-size: 0.875rem;
+}
+
+.order-card__meta {
+  margin: 4px 0 0;
+}
+
+/* My Orders — proper list with product images */
+.orders-list {
+  display: grid;
+  gap: var(--space-16);
+}
+
+.order-card--detailed {
+  padding: var(--space-24);
+}
+
+.order-items--grid {
+  display: grid;
+  margin-top: var(--space-8);
+}
+
+.order-items--grid .shop-line:last-of-type {
+  border-bottom: 1px solid var(--spec-border);
+}
+
+.order-item__body {
+  min-width: 0;
+}
+
+.order-item__actions {
+  display: flex;
+  gap: var(--space-16);
+  flex-wrap: wrap;
+  margin-top: 2px;
+}
+
+.order-item__actions .shop-linkbtn {
+  margin-top: 4px;
+}
+
+@media (max-width: 640px) {
+  .order-card--detailed {
+    padding: var(--space-16);
+  }
+  .order-items--grid .shop-line {
+    grid-template-columns: 64px 1fr auto;
+  }
+  .order-items--grid .shop-line img,
+  .order-items--grid .shop-line__ph {
+    width: 64px;
+    height: 64px;
+  }
 }
 
 .status-pill {

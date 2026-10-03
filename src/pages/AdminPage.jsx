@@ -1052,7 +1052,7 @@ function OrderDetailModal({ order, onClose, onShip }) {
         </div>
         <p className="sc-note">{new Date(order.date).toLocaleString()} · {order.payment?.method?.toUpperCase()} · {order.coupon ? `Coupon ${order.coupon}` : 'No coupon'}</p>
         <h4>Buyer &amp; ship-to</h4>
-        <p>{order.customer} · {order.email} · {order.phone || '—'}<br />{addr.line}, {addr.city} {addr.zip}, {addr.country || ''}</p>
+        <p>{order.customer} · {order.email} · {order.phone || '—'}<br />{addr.line}, {addr.city}{addr.zip ? ` ${addr.zip}` : ''}, {addr.country || ''}</p>
         {order.tracking?.trackingId && <p><Truck size={14} /> {order.tracking.carrier} · Tracking: <strong>{order.tracking.trackingId}</strong></p>}
         {order.notes && <p className="sc-note">Note: {order.notes}</p>}
         <h4>Items</h4>

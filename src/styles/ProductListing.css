@@ -357,7 +357,13 @@ button.plist-card {
   border: none;
   color: var(--spec-ink);
   cursor: pointer;
-  opacity: 0.7;
+  white-space: nowrap;
+}
+
+/* Toggle keval search/filters hoy tyare (JSX conditional + a class).
+   Double-class = base display:none karta vadhare specificity, order game te. */
+.plist-tools__filters.plist-tools__filters--show {
+  display: inline-flex;
 }
 
 .plist-card__wish:hover {
@@ -380,13 +386,23 @@ button.plist-card {
   min-width: 0;
 }
 
+/* Sidebar default HIDDEN — keval toggle (search pachi) par khulse */
+.plist-layout--full {
+  grid-template-columns: minmax(0, 1fr);
+}
+
 .plist-side {
+  display: none;
   position: sticky;
   top: 90px;
   max-height: calc(100vh - 110px);
   overflow-y: auto;
   padding-right: var(--space-8);
   scrollbar-width: none;
+}
+
+.plist-side--open {
+  display: block;
 }
 
 .plist-side::-webkit-scrollbar {
@@ -557,9 +573,6 @@ button.plist-card {
   }
   .plist-side--open {
     display: block;
-  }
-  .plist-tools__filters {
-    display: inline-flex;
   }
 }
 

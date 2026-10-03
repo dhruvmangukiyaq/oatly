@@ -41,19 +41,10 @@ export function notifyShop() {
   window.dispatchEvent(new Event(EVENT_SHOP));
 }
 
-// Admin account thi shopping NAHI — store level j block (UI hoy ke na hoy).
-// Admin login kare etle cart clear + add/update refuse.
-function sessionIsAdmin() {
-  try {
-    const s = JSON.parse(localStorage.getItem('oatly-session'));
-    return Boolean(s && s.role === 'admin');
-  } catch {
-    return false;
-  }
-}
-
+// Shopping is open to every session (guests, customers AND admin) —
+// add-to-cart, wishlist and checkout work the same for all roles.
 export function isShoppingBlocked() {
-  return sessionIsAdmin();
+  return false;
 }
 
 // ── Default catalog pricing (backend ma price nathi etle deterministic) ──
@@ -92,7 +83,6 @@ export function getCart() {
 }
 
 export function setQty(id, qty) {
-  if (sessionIsAdmin()) return getCart(); // admin buy kari shake nahi
   const cart = getCart();
   const q = Math.max(0, Math.floor(Number(qty) || 0));
   if (q <= 0) delete cart[String(id)];
@@ -103,7 +93,6 @@ export function setQty(id, qty) {
 }
 
 export function addToCart(id, qty = 1) {
-  if (sessionIsAdmin()) return getCart(); // admin buy kari shake nahi
   const cart = getCart();
   cart[String(id)] = (cart[String(id)] || 0) + qty;
   write(CART_KEY, cart);
@@ -130,7 +119,6 @@ export function getWishlist() {
 }
 
 export function toggleWishlist(id) {
-  if (sessionIsAdmin()) return getWishlist(); // admin side ma wishlist nahi
   const key = String(id);
   const list = getWishlist();
   const next = list.includes(key) ? list.filter((x) => x !== key) : [...list, key];

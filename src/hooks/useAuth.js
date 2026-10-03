@@ -152,13 +152,6 @@ export function useAuth() {
       resetAdminAttempts();
       const session = { name: 'Admin', email: ADMIN_EMAIL, role: 'admin' };
       write(SESSION_KEY, session);
-      // Admin shopping kari shake nahi — juno cart/wishlist hoy to clear.
-      try {
-        localStorage.removeItem('oatly-cart');
-        localStorage.removeItem('oatly-wishlist');
-      } catch {
-        /* ignore */
-      }
       setUser(session);
       notify();
       try {
