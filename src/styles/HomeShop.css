@@ -11,7 +11,7 @@
      - shapes     → 1px hairlines, 2px radius, no hard shadows, no colour badges
      - cards      → borderless like .plist-card: transparent media with
                     multiply-blended product shots, quiet text actions
-   BEM: .hp, .hp-ticker__*, .hp-hero__*, .hp-chip, .hp-head__*, .hp-rail,
+   BEM: .hp, .hp-ticker__*, .hp-hero__*, .hp-head__*, .hp-rail,
         .hp-card__*, .hp-tile, .hp-promo__*, .hp-service__*
    TOKENS: --font-ui / --font-chunky / --spec-* / --space-* (src/styles/index.css)
    ========================================================================== */
@@ -179,44 +179,6 @@
 }
 
 /* --- 3. AISLE CHIPS — same control type as the product filter bar --------- */
-.hp-aisles {
-  display: flex;
-  gap: 4px;
-  padding: 10px var(--space-24);
-  overflow-x: auto;
-  border-bottom: var(--hp-hair);
-  scrollbar-width: none;
-}
-
-.hp-aisles::-webkit-scrollbar {
-  display: none;
-}
-
-.hp-chip {
-  display: inline-flex;
-  align-items: center;
-  gap: 6px;
-  flex: none;
-  padding: 8px 10px;
-  background: transparent;
-  border: none;
-  border-radius: 0;
-  font-family: var(--font-ui);
-  font-weight: 400;
-  font-size: 0.875rem;
-  letter-spacing: 0.02em;
-  line-height: 1;
-  text-transform: uppercase;
-  text-decoration: none;
-  white-space: nowrap;
-  color: var(--hp-ink);
-  transition: background 120ms ease;
-}
-
-.hp-chip:hover {
-  background: var(--hp-surface);
-}
-
 /* --- SECTION HEAD — hairline rule, chunky heading (ProcessBand face) ----- */
 .hp-section {
   padding-top: clamp(28px, 3.6vw, 44px);
@@ -282,7 +244,6 @@
 }
 
 .hp-railbtn:focus-visible,
-.hp-chip:focus-visible,
 .hp-search:focus-visible,
 .hp-card__add:focus-visible,
 .hp-card__wish:focus-visible,
@@ -689,8 +650,7 @@
 
 @media (max-width: 640px) {
   .hp-wrap,
-  .hp-hero,
-  .hp-aisles {
+  .hp-hero {
     padding-left: var(--space-16);
     padding-right: var(--space-16);
   }

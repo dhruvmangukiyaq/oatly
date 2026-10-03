@@ -12,7 +12,7 @@ import {
   Headphones,
 } from 'lucide-react';
 // ─── MVC: View ──────────────────────────────────────────────────────────────
-// Storefront home: ticker → hero → aisle chips → deals rail → aisle tiles →
+// Storefront home: ticker → hero (search) → deals rail → aisle tiles →
 // oat-drink rail → promos → service strip. Category/product data comes from
 // the Model (one call to /products/categories), the same payload /products
 // uses, so every count, colour and price below is real — nothing is hardcoded.
@@ -259,17 +259,8 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* ── 3. AISLE CHIPS — every shelf, one tap away ── */}
-      <nav className="hp-aisles" aria-label="Product aisles">
-        {categories.map((cat) => (
-          <Link key={cat.slug} to={`/products/${cat.slug}`} className="hp-chip">
-            {cat.name}
-          </Link>
-        ))}
-      </nav>
-
       <div className="hp-wrap">
-        {/* ── 4. DEALS RAIL ── */}
+        {/* ── 3. DEALS RAIL ── */}
         {deals.length > 0 && (
           <section className="hp-section">
             <SectionHead
@@ -295,7 +286,7 @@ export default function HomePage() {
           </section>
         )}
 
-        {/* ── 5. AISLE TILES — six shelves, real badge colours ── */}
+        {/* ── 4. AISLE TILES — six shelves, real badge colours ── */}
         <section className="hp-section">
           <SectionHead title="Shop by aisle" note="Pick a shelf" />
           <div className="hp-tiles">
@@ -318,7 +309,7 @@ export default function HomePage() {
           </div>
         </section>
 
-        {/* ── 6. OAT DRINK RAIL — the shelf the brand is named after ── */}
+        {/* ── 5. OAT DRINK RAIL — the shelf the brand is named after ── */}
         <section className="hp-section">
           <SectionHead
             title="The oat drink aisle"
@@ -339,7 +330,7 @@ export default function HomePage() {
           </div>
         </section>
 
-        {/* ── 7. PROMOS ── */}
+        {/* ── 6. PROMOS ── */}
         <section className="hp-section">
           <div className="hp-promos">
             <Link to="/products/item/cold-foam-barista-1l" className="hp-promo hp-promo--surface">
@@ -384,7 +375,7 @@ export default function HomePage() {
           </div>
         </section>
 
-        {/* ── 8. SERVICE STRIP ── */}
+        {/* ── 7. SERVICE STRIP ── */}
         <ul className="hp-service">
           {services.map(({ icon: Icon, title, text }) => (
             <li key={title} className="hp-service__item">
