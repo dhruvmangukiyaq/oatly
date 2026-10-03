@@ -1637,7 +1637,7 @@ function keepProduct(p) {
   if (ice) {
     ice.items = applyIceCreamPresentation(ice.items || []);
     ice.tagline = 'Scoops, bars, cones, kulfi & sundaes.';
-    ice.description = 'Oatly and Magnum frozen treats — pints, tubs and bars in one clean grid.';
+    ice.description = 'Frozen treats — pints, tubs and bars in one clean grid.';
   }
   productCategories.forEach((cat) => {
     cat.items = (cat.items || []).filter(keepProduct);

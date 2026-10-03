@@ -12,8 +12,9 @@ import {
   Headphones,
 } from 'lucide-react';
 // ─── MVC: View ──────────────────────────────────────────────────────────────
-// Storefront home: ticker → hero (search) → deals rail → aisle tiles →
-// oat-drink rail → promos → service strip. Category/product data comes from
+// Storefront home: ticker → hero (search) → deals rail → brand roster →
+// wardrobe rail (ZARA & MUFTI) → aisle tiles → oat-drink rail → scent rail →
+// promos → service strip. Category/product data comes from
 // the Model (one call to /products/categories), the same payload /products
 // uses, so every count, colour and price below is real — nothing is hardcoded.
 import SEO from '../components/SEO';
@@ -21,6 +22,7 @@ import ProductModel from '../models/productModel.js';
 import { useApiData } from '../hooks/useApiData.js';
 import { enrichProduct, getSettings } from '../models/shopStore.js';
 import { applyAdminVisibility, getProductOverrides } from '../models/adminStore.js';
+import { BRAND_HOUSE } from '../utils/productSearch.js';
 import { useShop } from '../hooks/useShop.js';
 import '../styles/HomeShop.css';
 
@@ -31,13 +33,19 @@ function ShopImg({ src, alt }) {
   return <img src={src} alt={alt} loading="lazy" onError={() => setOk(false)} />;
 }
 
-// Section title sitting on the shelf rule, with rail arrows on the right
-function SectionHead({ title, note, railKey, onScroll, count }) {
+// Section title sitting on the shelf rule, with rail arrows on the right and
+// an optional "See all" link through to the full search results for it
+function SectionHead({ title, note, railKey, onScroll, count, to }) {
   return (
     <div className="hp-head">
       <h2 className="hp-head__title">{title}</h2>
       <div className="hp-head__side">
         {note && <span className="hp-head__note">{note}</span>}
+        {to && (
+          <Link className="hp-head__link" to={to}>
+            See all <ArrowRight size={13} aria-hidden="true" />
+          </Link>
+        )}
         {railKey && (
           <div className="hp-railbtns">
             <button
@@ -112,7 +120,7 @@ function ProductTile({ item, currency, added, onAdd }) {
   );
 }
 
-// Aisle tiles: six shelves covering every product world in the shop
+// Aisle tiles: every shelf in the shop — food, fragrance AND the wardrobe
 const TILES = [
   { slug: 'oat-drink', span: 'hp-tile--wide' },
   { slug: 'ice-cream', span: 'hp-tile--third' },
@@ -120,7 +128,41 @@ const TILES = [
   { slug: 'spread', span: 'hp-tile--fourth' },
   { slug: 'godiva-gifts', span: 'hp-tile--fourth' },
   { slug: 'bleu-de-chanel', span: 'hp-tile--fourth' },
+  { slug: 'mens-clothes', span: 'hp-tile--wide' },
+  { slug: 'womens-clothes', span: 'hp-tile--third' },
+  { slug: 'zara-fragrances', span: 'hp-tile--third' },
+  { slug: 'chilled-oat-drink', span: 'hp-tile--third' },
+  { slug: 'cooking', span: 'hp-tile--third' },
+  { slug: 'chocolate-bars', span: 'hp-tile--third' },
+  { slug: 'godiva-bars', span: 'hp-tile--third' },
 ];
+
+// Brand roster: every house the counter carries. Order is editorial (the
+// house brand first, then the ranges a shopper looks for); counts and the
+// three photo thumbs are derived from the catalogue, never hardcoded.
+const BRAND_ROSTER = [
+  { key: 'Oatara', q: 'oatara', country: 'Sweden' },
+  { key: 'MUFTI', q: 'mufti', country: 'India' },
+  { key: 'ZARA', q: 'zara', country: 'Spain' },
+  { key: 'Chanel', q: 'chanel', country: 'France' },
+  { key: 'Godiva', q: 'godiva', country: 'Belgium' },
+  { key: 'Amedei', q: 'amedei', country: 'Italy' },
+  { key: 'Magnum', q: 'magnum', country: 'Denmark' },
+];
+
+// Chanel ships eight named lines; the roster shows them as one house
+const brandOf = (p) => BRAND_HOUSE[p.brand] || p.brand;
+
+// Alternate two lists A,B,A,B… so a brand rail mixes houses instead of
+// running one brand's block after the other
+const interleave = (a, b) => {
+  const out = [];
+  for (let i = 0; i < Math.max(a.length, b.length); i += 1) {
+    if (a[i]) out.push(a[i]);
+    if (b[i]) out.push(b[i]);
+  }
+  return out;
+};
 
 export default function HomePage() {
   const navigate = useNavigate();
@@ -154,7 +196,8 @@ export default function HomePage() {
     el.scrollBy({ left: dir * Math.round(el.clientWidth * 0.8), behavior: 'smooth' });
   };
 
-  // AUTO-SLIDE: every product rail (deals + oat-drink aisle) advances ONE
+  // AUTO-SLIDE: every product rail (deals, wardrobe, oat drink, scent)
+  // advances ONE
   // CARD PER SECOND and wraps back to the start at the end. It pauses while
   // the pointer or keyboard focus is on the rail (so clicking a product is
   // never a moving target), while the rail is off-screen or the tab is
@@ -266,11 +309,37 @@ export default function HomePage() {
     return { ...t, cat };
   }).filter(Boolean);
 
+  // Brand roster — real counts, three thumbs spread across each house's range
+  const roster = BRAND_ROSTER.map((b) => {
+    const own = items.filter((p) => brandOf(p) === b.key);
+    const thumbs = [];
+    [0, Math.floor(own.length / 2), own.length - 1].forEach((i) => {
+      const img = own[i] && own[i].image;
+      if (img && !thumbs.includes(img)) thumbs.push(img);
+    });
+    return { ...b, count: own.length, thumbs };
+  }).filter((b) => b.count > 0);
+
+  // Fashion rail: ZARA's wardrobe alternating with MUFTI, piece by piece
+  const zaraWard = items.filter(
+    (p) => p.brand === 'ZARA' && (p.__cat === 'mens-clothes' || p.__cat === 'womens-clothes'),
+  );
+  const muftiWard = items.filter((p) => p.brand === 'MUFTI');
+  const wardrobe = interleave(zaraWard, muftiWard).slice(0, 14);
+  const wardrobeTotal = zaraWard.length + muftiWard.length;
+
+  // Scent rail: the Chanel lines alternating with ZARA's fragrance shelf
+  const chanel = items.filter((p) => brandOf(p) === 'Chanel');
+  const zaraScent = items.filter((p) => p.__cat === 'zara-fragrances');
+  const scent = interleave(chanel, zaraScent).slice(0, 14);
+  const scentTotal = chanel.length + zaraScent.length;
+
   const ticker = [
     `Free shipping over ${currency}${Number(settings.freeShipThreshold ?? 40)}`,
     'New — Cold Foam Barista, 1 L',
     `${total} products in stock`,
     pintFrom ? `Frozen treats from ${pintFrom}` : 'Frozen treats in stock',
+    'ZARA & MUFTI clothing in stock',
     'Godiva gift boxes in stock',
   ];
 
@@ -309,10 +378,11 @@ export default function HomePage() {
         <div className="hp-hero__copy">
           <h1 className="hp-hero__title">
             Oats by the carton. Chocolate by the box. Cologne by the bottle.
+            Shirts by the stack.
           </h1>
           <p className="hp-hero__lede">
-            {total} things from Oatara, Magnum, Godiva, Amedei and Chanel —
-            one counter, no cow.
+            {total} things from Oatara, Magnum, Godiva, Amedei, Chanel, ZARA
+            and MUFTI — one counter, no cow.
           </p>
 
           {/* The counter: type here and press Enter → /search results page */}
@@ -360,7 +430,66 @@ export default function HomePage() {
           </section>
         )}
 
-        {/* ── 4. AISLE TILES — six shelves, real badge colours ── */}
+        {/* ── 4. BRANDS — every house, real counts, photo thumbs ── */}
+        {roster.length > 0 && (
+          <section className="hp-section">
+            <SectionHead
+              title="Brands at the counter"
+              note={`${roster.length} houses · ${total} things`}
+            />
+            <div className="hp-brands">
+              {roster.map((b) => (
+                <Link key={b.key} to={`/search?q=${b.q}`} className="hp-brand">
+                  <span className="hp-brand__thumbs" aria-hidden="true">
+                    {b.thumbs.map((src) => (
+                      <ShopImg key={src} src={src} alt="" />
+                    ))}
+                  </span>
+                  <span className="hp-brand__body">
+                    <span className="hp-brand__mark">{b.key}</span>
+                    <span className="hp-brand__meta">
+                      <span>{b.country}</span>
+                      <span>{b.count} products</span>
+                    </span>
+                    <span className="hp-brand__ghost" aria-hidden="true">
+                      {b.key.charAt(0)}
+                    </span>
+                    <ArrowRight className="hp-brand__go" size={15} aria-hidden="true" />
+                  </span>
+                </Link>
+              ))}
+            </div>
+          </section>
+        )}
+
+        {/* ── 5. WARDROBE RAIL — ZARA & MUFTI, the clothes off the search path ── */}
+        {wardrobe.length > 0 && (
+          <section className="hp-section">
+            <SectionHead
+              title="Wear it too"
+              note={`ZARA & MUFTI · ${wardrobeTotal} pieces`}
+              railKey="wardrobe"
+              onScroll={scrollRail}
+              to="/search?q=clothes"
+            />
+            <div
+              className="hp-rail"
+              ref={(el) => { rails.current.wardrobe = el; }}
+            >
+              {wardrobe.map((item) => (
+                <ProductTile
+                  key={item.id ?? item.slug ?? item.name}
+                  item={item}
+                  currency={currency}
+                  added={addedKey === String(item.id ?? item.slug ?? item.name)}
+                  onAdd={handleAdd}
+                />
+              ))}
+            </div>
+          </section>
+        )}
+
+        {/* ── 6. AISLE TILES — every shelf, real badge colours ── */}
         <section className="hp-section">
           <SectionHead title="Shop by aisle" note="Pick a shelf" />
           <div className="hp-tiles">
@@ -383,7 +512,7 @@ export default function HomePage() {
           </div>
         </section>
 
-        {/* ── 5. OAT DRINK RAIL — the shelf the brand is named after ── */}
+        {/* ── 7. OAT DRINK RAIL — the shelf the brand is named after ── */}
         <section className="hp-section">
           <SectionHead
             title="The oat drink aisle"
@@ -404,7 +533,34 @@ export default function HomePage() {
           </div>
         </section>
 
-        {/* ── 6. PROMOS ── */}
+        {/* ── 8. SCENT RAIL — Chanel's lines interleaved with ZARA parfums ── */}
+        {scent.length > 0 && (
+          <section className="hp-section">
+            <SectionHead
+              title="The scent counter"
+              note={`Chanel & ZARA · ${scentTotal} bottles`}
+              railKey="scent"
+              onScroll={scrollRail}
+              to="/search?q=perfume"
+            />
+            <div
+              className="hp-rail"
+              ref={(el) => { rails.current.scent = el; }}
+            >
+              {scent.map((item) => (
+                <ProductTile
+                  key={item.id ?? item.slug ?? item.name}
+                  item={item}
+                  currency={currency}
+                  added={addedKey === String(item.id ?? item.slug ?? item.name)}
+                  onAdd={handleAdd}
+                />
+              ))}
+            </div>
+          </section>
+        )}
+
+        {/* ── 9. PROMOS ── */}
         <section className="hp-section">
           <div className="hp-promos">
             <Link to="/products/item/cold-foam-barista-1l" className="hp-promo hp-promo--surface">
@@ -449,7 +605,7 @@ export default function HomePage() {
           </div>
         </section>
 
-        {/* ── 7. SERVICE STRIP ── */}
+        {/* ── 10. SERVICE STRIP ── */}
         <ul className="hp-service">
           {services.map(({ icon: Icon, title, text }) => (
             <li key={title} className="hp-service__item">
