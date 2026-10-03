@@ -1,8 +1,13 @@
 import React, { useState } from 'react';
 import { useParams, Link } from 'react-router-dom';
 // ─── MVC: View ─── detail via Controller ─────────────────────────────────────
+// Quiet-paper formula page — the site's own language (Margo copy, Titan One
+// headings, 1px hairlines, #F5F5F5 surfaces, 2px radius). The old brutal kit
+// (yellow sticker, 4px black borders, shadow-brutal, blue headings) is gone,
+// so every Look Book card opens a page that matches the grid it came from.
 import { useRecipeDetailController } from '../controllers/useContentControllers.js';
 import { ArrowLeft, Clock, ChefHat, Check } from 'lucide-react';
+import '../styles/RecipeDetail.css';
 
 export default function RecipeDetailPage() {
   const { slug } = useParams();
@@ -36,118 +41,89 @@ export default function RecipeDetailPage() {
   };
 
   return (
-    <div className="max-w-5xl mx-auto px-4 sm:px-6 md:px-8 py-8 space-y-10 font-sans pb-16">
-      
-      {/* Back Button */}
-      <Link
-        to={backPath}
-        className="btn-oatly-secondary text-xs py-2.5 px-5 inline-flex items-center gap-2"
-      >
-        <ArrowLeft className="w-4 h-4" /> {backLabel}
+    <div className="rd">
+      {/* Back to the collection */}
+      <Link to={backPath} className="rd__back">
+        <ArrowLeft size={16} aria-hidden="true" /> {backLabel}
       </Link>
 
-      {/* Hero Header Card */}
-      <div className="bg-white rounded-[2px] shadow-[0_8px_20px_rgba(0,0,0,0.10)] overflow-hidden grid grid-cols-1 md:grid-cols-12">
-
-        {/* Left: 1:1 Square Recipe Image */}
-        {/* TODO: Swap in real licensed image file here */}
-        <div className="md:col-span-6 aspect-square bg-oatly-cream relative overflow-hidden">
-          <img
-            src={recipe.image}
-            alt={recipe.name}
-            className="w-full h-full object-cover"
-          />
-          <div className="absolute top-4 left-4">
-            <span className="badge-sticker bg-oatly-yellow text-oatly-black">{recipe.collection}</span>
-          </div>
+      {/* Hero: photo + title card */}
+      <div className="rd__hero">
+        <div className="rd__media">
+          <img className="rd__img" src={recipe.image} alt={recipe.name} />
+          {recipe.collection && <span className="rd__badge">{recipe.collection}</span>}
         </div>
 
-        {/* Right: Recipe Title & Info */}
-        <div className="md:col-span-6 p-8 flex flex-col justify-between space-y-6">
-          <div className="space-y-3">
-            <div className="flex items-center gap-3 text-xs font-mono font-bold text-gray-600">
-              <span className="flex items-center gap-1"><Clock className="w-4 h-4 text-oatly-pink" /> {recipe.prepTime}</span>
-              <span>•</span>
-              <span className="flex items-center gap-1"><ChefHat className="w-4 h-4 text-oatly-blue" /> {recipe.difficulty}</span>
+        <div className="rd__info">
+          <div className="rd__meta">
+            <span>
+              <Clock size={14} aria-hidden="true" /> {recipe.prepTime}
+            </span>
+            <span>
+              <ChefHat size={14} aria-hidden="true" /> {recipe.difficulty}
+            </span>
+          </div>
+
+          <h1 className="rd__title">{recipe.name}</h1>
+          <p className="rd__tagline">{recipe.tagline}</p>
+
+          <p className="rd__quote">
+            &ldquo;Crafted for {recipe.collection || 'Look Book Vol. 3'} — 100%
+            plant-based perfection.&rdquo;
+          </p>
+        </div>
+      </div>
+
+      {/* Ingredients & Instructions (formula pages only) */}
+      {ingredients.length > 0 || instructions.length > 0 ? (
+        <div className="rd__cols">
+          {/* Ingredients checklist */}
+          <section className="rd__panel" aria-labelledby="rd-ingredients">
+            <div className="rd__head">
+              <h3 className="rd__h" id="rd-ingredients">Ingredients</h3>
+              <span className="rd__sub">Checklist</span>
             </div>
 
-            <h1 className="text-3xl md:text-5xl font-black uppercase font-display text-oatly-black leading-tight">
-              {recipe.name}
-            </h1>
+            <ul className="rd__list">
+              {ingredients.map((ing, idx) => (
+                <li key={idx}>
+                  <button
+                    type="button"
+                    className={`rd__opt${checkedIngredients[idx] ? ' is-done' : ''}`}
+                    onClick={() => toggleIngredient(idx)}
+                    aria-pressed={!!checkedIngredients[idx]}
+                  >
+                    <span className="rd__box">
+                      {checkedIngredients[idx] && <Check size={12} aria-hidden="true" />}
+                    </span>
+                    <span>{ing}</span>
+                  </button>
+                </li>
+              ))}
+            </ul>
+          </section>
 
-            <p className="text-sm text-gray-800 leading-relaxed font-sans">
-              {recipe.tagline}
-            </p>
-          </div>
+          {/* Step-by-step method */}
+          <section className="rd__panel" aria-labelledby="rd-method">
+            <div className="rd__head">
+              <h3 className="rd__h" id="rd-method">Preparation method</h3>
+            </div>
 
-          <div className="p-4 bg-oatly-yellow border-2 border-oatly-black font-hand text-base text-oatly-black shadow-brutal-sm rotate-[-0.5deg]">
-            "Crafted for {recipe.collection || 'Look Book Vol. 3'} — 100% plant-based perfection."
-          </div>
+            <ol className="rd__steps">
+              {instructions.map((step, idx) => (
+                <li key={idx} className="rd__step">
+                  <span className="rd__num" aria-hidden="true">{idx + 1}</span>
+                  <div className="rd__text">{step}</div>
+                </li>
+              ))}
+            </ol>
+          </section>
         </div>
-
-      </div>
-
-
-      {/* Ingredients & Instructions Grid (formula pages only) */}
-      {ingredients.length > 0 || instructions.length > 0 ? (
-      <div className="grid grid-cols-1 md:grid-cols-12 gap-8">
-        
-        {/* Ingredients Checklist */}
-        <div className="md:col-span-5 bg-white border-4 border-oatly-black p-6 shadow-brutal space-y-4">
-          <h3 className="font-display font-extrabold text-xl uppercase text-oatly-blue pb-2 border-b-2 border-oatly-black flex items-center justify-between">
-            <span>INGREDIENTS</span>
-            <span className="text-xs font-mono text-gray-500">CHECKLIST</span>
-          </h3>
-
-          <ul className="space-y-3 text-xs md:text-sm font-mono">
-            {ingredients.map((ing, idx) => (
-              <li
-                key={idx}
-                onClick={() => toggleIngredient(idx)}
-                className={`p-2.5 border-2 border-oatly-black cursor-pointer transition-all flex items-center gap-3 ${
-                  checkedIngredients[idx]
-                    ? 'bg-oatly-mint/40 line-through text-gray-500'
-                    : 'bg-oatly-cream hover:bg-white text-oatly-black'
-                }`}
-              >
-                <div className={`w-5 h-5 border-2 border-oatly-black flex items-center justify-center ${
-                  checkedIngredients[idx] ? 'bg-oatly-black text-white' : 'bg-white'
-                }`}>
-                  {checkedIngredients[idx] && <Check className="w-3.5 h-3.5" />}
-                </div>
-                <span>{ing}</span>
-              </li>
-            ))}
-          </ul>
-        </div>
-
-        {/* Step-by-Step Instructions */}
-        <div className="md:col-span-7 bg-white border-4 border-oatly-black p-6 md:p-8 shadow-brutal space-y-6">
-          <h3 className="font-display font-extrabold text-xl uppercase text-oatly-blue pb-2 border-b-2 border-oatly-black">
-            PREPARATION METHOD
-          </h3>
-
-          <ol className="space-y-6">
-            {instructions.map((step, idx) => (
-              <li key={idx} className="flex items-start gap-4">
-                <span className="flex-shrink-0 w-8 h-8 rounded-none bg-oatly-black text-oatly-yellow font-display font-black text-sm flex items-center justify-center border-2 border-black shadow-brutal-sm">
-                  {idx + 1}
-                </span>
-                <div className="pt-1 text-sm md:text-base text-gray-800 font-sans leading-relaxed">
-                  {step}
-                </div>
-              </li>
-            ))}
-          </ol>
-        </div>
-
-      </div>
       ) : (
-        <div className="bg-white border-4 border-oatly-black p-6 shadow-brutal font-mono text-xs font-bold uppercase">
-          Full formula dropping soon — check back for ingredients & method.
-        </div>
+        <p className="rd__note">
+          Full formula dropping soon — check back for ingredients &amp; method.
+        </p>
       )}
-
     </div>
   );
 }

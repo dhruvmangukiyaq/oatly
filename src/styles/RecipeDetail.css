@@ -1,0 +1,335 @@
+/* ==========================================================================
+   RECIPE DETAIL — Look Book Vol. 3 / A/W 25 / S/S 25 formula pages
+   --------------------------------------------------------------------------
+   The page used the old yellow/black/blue brutal kit (badge-sticker, 4px
+   black borders, shadow-brutal, blue headings). It now speaks the site's
+   quiet paper language: Margo Pro copy, Titan One headings, 1px #C6C6C6
+   hairlines, #F5F5F5 surfaces, 2px radius, no hard shadows, no accent
+   colour — the same voice as the Look Book grid it opens from.
+   BEM: .rd, .rd__back, .rd__hero, .rd__media, .rd__badge, .rd__info,
+        .rd__meta, .rd__title, .rd__tagline, .rd__quote, .rd__cols,
+        .rd__panel, .rd__head, .rd__h, .rd__sub, .rd__list, .rd__opt,
+        .rd__box, .rd__steps, .rd__step, .rd__num, .rd__text, .rd__note
+   TOKENS (src/styles/index.css): --spec-*, --space-*, --font-ui/--font-chunky
+   ========================================================================== */
+
+.rd {
+  display: grid;
+  gap: var(--space-32);
+  max-width: var(--max-width);
+  margin: 0 auto;
+  padding: var(--space-32) var(--space-24) var(--space-64);
+}
+
+/* --- Back link — the listing's FILTERS-button register ------------------ */
+.rd__back {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-8);
+  justify-self: start;
+  padding: var(--space-8) var(--space-12);
+  background: var(--spec-canvas, #ffffff);
+  border: 1px solid var(--spec-border, #c6c6c6);
+  border-radius: 2px;
+  font-family: var(--font-ui);
+  font-size: 0.8125rem;
+  letter-spacing: 0.02em;
+  text-transform: uppercase;
+  color: var(--spec-ink);
+  text-decoration: none;
+  cursor: pointer;
+  transition: background 120ms ease;
+}
+
+.rd__back:hover {
+  background: var(--spec-surface, #f5f5f5);
+}
+
+.rd__back:focus-visible {
+  outline: 2px solid var(--spec-focus, #98c5d3);
+  outline-offset: 2px;
+}
+
+.rd__back svg {
+  flex: none;
+}
+
+/* --- Hero: photo + title card (hairline, no shadow) -------------------- */
+.rd__hero {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  background: var(--spec-canvas, #ffffff);
+  border: 1px solid var(--spec-border, #c6c6c6);
+  border-radius: 2px;
+  overflow: hidden;
+}
+
+.rd__media {
+  position: relative;
+  aspect-ratio: 1 / 1;
+  background: var(--spec-surface, #f5f5f5);
+  min-width: 0;
+}
+
+.rd__img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+/* Collection label — quiet hairline chip (was the yellow sticker) */
+.rd__badge {
+  position: absolute;
+  top: var(--space-16);
+  left: var(--space-16);
+  padding: var(--space-4) var(--space-8);
+  background: var(--spec-canvas, #ffffff);
+  border: 1px solid var(--spec-border, #c6c6c6);
+  border-radius: 2px;
+  font-family: var(--font-ui);
+  font-size: 0.6875rem;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--spec-ink);
+}
+
+.rd__info {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-16);
+  padding: clamp(20px, 3vw, 32px);
+  min-width: 0;
+}
+
+.rd__meta {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--space-16);
+  font-family: var(--font-ui);
+  font-size: 0.75rem;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--spec-ink);
+  opacity: 0.6;
+}
+
+.rd__meta span {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.rd__title {
+  margin: 0;
+  font-family: var(--font-chunky, 'Titan One', 'Arial Rounded MT Bold', Arial, sans-serif);
+  font-weight: 400;
+  font-size: clamp(1.5rem, 3vw, 2.5rem);
+  line-height: 1.1;
+  text-transform: uppercase;
+  color: var(--spec-ink);
+}
+
+.rd__tagline {
+  margin: 0;
+  font-family: var(--font-ui);
+  font-size: 0.9375rem;
+  line-height: 1.55;
+  color: var(--spec-ink);
+  opacity: 0.75;
+}
+
+/* Pull quote — calm surface note (was the yellow rotated box) */
+.rd__quote {
+  margin-top: auto;
+  padding: var(--space-16);
+  background: var(--spec-surface, #f5f5f5);
+  border: 1px solid var(--spec-border, #c6c6c6);
+  border-radius: 2px;
+  font-family: var(--font-ui);
+  font-size: 0.875rem;
+  line-height: 1.55;
+  color: var(--spec-ink);
+}
+
+/* --- Formula columns: ingredients + method ----------------------------- */
+.rd__cols {
+  display: grid;
+  grid-template-columns: 5fr 7fr;
+  gap: var(--space-24);
+  align-items: start;
+}
+
+.rd__panel {
+  padding: var(--space-24);
+  background: var(--spec-canvas, #ffffff);
+  border: 1px solid var(--spec-border, #c6c6c6);
+  border-radius: 2px;
+}
+
+.rd__head {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: var(--space-12);
+  padding-bottom: var(--space-12);
+  margin-bottom: var(--space-16);
+  border-bottom: 1px solid var(--spec-border, #c6c6c6);
+}
+
+.rd__h {
+  margin: 0;
+  font-family: var(--font-chunky, 'Titan One', 'Arial Rounded MT Bold', Arial, sans-serif);
+  font-weight: 400;
+  font-size: 1.125rem;
+  line-height: 1.2;
+  text-transform: uppercase;
+  color: var(--spec-ink);
+}
+
+.rd__sub {
+  font-family: var(--font-ui);
+  font-size: 0.6875rem;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--spec-ink);
+  opacity: 0.5;
+}
+
+/* Checklist rows — hairline dividers, quiet hover (was boxed 2px rows) */
+.rd__list {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.rd__opt {
+  display: flex;
+  align-items: center;
+  gap: var(--space-12);
+  width: 100%;
+  padding: 10px var(--space-12);
+  background: transparent;
+  border: none;
+  border-top: 1px solid rgba(198, 198, 198, 0.55);
+  font-family: var(--font-ui);
+  font-size: 0.9375rem;
+  line-height: 1.45;
+  color: var(--spec-ink);
+  text-align: left;
+  cursor: pointer;
+  transition: background 120ms ease;
+}
+
+.rd__list > li:first-child .rd__opt {
+  border-top: none;
+}
+
+.rd__opt:hover {
+  background: var(--spec-surface, #f5f5f5);
+}
+
+.rd__opt:focus-visible {
+  outline: 2px solid var(--spec-focus, #98c5d3);
+  outline-offset: -2px;
+}
+
+.rd__opt.is-done {
+  text-decoration: line-through;
+  opacity: 0.45;
+}
+
+/* Checkbox — 18px hairline square, ink fill when ticked */
+.rd__box {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex: none;
+  width: 18px;
+  height: 18px;
+  background: var(--spec-canvas, #ffffff);
+  border: 1px solid var(--spec-border, #c6c6c6);
+  border-radius: 2px;
+}
+
+.rd__opt.is-done .rd__box {
+  background: var(--spec-ink);
+  border-color: var(--spec-ink);
+  color: var(--spec-canvas, #ffffff);
+}
+
+/* Method steps — muted number tile (was black box + yellow digits) */
+.rd__steps {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  display: grid;
+  gap: var(--space-16);
+}
+
+.rd__step {
+  display: flex;
+  align-items: flex-start;
+  gap: 14px;
+}
+
+.rd__num {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex: none;
+  width: 28px;
+  height: 28px;
+  background: var(--spec-surface, #f5f5f5);
+  border: 1px solid var(--spec-border, #c6c6c6);
+  border-radius: 2px;
+  font-family: var(--font-ui);
+  font-weight: 700;
+  font-size: 0.8125rem;
+  line-height: 1;
+  color: var(--spec-ink);
+}
+
+.rd__text {
+  padding-top: 4px;
+  font-family: var(--font-ui);
+  font-size: 0.9375rem;
+  line-height: 1.55;
+  color: var(--spec-ink);
+}
+
+/* No-formula note (AW25/SS25 photo-only entries) */
+.rd__note {
+  padding: var(--space-16) 20px;
+  background: var(--spec-surface, #f5f5f5);
+  border: 1px solid var(--spec-border, #c6c6c6);
+  border-radius: 2px;
+  font-family: var(--font-ui);
+  font-size: 0.875rem;
+  letter-spacing: 0.02em;
+  color: var(--spec-ink);
+  opacity: 0.75;
+}
+
+/* --- RESPONSIVE -------------------------------------------------------- */
+@media (max-width: 900px) {
+  .rd__hero {
+    grid-template-columns: 1fr;
+  }
+
+  .rd__cols {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 640px) {
+  .rd {
+    gap: var(--space-24);
+    padding: var(--space-24) var(--space-16) var(--space-48);
+  }
+
+  .rd__panel {
+    padding: var(--space-16);
+  }
+}
