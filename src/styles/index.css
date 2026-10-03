@@ -222,6 +222,17 @@
   @apply outline-none ring-2 ring-[#111111] ring-offset-2 ring-offset-white;
 }
 
+/* Search fields stay EXACTLY as they look unfocused when clicked: the global
+   black ring above would otherwise draw a hard box around the input (text
+   inputs match :focus-visible on mouse click too). The caret and the grey
+   surface carry the affordance; every button/link keeps the ring. */
+.hp-search__input:focus-visible,
+.sres__input:focus-visible,
+.plist-tools__search:focus-visible {
+  outline: none;
+  box-shadow: none;
+}
+
 /* Utility Classes */
 .text-balance {
   text-wrap: balance;

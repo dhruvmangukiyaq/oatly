@@ -84,9 +84,10 @@
   color: var(--spec-ink);
 }
 
+/* Focus changes nothing visible (same policy as the search bars — the caret
+   is the affordance; the global black ring is opted out in index.css). */
 .plist-tools__search:focus {
-  outline: 2px solid var(--spec-focus);
-  outline-offset: 1px;
+  background: var(--spec-canvas);
 }
 
 .plist-tools__sort {
