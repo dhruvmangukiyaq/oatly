@@ -87,7 +87,7 @@
   }
 }
 
-/* --- 2. HERO — copy + the search field, nothing else --------------------- */
+/* --- 2. HERO — the search counter, nothing else -------------------------- */
 .hp-hero {
   display: block;
   max-width: var(--max-width);
@@ -96,36 +96,10 @@
   border-bottom: var(--hp-hair);
 }
 
-.hp-hero__title {
-  max-width: 22ch;
-  margin: 0;
-  /* UNIQUE hero voice — Playfair Display 900 instead of the site-wide
-     Titan One: high-contrast didone caps, editorial + premium, so the
-     headline reads as the shop's own masthead. */
-  font-family: 'Playfair Display', Georgia, 'Times New Roman', serif;
-  font-weight: 900;
-  font-size: clamp(2rem, 4.6vw, 4rem);
-  line-height: 1.14;
-  letter-spacing: 0;
-  text-transform: uppercase;
-  color: var(--hp-ink);
-}
-
-.hp-hero__lede {
-  max-width: 52ch;
-  margin: var(--space-16) 0 0;
-  font-family: var(--font-ui);
-  font-size: 0.9375rem;
-  font-weight: 400;
-  line-height: 1.6;
-  color: var(--hp-ink);
-}
-
 .hp-hero__actions {
   display: flex;
   flex-wrap: wrap;
   gap: 12px;
-  margin-top: var(--space-32);
 }
 
 /* The counter: type + Enter → the /search results page (no popup).

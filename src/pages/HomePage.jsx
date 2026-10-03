@@ -350,18 +350,9 @@ export default function HomePage() {
         </div>
       </div>
 
-      {/* ── 2. HERO — voice first, then the counter ── */}
+      {/* ── 2. HERO — the counter, nothing else ── */}
       <section className="hp-hero">
         <div className="hp-hero__copy">
-          <h1 className="hp-hero__title">
-            Oats by the carton. Chocolate by the box. Cologne by the bottle.
-            Shirts by the stack.
-          </h1>
-          <p className="hp-hero__lede">
-            {total} things from Oatara, Magnum, Godiva, Amedei, Chanel, ZARA
-            and MUFTI — one counter, no cow.
-          </p>
-
           {/* The counter: type here and press Enter → /search results page */}
           <div className="hp-hero__actions">
             <form className="hp-search" role="search" onSubmit={submitSearch}>
