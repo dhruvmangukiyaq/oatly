@@ -2,7 +2,7 @@
    OATARA HEADER + NAV — polish layer (spec §§3–4, 6)
    --------------------------------------------------------------------------
     SCOPE: header visuals plus the global breadcrumb cell.
-      toolbar: Home icon (left) | current-page breadcrumb | spacer | FAQ BIZ Globe X (right)
+      toolbar: Home icon (left) | current-page breadcrumb | spacer | Globe X (right)
      nav row: PRODUCTS TASTEBUDS NEWS SUSTAINABILITY HEALTH (same order)
    TOKENS (defined in src/index.css :root — referenced here, not redefined):
      colors  → --spec-ink/canvas/border/surface/focus/blush/harvest/mint
@@ -190,7 +190,7 @@
   font-weight: 700;
 }
 
-/* ADMIN link — plain toolbar link like FAQ/BIZ (keval admin ne dekhashe).
+/* ADMIN link — plain toolbar text link (keval admin ne dekhashe).
    A small ink dot marks it, no pill, no new color. */
 .oatly-toolbar__admin {
   position: relative;
@@ -227,8 +227,8 @@
   line-height: 1;
 }
 
-/* Crowded toolbar: FAQ/BIZ text links hide first on narrow screens so
-   ADMIN + icons (account, wishlist, cart, menu) never overflow or wrap. */
+/* Crowded toolbar: plain text links (not ADMIN) hide first on narrow screens
+   so ADMIN + icons (account, wishlist, cart, menu) never overflow or wrap. */
 @media (max-width: 700px) {
   .oatly-toolbar__link:not(.oatly-toolbar__admin) {
     display: none;

@@ -6,7 +6,7 @@ import { Home, Globe, X, Menu, ChevronRight, User as UserIcon, ShoppingCart, Hea
 // renders. NOTE: react-router <Link> outputs a semantic <a href> in the DOM,
 // so the result stays <header><nav><ul><li><a> as required.
 // STRUCTURE:
-//   toolbar: Home icon (left) | current-page breadcrumb | spacer | FAQ BIZ Globe X (right)
+//   toolbar: Home icon (left) | current-page breadcrumb | spacer | Globe X (right)
 //   nav row: PRODUCTS TASTEBUDS NEWS SUSTAINABILITY HEALTH (same order)
 import NavigationModel from '../models/navigationModel.js';
 import { useApiData } from '../hooks/useApiData.js';
@@ -80,7 +80,7 @@ export default function Navbar({ onCartOpen }) {
 
   return (
     <header className="oatly-header">
-      {/* ── Toolbar row: Home (left) | spacer | FAQ BIZ Globe X (right) ── */}
+      {/* ── Toolbar row: Home (left) | spacer | Globe X (right) ── */}
       <div className="oatly-toolbar">
         <Link to="/" className="oatly-toolbar__home" aria-label="Home">
           <Home size={20} aria-hidden="true" />
@@ -122,15 +122,6 @@ export default function Navbar({ onCartOpen }) {
               ADMIN
             </Link>
           )}
-          <Link to="/contact" className="oatly-toolbar__link">
-            FAQ
-          </Link>
-          <Link
-            to="/contact"
-            className="oatly-toolbar__link"
-          >
-            BIZ
-          </Link>
           <button
             type="button"
             className="oatly-toolbar__btn"
