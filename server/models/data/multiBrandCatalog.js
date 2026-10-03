@@ -11,6 +11,7 @@ export const BRANDS = [
   { id: 'silk', name: 'Silk', country: 'USA', description: 'America’s favourite plant-based drink.' },
   { id: 'minor-figures', name: 'Minor Figures', country: 'UK', description: 'Coffee-grade oat milk from East London.' },
   { id: 'califia-farms', name: 'Califia Farms', country: 'USA', description: 'California plant-based beverages.' },
+  { id: 'zara', name: 'ZARA', country: 'Spain', description: 'Global fashion house — clothing, shoes and fragrance.' },
 ];
 
 const U = (id) => `https://images.unsplash.com/photo-${id}?auto=format&fit=crop&w=640&q=80`;

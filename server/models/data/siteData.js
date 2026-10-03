@@ -10,6 +10,7 @@ import { CHANEL_CATEGORIES } from './chanelCatalog.js';
 import { ALLURE_CATEGORIES } from './allureCatalog.js';
 import { EXCLUSIFS_CATEGORIES } from './exclusifsCatalog.js';
 import { CHANEL_COLLECTION_CATEGORIES } from './chanelCollections.js';
+import { ZARA_CATEGORIES } from './zaraCatalog.js';
 import { applyIceCreamPresentation } from './iceCreamPresentation.js';
 // NOTE: Amedei range shows ONLY user-photo-backed products (see
 // AMEDEI_PHOTO_IDS below) — bare-SVG entries stay hidden until photos arrive.
@@ -1645,6 +1646,34 @@ function keepProduct(p) {
     if ((productCategories[i].items || []).length === 0) productCategories.splice(i, 1);
   }
 }
+
+// ─── ZARA (user-provided photos) ─────────────────────────────────────────────
+// Men's Clothes, Women's Clothes and Zara Fragrances — merged AFTER the
+// keepProduct store-scope filter above, so the full ZARA range survives the
+// Oatara/Chanel whitelist untouched.
+ZARA_CATEGORIES.forEach((incoming) => {
+  let cat = productCategories.find((c) => c.slug === incoming.slug);
+  if (!cat) {
+    cat = {
+      id: incoming.slug,
+      slug: incoming.slug,
+      name: incoming.name,
+      tagline: incoming.tagline,
+      description: incoming.description,
+      color: incoming.color,
+      badge: incoming.badge,
+      items: [],
+    };
+    productCategories.push(cat);
+  }
+  const ids = new Set((cat.items || []).map((p) => String(p.id)));
+  (incoming.items || []).forEach((p) => {
+    if (!ids.has(String(p.id))) {
+      cat.items.push({ ...p, category: cat.name });
+      ids.add(String(p.id));
+    }
+  });
+});
 
 // ─── BRANDS: only brands present in the catalog (no dead brand filters) ─────
 // Brands missing from the master list (e.g. Magnum) still surface here.
