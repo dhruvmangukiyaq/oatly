@@ -168,7 +168,7 @@ function CategoryNav({ categories, activeSlug }) {
   );
 }
 
-export default function ProductListing({ categories, activeSlug, items, onSelectProduct, onAdded, initialQuery = '', hideSearchField = false }) {
+export default function ProductListing({ categories, activeSlug, items, onSelectProduct, onAdded, initialQuery = '', hideSearchField = false, hideCategoryNav = false }) {
   // ── ICE CREAM: clean product-grid (rounded cards, format tabs, local art) ──
   // Branch BEFORE any hooks so both paths keep unconditional hook order.
   // Brand navigation + ProcessBand stay identical; only the results area is
@@ -195,6 +195,7 @@ export default function ProductListing({ categories, activeSlug, items, onSelect
       onAdded={onAdded}
       initialQuery={initialQuery}
       hideSearchField={hideSearchField}
+      hideCategoryNav={hideCategoryNav}
     />
   );
 }
@@ -207,6 +208,7 @@ function StandardListing({
   onAdded,
   initialQuery = '',
   hideSearchField = false,
+  hideCategoryNav = false,
 }) {
   const [q, setQ] = useState(initialQuery);
   const overrides = getProductOverrides();
@@ -385,8 +387,12 @@ function StandardListing({
     <>
       <div className="plist">
         <div className="plist__inner">
-          {/* ── 1. FILTER BAR: ALL + every category, route-driven ── */}
-          <CategoryNav categories={categories} activeSlug={activeSlug} />
+          {/* ── 1. FILTER BAR: ALL + every category, route-driven.
+                  Hidden on /search: results there are already narrowed by the
+                  query, and a tab that shows EVERY product misleads the user. */}
+          {!hideCategoryNav && (
+            <CategoryNav categories={categories} activeSlug={activeSlug} />
+          )}
 
           {/* ── 2. LAYOUT: results full-width; sidebar only via the toggle ── */}
           <div className={`plist-layout${filtersOpen ? '' : ' plist-layout--full'}`}>

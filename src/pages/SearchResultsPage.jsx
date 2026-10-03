@@ -97,6 +97,7 @@ export default function SearchResultsPage() {
         items={allItems}
         initialQuery={q}
         hideSearchField
+        hideCategoryNav
         onSelectProduct={openDetail}
       />
     </>

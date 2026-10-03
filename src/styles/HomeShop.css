@@ -145,8 +145,10 @@
   background: var(--hp-surface);
 }
 
+/* Focus never changes the border (no black outline — the bar stays the same
+   quiet hairline); the caret + grey surface carry the affordance. */
 .hp-search:focus-within {
-  border-color: var(--hp-ink);
+  background: var(--hp-surface);
 }
 
 .hp-search__input {

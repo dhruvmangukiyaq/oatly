@@ -63,8 +63,9 @@
   background: var(--spec-surface, #f5f5f5);
 }
 
+/* Focus keeps the same hairline — no black border appears on click */
 .sres__form:focus-within {
-  border-color: var(--spec-ink, #000000);
+  background: var(--spec-surface, #f5f5f5);
 }
 
 .sres__form svg {
@@ -115,8 +116,9 @@
   text-underline-offset: 3px;
 }
 
-.sres__form:focus-within .sres__go:focus-visible,
-.sres__input:focus-visible {
+/* The field itself shows no ring (click must stay clean, like the home bar);
+   the SEARCH action keeps its keyboard outline. */
+.sres__form:focus-within .sres__go:focus-visible {
   outline: 2px solid var(--spec-focus, #98c5d3);
   outline-offset: 2px;
 }
