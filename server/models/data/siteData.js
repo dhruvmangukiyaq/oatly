@@ -11,6 +11,7 @@ import { ALLURE_CATEGORIES } from './allureCatalog.js';
 import { EXCLUSIFS_CATEGORIES } from './exclusifsCatalog.js';
 import { CHANEL_COLLECTION_CATEGORIES } from './chanelCollections.js';
 import { ZARA_CATEGORIES } from './zaraCatalog.js';
+import { MUFTI_CATEGORIES } from './muftiCatalog.js';
 import { applyIceCreamPresentation } from './iceCreamPresentation.js';
 // NOTE: Amedei range shows ONLY user-photo-backed products (see
 // AMEDEI_PHOTO_IDS below) — bare-SVG entries stay hidden until photos arrive.
@@ -1647,11 +1648,13 @@ function keepProduct(p) {
   }
 }
 
-// ─── ZARA (user-provided photos) ─────────────────────────────────────────────
-// Men's Clothes, Women's Clothes and Zara Fragrances — merged AFTER the
-// keepProduct store-scope filter above, so the full ZARA range survives the
-// Oatara/Chanel whitelist untouched.
-ZARA_CATEGORIES.forEach((incoming) => {
+// ─── ZARA + MUFTI (user-provided photos) ─────────────────────────────────────
+// Men's Clothes, Women's Clothes and Zara Fragrances (ZARA) plus the MUFTI
+// menswear range — merged AFTER the keepProduct store-scope filter above, so
+// the full brand ranges survive the Oatara/Chanel whitelist untouched.
+// MUFTI items land in the existing Men's Clothes category (the brand facet
+// keeps the two labels filterable).
+const mergeCatalogs = (incoming) => {
   let cat = productCategories.find((c) => c.slug === incoming.slug);
   if (!cat) {
     cat = {
@@ -1673,7 +1676,9 @@ ZARA_CATEGORIES.forEach((incoming) => {
       ids.add(String(p.id));
     }
   });
-});
+};
+ZARA_CATEGORIES.forEach(mergeCatalogs);
+MUFTI_CATEGORIES.forEach(mergeCatalogs);
 
 // ─── BRANDS: only brands present in the catalog (no dead brand filters) ─────
 // Brands missing from the master list (e.g. Magnum) still surface here.

@@ -233,9 +233,17 @@ export default function HomePage() {
   const total = items.length;
   const currency = settings.currency || '$';
 
-  // Deals = products whose price really drops below their listed MRP
+  // Deals = products whose price really drops below their listed MRP.
+  // Clothing aisles stay out of it: the home front page deals rail is for
+  // the food & fragrance range (clothes are found via search + /products).
+  const clothingSlugs = new Set(['mens-clothes', 'womens-clothes', 'zara-fragrances']);
   const deals = visible
-    .filter((i) => Number(i.price) > 0 && Number(i.mrp) > Number(i.price))
+    .filter(
+      (i) =>
+        Number(i.price) > 0 &&
+        Number(i.mrp) > Number(i.price) &&
+        !clothingSlugs.has(i.__cat),
+    )
     .map((i) => {
       const e = enrichProduct(i, overrides);
       return { ...e, off: Math.round(((e.mrp - e.price) / e.mrp) * 100) };

@@ -319,7 +319,7 @@ export const ZARA_CATEGORIES = [
     slug: 'mens-clothes',
     name: 'Men\'s Clothes',
     tagline: 'Denim, shirting, knitwear and outerwear.',
-    description: 'Men\'s Clothes by ZARA - relaxed denim, everyday shirting, knit layers and jackets in a clean modern cut.',
+    description: 'Men\'s Clothes - relaxed denim, everyday shirting, knit layers and jackets in a clean modern cut.',
     color: 'bg-[#111111] text-white',
     badge: 'MEN',
     items: MENS.map(build),
