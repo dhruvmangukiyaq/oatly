@@ -11,8 +11,9 @@
 //     edt, "yogurt" matches oatgurt, "deo" matches deodorant — spelling and
 //     plural variants included
 //   - multi-word queries: EVERY word must match somewhere (AND)
-//   - case / punctuation-insensitive, plain substring only — never across
-//     word joints ("swirled to" must not become "edt")
+//   - case / punctuation-insensitive, plain substring — never across word
+//     joints ("swirled to" must not become "edt"); multi-word synonyms must
+//     sit ON a joint ("t shirt" finds "T-Shirt", not "...crest shirt")
 
 const SYNONYM_GROUPS = [
   ['perfume', 'perfumes', 'parfum', 'parfume', 'cologne', 'fragrance', 'fragrances', 'scent', 'scents', 'attar'],
@@ -29,6 +30,14 @@ const SYNONYM_GROUPS = [
   ['stick', 'sticks'],
   ['spray', 'sprays'],
   ['lotion', 'lotions'],
+  // footwear: "shoes" must find sneakers / boots / loafers / heels too —
+  // product names carry the style word ("Sneakers"), the copy says "footwear",
+  // and nobody writes "shoes" in either. NOTE: plural "sandals" only — the
+  // singular is a substring of "sandalwood" and pulls in fragrances.
+  ['shoe', 'shoes', 'sneaker', 'sneakers', 'trainer', 'trainers', 'boot', 'boots', 'loafer', 'loafers', 'driver', 'drivers', 'heel', 'heels', 'sandals', 'slipper', 'slippers', 'slingback', 'derby', 'footwear'],
+  // tee: "tee" must find every "T-Shirt" — names normalize to "t shirt", so
+  // the bare word "tee" never appears in half the products.
+  ['tee', 'tees', 't-shirt', 'tshirts'],
   ['gel', 'gels'],
   ['oil', 'oils'],
   ['milk', 'milks', 'oat drink', 'oat drinks'],
@@ -70,10 +79,20 @@ function tokenAlts(token) {
   return group ? group.map(normalize) : [key];
 }
 
+// One alternative against the haystack. Single words stay plain substring
+// (so "shoe" finds "shoes"); multi-word alternatives must sit on word joints —
+// otherwise "t shirt" matches "...crest shirt" and pulls shirts under "tee".
+function altMatches(hay, a) {
+  if (!a) return false;
+  if (!a.includes(' ')) return hay.includes(a);
+  const rx = new RegExp(`(?:^| )${a}(?: |$)`);
+  return rx.test(hay);
+}
+
 // Every field that can carry a match. Pass an array (undefined-safe) or text.
 export function matchesText(fields, query) {
   const tokens = normalize(query).split(' ').filter(Boolean);
   if (tokens.length === 0) return true;
   const hay = normalize(Array.isArray(fields) ? fields.filter(Boolean).join(' ') : fields);
-  return tokens.every((t) => tokenAlts(t).some((a) => a && hay.includes(a)));
+  return tokens.every((t) => tokenAlts(t).some((a) => altMatches(hay, a)));
 }

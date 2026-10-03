@@ -18,10 +18,13 @@ const TAGLINE = {
   "jacket": "Lightweight layer with a clean front."
 };
 
+// Copy pools avoid naming OTHER garments: the search matches substrings on
+// these fields, so a shirt description saying "over jeans" would list shirts
+// under a jeans query (and vice versa).
 const BLURB = {
   "shirt": [
-    "A smooth woven shirt cut to sit comfortably over jeans, with a neat collar and easy sleeves.",
-    "Button-through shirting in a regular shape - wear it tucked, open or layered over a tee.",
+    "A smooth woven shirt with a neat collar, easy sleeves and a relaxed, comfortable drape.",
+    "Button-through shirting in a regular shape - wear it tucked, open or layered.",
     "Clean placket, soft hand-feel and a straight hem that works tucked or loose."
   ],
   "tee": [
@@ -29,8 +32,8 @@ const BLURB = {
     "An everyday round-neck tee in a relaxed, breathable cut."
   ],
   "polo": [
-    "Textured pique knit with a two-button placket and a ribbed collar.",
-    "A smart-casual polo that looks right tucked in or loose over denim."
+    "Textured pique fabric with a two-button placket and a ribbed collar.",
+    "A smart-casual polo that looks right tucked in or left loose."
   ],
   "denim": [
     "Stretch denim with a mid-rise waist and a clean five-pocket finish.",
@@ -46,11 +49,11 @@ const BLURB = {
   ],
   "sweat": [
     "Mid-weight sweatshirt with ribbed cuffs and a soft brushed inner face.",
-    "A simple crew sweat that layers cleanly under a jacket."
+    "A simple crew sweat that layers cleanly and neatly."
   ],
   "knit": [
     "Fine-gauge knit with a soft handle and clean ribbed edges.",
-    "A light knit layer that works over shirts and tees alike."
+    "A light knit layer that works with everything."
   ],
   "jacket": [
     "A lightweight layer with a stand collar, zip front and practical pockets.",
@@ -118,7 +121,7 @@ const SPECS = {
 
 const build = ([id, name, kind, price, mrp, gallery]) => {
   const pool = BLURB[kind] || BLURB.shirt;
-  const seed = name.length + id.length;
+  const seed = [...name].reduce((h, c) => (h * 31 + c.charCodeAt(0)) >>> 0, id.length);
   return {
     id,
     name,

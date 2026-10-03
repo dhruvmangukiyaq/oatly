@@ -28,7 +28,7 @@ const TAGLINE = {
 
 const BLURB = {
   shirt: [
-    'A smooth woven shirt with a neat collar, cut to sit comfortably over denim.',
+    'A smooth woven shirt with a neat collar and an easy, comfortable drape.',
     'Button-through shirt in a relaxed cut - wear it tucked, open or layered.',
     'Clean placket, soft fabric and an easy shape for everyday wear.',
   ],
@@ -42,7 +42,7 @@ const BLURB = {
   ],
   sweat: [
     'Brushed-back sweatshirt with ribbed cuffs, cut for easy comfort.',
-    'A soft mid-weight sweatshirt that layers cleanly under a jacket.',
+    'A soft mid-weight sweatshirt that layers cleanly and neatly.',
   ],
   denim: [
     'Washed denim in a modern loose silhouette with a lived-in feel.',
@@ -54,7 +54,7 @@ const BLURB = {
   ],
   blazer: [
     'A tailored blazer with a sharp lapel and a neat shoulder line.',
-    'Structured tailoring in a versatile tone - throw it over knitwear or a tee.',
+    'Structured tailoring in a versatile tone - throw it over almost anything.',
   ],
   jacket: [
     'A structured jacket with clean pockets and an easy, boxy shape.',
@@ -66,7 +66,7 @@ const BLURB = {
   ],
   shoe: [
     'Leather-look footwear with a slim profile and a comfortable sole.',
-    'A clean, low-key shoe that finishes denim and tailoring alike.',
+    'A clean, low-key shoe that suits smart and casual alike.',
   ],
   bag: [
     'A compact bag with room for the essentials and a strap for easy carry.',
@@ -74,10 +74,10 @@ const BLURB = {
   ],
   dress: [
     'A fluid dress with an easy drape that moves well all day.',
-    'An unfussy cut for day-into-evening - add heels and it is done.',
+    'An unfussy cut that carries you from day into evening.',
   ],
   skirt: [
-    'A clean-lined skirt that sits neatly over knitwear and shirts.',
+    'A clean-lined skirt with a neat sit and an easy swing.',
     'A versatile midi skirt with a smooth finish and an easy fit.',
   ],
   top: [
@@ -119,7 +119,7 @@ const build = ([group, file, name, kind, price, volume]) => {
   const p = price ?? KIND_PRICE[kind];
   const id = `zara-${slugify(name)}`;
   const pool = BLURB[kind];
-  const seed = name.length + id.length;
+  const seed = [...name].reduce((h, c) => (h * 31 + c.charCodeAt(0)) >>> 0, id.length);
   return {
     id,
     name,
@@ -318,8 +318,8 @@ export const ZARA_CATEGORIES = [
   {
     slug: 'mens-clothes',
     name: 'Men\'s Clothes',
-    tagline: 'Denim, shirting, knitwear and outerwear.',
-    description: 'Men\'s Clothes - relaxed denim, everyday shirting, knit layers and jackets in a clean modern cut.',
+    tagline: 'Relaxed fits and clean modern layers.',
+    description: 'Men\'s Clothes - relaxed fits, clean modern cuts and easy everyday layers.',
     color: 'bg-[#111111] text-white',
     badge: 'MEN',
     items: MENS.map(build),
@@ -327,8 +327,8 @@ export const ZARA_CATEGORIES = [
   {
     slug: 'womens-clothes',
     name: 'Women\'s Clothes',
-    tagline: 'Dresses, tailoring, knitwear and accessories.',
-    description: 'Women\'s Clothes by ZARA - dresses, blouses, tailoring and accessories for day into evening.',
+    tagline: 'Easy tailoring and day-into-evening pieces.',
+    description: 'Women\'s Clothes - clean modern cuts, easy tailoring and day-into-evening pieces.',
     color: 'bg-[#7A1F3D] text-white',
     badge: 'WOMEN',
     items: WOMENS.map(build),
