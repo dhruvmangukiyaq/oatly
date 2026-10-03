@@ -98,10 +98,13 @@
 .hp-hero__title {
   max-width: 22ch;
   margin: 0;
-  font-family: var(--font-chunky, 'Titan One', 'Arial Rounded MT Bold', Arial, sans-serif);
-  font-weight: 400;
+  /* UNIQUE hero voice — Playfair Display 900 instead of the site-wide
+     Titan One: high-contrast didone caps, editorial + premium, so the
+     headline reads as the shop's own masthead. */
+  font-family: 'Playfair Display', Georgia, 'Times New Roman', serif;
+  font-weight: 900;
   font-size: clamp(2rem, 4.6vw, 4rem);
-  line-height: 1.06;
+  line-height: 1.14;
   letter-spacing: 0;
   text-transform: uppercase;
   color: var(--hp-ink);
