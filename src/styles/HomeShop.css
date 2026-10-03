@@ -262,7 +262,14 @@
   padding-bottom: var(--space-8);
   overflow-x: auto;
   scroll-snap-type: x proximity;
-  scrollbar-width: thin;
+  /* No visible scrollbar track — the rail still scrolls (auto-slide, ‹ ›,
+     touch, trackpad), it just never shows the grey bar underneath. */
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+
+.hp-rail::-webkit-scrollbar {
+  display: none;
 }
 
 .hp-card {
