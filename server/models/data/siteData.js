@@ -1349,9 +1349,9 @@ productCategories.forEach((cat) => {
 });
 
 // ─── MULTI-BRAND (Option B) ───────────────────────────────────────────────
-// 1. Existing Oatara items ne default brand apo (backward compatible).
-// 2. Biji company na items ne matching category slug ma merge karo.
-// Original Oatara packshot images (assets.oatly.com) untouched rahe che.
+// 1. Give existing Oatara items a default brand (backward compatible).
+// 2. Merge other companies' items into the matching category slug.
+// Original Oatara packshot images (assets.oatly.com) stay untouched.
 productCategories.forEach((cat) => {
   cat.items = (cat.items || []).map((p) => ({
     brand: 'Oatara',
@@ -1364,8 +1364,8 @@ productCategories.forEach((cat) => {
 });
 
 // ─── AMUL (amul.com/products range) ───────────────────────────────────────
-// Ice Cream + Cream merge into existing categories; baaki mate new dairy
-// categories banavo (slug → display name). Images = original Amul packshots.
+// Ice Cream + Cream merge into existing categories; for the rest, create new dairy
+// categories (slug → display name). Images = original Amul packshots.
 const AMUL_MERGE = { 'Ice Cream': 'ice-cream', Cream: 'cooking' };
 const AMUL_NEW_CATS = [
   { slug: 'milk', name: 'Milk', badge: 'TASTE OF INDIA', color: 'bg-[#DAEDEF] text-oatly-black' },
@@ -1422,7 +1422,7 @@ Object.entries(AMUL_ITEMS).forEach(([displayName, items]) => {
       ids.add(String(p.id));
     }
   });
-  // category field ne display name sathe sync rakho
+  // keep the category field in sync with the display name
   cat.items.forEach((p) => {
     if (p.brand === 'Amul' && AMUL_ITEMS[displayName]?.some((a) => a.id === p.id)) p.category = cat.name;
   });
@@ -1597,9 +1597,9 @@ CHANEL_COLLECTION_CATEGORIES.forEach((incoming) => {
 });
 
 // ─── STORE SCOPE: Oatly range + Amul & Magnum ice cream ────────────────────
-// Oatly ni badhi categories (oatly.com/products jevi range) + Amul/Magnum ice
-// cream. Bahaar: biji brands ane non-ice-cream Amul categories.
-// REMOVED_IDS: screenshot/user request thi explicit hide kareli items.
+// Oatly's full category set (the oatly.com/products range) + Amul/Magnum ice
+// cream. Excluded: other brands and Amul's non-ice-cream categories.
+// REMOVED_IDS: items explicitly hidden on screenshot/user request.
 const REMOVED_IDS = new Set([
   'califia-oat-ice-cream-vanilla-500ml',
   'minor-figures-oat-ice-coffee-500ml',
@@ -1640,14 +1640,14 @@ function keepProduct(p) {
   productCategories.forEach((cat) => {
     cat.items = (cat.items || []).filter(keepProduct);
   });
-  // Khali thayeli categories kadho (navigations/facets ma dead tabs nahi).
+  // Drop emptied categories (no dead tabs in navigations/facets).
   for (let i = productCategories.length - 1; i >= 0; i--) {
     if ((productCategories[i].items || []).length === 0) productCategories.splice(i, 1);
   }
 }
 
-// ─── BRANDS: keval catalog ma hajer brands (dead brand filters nahi) ───────
-// Master list ma na hoy ae brands (e.g. Magnum) pan ahiya umeray chhe.
+// ─── BRANDS: only brands present in the catalog (no dead brand filters) ─────
+// Brands missing from the master list (e.g. Magnum) still surface here.
 export const BRANDS = (() => {
   const present = new Set(
     productCategories.flatMap((c) => (c.items || []).map((p) => p.brand).filter(Boolean)),

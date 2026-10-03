@@ -91,6 +91,8 @@ export async function getHeaderBreadcrumbs(pathname = '/') {
   switch (path) {
     case '/products':
       return [{ label: 'Products' }];
+    case '/search':
+      return [{ label: 'Search' }];
     case '/recipes':
     case '/recipes/look-book-vol-3':
       return [{ label: 'Tastebuds', to: '/recipes/look-book-vol-3' }, { label: 'LOOK BOOK VOL. 3 | OATARA' }];

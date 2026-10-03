@@ -4,6 +4,7 @@
 import { RECIPES_DATA } from './data/oatlyData.js';
 import { LOOK_BOOK_VOL_3_RECIPES, LOOKBOOK_PAGE } from './data/lookBookVol3Data.js';
 import { AW25_COLLECTION, SS25_COLLECTION } from './data/lookBookCollections.js';
+import { matchesText } from './textSearch.js';
 
 export function getAllRecipes() {
   return [...RECIPES_DATA, ...LOOK_BOOK_VOL_3_RECIPES];
@@ -40,11 +41,12 @@ export function getRecipeBySlug(slug) {
 }
 
 export function searchRecipes(query = '') {
-  const q = query.trim().toLowerCase();
+  const q = String(query || '').trim();
   if (!q) return [];
-  return getAllRecipes().filter((r) => {
-    const title = (r.title || r.name || '').toLowerCase();
-    const category = (r.category || r.lookbook || r.collection || '').toLowerCase();
-    return title.includes(q) || category.includes(q);
-  });
+  return getAllRecipes().filter((r) =>
+    matchesText(
+      [r.title, r.name, r.category, r.lookbook, r.collection, r.tagline, r.description, r.tags],
+      q,
+    ),
+  );
 }

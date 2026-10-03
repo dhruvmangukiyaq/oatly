@@ -23,10 +23,10 @@ export default function OrderSuccessPage() {
             {order ? (
               <>Order <strong>{order.id}</strong> · {s.currency}{Number(order.total).toFixed(2)} · {order.payment?.method?.toUpperCase()}</>
             ) : (
-              <>Tamaru order mali gayo chhe.</>
+              <>Your order has been received.</>
             )}
           </p>
-          <p className="shop-sub">Confirmation email to mokalvama aavse (demo). Status Account → Orders ma joi shako cho.</p>
+          <p className="shop-sub">A confirmation email will be sent (demo). You can check the status under Account → Orders.</p>
           <div className="shop-actions">
             <Link to="/products" className="shop-btn">Continue shopping</Link>
             <Link to="/account" className="shop-btn shop-btn--ghost">My orders</Link>

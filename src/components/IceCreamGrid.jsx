@@ -126,9 +126,9 @@ function IceCreamCard({ item, onSelect, onAdded }) {
 export default function IceCreamGrid({ items, onSelect, onAdded }) {
   const [tab, setTab] = useState('All');
   const [q, setQ] = useState('');
-  // Admin-deleted products grid ma DEKHASE J NAHI (bug fix); customs keval
-  // Ice Cream scope ma. Memo nathi — list nanaki chhe ane admin state
-  // darek render par fresh vabani joiye (delete → listing ma tarat effect).
+  // Admin-deleted products do NOT show in the grid (bug fix); custom ones only
+  // within the Ice Cream scope. No memo — the list is rebuilt and the admin state
+  // must be fresh on every render (delete → immediate effect in the listing).
   const enriched = applyAdminVisibility(items, { category: 'Ice Cream' })
     .map((p) => enrichProduct(p, getProductOverrides()))
     .filter((p) => p.status !== 'archived');

@@ -37,8 +37,8 @@ export default function CartDrawer({ open, onClose }) {
         <div className="cartdrawer__body">
           {lines.length === 0 ? (
             <div className="shop-empty">
-              <p><strong>Cart khali chhe.</strong></p>
-              <p className="shop-sub">Products page thi oat goodness add karo.</p>
+              <p><strong>Your cart is empty.</strong></p>
+              <p className="shop-sub">Add some oat goodness from the Products page.</p>
               <Link to="/products" className="shop-btn shop-btn--small" onClick={onClose}>Shop now</Link>
             </div>
           ) : (

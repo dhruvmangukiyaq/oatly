@@ -10,12 +10,12 @@ import {
 
 // ─── AUTH (LOCKED admin + open customer shop) ───────────────────────────────
 // Customers: browser localStorage (`oatly-accounts` / `oatly-session`).
-// Admin: KEVAL 1 fixed email + password-hash (adminConfig.js). Signup thi
-// admin KOI DIVAS banto nathi; juna admin records auto-demote thay chhe.
+// Admin: exactly 1 fixed email + password hash (adminConfig.js). Signup never
+// creates an admin; old admin records are auto-demoted.
 //
 // ROLES:
-//  - 'admin'    → keval ADMIN_EMAIL + correct password. /admin keval aena mate.
-//  - 'customer' → bija badha. Emne admin link/route dekhashe nahi.
+//  - 'admin'    → only ADMIN_EMAIL + the correct password. /admin is for them only.
+//  - 'customer' → everybody else. They never see the admin link/route.
 
 const ACCOUNTS_KEY = 'oatly-accounts';
 const SESSION_KEY = 'oatly-session';
@@ -43,8 +43,8 @@ function notify() {
   window.dispatchEvent(new Event(EVENT));
 }
 
-// Juna records ma bhul thi admin role hoy to customer ma utaari do.
-// (Pela first-signup rule thi koi admin banyu hoy to e ahiya clean thashe.)
+// If old records carry an admin role by mistake, downgrade them to customer.
+// (Anyone made admin by the earlier first-signup rule gets cleaned up here.)
 function sanitizeAccounts() {
   const accounts = read(ACCOUNTS_KEY, []);
   let changed = false;
@@ -71,7 +71,7 @@ export function getSession() {
   sanitizeAccounts();
   const session = read(SESSION_KEY, null);
   if (!session) return null;
-  // Session ma admin claim hoy pan email admin ni na hoy → customer.
+  // The session claims admin but the email is not the admin's → customer.
   if (session.role === 'admin' && !isAdminEmail(session.email)) {
     const fixed = { ...session, role: 'customer' };
     write(SESSION_KEY, fixed);
@@ -127,12 +127,12 @@ export function useAuth() {
     };
   }, []);
 
-  // NOTE: async — admin path ma SHA-256 check thay chhe.
+  // NOTE: async — the admin path runs a SHA-256 check.
   const login = useCallback(async (email, password) => {
     const cleanEmail = String(email).trim();
     sanitizeAccounts();
 
-    // ── ADMIN PATH: keval fixed email + password hash match ──
+    // ── ADMIN PATH: only fixed email + password hash match ──
     if (isAdminEmail(cleanEmail)) {
       const locked = adminLocked();
       if (locked) return { ok: false, error: locked };
@@ -162,7 +162,7 @@ export function useAuth() {
       return { ok: true, role: 'admin' };
     }
 
-    // ── CUSTOMER PATH: signup karel account j login kari shake ──
+    // ── CUSTOMER PATH: only an account created via signup can log in ──
     const accounts = read(ACCOUNTS_KEY, []);
     const found = accounts.find((a) => String(a.email).toLowerCase() === cleanEmail.toLowerCase());
     if (!found) return { ok: false, error: 'No account with this email. Please create one.' };
@@ -177,7 +177,7 @@ export function useAuth() {
   const signup = useCallback((name, email, password) => {
     const cleanEmail = String(email).trim();
     sanitizeAccounts();
-    // Admin email RESERVED — enathi signup thay j nahi.
+    // The admin email is RESERVED — signups with it never go through.
     if (isAdminEmail(cleanEmail)) {
       return { ok: false, error: 'This email is reserved. Please log in instead.' };
     }
@@ -185,7 +185,7 @@ export function useAuth() {
     if (accounts.some((a) => String(a.email).toLowerCase() === cleanEmail.toLowerCase())) {
       return { ok: false, error: 'This email already has an account. Please log in.' };
     }
-    // Signup hammesha CUSTOMER — koi divas admin nahi.
+    // Signup always creates a CUSTOMER — never an admin.
     const account = { name: String(name).trim(), email: cleanEmail, password, role: 'customer', createdAt: new Date().toISOString() };
     accounts.push(account);
     write(ACCOUNTS_KEY, accounts);
@@ -209,7 +209,7 @@ export function useAuth() {
   return { user, isAdmin: isAdmin(user), login, signup, logout };
 }
 
-// Seller Hub mate: customer account delete karva
+// For the Seller Hub: delete a customer account
 export function deleteAccount(email) {
   const accounts = read(ACCOUNTS_KEY, []);
   const next = accounts.filter((a) => String(a.email).toLowerCase() !== String(email).toLowerCase());

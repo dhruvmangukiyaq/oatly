@@ -30,7 +30,7 @@ const OFF_OPTS = [
 
 const NEW_DAYS = 90;
 
-// Data parthi dynamic price buckets (Amazon jeva ranges)
+// Dynamic price buckets from the data (Amazon-style ranges)
 function priceBuckets(items) {
   const prices = items.map((p) => Number(p.price) || 0).filter((n) => n > 0);
   if (prices.length < 2) return [];
@@ -79,8 +79,8 @@ function ProductCard({ item, onSelect, onAdded }) {
           onError={() => setImgOk(false)}
         />
       ) : null}
-      {/* Hover swap: open-box close-up (Godiva.com jevu). Keval jyare second
-          photo hoy tyare j render — touch users mate detail page ma gallery. */}
+      {/* Hover swap: open-box close-up (like Godiva.com). It renders only when a
+          second photo exists — touch users get the gallery on the detail page. */}
       {imgOk && item.hoverImage ? (
         <img
           src={item.hoverImage}
@@ -114,7 +114,7 @@ function ProductCard({ item, onSelect, onAdded }) {
         ) : low ? (
           <p className="plist-card__stock plist-card__stock--low">Only {item.stock} left</p>
         ) : null}
-        {/* Quiet text actions — badha roles mate same */}
+        {/* Quiet text actions — the same for every role */}
         <div className="plist-card__buy" onClick={(e) => e.stopPropagation()}>
           <button
             type="button"
@@ -168,7 +168,7 @@ function CategoryNav({ categories, activeSlug }) {
   );
 }
 
-export default function ProductListing({ categories, activeSlug, items, onSelectProduct, onAdded }) {
+export default function ProductListing({ categories, activeSlug, items, onSelectProduct, onAdded, initialQuery = '', hideSearchField = false }) {
   // ── ICE CREAM: clean product-grid (rounded cards, format tabs, local art) ──
   // Branch BEFORE any hooks so both paths keep unconditional hook order.
   // Brand navigation + ProcessBand stay identical; only the results area is
@@ -193,12 +193,22 @@ export default function ProductListing({ categories, activeSlug, items, onSelect
       items={items}
       onSelectProduct={onSelectProduct}
       onAdded={onAdded}
+      initialQuery={initialQuery}
+      hideSearchField={hideSearchField}
     />
   );
 }
 
-function StandardListing({ categories, activeSlug, items, onSelectProduct, onAdded }) {
-  const [q, setQ] = useState('');
+function StandardListing({
+  categories,
+  activeSlug,
+  items,
+  onSelectProduct,
+  onAdded,
+  initialQuery = '',
+  hideSearchField = false,
+}) {
+  const [q, setQ] = useState(initialQuery);
   const overrides = getProductOverrides();
   const cur = getSettings().currency || '$';
 
@@ -211,10 +221,10 @@ function StandardListing({ categories, activeSlug, items, onSelectProduct, onAdd
   const [inStockOnly, setInStockOnly] = useState(false);
   const [onlyNew, setOnlyNew] = useState(false);
   const [specSel, setSpecSel] = useState({}); // {SpecKey: [values]}
-  const [filtersOpen, setFiltersOpen] = useState(false); // filters panel (toggle thi)
+  const [filtersOpen, setFiltersOpen] = useState(false); // filters panel (via toggle)
 
-  // Admin-deleted products website par DEKHASE J NAHI (bug fix); customs
-  // keval aa category na scope ma dekhashe.
+  // Admin-deleted products do NOT show on the site (bug fix); custom ones
+  // only appear within this category's scope.
   const scopeCategory = activeSlug
     ? categories.find((c) => c.slug === activeSlug)?.name || null
     : null;
@@ -224,12 +234,12 @@ function StandardListing({ categories, activeSlug, items, onSelectProduct, onAdd
     [items, overrides, scopeCategory],
   );
 
-  // Search scope — smart matcher (synonyms + all fields), facets aa parthi.
+  // Search scope — smart matcher (synonyms + all fields); facets come from here.
   const searched = useMemo(() => {
     return enriched.filter((p) => matchesProduct(p, q));
   }, [enriched, q]);
 
-  // ── Facet options (searched results parthi) ──
+  // ── Facet options (from the searched results) ──
   const catOpts = useMemo(() => {
     const map = new Map();
     searched.forEach((p) => {
@@ -250,9 +260,9 @@ function StandardListing({ categories, activeSlug, items, onSelectProduct, onAdd
 
   const buckets = useMemo(() => priceBuckets(searched), [searched]);
 
-  // ── Brand facet: KHALI house/brand name (sub-sections NAI) ─────────────
-  // Category ma badhu avi j jay chhe, etle Brand ma flat list:
-  // Chanel (house) + baki single brands. House select = badha member lines.
+  // ── Brand facet: ONLY house/brand names (no sub-sections) ──────────────
+  // The category already lists everything, so Brand stays a flat list:
+  // Chanel (house) + the remaining single brands. House selected = all member lines.
   const brandDisplayOpts = useMemo(() => {
     const byName = new Map(brandOpts.map((b) => [b.name, b.n]));
     const used = new Set();
@@ -339,8 +349,8 @@ function StandardListing({ categories, activeSlug, items, onSelectProduct, onAdd
     (minRating > 0 ? 1 : 0) + (minOff > 0 ? 1 : 0) + (inStockOnly ? 1 : 0) +
     (onlyNew ? 1 : 0) + Object.values(specSel).reduce((s, v) => s + v.length, 0);
 
-  // Filters sidebar default HIDDEN — toggle keval search karyu hoy,
-  // panel khullu hoy, athva filters active hoy tyare j dekhashe.
+  // Filters sidebar is HIDDEN by default — the toggle shows only when a search ran,
+  // the panel is open, or any filter is active.
   const showFilterToggle = q.trim() !== '' || filtersOpen || activeCount > 0;
 
   const clearAll = () => {
@@ -378,7 +388,7 @@ function StandardListing({ categories, activeSlug, items, onSelectProduct, onAdd
           {/* ── 1. FILTER BAR: ALL + every category, route-driven ── */}
           <CategoryNav categories={categories} activeSlug={activeSlug} />
 
-          {/* ── 2. LAYOUT: results full-width; sidebar keval toggle par ── */}
+          {/* ── 2. LAYOUT: results full-width; sidebar only via the toggle ── */}
           <div className={`plist-layout${filtersOpen ? '' : ' plist-layout--full'}`}>
             <aside id="plist-filters" className={`plist-side${filtersOpen ? ' plist-side--open' : ''}`} aria-label="Product filters" aria-hidden={!filtersOpen}>
               <div className="plist-side__head">
@@ -398,8 +408,8 @@ function StandardListing({ categories, activeSlug, items, onSelectProduct, onAdd
                 )),
               )}
 
-              {/* Brand — KHALI brand name (flat), sub-sections NAI.
-                  Category ma lines avi j jay chhe. House = badha lines. */}
+              {/* Brand — brand name only (flat), no sub-sections.
+                  The category lists them anyway. House = all member lines. */}
               {brandDisplayOpts.length > 0 && facet(
                 'Brand',
                 brandDisplayOpts.map((b) => checkRow(
@@ -461,7 +471,7 @@ function StandardListing({ categories, activeSlug, items, onSelectProduct, onAdd
                 checkRow(onlyNew, () => setOnlyNew((v) => !v), `Last ${NEW_DAYS} days`, null, 'new'),
               )}
 
-              {/* Spec facets — data parthi auto (RAM, Storage, Pack size…) */}
+              {/* Spec facets — generated from the data (RAM, Storage, Pack size…) */}
               {specFacets.map((g) => facet(
                 g.key,
                 g.values.map((o) => checkRow(
@@ -486,13 +496,17 @@ function StandardListing({ categories, activeSlug, items, onSelectProduct, onAdd
                     <SlidersHorizontal size={14} aria-hidden="true" /> Filters{activeCount > 0 && ` (${activeCount})`}
                   </button>
                 )}
-                <input
-                  value={q}
-                  onChange={(e) => setQ(e.target.value)}
-                  placeholder="Search products…"
-                  aria-label="Search products"
-                  className="plist-tools__search"
-                />
+                {/* Secondary search box — hidden on /search, whose header
+                    field already drives the same query state. */}
+                {!hideSearchField && (
+                  <input
+                    value={q}
+                    onChange={(e) => setQ(e.target.value)}
+                    placeholder="Search products…"
+                    aria-label="Search products"
+                    className="plist-tools__search"
+                  />
+                )}
               </div>
 
               {/* ── 3. PRODUCT GRID ── */}

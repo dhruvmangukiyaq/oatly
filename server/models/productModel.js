@@ -2,11 +2,15 @@
 // Products data-access layer (pure functions over local data, no HTTP here).
 // Mirrors the frontend contract so the API stays in sync with the UI.
 //
-// SINGLE SOURCE OF TRUTH: category items (productCategories) j badhu chhe.
-// Listing (63 items) ane detail/search/cart badha ej list parthi ave chhe,
-// etle card click → detail page hammesha malse (be alag list no mismatch nai).
+// SINGLE SOURCE OF TRUTH: the category items (productCategories) are everything.
+// The listing (63 items) plus detail/search/cart all come from that same list,
+// so a card click always lands on the detail page (never a mismatch between lists).
 
 import { productCategories, BRANDS } from './data/siteData.js';
+// Shared matcher (also used by the listing box in src/utils/productSearch.js)
+// so /api/search and the products page agree — incl. synonyms like
+// perfume → parfum/cologne/fragrance.
+import { matchesText, BRAND_HOUSE } from './textSearch.js';
 
 function allItems() {
   return productCategories.flatMap((cat) => cat.items || []).map((p) => ({
@@ -38,26 +42,47 @@ export function getProductsByCategorySlug(categorySlug) {
   return category.items || [];
 }
 
+// Search haystack for one item: the item's own copy PLUS the shelf it sits
+// on. Many catalog items carry no `category`/`tagline` of their own, so the
+// category's name/tagline/description/badge is what describes them ("Bleu de
+// Chanel" items say "fragrance" only at category level in some lines).
+function searchFields(p, cat) {
+  return [
+    p.name,
+    p.brand,
+    BRAND_HOUSE[p.brand],
+    p.category,
+    p.subCategory,
+    p.tagline,
+    p.description,
+    p.volume,
+    p.flavor,
+    p.format,
+    p.packSize,
+    cat && cat.name,
+    cat && cat.tagline,
+    cat && cat.description,
+    cat && cat.badge,
+  ];
+}
+
 export function filterProducts({ category = 'All', query = '', brand = 'All' } = {}) {
-  const q = String(query || '').trim().toLowerCase();
+  const q = String(query || '').trim();
   const b = String(brand || 'All').trim().toLowerCase();
-  return allItems().filter((p) => {
-    const matchesCategory =
-      category === 'All' ||
-      p.category === category ||
-      p.subCategory === category;
-    const matchesBrand =
-      b === 'all' ||
-      (p.brand || 'Oatara').toLowerCase() === b;
-    const matchesQuery =
-      q === '' ||
-      (p.name || '').toLowerCase().includes(q) ||
-      (p.brand || '').toLowerCase().includes(q) ||
-      (p.tagline || '').toLowerCase().includes(q) ||
-      (p.description || '').toLowerCase().includes(q) ||
-      (p.category || '').toLowerCase().includes(q);
-    return matchesCategory && matchesBrand && matchesQuery;
-  });
+  return productCategories
+    .flatMap((cat) => (cat.items || []).map((p) => ({ p, cat })))
+    .filter(({ p, cat }) => {
+      const matchesCategory =
+        category === 'All' ||
+        p.category === category ||
+        p.subCategory === category;
+      const matchesBrand =
+        b === 'all' ||
+        (p.brand || 'Oatara').toLowerCase() === b;
+      const matchesQuery = q === '' || matchesText(searchFields(p, cat), q);
+      return matchesCategory && matchesBrand && matchesQuery;
+    })
+    .map(({ p }) => ({ brand: 'Oatara', ...p }));
 }
 
 export function getProductCategoryNames() {

@@ -116,7 +116,7 @@ export default function Navbar({ onCartOpen }) {
         <div className="oatly-toolbar__spacer" aria-hidden="true" />
 
         <div className="oatly-toolbar__utils">
-          {/* ADMIN link keval admin login par j — customers ne dekhashe nahi */}
+          {/* ADMIN link shows only for the admin login — customers never see it */}
           {showAdmin && (
             <Link to="/admin" className="oatly-toolbar__link oatly-toolbar__admin">
               ADMIN
@@ -153,7 +153,7 @@ export default function Navbar({ onCartOpen }) {
               <UserIcon size={16} aria-hidden="true" />
             )}
           </Link>
-          {/* Shop: wishlist + cart — admin ne DEKHASE J NAHI (admin buy na kare) */}
+          {/* Shop: wishlist + cart — never shown to the admin (admins don't buy) */}
           {!showAdmin && (
             <Link to="/account" className="oatly-toolbar__btn" aria-label={`Wishlist (${wishlist.length})`} title="Wishlist">
               <Heart size={16} aria-hidden="true" />
@@ -194,7 +194,7 @@ export default function Navbar({ onCartOpen }) {
       </div>
 
       {/* ── Main nav row: same 5 items, same order, centred ──
-          Hover dropdown REMOVED — khali links, koi hover list nai. */}
+          Hover dropdown REMOVED — plain links only, no hover list. */}
       <nav className="oatly-navrow" aria-label="Primary">
         <ul className="oatly-navrow__list" onMouseLeave={scheduleClose}>
           {navItems.map((item) => {

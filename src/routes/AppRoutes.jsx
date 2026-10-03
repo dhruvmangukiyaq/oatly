@@ -11,6 +11,7 @@ import { Routes, Route, Navigate } from 'react-router-dom';
 // Page Views (one file per page → src/pages/) — lazy-loaded.
 const HomePage = lazy(() => import('../pages/HomePage'));
 const ProductsPage = lazy(() => import('../pages/ProductsPage'));
+const SearchResultsPage = lazy(() => import('../pages/SearchResultsPage'));
 const ProductDetailPage = lazy(() => import('../pages/ProductDetailPage'));
 const CategoryProductsPage = lazy(() => import('../pages/CategoryProductsPage'));
 const LookBookVol3Page = lazy(() => import('../pages/LookBookVol3Page'));
@@ -54,6 +55,13 @@ export default function AppRoutes({ selectRecipe, selectArticle }) {
           path="/products"
           element={
             <ProductsPage />
+          }
+        />
+        {/* Search results page — the home search bar lands here on Enter */}
+        <Route
+          path="/search"
+          element={
+            <SearchResultsPage />
           }
         />
         {/* Detail page — static 'item' outranks :category param */}
@@ -200,8 +208,8 @@ export default function AppRoutes({ selectRecipe, selectArticle }) {
         <Route path="/checkout" element={<CheckoutPage />} />
         <Route path="/order-success/:id" element={<OrderSuccessPage />} />
         <Route path="/account" element={<AccountPage />} />
-        {/* Admin — keval admin login par j khulshe (AdminPage andar guard chhe).
-            Bija users ne Access denied dekhase, link pan dekhashe nahi. */}
+        {/* Admin — opens only for the admin login (the AdminPage has its own guard).
+            Other users see Access denied, and the link stays hidden as well. */}
         <Route
           path="/admin"
           element={<AdminPage />}

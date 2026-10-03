@@ -1,202 +1,402 @@
-import React from 'react';
-import { Link } from 'react-router-dom';
-import FlatCard from '../components/FlatCard';
-import VideoCard from '../components/VideoCard';
+import React, { useRef, useState } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
+import {
+  Search,
+  ChevronLeft,
+  ChevronRight,
+  ArrowRight,
+  Heart,
+  Truck,
+  RefreshCw,
+  ShieldCheck,
+  Headphones,
+} from 'lucide-react';
+// ─── MVC: View ──────────────────────────────────────────────────────────────
+// Storefront home: ticker → hero → aisle chips → deals rail → aisle tiles →
+// oat-drink rail → promos → service strip. Category/product data comes from
+// the Model (one call to /products/categories), the same payload /products
+// uses, so every count, colour and price below is real — nothing is hardcoded.
 import SEO from '../components/SEO';
-import '../styles/HomeHeroGlass.css';
-// ─── MVC: View ─── homepage deck arrives from the Model (async Express API)
-import ContentModel from '../models/contentModel.js';
+import ProductModel from '../models/productModel.js';
 import { useApiData } from '../hooks/useApiData.js';
+import { enrichProduct, getSettings } from '../models/shopStore.js';
+import { applyAdminVisibility, getProductOverrides } from '../models/adminStore.js';
+import { useShop } from '../hooks/useShop.js';
+import '../styles/HomeShop.css';
 
-// ─── VIEW fragments (MVC: View) ─────────────────────────────────────────────
+// Product photo with a quiet fallback (remote asset missing → plain tile)
+function ShopImg({ src, alt }) {
+  const [ok, setOk] = useState(!!src);
+  if (!ok || !src) return <span className="hp-card__ph" aria-hidden="true" />;
+  return <img src={src} alt={alt} loading="lazy" onError={() => setOk(false)} />;
+}
 
-// Badge palette mirrors FlatCard/VideoCard (spec §5): one consistent NEWS gold.
-const TAG_COLORS = {
-  'NEWS': 'bg-[#FDCF85] text-black',
-  'PRODUCTS': 'bg-[#F5F5F5] text-black',
-  'TASTEBUDS': 'bg-[#F8C8D8] text-black',
-  'SUSTAINABILITY': 'bg-[#B8D4C8] text-black',
-  'HEALTH': 'bg-[#F8C8D8] text-black',
-  'OTHER': 'bg-[#F5F5F5] text-black',
-};
-
-// Designed (non-photo) card: HOW TO MAKE MATCHA. Borderless, 2px radius,
-// hover lift + soft shadow; same DOM/content.
-function MatchaCard({ card, matchaCarton }) {
-  const c = card;
+// Section title sitting on the shelf rule, with rail arrows on the right
+function SectionHead({ title, note, railKey, onScroll, count }) {
   return (
-    <Link to={c.linkTo} className="group block bg-white rounded-[2px] overflow-hidden transition-transform duration-150 hover:-translate-y-0.5 hover:shadow-[0_8px_20px_rgba(0,0,0,0.10)]">
-      <div className="relative overflow-hidden bg-white" style={{ aspectRatio: c.aspectRatio }}>
-        <div className="w-full h-full flex flex-col items-center justify-between px-6 pt-8 pb-6 text-center">
-          <div className="font-display font-black uppercase leading-[0.95] tracking-tight text-[clamp(2rem,3.4vw,3.4rem)]">
-            HOW TO<br />
-            <span className="relative inline-block">
-              MAKE
-              <span className="absolute left-[-4%] top-1/2 -translate-y-1/2 w-[108%] h-[0.3em] bg-[#9CCB86] -rotate-3 rounded-full" />
-            </span>
-            <br />MATCHA
+    <div className="hp-head">
+      <h2 className="hp-head__title">{title}</h2>
+      <div className="hp-head__side">
+        {note && <span className="hp-head__note">{note}</span>}
+        {railKey && (
+          <div className="hp-railbtns">
+            <button
+              type="button"
+              className="hp-railbtn"
+              aria-label={`Scroll ${title} left`}
+              onClick={() => onScroll(railKey, -1)}
+            >
+              <ChevronLeft size={16} aria-hidden="true" />
+            </button>
+            <button
+              type="button"
+              className="hp-railbtn"
+              aria-label={`Scroll ${title} right`}
+              onClick={() => onScroll(railKey, 1)}
+            >
+              <ChevronRight size={16} aria-hidden="true" />
+            </button>
           </div>
-          <img src={matchaCarton} alt="Oat Drink Matcha carton" className="h-[46%] object-contain" />
-        </div>
+        )}
+        {count != null && <span className="hp-head__count">{count}</span>}
       </div>
-      <div className="bg-white px-3 min-h-[44px] flex items-center justify-between gap-3">
-        <div className="font-body-spec font-bold text-[13px] uppercase text-black tracking-tight leading-tight truncate" title={c.title}>{c.title}</div>
-        <span className={`${TAG_COLORS[c.tag]} px-2 py-[3px] text-[11px] font-body-spec font-bold uppercase whitespace-nowrap flex-shrink-0 leading-none self-center`}>{c.tag}</span>
-      </div>
-    </Link>
+    </div>
   );
 }
 
-// ─── CONTROLLER (MVC): composes Model data into View bands ──────────────────
-export default function HomePage() {
-  // MODEL (async API — page renders once the deck arrives)
-  const home = useApiData(async () => {
-    const [images, cards] = await Promise.all([
-      ContentModel.getHomepageImages(),
-      ContentModel.getHomepageCards(),
-    ]);
-    return { images, cards };
-  }, []);
-  if (!home) return null;
-  const { images: IMAGES, cards: CARDS } = home;
+function ProductTile({ item, currency, added, onAdd }) {
+  const { wishlist, toggleWish } = useShop();
+  const price = Number(item.price) || 0;
+  const mrp = Number(item.mrp) || 0;
+  const off = mrp > price ? Math.round(((mrp - price) / mrp) * 100) : 0;
+  const key = String(item.id ?? item.slug ?? item.name);
+  const wished = wishlist.includes(key);
 
   return (
-    <div className="page-container">
-      <SEO title="the Original Oat Drink Company" description="A site filled with everything you could possibly think of, and also probably not think of, related to an oat drink company called Oatara." />
+    <article className="hp-card">
+      <Link to={`/products/item/${item.id ?? item.slug ?? item.name}`} className="hp-card__media">
+        <ShopImg src={item.image} alt={item.name} />
+      </Link>
+      {item.brand && <p className="hp-card__brand">{item.brand}</p>}
+      <h3 className="hp-card__name">
+        <Link to={`/products/item/${item.id ?? item.slug ?? item.name}`}>{item.name}</Link>
+      </h3>
+      <p className="hp-card__meta">
+        {item.volume || item.packSize || item.category}
+      </p>
+      {/* Price row — same plain type + inline discount as the listing page */}
+      <p className="hp-card__price">
+        <span>{currency}{price.toFixed(2)}</span>
+        {mrp > price && <s>{currency}{mrp.toFixed(2)}</s>}
+        {off > 0 && <span className="hp-card__off">{off}% off</span>}
+      </p>
+      <div className="hp-card__buy">
+        <button
+          type="button"
+          className={`hp-card__add${added ? ' is-added' : ''}`}
+          onClick={() => onAdd(key)}
+        >
+          {added ? 'Added ✓' : 'Add to cart +'}
+        </button>
+        <button
+          type="button"
+          aria-label={wished ? 'Remove from wishlist' : 'Add to wishlist'}
+          aria-pressed={wished}
+          className={`hp-card__wish${wished ? ' is-active' : ''}`}
+          onClick={() => toggleWish(key)}
+        >
+          <Heart size={14} fill={wished ? 'currentColor' : 'none'} aria-hidden="true" />
+        </button>
+      </div>
+    </article>
+  );
+}
 
-      <div className="home-glass-page">
-        <div className="max-w-[1760px] mx-auto px-4 sm:px-6 md:px-7 py-4 md:py-6 flex flex-col gap-3">
+// Aisle tiles: six shelves covering every product world in the shop
+const TILES = [
+  { slug: 'oat-drink', span: 'hp-tile--wide' },
+  { slug: 'ice-cream', span: 'hp-tile--third' },
+  { slug: 'oatgurt', span: 'hp-tile--third' },
+  { slug: 'spread', span: 'hp-tile--fourth' },
+  { slug: 'godiva-gifts', span: 'hp-tile--fourth' },
+  { slug: 'bleu-de-chanel', span: 'hp-tile--fourth' },
+];
 
-          {/* BAND 1 — hero + pee | look book vol.3 tall */}
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-3 items-stretch">
-            <div className="flex flex-col gap-3">
-              {/* HERO — frosted-glass mission panel over an oat-gold morning
-                  wash; exact text/button kept (spec §3.2) */}
-              <div className="home-hero">
-                <div className="home-hero__card text-center px-2 sm:px-6 py-8 md:py-12">
-                  <h1 className="font-funky-spec text-black max-w-2xl mx-auto text-[16px] sm:text-[18px] lg:text-[20px]">
-                    WE EXIST TO MAKE IT EASIER FOR PEOPLE TO LIVE HEALTHIER LIVES WITHOUT RECKLESSLY TAXING THE PLANET'S RESOURCES IN THE PROCESS.
-                  </h1>
-                  <div className="mt-8 flex justify-center">
-                    <Link
-                      to="/things-we-do"
-                      className="inline-block border border-black rounded-[2px] bg-white px-6 py-2.5 font-ui-spec font-bold shadow-[2px_2px_0_#000] hover:bg-[#F5F5F5] transition-colors"
-                    >
-                      READ MORE →
-                    </Link>
-                  </div>
-                </div>
-              </div>
-              <FlatCard {...CARDS.pee} loading="eager" fetchPriority="high" />
-            </div>
-            <div className="flex">
-              <VideoCard
-                {...CARDS.lookbook}
-                loading="eager"
-                fetchPriority="high"
-                className="w-full h-full"
-                overlay={<img src={IMAGES.pressLogo} alt="Look Book Vol.3" className="absolute bottom-7 left-[5%] w-[90%]" />}
-              />
-            </div>
-          </div>
+export default function HomePage() {
+  const navigate = useNavigate();
+  const { add } = useShop();
+  const settings = getSettings();
+  const [searchTerm, setSearchTerm] = useState('');
+  const [addedKey, setAddedKey] = useState(null);
+  const rails = useRef({});
+  const addedTimer = useRef(null);
 
-          {/* BAND 2 — aftertaste + dots | avavav tall | faq + future + mucho (20/60/20) */}
-          <div className="grid grid-cols-1 lg:grid-cols-10 gap-3 items-stretch">
-            <div className="lg:col-span-2 flex flex-col gap-3">
-              <VideoCard {...CARDS.aftertaste} />
-            </div>
-            <div className="lg:col-span-6 flex">
-              <VideoCard
-                {...CARDS.avavav}
-                className="w-full h-full"
-                overlay={<img src={IMAGES.avavavLogo} alt="AVAVAV × Oatara" className="absolute bottom-9 left-[6%] w-[88%]" />}
-              />
-            </div>
-            <div className="lg:col-span-2 flex flex-col gap-3">
-              <FlatCard {...CARDS.faq} />
-              <FlatCard {...CARDS.future} />
-              <VideoCard {...CARDS.mucho} />
-            </div>
-          </div>
+  // Search bar → /search?q=… (a real page with the results + filters, not a popup)
+  const submitSearch = (e) => {
+    e.preventDefault();
+    const v = String(searchTerm || '').trim();
+    if (v) navigate(`/search?q=${encodeURIComponent(v)}`);
+  };
 
-          {/* BAND 3 — refill wide | chocolate (footers on one line) */}
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-3 items-end">
-            <div className="lg:col-span-7">
-              <FlatCard
-                {...CARDS.refill}
-                overlay={<img src={IMAGES.receiptLogo} alt="Look Book Refill" className="absolute right-6 top-1/2 -translate-y-1/2 h-[72%] object-contain" />}
-              />
-            </div>
-            <div className="lg:col-span-5">
-              <FlatCard {...CARDS.chocolate} />
-            </div>
-          </div>
+  // MODEL (async API — the storefront renders once the catalogue arrives)
+  const categories = useApiData(() => ProductModel.getProductCategories(), []);
 
-          {/* BAND 4 — sticky plan | how-to matcha | miami (tops aligned) */}
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-3 items-start">
-            <div className="lg:col-span-6">
-              <FlatCard {...CARDS.sticky} />
-            </div>
-            <div className="lg:col-span-3">
-              <MatchaCard card={CARDS.matcha} matchaCarton={IMAGES.matchaCarton} />
-            </div>
-            <div className="lg:col-span-3">
-              <VideoCard {...CARDS.miami} />
-            </div>
-          </div>
+  const handleAdd = (key) => {
+    add(key, 1);
+    setAddedKey(key);
+    clearTimeout(addedTimer.current);
+    addedTimer.current = setTimeout(() => setAddedKey(null), 1600);
+  };
 
-          {/* BAND 5 — ginger + popcorn | fats | wake-up poster (20/20/60) */}
-          <div className="grid grid-cols-1 lg:grid-cols-10 gap-3 items-start">
-            <div className="lg:col-span-2 flex flex-col gap-3">
-              <FlatCard {...CARDS.ginger} />
-              <FlatCard {...CARDS.popcorn} />
-            </div>
-            <div className="lg:col-span-2">
-              <FlatCard {...CARDS.fats} />
-            </div>
-            <div className="lg:col-span-6">
-              <FlatCard {...CARDS.wakeup} />
-            </div>
-          </div>
+  const scrollRail = (key, dir) => {
+    const el = rails.current[key];
+    if (!el) return;
+    el.scrollBy({ left: dir * Math.round(el.clientWidth * 0.8), behavior: 'smooth' });
+  };
 
-          {/* BAND 6 — blind test | look book AW banner (20/80) */}
-          <div className="grid grid-cols-1 lg:grid-cols-10 gap-3 items-start">
-            <div className="lg:col-span-2">
-              <FlatCard {...CARDS.blind} />
-            </div>
-            <div className="lg:col-span-8">
-              <FlatCard {...CARDS.banner} />
-            </div>
-          </div>
+  if (!categories || categories.length === 0) return null;
 
-          {/* BAND 7 — cow's milk | barista grey */}
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-3 items-start">
-            <FlatCard {...CARDS.cowsmilk} />
-            <FlatCard {...CARDS.barista} />
-          </div>
+  // Catalogue → same enrichment the /products page uses (admin visibility +
+  // deterministic pricing), so a tile price here always matches the listing.
+  const overrides = getProductOverrides();
+  const raw = categories.flatMap((cat) =>
+    (cat.items || []).map((i) => ({ ...i, __cat: cat.slug })),
+  );
+  const visible = applyAdminVisibility(raw);
+  const items = visible.map((p) => enrichProduct(p, overrides));
+  const total = items.length;
+  const currency = settings.currency || '$';
 
-          {/* BAND 8 — climate wide | dealers + bikers | vault tall */}
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-3 items-stretch">
-            <div className="lg:col-span-6 flex">
-              <FlatCard {...CARDS.climate} className="w-full h-full" />
-            </div>
-            <div className="lg:col-span-3 flex flex-col gap-3">
-              <FlatCard {...CARDS.dealers} />
-              <FlatCard {...CARDS.bikers} />
-            </div>
-            <div className="lg:col-span-3">
-              <FlatCard {...CARDS.vault} />
-            </div>
-          </div>
+  // Deals = products whose price really drops below their listed MRP
+  const deals = visible
+    .filter((i) => Number(i.price) > 0 && Number(i.mrp) > Number(i.price))
+    .map((i) => {
+      const e = enrichProduct(i, overrides);
+      return { ...e, off: Math.round(((e.mrp - e.price) / e.mrp) * 100) };
+    })
+    .sort((a, b) => b.off - a.off)
+    .slice(0, 12);
+  const maxOff = deals.reduce((m, d) => Math.max(m, d.off), 0);
 
-          {/* BAND 9 — oatara who */}
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 items-start">
-            <FlatCard {...CARDS.oatlywho} />
-          </div>
+  const oatAisle = items.filter((i) => i.__cat === 'oat-drink' || i.__cat === 'chilled-oat-drink');
+  const oatRail = oatAisle.slice(0, 12);
 
+  const pints = items.filter((i) => i.__cat === 'ice-cream' && Number(i.price) > 0);
+  const pintFrom = pints.length
+    ? `${currency}${Math.min(...pints.map((p) => Number(p.price))).toFixed(2)}`
+    : null;
+
+  const tiles = TILES.map((t) => {
+    const cat = categories.find((c) => c.slug === t.slug);
+    if (!cat) return null;
+    return { ...t, cat };
+  }).filter(Boolean);
+
+  const ticker = [
+    `Free shipping over ${currency}${Number(settings.freeShipThreshold ?? 40)}`,
+    'New — Cold Foam Barista, 1 L',
+    `${total} products in stock`,
+    pintFrom ? `Frozen treats from ${pintFrom}` : 'Frozen treats in stock',
+    'Godiva gift boxes in stock',
+  ];
+
+  const services = [
+    { icon: Truck, title: 'Free shipping', text: `Orders over ${currency}${Number(settings.freeShipThreshold ?? 40)} ship free.` },
+    { icon: RefreshCw, title: 'Easy returns', text: 'Send it back within 7 days if it is not your thing.' },
+    { icon: ShieldCheck, title: 'Secure checkout', text: 'Cards, UPI and wallets — your details stay yours.' },
+    { icon: Headphones, title: 'Real human help', text: 'Weekdays, 9 to 6. A person answers.' },
+  ];
+
+  return (
+    <div className="hp">
+      <SEO
+        title="the Original Oat Drink Company"
+        description="A site filled with everything you could possibly think of, and also probably not think of, related to an oat drink company called Oatara."
+      />
+
+      {/* ── 1. TICKER — the one moving thing on the page ── */}
+      <div className="hp-ticker" role="region" aria-label="Store announcements">
+        <div className="hp-ticker__track">
+          {[0, 1].map((group) => (
+            <span className="hp-ticker__group" key={group} aria-hidden={group === 1 ? 'true' : undefined}>
+              {ticker.map((line) => (
+                <span className="hp-ticker__item" key={line}>
+                  {line}
+                  <i className="hp-ticker__sep" aria-hidden="true" />
+                </span>
+              ))}
+            </span>
+          ))}
         </div>
       </div>
 
+      {/* ── 2. HERO — voice first, then the counter ── */}
+      <section className="hp-hero">
+        <div className="hp-hero__copy">
+          <h1 className="hp-hero__title">
+            Oats by the carton. Chocolate by the box. Cologne by the bottle.
+          </h1>
+          <p className="hp-hero__lede">
+            {total} things from Oatara, Magnum, Godiva, Amedei and Chanel —
+            one counter, no cow.
+          </p>
+
+          {/* The counter: type here and press Enter → /search results page */}
+          <div className="hp-hero__actions">
+            <form className="hp-search" role="search" onSubmit={submitSearch}>
+              <Search size={20} aria-hidden="true" />
+              <input
+                type="search"
+                name="q"
+                className="hp-search__input"
+                value={searchTerm}
+                onChange={(e) => setSearchTerm(e.target.value)}
+                placeholder="Search products…"
+                aria-label="Search products"
+              />
+            </form>
+          </div>
+        </div>
+      </section>
+
+      {/* ── 3. AISLE CHIPS — every shelf, one tap away ── */}
+      <nav className="hp-aisles" aria-label="Product aisles">
+        {categories.map((cat) => (
+          <Link key={cat.slug} to={`/products/${cat.slug}`} className="hp-chip">
+            {cat.name}
+          </Link>
+        ))}
+      </nav>
+
+      <div className="hp-wrap">
+        {/* ── 4. DEALS RAIL ── */}
+        {deals.length > 0 && (
+          <section className="hp-section">
+            <SectionHead
+              title="Today's deals"
+              note={maxOff ? `Up to ${maxOff}% off` : null}
+              railKey="deals"
+              onScroll={scrollRail}
+            />
+            <div
+              className="hp-rail"
+              ref={(el) => { rails.current.deals = el; }}
+            >
+              {deals.map((item) => (
+                <ProductTile
+                  key={item.id ?? item.slug ?? item.name}
+                  item={item}
+                  currency={currency}
+                  added={addedKey === String(item.id ?? item.slug ?? item.name)}
+                  onAdd={handleAdd}
+                />
+              ))}
+            </div>
+          </section>
+        )}
+
+        {/* ── 5. AISLE TILES — six shelves, real badge colours ── */}
+        <section className="hp-section">
+          <SectionHead title="Shop by aisle" note="Pick a shelf" />
+          <div className="hp-tiles">
+            {tiles.map(({ cat, span }) => (
+              <Link
+                key={cat.slug}
+                to={`/products/${cat.slug}`}
+                className={`hp-tile ${span}`}
+              >
+                <div>
+                  <h3 className="hp-tile__name">{cat.name}</h3>
+                  <p className="hp-tile__tag">{cat.tagline}</p>
+                </div>
+                <span className="hp-tile__foot">
+                  {(cat.items || []).length} products
+                  <ArrowRight size={16} aria-hidden="true" />
+                </span>
+              </Link>
+            ))}
+          </div>
+        </section>
+
+        {/* ── 6. OAT DRINK RAIL — the shelf the brand is named after ── */}
+        <section className="hp-section">
+          <SectionHead
+            title="The oat drink aisle"
+            note={`${oatAisle.length} cartons · 250 ml to 5 L`}
+            railKey="oat"
+            onScroll={scrollRail}
+          />
+          <div className="hp-rail" ref={(el) => { rails.current.oat = el; }}>
+            {oatRail.map((item) => (
+              <ProductTile
+                key={item.id ?? item.slug ?? item.name}
+                item={item}
+                currency={currency}
+                added={addedKey === String(item.id ?? item.slug ?? item.name)}
+                onAdd={handleAdd}
+              />
+            ))}
+          </div>
+        </section>
+
+        {/* ── 7. PROMOS ── */}
+        <section className="hp-section">
+          <div className="hp-promos">
+            <Link to="/products/item/cold-foam-barista-1l" className="hp-promo hp-promo--surface">
+              <img
+                src="https://assets.oatly.com/asset/29894ee5-3ba7-4a20-ae65-35f831e5cd44/w640/WEB-62442-Oatly-Barista-Cold-Foam-Edge-1L-Right-large.png"
+                alt=""
+                aria-hidden="true"
+                loading="lazy"
+                className="hp-promo__img"
+              />
+              <span className="hp-promo__body">
+                <span className="hp-promo__kicker">New</span>
+                <span className="hp-promo__title">Cold Foam Barista</span>
+                <span className="hp-promo__text">
+                  Press the nozzle and a cloud of sweet oat foam lands on your iced coffee.
+                </span>
+                <span className="hp-promo__link">
+                  Shop now <ArrowRight size={15} aria-hidden="true" />
+                </span>
+              </span>
+            </Link>
+
+            <Link to="/products/godiva-gifts" className="hp-promo hp-promo--canvas">
+              <img
+                src="/images/godiva/gold-15pc.webp"
+                alt=""
+                aria-hidden="true"
+                loading="lazy"
+                className="hp-promo__img"
+              />
+              <span className="hp-promo__body">
+                <span className="hp-promo__kicker">Gifting</span>
+                <span className="hp-promo__title">Godiva gift boxes</span>
+                <span className="hp-promo__text">
+                  Gold collections, truffles and bar sets for the person nobody knows what to buy for.
+                </span>
+                <span className="hp-promo__link">
+                  See the boxes <ArrowRight size={15} aria-hidden="true" />
+                </span>
+              </span>
+            </Link>
+          </div>
+        </section>
+
+        {/* ── 8. SERVICE STRIP ── */}
+        <ul className="hp-service">
+          {services.map(({ icon: Icon, title, text }) => (
+            <li key={title} className="hp-service__item">
+              <Icon size={20} aria-hidden="true" />
+              <div>
+                <p className="hp-service__title">{title}</p>
+                <p className="hp-service__text">{text}</p>
+              </div>
+            </li>
+          ))}
+        </ul>
+      </div>
     </div>
   );
 }

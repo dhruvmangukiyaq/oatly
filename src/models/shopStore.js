@@ -1,7 +1,7 @@
 // ─── SHOP STORE (proper e-commerce, frontend demo) ───────────────────────────
 // Cart, wishlist, coupons, settings, reviews + enriched product catalog.
-// Badhu localStorage ma persist thay chhe. Backend aavse tyare aa j
-// function names API calls ma feravvana raheshe.
+// Everything persists in localStorage. When the backend arrives, these same
+// function names will switch to API calls.
 //
 // Keys:
 //   oatly-cart        → { [productId]: qty }
@@ -10,7 +10,7 @@
 //   oatly-settings    → { storeName, currency, shippingFee, freeShipThreshold, taxRate, announcement }
 //   oatly-reviews     → [{ id, productId, author, rating, text, date, approved }]
 //   oatly-admin-products (adminStore) → price/stock overrides + custom products
-//   oatly-orders      → full e-commerce orders (niche schema juo)
+//   oatly-orders      → full e-commerce orders (see the schema below)
 
 const CART_KEY = 'oatly-cart';
 const WISH_KEY = 'oatly-wishlist';
@@ -47,7 +47,7 @@ export function isShoppingBlocked() {
   return false;
 }
 
-// ── Default catalog pricing (backend ma price nathi etle deterministic) ──
+// ── Default catalog pricing (no price in the backend, so this is deterministic) ──
 function defaultPrice(p) {
   const id = String(p.id ?? p.name ?? 'x');
   let h = 0;

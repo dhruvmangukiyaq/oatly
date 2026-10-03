@@ -38,7 +38,7 @@ function sectionTheme(pathname = '/') {
 
 function ThemedMain({ selectRecipe, selectArticle }) {
   const { pathname } = useLocation();
-  // Login page: wash full-height fill (niche white patti na dekhay)
+  // Login page: full-height wash fill (so no white strip shows below)
   const fill = pathname.startsWith('/login') ? ' login-fill' : '';
   return (
     <main className={`flex-grow${fill} ${sectionTheme(pathname)}`}>
@@ -89,9 +89,9 @@ export default function App() {
   );
 }
 
-// Storefront chrome (header + modals + cart). Admin page (/admin) nu potanu
-// top bar + sidebar chhe — tya storefront header (PRODUCTS/NEWS row) dekhase
-// NAI, etle ahiya route joine hide kariye chhiye.
+// Storefront chrome (header + modals + cart). The admin page (/admin) has its own
+// top bar + sidebar — the storefront header (PRODUCTS/NEWS row) must NOT show
+// there, so we hide it while that route is active.
 function SiteChrome({
   selectedRecipe,
   selectRecipe,
@@ -105,8 +105,8 @@ function SiteChrome({
   const isAdminPage = pathname.startsWith('/admin');
 
   // Admin page: potano full-width layout (Seller Hub top bar + sidebar).
-  // Storefront shell (cream frame + padding + teal border) ahiya NAI —
-  // nahitar admin ni aaspaas white border dekhay.
+  // Storefront shell (cream frame + padding + teal border) is NOT here —
+  // otherwise a white border would show around the admin page.
   if (isAdminPage) {
     return (
       <ThemedMain
@@ -130,7 +130,7 @@ function SiteChrome({
 
       </div>
 
-      {/* Modals + cart — admin page par NAI (tya shopping j nathi) */}
+      {/* Modals + cart — not on the admin page (no shopping there) */}
       {!isAdminPage && (
         <>
           <CartDrawer open={cartOpen} onClose={() => setCartOpen(false)} />

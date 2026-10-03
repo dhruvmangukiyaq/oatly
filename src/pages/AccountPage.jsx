@@ -64,7 +64,7 @@ function MyOrders({ email }) {
   if (mine.length === 0) {
     return (
       <div className="shop-card shop-empty">
-        <p><strong>Haju koi order nathi.</strong></p>
+        <p><strong>No orders yet.</strong></p>
         <Link to="/products" className="shop-btn shop-btn--small">Shop now</Link>
       </div>
     );
@@ -127,7 +127,7 @@ function MyWishlist() {
   const { wishlist, toggleWish, add } = useShop();
   const { products } = useCatalog();
   const items = wishlist.map((id) => findProduct(products, id)).filter(Boolean);
-  if (items.length === 0) return <div className="shop-card shop-empty"><p><strong>Wishlist khali chhe.</strong></p><p className="shop-sub">Products par ♥ dabavo.</p></div>;
+  if (items.length === 0) return <div className="shop-card shop-empty"><p><strong>Your wishlist is empty.</strong></p><p className="shop-sub">Tap ♥ on a product to save it here.</p></div>;
   return (
     <div className="shop-card">
       {items.map((p) => (
@@ -154,7 +154,7 @@ function Profile({ session }) {
       <div className="shop-row"><span>Name</span><span>{session.name}</span></div>
       <div className="shop-row"><span>Email</span><span>{session.email}</span></div>
       <div className="shop-row"><span>Role</span><span>{session.role}</span></div>
-      <p className="shop-sub">Password change ane address book backend saathe aavshe.</p>
+      <p className="shop-sub">Password change and address book will arrive with the backend.</p>
     </div>
   );
 }
@@ -193,7 +193,7 @@ function MyReturns({ email, name }) {
       <div className="shop-card">
         <h2>Request a return ({windowDays}-day window)</h2>
         {eligible.length === 0 ? (
-          <p className="shop-sub">Koi eligible order nathi (shipped/delivered + {windowDays} divas ni andar).</p>
+          <p className="shop-sub">No eligible order yet (shipped/delivered + within {windowDays} days).</p>
         ) : (
           <form className="shop-form" onSubmit={submit}>
             <label>Order
@@ -221,7 +221,7 @@ function MyReturns({ email, name }) {
           <p className="shop-sub">{r.product}</p>
         </div>
       ))}
-      {myRets.length === 0 && <p className="shop-sub">Haju koi return request nathi.</p>}
+      {myRets.length === 0 && <p className="shop-sub">No return requests yet.</p>}
     </div>
   );
 }
@@ -258,7 +258,7 @@ function MyMessages({ email, name }) {
             </select>
           </label>
           <label>Subject<input value={subject} onChange={(e) => setSubject(e.target.value)} placeholder="Subject" /></label>
-          <label>Message<input value={text} onChange={(e) => setText(e.target.value)} placeholder="Tamaro prashna lakho…" /></label>
+          <label>Message<input value={text} onChange={(e) => setText(e.target.value)} placeholder="Write your question…" /></label>
           <button type="submit" className="shop-btn shop-btn--small" disabled={!text.trim()}>Send</button>
         </form>
       </div>
@@ -272,7 +272,7 @@ function MyMessages({ email, name }) {
           <p>{m.text}</p>
         </div>
       ))}
-      {threads.length === 0 && <p className="shop-sub">Haju koi message nathi.</p>}
+      {threads.length === 0 && <p className="shop-sub">No messages yet.</p>}
     </div>
   );
 }

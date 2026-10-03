@@ -281,6 +281,218 @@
   }
 }
 
+/* ==========================================================================
+   ARTICLE MODAL — news popup, styled with the site's own language
+   --------------------------------------------------------------------------
+   White canvas + black ink (home/product pages), hairline #c6c6c6 rules,
+   Margo Pro UI type, Girdo display title, editorial serif body — no coloured
+   chrome: the popup reads exactly like the rest of the website.
+   ========================================================================== */
+.ns-modal {
+  width: 100%;
+  max-width: 46rem;
+  max-height: 90vh;
+  overflow-y: auto;
+  background: var(--spec-canvas);
+  color: var(--spec-ink);
+  border: 2px solid var(--spec-ink);
+  box-shadow: 6px 6px 0 0 rgba(17, 17, 17, 1);
+}
+
+/* ── Bar: plain header, black label on white ── */
+.ns-modal__bar {
+  position: sticky;
+  top: 0;
+  z-index: 20;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-16);
+  padding: var(--space-12) var(--space-16);
+  background: var(--spec-canvas);
+  border-bottom: 1px solid var(--spec-border);
+}
+
+.ns-modal__brand {
+  display: flex;
+  align-items: center;
+  gap: var(--space-8);
+  font-family: var(--font-ui);
+  font-size: 0.875rem;
+  line-height: 1;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--spec-ink);
+}
+
+.ns-modal__brand svg {
+  width: 16px;
+  height: 16px;
+  flex-shrink: 0;
+}
+
+.ns-modal__close {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 34px;
+  height: 34px;
+  background: var(--spec-canvas);
+  color: var(--spec-ink);
+  border: 2px solid var(--spec-ink);
+  transition: background-color 0.15s ease;
+}
+
+.ns-modal__close:hover {
+  background: var(--spec-harvest);
+}
+
+/* ── Body ── */
+.ns-modal__body {
+  padding: var(--space-24) var(--space-32) var(--space-32);
+}
+
+.ns-modal__hero {
+  margin: 0 0 var(--space-24);
+  background: var(--spec-surface);
+}
+
+.ns-modal__hero-img {
+  display: block;
+  width: 100%;
+  height: clamp(180px, 30vh, 320px);
+  object-fit: cover;
+}
+
+.ns-modal__head {
+  margin-bottom: var(--space-16);
+}
+
+/* Home-card badge: NEWS gold, black label */
+.ns-modal__tag {
+  display: inline-block;
+  margin-bottom: var(--space-12);
+  padding: var(--space-4) var(--space-8);
+  background: var(--spec-harvest);
+  color: var(--spec-ink);
+  font-family: var(--font-ui);
+  font-size: 0.6875rem;
+  font-weight: 700;
+  line-height: 1;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
+.ns-modal__title {
+  margin: 0 0 var(--space-12);
+  font-family: var(--font-display);
+  font-weight: 400;
+  font-size: clamp(1.75rem, 4vw, 2.75rem);
+  line-height: 1.05;
+  text-transform: uppercase;
+  color: var(--spec-ink);
+}
+
+.ns-modal__excerpt {
+  margin: 0;
+  max-width: 60ch;
+  font-family: var(--font-ui);
+  font-size: 1.0625rem;
+  line-height: 1.5;
+  color: var(--spec-ink);
+  opacity: 0.8;
+}
+
+/* ── Meta: hairline rule, same rhythm as .ns-story__meta ── */
+.ns-modal__meta {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: var(--space-12);
+  margin-bottom: var(--space-24);
+  padding-bottom: var(--space-16);
+  border-bottom: 1px solid var(--spec-border);
+  font-family: var(--font-ui);
+  font-size: 0.875rem;
+  line-height: 1.5;
+  color: var(--spec-ink);
+}
+
+.ns-modal__meta time,
+.ns-modal__meta-item {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-4);
+  font-variant-numeric: tabular-nums;
+}
+
+.ns-modal__meta svg {
+  width: 14px;
+  height: 14px;
+}
+
+/* ── Body copy: editorial serif, black on white ── */
+.ns-modal__text {
+  font-family: var(--font-serif);
+  font-size: 1.0625rem;
+  line-height: 1.7;
+  color: var(--spec-ink);
+}
+
+.ns-modal__text .ns-story__p {
+  font-size: 1.0625rem;
+  line-height: 1.7;
+  color: var(--spec-ink);
+}
+
+/* ── Primary action: site button (black, hard shadow) ── */
+.ns-modal__back {
+  display: block;
+  width: 100%;
+  margin-top: var(--space-24);
+  padding: var(--space-12) var(--space-24);
+  background: #111111;
+  color: #ffffff;
+  border: 2px solid #111111;
+  font-family: var(--font-ui);
+  font-size: 0.875rem;
+  font-weight: 700;
+  letter-spacing: 0.02em;
+  line-height: 1.4;
+  text-transform: uppercase;
+  text-align: center;
+  cursor: pointer;
+  box-shadow: 4px 4px 0 0 rgba(17, 17, 17, 1);
+  transition: background-color 0.15s ease, color 0.15s ease, transform 0.1s ease,
+    box-shadow 0.1s ease;
+}
+
+.ns-modal__back:hover {
+  background: var(--spec-canvas);
+  color: #111111;
+}
+
+.ns-modal__back:active {
+  transform: translate(2px, 2px);
+  box-shadow: 2px 2px 0 0 rgba(17, 17, 17, 1);
+}
+
+/* ── Mobile ── */
+@media (max-width: 640px) {
+  .ns-modal__body {
+    padding: var(--space-16) var(--space-16) var(--space-24);
+  }
+
+  .ns-modal__title {
+    font-size: clamp(1.5rem, 7vw, 2rem);
+  }
+
+  .ns-modal__excerpt,
+  .ns-modal__text .ns-story__p {
+    font-size: 1rem;
+  }
+}
+
 /* Newspaper drop cap on the article lede */
 .ns-story__richtext > p:first-child::first-letter {
   font-family: Georgia, 'Times New Roman', serif;

@@ -14,7 +14,7 @@ const PAYMENTS = [
   { id: 'upi', label: 'UPI (demo)' },
 ];
 
-// ── All countries (ISO list) — Country dropdown ma badhi countries ──────────
+// ── All countries (ISO list) — every country in the Country dropdown ─────────
 const COUNTRIES = [
   'Afghanistan', 'Albania', 'Algeria', 'Andorra', 'Angola', 'Antigua and Barbuda',
   'Argentina', 'Armenia', 'Australia', 'Austria', 'Azerbaijan', 'Bahamas',
@@ -79,12 +79,12 @@ export default function CheckoutPage() {
   const place = (e) => {
     e.preventDefault();
     setError('');
-    if (lines.length === 0) { setError('Cart khali chhe.'); return; }
-    if (form.name.trim().length < 2) { setError('Name lakho (2+ letters).'); return; }
-    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(form.email.trim())) { setError('Email barabar lakho.'); return; }
-    if (form.address.trim().length < 5) { setError('Address lakho.'); return; }
-    if (form.city.trim().length < 2) { setError('City lakho.'); return; }
-    if (!form.country) { setError('Country select karo.'); return; }
+    if (lines.length === 0) { setError('Your cart is empty.'); return; }
+    if (form.name.trim().length < 2) { setError('Enter your name (2+ letters).'); return; }
+    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(form.email.trim())) { setError('Enter a valid email address.'); return; }
+    if (form.address.trim().length < 5) { setError('Enter your address.'); return; }
+    if (form.city.trim().length < 2) { setError('Enter your city.'); return; }
+    if (!form.country) { setError('Select your country.'); return; }
 
     const order = saveOrder({
       customer: form.name.trim(),
@@ -123,7 +123,7 @@ export default function CheckoutPage() {
         </div>
         {lines.length === 0 ? (
           <div className="shop-card shop-empty">
-            <p><strong>Cart khali chhe.</strong></p>
+            <p><strong>Your cart is empty.</strong></p>
             <Link to="/products" className="shop-btn">Shop now</Link>
           </div>
         ) : (
@@ -158,7 +158,7 @@ export default function CheckoutPage() {
                       </label>
                     ))}
                   </div>
-                  <p className="shop-sub shop-note">Demo checkout — real payment gateway backend ma jodvanu raheshe.</p>
+                  <p className="shop-sub shop-note">Demo checkout — connecting a real payment gateway to the backend is still to do.</p>
                 </div>
                 {error && <p className="shop-error">{error}</p>}
               </div>

@@ -1,0 +1,727 @@
+/* ==========================================================================
+   HOME — storefront front page ("the counter")
+   --------------------------------------------------------------------------
+   Section plan comes from marketplace homepages (ticker → hero → aisle chips
+   → deal rails → aisle tiles → promos → service strip); the VISUAL LANGUAGE
+   is the product page's, not a separate theme:
+     - type       → --font-ui (Margo Pro) 14px/400 for all copy, labels and
+                    prices; --font-chunky (Titan One) for headings only
+     - colour     → black ink on the #FFFEF8 frame, --spec-surface #F5F5F5
+                    panels, --spec-border #C6C6C6 hairlines, no accent fills
+     - shapes     → 1px hairlines, 2px radius, no hard shadows, no colour badges
+     - cards      → borderless like .plist-card: transparent media with
+                    multiply-blended product shots, quiet text actions
+   BEM: .hp, .hp-ticker__*, .hp-hero__*, .hp-chip, .hp-head__*, .hp-rail,
+        .hp-card__*, .hp-tile, .hp-promo__*, .hp-service__*
+   TOKENS: --font-ui / --font-chunky / --spec-* / --space-* (src/styles/index.css)
+   ========================================================================== */
+
+.hp {
+  --hp-ink: var(--spec-ink, #000000);
+  --hp-line: var(--spec-border, #c6c6c6);
+  --hp-surface: var(--spec-surface, #f5f5f5);
+  --hp-canvas: var(--spec-canvas, #ffffff);
+  --hp-hair: 1px solid var(--hp-line);
+
+  background: transparent;
+  color: var(--hp-ink);
+}
+
+.hp a {
+  color: var(--hp-ink);
+}
+
+.hp-wrap {
+  max-width: var(--max-width);
+  margin: 0 auto;
+  padding: 0 var(--space-24);
+}
+
+/* --- 1. TICKER — quiet announcement strip (product-page greys) ------------ */
+.hp-ticker {
+  overflow: hidden;
+  background: var(--hp-surface);
+  border-bottom: var(--hp-hair);
+}
+
+.hp-ticker__track {
+  display: flex;
+  width: max-content;
+  animation: hp-marquee 34s linear infinite;
+}
+
+.hp-ticker__group {
+  display: flex;
+}
+
+.hp-ticker__item {
+  display: inline-flex;
+  align-items: center;
+  gap: 16px;
+  padding: 8px 16px;
+  font-family: var(--font-ui);
+  font-weight: 400;
+  font-size: 0.72rem;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+
+.hp-ticker__sep {
+  width: 6px;
+  height: 6px;
+  background: var(--hp-line);
+  transform: rotate(45deg);
+  flex: none;
+}
+
+@keyframes hp-marquee {
+  from { transform: translateX(0); }
+  to { transform: translateX(-50%); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .hp-ticker__track {
+    animation: none;
+  }
+}
+
+/* --- 2. HERO — copy + the search field, nothing else --------------------- */
+.hp-hero {
+  display: block;
+  max-width: var(--max-width);
+  margin: 0 auto;
+  padding: clamp(28px, 4vw, 52px) var(--space-24);
+  border-bottom: var(--hp-hair);
+}
+
+.hp-hero__title {
+  max-width: 22ch;
+  margin: 0;
+  font-family: var(--font-chunky, 'Titan One', 'Arial Rounded MT Bold', Arial, sans-serif);
+  font-weight: 400;
+  font-size: clamp(2rem, 4.6vw, 4rem);
+  line-height: 1.06;
+  letter-spacing: 0;
+  text-transform: uppercase;
+  color: var(--hp-ink);
+}
+
+.hp-hero__lede {
+  max-width: 52ch;
+  margin: var(--space-16) 0 0;
+  font-family: var(--font-ui);
+  font-size: 0.9375rem;
+  font-weight: 400;
+  line-height: 1.6;
+  color: var(--hp-ink);
+}
+
+.hp-hero__actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin-top: var(--space-32);
+}
+
+/* The counter: type + Enter → the /search results page (no popup).
+   Same control styling as the product page's search input (white, 1px
+   hairline, 2px radius, Margo). */
+.hp-search {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  width: 100%;
+  min-height: 60px;
+  padding: 0 16px;
+  background: var(--hp-canvas);
+  border: var(--hp-hair);
+  border-radius: 2px;
+  cursor: text;
+  transition: background 120ms ease, border-color 120ms ease;
+}
+
+.hp-search:hover {
+  background: var(--hp-surface);
+}
+
+.hp-search:focus-within {
+  border-color: var(--hp-ink);
+}
+
+.hp-search__input {
+  flex: 1;
+  min-width: 0;
+  padding: 0;
+  background: transparent;
+  border: none;
+  outline: none;
+  font-family: var(--font-ui);
+  font-weight: 400;
+  font-size: 1.0625rem;
+  line-height: 1;
+  color: var(--hp-ink);
+}
+
+.hp-search__input::placeholder {
+  color: rgba(0, 0, 0, 0.45);
+}
+
+/* Chrome's ✕ affordance would break the quiet field */
+.hp-search__input::-webkit-search-cancel-button {
+  -webkit-appearance: none;
+  appearance: none;
+}
+
+/* --- 3. AISLE CHIPS — same control type as the product filter bar --------- */
+.hp-aisles {
+  display: flex;
+  gap: 4px;
+  padding: 10px var(--space-24);
+  overflow-x: auto;
+  border-bottom: var(--hp-hair);
+  scrollbar-width: none;
+}
+
+.hp-aisles::-webkit-scrollbar {
+  display: none;
+}
+
+.hp-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  flex: none;
+  padding: 8px 10px;
+  background: transparent;
+  border: none;
+  border-radius: 0;
+  font-family: var(--font-ui);
+  font-weight: 400;
+  font-size: 0.875rem;
+  letter-spacing: 0.02em;
+  line-height: 1;
+  text-transform: uppercase;
+  text-decoration: none;
+  white-space: nowrap;
+  color: var(--hp-ink);
+  transition: background 120ms ease;
+}
+
+.hp-chip:hover {
+  background: var(--hp-surface);
+}
+
+/* --- SECTION HEAD — hairline rule, chunky heading (ProcessBand face) ----- */
+.hp-section {
+  padding-top: clamp(28px, 3.6vw, 44px);
+}
+
+.hp-head {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: var(--space-16);
+  padding-bottom: 8px;
+  margin-bottom: var(--space-24);
+  border-bottom: var(--hp-hair);
+}
+
+.hp-head__title {
+  margin: 0;
+  font-family: var(--font-chunky, 'Titan One', 'Arial Rounded MT Bold', Arial, sans-serif);
+  font-weight: 400;
+  font-size: clamp(1.25rem, 2.2vw, 1.875rem);
+  line-height: 1.1;
+  text-transform: uppercase;
+  color: var(--hp-ink);
+}
+
+.hp-head__side {
+  display: flex;
+  align-items: center;
+  gap: var(--space-12);
+}
+
+.hp-head__note,
+.hp-head__count {
+  font-family: var(--font-ui);
+  font-weight: 400;
+  font-size: 0.8125rem;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--hp-ink);
+  opacity: 0.6;
+}
+
+.hp-railbtns {
+  display: flex;
+  gap: 6px;
+}
+
+.hp-railbtn {
+  display: grid;
+  place-items: center;
+  width: 30px;
+  height: 30px;
+  background: var(--hp-canvas);
+  border: var(--hp-hair);
+  border-radius: 2px;
+  color: var(--hp-ink);
+  cursor: pointer;
+  transition: background 120ms ease;
+}
+
+.hp-railbtn:hover {
+  background: var(--hp-surface);
+}
+
+.hp-railbtn:focus-visible,
+.hp-chip:focus-visible,
+.hp-search:focus-visible,
+.hp-card__add:focus-visible,
+.hp-card__wish:focus-visible,
+.hp-tile:focus-visible,
+.hp-promo:focus-visible {
+  outline: 2px solid var(--spec-focus, #98c5d3);
+  outline-offset: 2px;
+}
+
+/* --- PRODUCT RAIL + CARD — mirrors .plist-card exactly -------------------- */
+.hp-rail {
+  display: grid;
+  grid-auto-flow: column;
+  grid-auto-columns: clamp(180px, 19vw, 230px);
+  gap: var(--space-32);
+  padding-bottom: var(--space-8);
+  overflow-x: auto;
+  scroll-snap-type: x proximity;
+  scrollbar-width: thin;
+}
+
+.hp-card {
+  display: flex;
+  flex-direction: column;
+  background: none;
+  border: none;
+  padding: 0;
+  scroll-snap-align: start;
+  color: var(--hp-ink);
+}
+
+.hp-card__media {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  aspect-ratio: 1 / 1;
+  background: transparent;
+  overflow: hidden;
+  text-decoration: none;
+}
+
+.hp-card__media img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  display: block;
+  mix-blend-mode: multiply;
+}
+
+.hp-card__ph {
+  width: 58%;
+  height: 58%;
+  background: var(--hp-surface);
+  border-radius: 2px;
+}
+
+.hp-card__brand {
+  margin: var(--space-12) 0 0;
+  font-family: var(--font-ui);
+  font-size: 0.72rem;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--hp-ink);
+  opacity: 0.62;
+}
+
+.hp-card__name {
+  margin: 2px 0 0;
+  font-family: var(--font-ui);
+  font-weight: 400;
+  font-size: 0.875rem;
+  line-height: 1.5;
+  text-transform: none; /* the global h1–h6 rule uppercases; the shop doesn't */
+  color: var(--hp-ink);
+}
+
+.hp-card__name a {
+  color: var(--hp-ink);
+  text-decoration: none;
+}
+
+.hp-card:hover .hp-card__name a {
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+.hp-card__meta {
+  margin: 2px 0 0;
+  font-family: var(--font-ui);
+  font-size: 0.875rem;
+  line-height: 1.5;
+  color: var(--hp-ink);
+  opacity: 0.6;
+}
+
+.hp-card__price {
+  display: flex;
+  align-items: baseline;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin: var(--space-4) 0 0;
+  font-family: var(--font-ui);
+  font-weight: 400;
+  font-size: 0.875rem;
+  line-height: 1.5;
+  color: var(--hp-ink);
+}
+
+.hp-card__price s {
+  opacity: 0.5;
+}
+
+.hp-card__off {
+  font-size: 0.75rem;
+  letter-spacing: 0.02em;
+  text-transform: uppercase;
+  opacity: 0.6;
+}
+
+.hp-card__buy {
+  display: flex;
+  align-items: center;
+  gap: var(--space-12);
+  margin-top: var(--space-8);
+}
+
+/* Quiet text action — the same as the listing's ADD TO CART + */
+.hp-card__add {
+  padding: 0;
+  background: none;
+  border: none;
+  font-family: var(--font-ui);
+  font-weight: 400;
+  font-size: 0.875rem;
+  letter-spacing: 0.02em;
+  text-transform: uppercase;
+  line-height: 1;
+  color: var(--hp-ink);
+  cursor: pointer;
+}
+
+.hp-card__add:hover {
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+.hp-card__add.is-added {
+  opacity: 0.55;
+  text-decoration: none;
+}
+
+.hp-card__wish {
+  display: grid;
+  place-items: center;
+  padding: 0;
+  background: none;
+  border: none;
+  color: var(--hp-ink);
+  opacity: 0.5;
+  cursor: pointer;
+}
+
+.hp-card__wish:hover,
+.hp-card__wish.is-active {
+  opacity: 1;
+}
+
+/* --- 5. AISLE TILES — same surface + hairline as the shop panels --------- */
+.hp-tiles {
+  display: grid;
+  grid-template-columns: repeat(12, 1fr);
+  gap: var(--space-16);
+}
+
+.hp-tile {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  min-height: 168px;
+  padding: var(--space-24);
+  background: var(--hp-canvas);
+  border: var(--hp-hair);
+  border-radius: 2px;
+  text-decoration: none;
+  color: var(--hp-ink);
+  transition: background 120ms ease;
+}
+
+.hp-tile:hover {
+  background: var(--hp-surface);
+}
+
+.hp-tile--wide { grid-column: span 6; }
+.hp-tile--third { grid-column: span 3; }
+.hp-tile--fourth { grid-column: span 4; }
+
+.hp-tile__name {
+  margin: 0;
+  font-family: var(--font-chunky, 'Titan One', 'Arial Rounded MT Bold', Arial, sans-serif);
+  font-weight: 400;
+  font-size: clamp(1.25rem, 2vw, 1.75rem);
+  line-height: 1.08;
+  text-transform: uppercase;
+  color: var(--hp-ink);
+}
+
+.hp-tile__tag {
+  max-width: 36ch;
+  margin: 8px 0 0;
+  font-family: var(--font-ui);
+  font-weight: 400;
+  font-size: 0.875rem;
+  line-height: 1.5;
+  color: var(--hp-ink);
+  opacity: 0.75;
+}
+
+.hp-tile__foot {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  margin-top: var(--space-24);
+  font-family: var(--font-ui);
+  font-weight: 400;
+  font-size: 0.72rem;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--hp-ink);
+  opacity: 0.6;
+}
+
+/* --- 7. PROMOS ----------------------------------------------------------- */
+.hp-promos {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--space-16);
+}
+
+.hp-promo {
+  position: relative;
+  display: flex;
+  align-items: flex-end;
+  min-height: 260px;
+  padding: var(--space-24);
+  border: var(--hp-hair);
+  border-radius: 2px;
+  overflow: hidden;
+  text-decoration: none;
+  color: var(--hp-ink);
+  transition: background 120ms ease;
+}
+
+.hp-promo--surface { background: var(--hp-surface); }
+.hp-promo--canvas { background: var(--hp-canvas); }
+
+.hp-promo:hover { background: var(--hp-surface); }
+.hp-promo--surface:hover { background: var(--hp-canvas); }
+
+.hp-promo__img {
+  position: absolute;
+  right: 14px;
+  bottom: 14px;
+  max-width: 44%;
+  max-height: 74%;
+  width: auto;
+  height: auto;
+  object-fit: contain;
+  mix-blend-mode: multiply;
+  pointer-events: none;
+}
+
+.hp-promo__body {
+  position: relative;
+  z-index: 1;
+  display: block;
+  max-width: 54%;
+  color: var(--hp-ink);
+}
+
+.hp-promo__kicker {
+  display: inline-block;
+  margin-bottom: 10px;
+  padding: 4px 8px;
+  background: var(--hp-canvas);
+  border: var(--hp-hair);
+  border-radius: 2px;
+  font-family: var(--font-ui);
+  font-weight: 400;
+  font-size: 0.72rem;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--hp-ink);
+}
+
+.hp-promo__title {
+  display: block;
+  font-family: var(--font-chunky, 'Titan One', 'Arial Rounded MT Bold', Arial, sans-serif);
+  font-size: clamp(1.35rem, 2.2vw, 1.875rem);
+  line-height: 1.08;
+  text-transform: uppercase;
+  color: var(--hp-ink);
+}
+
+.hp-promo__text {
+  display: block;
+  max-width: 36ch;
+  margin-top: 10px;
+  font-family: var(--font-ui);
+  font-weight: 400;
+  font-size: 0.875rem;
+  line-height: 1.55;
+  color: var(--hp-ink);
+  opacity: 0.8;
+}
+
+.hp-promo__link {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  margin-top: 14px;
+  font-family: var(--font-ui);
+  font-weight: 400;
+  font-size: 0.8125rem;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  text-decoration: underline;
+  text-underline-offset: 4px;
+  color: var(--hp-ink);
+}
+
+/* --- 8. SERVICE STRIP ---------------------------------------------------- */
+.hp-service {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  margin: clamp(32px, 4vw, 56px) 0 clamp(32px, 4vw, 56px);
+  padding: 0;
+  list-style: none;
+  border-top: var(--hp-hair);
+  border-bottom: var(--hp-hair);
+}
+
+.hp-service__item {
+  display: flex;
+  gap: 12px;
+  padding: var(--space-24) var(--space-16);
+}
+
+.hp-service__item + .hp-service__item {
+  border-left: var(--hp-hair);
+}
+
+.hp-service__item svg {
+  flex: none;
+  margin-top: 2px;
+}
+
+.hp-service__title {
+  margin: 0;
+  font-family: var(--font-ui);
+  font-weight: 600;
+  font-size: 0.75rem;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--hp-ink);
+}
+
+.hp-service__text {
+  margin: 5px 0 0;
+  font-family: var(--font-ui);
+  font-weight: 400;
+  font-size: 0.875rem;
+  line-height: 1.5;
+  color: var(--hp-ink);
+  opacity: 0.7;
+}
+
+/* --- RESPONSIVE ---------------------------------------------------------- */
+@media (max-width: 1024px) {
+  .hp-tile--wide { grid-column: span 12; }
+  .hp-tile--third { grid-column: span 6; }
+  .hp-tile--fourth { grid-column: span 6; }
+}
+
+@media (max-width: 900px) {
+  .hp-promos {
+    grid-template-columns: 1fr;
+  }
+
+  .hp-service {
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .hp-service__item:nth-child(2n) {
+    border-left: var(--hp-hair);
+  }
+
+  .hp-service__item:nth-child(n + 3) {
+    border-top: var(--hp-hair);
+  }
+}
+
+@media (max-width: 640px) {
+  .hp-wrap,
+  .hp-hero,
+  .hp-aisles {
+    padding-left: var(--space-16);
+    padding-right: var(--space-16);
+  }
+
+  .hp-tile--third,
+  .hp-tile--fourth {
+    grid-column: span 12;
+  }
+
+  .hp-search {
+    min-height: 52px;
+  }
+
+  .hp-search__input {
+    font-size: 1rem;
+  }
+
+  .hp-promo__body {
+    max-width: 100%;
+  }
+
+  .hp-promo__img {
+    opacity: 0.35;
+  }
+
+  .hp-service {
+    grid-template-columns: 1fr;
+  }
+
+  .hp-service__item,
+  .hp-service__item + .hp-service__item,
+  .hp-service__item:nth-child(2n) {
+    border-left: none;
+  }
+
+  .hp-service__item + .hp-service__item {
+    border-top: var(--hp-hair);
+  }
+}

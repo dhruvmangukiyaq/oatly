@@ -1,30 +1,30 @@
-// ─── ADMIN CONFIG (LOCKED — keval 1 admin) ────────────────────────────────────
-// Aa website no admin KEVAL tame j chho. Biju koi admin login kari shakse nahi.
+// ─── ADMIN CONFIG (LOCKED — only 1 admin) ─────────────────────────────────────
+// You are the ONLY admin of this website. Nobody else can log in as admin.
 //
-// SETUP (2 step — ek var karvanu):
-//  1. ADMIN_EMAIL ma tamaro email lakho:
-//       export const ADMIN_EMAIL = 'tamaru@email.com';
-//  2. Tamaro admin password mane (developer ne) kaho — hu eno SHA-256 hash
-//     banavi ne ADMIN_PASSWORD_HASH ma mukish. Code ma password KDYAREY
-//     plain text ma lakhvo NAAHI — keval hash j raheshe.
+// SETUP (2 steps — do this once):
+//  1. Put your email in ADMIN_EMAIL:
+//       export const ADMIN_EMAIL = 'your@email.com';
+//  2. Tell me (the developer) your admin password — I will take its SHA-256 hash
+//     and store it in ADMIN_PASSWORD_HASH. NEVER put the password in the code
+//     in plain text — only the hash stays here.
 //
-// SECURITY RULES (code ma enforce thayela chhe):
-//  - Signup thi KOI admin banto NATHI — badha customer j banse.
-//  - Admin email thi signup karva jay to BLOCK thashe ("reserved").
-//  - Admin login: email + password hash match thase TYARE j admin session.
-//  - Juna/local koi pan admin account hoy to auto-DEMOTE thai jashe.
-//  - Khota password 5 var → 15 min lock (brute-force friction).
+// SECURITY RULES (enforced in the code):
+//  - Nobody becomes admin through signup — everyone becomes a customer.
+//  - Signing up with the admin email is BLOCKED ("reserved").
+//  - Admin login: an admin session starts only once email + password hash match.
+//  - Any old/local admin account is auto-demoted automatically.
+//  - 5 wrong passwords → 15 min lockout (brute-force friction).
 //
-// HONEST NOTE: aa check browser ma thay chhe. DevTools thi localStorage
-// badli ne UI bypass technically possible chhe. 100% full security mate
-// backend login (server-side session) joiye — e next step rakhelu chhe.
+// HONEST NOTE: this check runs in the browser. Editing localStorage through DevTools
+// to bypass the UI is technically possible. For 100% security you need
+// a backend login (server-side session) — that is kept as the next step.
 
 export const ADMIN_EMAIL = 'dhruvmangukiya111@gmail.com';
 
 export const ADMIN_PASSWORD_HASH = 'd8de88b11b6e9e72a108564fa00cde139eea884133fded5d66ebd59e140167a4';
 
-// Pahela-signup-auto-admin PERMANENT BANDH. true karso to bijo koi pan
-// admin bani shakse — etle hammesha false j rakhvu.
+// First-signup-auto-admin is PERMANENTLY OFF. If set to true, anyone
+// could become admin — so always keep it false.
 export const ALLOW_FIRST_USER_AS_ADMIN = false;
 
 // Lockout policy
@@ -36,7 +36,7 @@ export function isAdminEmail(email = '') {
   return String(email).trim().toLowerCase() === String(ADMIN_EMAIL).trim().toLowerCase();
 }
 
-// SHA-256 hash (WebCrypto — localhost/https par available)
+// SHA-256 hash (WebCrypto — available on localhost/https)
 export async function sha256(text) {
   const data = new TextEncoder().encode(String(text));
   const buf = await crypto.subtle.digest('SHA-256', data);

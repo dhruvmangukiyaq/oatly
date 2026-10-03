@@ -1,8 +1,8 @@
 // ─── MULTI-BRAND CATALOG (Option B) ─────────────────────────────────────────
-// Biji company na products — darek product ma `brand` field compulsory.
-// Images: original photography (Unsplash CDN, w640) — Oatara na official
-// packshots (assets.oatly.com) ne touch karya vagar.
-// Aa items siteData.js na existing categories ma merge thay che (slug match).
+// Products from other companies — every product must carry a `brand` field.
+// Images: original photography (Unsplash CDN, w640) — Oatara's official
+// packshots (assets.oatly.com) remain untouched.
+// These items merge into siteData.js's existing categories (slug match).
 
 export const BRANDS = [
   { id: 'oatara', name: 'Oatara', country: 'Sweden', description: 'The original oat drink company.' },

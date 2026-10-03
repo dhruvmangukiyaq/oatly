@@ -3,6 +3,7 @@
 
 import { NEWS_DATA } from './data/oatlyData.js';
 import { newsItems, initiativesData, brainwashingData } from './data/siteData.js';
+import { matchesText } from './textSearch.js';
 
 export function getAllNews() {
   return initiativesData;
@@ -23,13 +24,8 @@ export function getStoryBySlug(slug) {
 }
 
 export function searchNews(query = '') {
-  const q = query.trim().toLowerCase();
+  const q = String(query || '').trim();
   if (!q) return [];
   const pool = [...NEWS_DATA, ...newsItems, ...initiativesData, ...brainwashingData];
-  return pool.filter(
-    (n) =>
-      n.title.toLowerCase().includes(q) ||
-      (n.type || '').toLowerCase().includes(q) ||
-      (n.excerpt || '').toLowerCase().includes(q)
-  );
+  return pool.filter((n) => matchesText([n.title, n.type, n.excerpt, n.category, n.tags], q));
 }

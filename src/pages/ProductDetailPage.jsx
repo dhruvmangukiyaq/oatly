@@ -10,10 +10,10 @@ import '../styles/ProductListing.css';
 import '../styles/ProductDetail.css';
 
 /* ==========================================================================
-   PRODUCT DETAIL PAGE — Amazon/Flipkart jevu full product page, apdi theme ma.
+   PRODUCT DETAIL PAGE — full product page (Amazon/Flipkart style), in our theme.
    Gallery (thumbnails + hover zoom) | buy box (qty, cart, buy now, wishlist) |
    offers | delivery info | highlights | specs | reviews | related products.
-   Card/modal click → ahiya avay chhe (quick-view modal ni jagyae).
+   A card/modal click lands here (in place of a quick-view modal).
    ========================================================================== */
 
 export default function ProductDetailPage() {
@@ -48,7 +48,7 @@ export default function ProductDetailPage() {
         <div className="shop-shell">
           <p className="shop-kicker">Oatara shop</p>
           <h1>Product not found.</h1>
-          <p className="shop-sub">Aa product madyu nahi — delete thai gayu hase.</p>
+          <p className="shop-sub">This product could not be found — it may have been deleted.</p>
           <Link to="/products" className="shop-btn shop-btn--small">All products</Link>
         </div>
       </div>
@@ -175,7 +175,7 @@ export default function ProductDetailPage() {
               <p className="pdetail-instock">In stock</p>
             )}
 
-            {/* Buy box — badha roles mate same (guest, customer, admin) */}
+            {/* Buy box — the same for every role (guest, customer, admin) */}
             <>
               <div className="pdetail-buyrow">
                   <span className="qty">
@@ -320,8 +320,8 @@ function ReviewsBlock({ productId }) {
 
   const submit = (e) => {
     e.preventDefault();
-    if (name.trim().length < 2) { setMsg('Name lakho.'); return; }
-    if (text.trim().length < 3) { setMsg('Review lakho.'); return; }
+    if (name.trim().length < 2) { setMsg('Enter your name.'); return; }
+    if (text.trim().length < 3) { setMsg('Write a review.'); return; }
     addReview({ productId, author: name.trim(), rating, text: text.trim() });
     setText('');
     setMsg('Review saved. Thanks!');
@@ -332,7 +332,7 @@ function ReviewsBlock({ productId }) {
     <section className="pdetail-sec" id="pdetail-reviews">
       <h2>Customer reviews {list.length > 0 && <small>★ {avg.toFixed(1)} · {list.length} review(s)</small>}</h2>
       {list.length === 0 ? (
-        <p className="shop-sub">Haju koi review nathi — pahela tame lakho!</p>
+        <p className="shop-sub">No reviews yet — be the first to write one!</p>
       ) : (
         <ul className="pdetail-reviews">
           {list.slice(0, 10).map((r) => (
@@ -346,13 +346,13 @@ function ReviewsBlock({ productId }) {
       )}
       <form className="shop-form pdetail-reviewform" onSubmit={submit}>
         <h3>Write a review</h3>
-        <label>Name<input value={name} onChange={(e) => setName(e.target.value)} placeholder="Tamaru naam" /></label>
+        <label>Name<input value={name} onChange={(e) => setName(e.target.value)} placeholder="Your name" /></label>
         <label>Rating
           <select value={rating} onChange={(e) => setRating(Number(e.target.value))}>
             {[5, 4, 3, 2, 1].map((n) => <option key={n} value={n}>{n} star{n > 1 ? 's' : ''}</option>)}
           </select>
         </label>
-        <label>Review<input value={text} onChange={(e) => setText(e.target.value)} placeholder="Product kevu lagyu?" /></label>
+        <label>Review<input value={text} onChange={(e) => setText(e.target.value)} placeholder="How did you like the product?" /></label>
         {msg && <p className="shop-sub">{msg}</p>}
         <button type="submit" className="shop-btn shop-btn--small">Submit review</button>
       </form>

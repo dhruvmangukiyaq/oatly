@@ -57,6 +57,14 @@ function isFresh(url) {
   return stored.has(url) && Date.now() - (fetchedAt.get(url) || 0) < CACHE_TTL_MS;
 }
 
+// Query-driven endpoints must NEVER be cached: a search answers from a moving
+// target (new products, admin edits), and an early empty answer — e.g. before
+// the backend reloaded — would glue "0 results" to that query for the whole
+// TTL. Search always goes to the network (or the live static fallback).
+function isVolatile(url) {
+  return url.startsWith(`${BASE}/search`);
+}
+
 function remember(url, value) {
   stored.set(url, value);
   fetchedAt.set(url, Date.now());
@@ -85,20 +93,24 @@ export async function apiGet(path) {
   const url = `${BASE}${path}`;
   if (pending.has(url)) return pending.get(url);
   // Fresh cache → instant paint. Stale/missing → refetch (never stuck).
-  if (isFresh(url)) return Promise.resolve(stored.get(url));
-  stored.delete(url);
+  // Volatile endpoints (search) skip the cache entirely — see isVolatile.
+  if (!isVolatile(url) && isFresh(url)) return Promise.resolve(stored.get(url));
+  if (!isVolatile(url)) stored.delete(url);
 
   const p = (async () => {
     // 1. Try the live backend first (dev proxy / production Express server).
+    // `cache: 'no-store'` bypasses any HTTP-cache entry the browser still
+    // holds from the old max-age=3600 policy — the localStorage cache below
+    // is the app's single freshness layer (and it skips volatile endpoints).
     try {
-      const res = await fetch(url);
+      const res = await fetch(url, { cache: 'no-store' });
       const contentType = res.headers.get('content-type') || '';
       if (contentType.includes('json')) {
         // Genuine backend answer (including 404 = really missing).
         if (res.status === 404) return null;
         if (!res.ok) throw new Error(`API ${res.status}: ${path}`);
         const json = await res.json();
-        remember(url, json);
+        if (!isVolatile(url)) remember(url, json);
         return json;
       }
       // Non-JSON (static host serving index.html / 404 page) → no backend.

@@ -37,7 +37,7 @@ import '../styles/AdminPage.css';
    SELLER HUB — marketplace-style admin structure + functionality.
    Menu: Home | Catalog | Inventory | Pricing | Orders | Advertising |
          Performance | Reports | Payments | Customers | Settings
-   Keval admin (tame) maate.
+   For the admin (you) only.
    ========================================================================== */
 
 const MENU = [

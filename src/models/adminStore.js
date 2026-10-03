@@ -1,9 +1,9 @@
 // ─── ADMIN STORE (frontend demo) ────────────────────────────────────────────
-// Products overrides + Orders browser na localStorage ma rahe chhe:
+// Product overrides + orders live in the browser's localStorage:
 //   oatly-admin-products → { [id]: { price, stock, name, category, ... } }
 //                          + `__deleted`: [ids] + `__custom`: [new products]
 //   oatly-orders         → [{ id, customer, email, items, total, status, date }]
-// Backend aavse tyare aa j function names API calls ma feravvana raheshe.
+// When the backend arrives, these same function names will switch to API calls.
 
 const PRODUCTS_KEY = 'oatly-admin-products';
 const ORDERS_KEY = 'oatly-orders';
@@ -66,7 +66,7 @@ export function addCustomProduct(product) {
   return entry;
 }
 
-// Backend products + admin overrides ne merge karo (AdminPage vapre chhe)
+// Merge backend products + admin overrides (used by AdminPage)
 export function mergeProducts(baseProducts = []) {
   const overrides = getProductOverrides();
   const deleted = new Set((overrides.__deleted || []).map(String));
@@ -116,7 +116,7 @@ export function updateOrderStatus(id, status) {
   return updateOrder(id, { status });
 }
 
-// Generic patch (tracking, refund, address…); status change timeline ma nondhay.
+// Generic patch (tracking, refund, address…); logged in the status-change timeline.
 export function updateOrder(id, patch) {
   const orders = getOrders().map((o) => {
     if (String(o.id) !== String(id)) return o;
