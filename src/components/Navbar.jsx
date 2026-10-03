@@ -9,6 +9,8 @@ import { Home, Globe, X, Menu, ChevronRight, User as UserIcon, ShoppingCart, Hea
 //   toolbar: Home icon (left) | current-page breadcrumb | spacer | Globe X (right)
 //   nav row: PRODUCTS TASTEBUDS NEWS SUSTAINABILITY HEALTH (same order)
 import NavigationModel from '../models/navigationModel.js';
+import LanguageMenu from './LanguageMenu.jsx';
+import { getStoredLanguage, storeLanguage, findLanguage } from '../models/languageModel.js';
 import { useApiData } from '../hooks/useApiData.js';
 import { useAuth, isAdmin as checkIsAdmin } from '../hooks/useAuth.js';
 import { useShop } from '../hooks/useShop.js';
@@ -25,6 +27,9 @@ export default function Navbar({ onCartOpen }) {
   const showAdmin = checkIsAdmin(user);
   // MODEL (async API — header renders once items arrive)
   const navItems = useApiData(() => NavigationModel.getNavItems(), []);
+  // Language sheet (globe): open state + the pick persisted in localStorage
+  const [langOpen, setLangOpen] = useState(false);
+  const [lang, setLang] = useState(() => getStoredLanguage());
   const headerCrumbs =
     useApiData(
       () => NavigationModel.getHeaderBreadcrumbs(location.pathname),
@@ -36,6 +41,7 @@ export default function Navbar({ onCartOpen }) {
     setMobileOpen(false);
     setOpenMenu(null);
     setExpandedSection(null);
+    setLangOpen(false);
   }, [location.pathname]);
 
   // Small close delay so moving cursor into the panel doesn't flicker it shut
@@ -122,14 +128,31 @@ export default function Navbar({ onCartOpen }) {
               ADMIN
             </Link>
           )}
-          <button
-            type="button"
-            className="oatly-toolbar__btn"
-            aria-label="Language: United States (EN)"
-            onClick={() => alert('Region: United States (EN)')}
-          >
-            <Globe size={16} aria-hidden="true" />
-          </button>
+          {/* Globe: opens the language sheet — every language, searchable */}
+          <div className="oatly-lang">
+            <button
+              type="button"
+              className={`oatly-toolbar__btn oatly-lang__toggle${langOpen ? ' is-open' : ''}`}
+              aria-haspopup="dialog"
+              aria-expanded={langOpen}
+              aria-label={`Language: ${findLanguage(lang).name}`}
+              title={`Language: ${findLanguage(lang).name}`}
+              onClick={() => setLangOpen((v) => !v)}
+            >
+              <Globe size={16} aria-hidden="true" />
+              <span className="oatly-lang__code">{lang.toUpperCase()}</span>
+            </button>
+            <LanguageMenu
+              open={langOpen}
+              onClose={() => setLangOpen(false)}
+              selected={lang}
+              onSelect={(code) => {
+                setLang(code);
+                storeLanguage(code);
+                setLangOpen(false);
+              }}
+            />
+          </div>
           <Link
             to="/login"
             className="oatly-toolbar__btn oatly-toolbar__account"

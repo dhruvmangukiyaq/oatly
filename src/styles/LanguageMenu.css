@@ -1,0 +1,206 @@
+/* ==========================================================================
+   LANGUAGE MENU — the globe dropdown (globe icon → every language)
+   --------------------------------------------------------------------------
+    BEM: .oatly-lang (anchor), .oatly-lang__toggle/__code,
+         .lang, .lang__head/__title/__note, .lang__field/__input,
+         .lang__list/__empty, .lang__opt/__name/__native/__check
+   TOKENS: --spec-* colours, --space-*, --font-ui / --font-chunky (index.css)
+   RULES HONOURED: paper sheet, 1px hairline, 2px radius, no yellow/black
+   brutal chrome, Margo rows + Titan One title.
+   ========================================================================== */
+
+/* --- Anchor: globe button + panel (panel drops under the toolbar) ------- */
+.oatly-lang {
+  position: relative;
+  display: inline-flex;
+  align-items: stretch;
+}
+
+.oatly-lang__toggle {
+  gap: 6px;
+}
+
+/* Selected code next to the globe — quiet proof of what is picked */
+.oatly-lang__code {
+  font-family: var(--font-nav);
+  font-size: 0.6875rem;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  color: var(--spec-ink);
+  opacity: 0.5;
+}
+
+.oatly-lang__toggle.is-open {
+  background: rgba(255, 255, 255, 0.9);
+}
+
+/* --- The sheet --------------------------------------------------------- */
+.lang {
+  position: absolute;
+  top: calc(100% + 10px);
+  right: 0;
+  z-index: 80;
+  display: flex;
+  flex-direction: column;
+  width: min(360px, calc(100vw - 32px));
+  max-height: min(70vh, 520px);
+  background: var(--spec-canvas, #ffffff);
+  border: 1px solid var(--spec-border, #c6c6c6);
+  border-radius: 2px;
+  box-shadow: 0 24px 48px -24px rgba(0, 0, 0, 0.35);
+  color: var(--spec-ink);
+  font-family: var(--font-ui);
+  overflow: hidden;
+}
+
+.lang__head {
+  padding: var(--space-16) var(--space-16) var(--space-12);
+  border-bottom: 1px solid var(--spec-border, #c6c6c6);
+}
+
+.lang__title {
+  margin: 0;
+  font-family: var(--font-chunky, 'Titan One', 'Arial Rounded MT Bold', Arial, sans-serif);
+  font-weight: 400;
+  font-size: 1rem;
+  line-height: 1.1;
+  text-transform: uppercase;
+  color: var(--spec-ink);
+}
+
+.lang__note {
+  margin: 6px 0 0;
+  font-family: var(--font-ui);
+  font-size: 0.75rem;
+  line-height: 1.4;
+  color: var(--spec-ink);
+  opacity: 0.55;
+}
+
+/* --- Search field ------------------------------------------------------ */
+.lang__field {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px var(--space-16);
+  border-bottom: 1px solid var(--spec-border, #c6c6c6);
+  background: var(--spec-surface, #f5f5f5);
+}
+
+.lang__field svg {
+  flex: none;
+  opacity: 0.55;
+}
+
+.lang__input {
+  flex: 1;
+  min-width: 0;
+  padding: 0;
+  background: transparent;
+  border: none;
+  outline: none;
+  font-family: var(--font-ui);
+  font-weight: 400;
+  font-size: 0.9375rem;
+  color: var(--spec-ink);
+}
+
+.lang__input::placeholder {
+  color: rgba(0, 0, 0, 0.45);
+}
+
+.lang__input::-webkit-search-cancel-button {
+  -webkit-appearance: none;
+  appearance: none;
+}
+
+/* The global black focus ring would box the field — same opt-out as the
+   other search inputs (see index.css). */
+.lang__input:focus-visible {
+  outline: none;
+  box-shadow: none;
+}
+
+/* --- Scrollable language rows ----------------------------------------- */
+.lang__list {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  -webkit-overflow-scrolling: touch;
+}
+
+.lang__empty {
+  padding: var(--space-16);
+  font-size: 0.875rem;
+  color: var(--spec-ink);
+  opacity: 0.55;
+}
+
+.lang__opt {
+  display: flex;
+  align-items: baseline;
+  gap: var(--space-8);
+  width: 100%;
+  padding: 10px var(--space-16);
+  background: transparent;
+  border: none;
+  border-top: 1px solid rgba(198, 198, 198, 0.55);
+  font-family: var(--font-ui);
+  font-weight: 400;
+  font-size: 0.9375rem;
+  line-height: 1.35;
+  color: var(--spec-ink);
+  text-align: left;
+  cursor: pointer;
+  transition: background 120ms ease;
+}
+
+.lang__list > li:first-child .lang__opt {
+  border-top: none;
+}
+
+.lang__opt:hover {
+  background: var(--spec-surface, #f5f5f5);
+}
+
+.lang__opt:focus-visible {
+  outline: 2px solid var(--spec-focus, #98c5d3);
+  outline-offset: -2px;
+}
+
+.lang__name {
+  flex: 1;
+  min-width: 0;
+}
+
+/* The language in its own script — muted, right-aligned */
+.lang__native {
+  flex: none;
+  max-width: 45%;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  font-size: 0.8125rem;
+  opacity: 0.5;
+}
+
+.lang__opt.is-on {
+  font-weight: 700;
+  background: var(--spec-surface, #f5f5f5);
+}
+
+.lang__check {
+  flex: none;
+  align-self: center;
+}
+
+/* --- RESPONSIVE: sheet stays anchored (the header's backdrop-filter makes
+   it a containing block, so no fixed bottom-sheet) — code badge drops when
+   the toolbar gets crowded. ---------------------------------------------- */
+@media (max-width: 640px) {
+  .oatly-lang__code {
+    display: none;
+  }
+}
