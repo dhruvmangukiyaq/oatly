@@ -1,25 +1,33 @@
 import { useEffect, useRef, useState } from 'react';
 
 // ─── VIDEO HERO — scroll-scrubbed cinematic intro ───────────────────────────
-// The Home Page opens with the real MP4 (216035_medium.mp4 — an astronaut
+// The Home Page opens with the real Pixabay film 216035 (an astronaut
 // relaxing on the Moon as the camera slowly pulls back). The video never
 // plays on its own: scroll progress across the long sticky journey maps
 // linearly to video.currentTime, so scrolling down advances the film and
-// scrolling up rewinds it — fully reversible, no autoplay, no controls.
+// scrolling up rewinds it — fully reversible, no autoplay, no loop.
 //
-// HomePage reserves .hp-video (400vh, dark) in the main bundle → zero layout
-// shift while this component lazy-loads. Sticky height is written to
+// Sources: both renditions are re-encoded from the original 1080p file with
+// a keyframe every 0.2s (the stock files had ONE keyframe per 8s clip, so
+// every seek re-decoded from frame 0 — that was the choppy scrubbing).
+// Desktop gets 1920×1080, phones the 1280×720 tier via <source media>.
+//
+// HomePage reserves .hp-video (450vh, dark) in the main bundle → zero
+// layout shift while this component lazy-loads. Sticky height is written to
 // --video-vh from the real scroller height, because the app scrolls inside
 // [data-app-scroll], not the window.
 //
-// One rAF loop does everything: it reads the damped scroll value, seeks the
-// video only when the target time moved far enough (no seek storms), and
-// writes the hint/hairline styles directly — zero React state on the scroll
-// path. The loop parks itself while the journey is off-screen (IO gate).
+// One rAF loop does everything:
+//   scroll → target progress → time-constant smoothing (70ms, frame-rate
+//   independent) → desired time → chained currentTime seeks (sub-frame
+//   epsilon, immediate re-issue on 'seeked', 55ms stall grace) → frame.
+// Zero React state on the scroll path; hint/hairline styled directly;
+// the loop parks itself while the journey is off-screen (IO gate).
 
 const clamp01 = (v) => (v < 0 ? 0 : v > 1 ? 1 : v);
-const DAMP = 0.25; // per-frame blend → ~0.35s settle at 60fps, no visible lag
-const SEEK_EPS = 0.03; // seconds — don't re-seek for sub-frame differences
+const SMOOTH_TAU = 0.07; // seconds — 95% of the way in ~210ms: smooth, not laggy
+const SEEK_EPS = 0.008; // seconds (~1/5 frame) — skip only identical targets
+const SEEK_GRACE = 55; // ms — replace an in-flight seek only if it stalls this long
 
 export default function VideoHero() {
   const rootRef = useRef(null);
@@ -62,7 +70,7 @@ export default function VideoHero() {
     v.addEventListener('loadeddata', onReady);
     v.addEventListener('error', onError);
     // safety: never trap the visitor behind the veil (slow network, etc.)
-    const t = setTimeout(() => setReady(true), 9000);
+    const t = setTimeout(() => setReady(true), 12000);
     return () => {
       v.removeEventListener('loadeddata', onReady);
       v.removeEventListener('error', onError);
@@ -84,8 +92,13 @@ export default function VideoHero() {
     let dirty = true; // scroll happened → re-measure inside the loop
     let target = 0;
     let value = 0;
+    let lastNow = 0;
     let seeking = false;
+    let seekIssuedAt = 0;
     let lastIssued = -1;
+    let pending = -1; // freshest desired time while a seek is in flight
+    let lastLine = -1; // last written hairline value (skip no-op DOM writes)
+    let lastHint = -1;
 
     const measure = () => {
       dirty = false;
@@ -99,18 +112,9 @@ export default function VideoHero() {
       dirty = true;
     };
 
-    const onSeeked = () => {
-      seeking = false;
-    };
-
-    const seekTo = (t) => {
-      if (seeking) {
-        // a seek is in flight — only override it for a meaningfully new time
-        if (Math.abs(t - lastIssued) < SEEK_EPS) return;
-      } else if (Math.abs(t - video.currentTime) < SEEK_EPS) {
-        return;
-      }
+    const issue = (t) => {
       lastIssued = t;
+      seekIssuedAt = performance.now();
       seeking = true;
       try {
         video.currentTime = t;
@@ -119,23 +123,58 @@ export default function VideoHero() {
       }
     };
 
-    const tick = () => {
+    const want = (t) => {
+      pending = t;
+      if (seeking) return;
+      if (Math.abs(t - video.currentTime) < SEEK_EPS) return;
+      issue(t);
+    };
+
+    const onSeeked = () => {
+      seeking = false;
+      // chain straight to the freshest target — this is what keeps the
+      // displayed frame advancing continuously while the user scrolls
+      if (pending >= 0 && Math.abs(pending - video.currentTime) >= SEEK_EPS) {
+        issue(pending);
+      }
+    };
+
+    const tick = (now) => {
       if (!alive) return;
       if (dirty) measure();
-      value += (target - value) * DAMP;
+
+      // time-constant smoothing — frame-rate independent (a per-frame factor
+      // would crawl at low fps and snap at high fps)
+      const dt = lastNow ? Math.min(0.1, Math.max(0.001, (now - lastNow) / 1000)) : 0.016;
+      lastNow = now;
+      value += (target - value) * (1 - Math.exp(-dt / SMOOTH_TAU));
       if (Math.abs(target - value) < 0.0004) value = target;
 
       const dur = video.duration;
       if (Number.isFinite(dur) && dur > 0) {
         // land on the final frame, never exactly at duration (avoids "ended")
         const maxT = dur - 1 / 25;
-        seekTo(Math.min(maxT, Math.max(0, value * dur)));
+        const t = Math.min(maxT, Math.max(0, value * dur));
+        if (seeking) {
+          pending = t;
+          if (
+            performance.now() - seekIssuedAt > SEEK_GRACE &&
+            Math.abs(t - lastIssued) >= SEEK_EPS
+          ) {
+            issue(t); // stalled seek — replace it rather than freeze the frame
+          }
+        } else {
+          want(t);
+        }
       }
-      if (lineRef.current) {
+
+      if (value !== lastLine && lineRef.current) {
         lineRef.current.style.transform = `scaleY(${value.toFixed(4)})`;
+        lastLine = value;
       }
-      if (hintRef.current) {
+      if (value !== lastHint && hintRef.current) {
         hintRef.current.style.opacity = String(Math.max(0, 1 - value * 16));
+        lastHint = value;
       }
       raf = requestAnimationFrame(tick);
     };
@@ -144,6 +183,7 @@ export default function VideoHero() {
       if (!alive || near || raf) return;
       near = true;
       dirty = true;
+      lastNow = 0;
       measure();
       value = target;
       raf = requestAnimationFrame(tick);
@@ -197,14 +237,18 @@ export default function VideoHero() {
           <video
             ref={videoRef}
             className="hp-video__film"
-            src="/video/216035_medium.mp4"
             muted
             playsInline
             preload="auto"
             disablePictureInPicture
             aria-hidden="true"
             tabIndex={-1}
-          />
+          >
+            {/* Desktop/tablet: full 1920×1080 source; phones: 720p tier.
+                Both are the same film, re-encoded with dense keyframes. */}
+            <source media="(min-width: 701px)" src="/video/216035-hero-1080.mp4" type="video/mp4" />
+            <source src="/video/216035-hero-720.mp4" type="video/mp4" />
+          </video>
         )}
 
         {failed && (

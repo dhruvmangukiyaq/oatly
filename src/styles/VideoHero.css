@@ -1,9 +1,9 @@
 /* ==========================================================================
    VIDEO HERO — scroll-scrubbed cinematic intro (MP4 → products)
    --------------------------------------------------------------------------
-   - .hp-video is a RESERVED-height wrapper (400vh) styled in the main bundle,
+   - .hp-video is a RESERVED-height wrapper (450vh) styled in the main bundle,
      so the lazy video chunk loading never causes a layout shift and the area
-     is dark (#05060a) from first paint — never a white flash.
+     is deep space (#04060d) from first paint — never a white flash.
    - .hp-video__sticky pins the <video> for the length of the journey; its
      height is written to --video-vh (px of the .app-frame scroller) by JS,
      because the app scrolls in a container, not the window.
@@ -18,8 +18,8 @@
 
 .hp-video {
   position: relative;
-  height: 400vh; /* 300vh of travel ≈ the whole 8s film, slow and cinematic */
-  background: #05060a;
+  height: 450vh; /* 350vh of travel ≈ the whole 8s film — slow, cinematic */
+  background: #04060d;
 }
 
 .hp-video__journey {
@@ -32,7 +32,7 @@
   top: 0;
   height: var(--video-vh, 100vh);
   overflow: hidden;
-  background: #05060a;
+  background: #04060d;
 }
 
 .hp-video__film {
@@ -108,7 +108,7 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  background: #05060a;
+  background: #04060d;
   transition: opacity 0.6s ease, visibility 0.6s ease;
 }
 
@@ -144,7 +144,7 @@
   padding: 0 var(--space-24);
   background:
     radial-gradient(60% 45% at 50% 78%, rgba(38, 66, 120, 0.55), transparent 70%),
-    radial-gradient(120% 90% at 50% 30%, #0a1020, #05060a 75%);
+    radial-gradient(120% 90% at 50% 30%, #0a1020, #04060d 75%);
   color: rgba(255, 255, 255, 0.72);
   font-family: var(--font-ui);
   font-size: 0.7rem;
@@ -152,10 +152,10 @@
   text-transform: uppercase;
 }
 
-/* Mobile: slightly shorter journey, tighter overlays */
+/* Mobile: slightly longer journey (smaller viewport = slower feel), tighter overlays */
 @media (max-width: 700px) {
   .hp-video {
-    height: 340vh;
+    height: 380vh;
   }
 
   .hp-video__hint {
@@ -184,4 +184,73 @@
   .hp-video__hint {
     display: none;
   }
+}
+
+/* ==========================================================================
+   HOME SPACE THEME — the page around the film reads as ONE environment.
+   This file loads after HomeShop.css, so the token overrides below win the
+   cascade; only colours change, layout and typography stay untouched.
+   --------------------------------------------------------------------------
+   1. TOKENS  — light ink, dim hairlines, two dark panels (surface/canvas);
+                the stray --spec-* uses inside .hp flip with them.
+   2. PHOTOS  — product shots are multiply-blended; on a dark card they need
+                a light gallery tile behind them, or they go muddy. Promo
+                PNGs drop the blend (transparent art, renders true on dark).
+   3. SPACE   — one deep-space wash + sparse hand-placed star dust over the
+                whole page (subtle: never over the video, never noisy).
+   4. MATCH   — every surface shares #04060d with the hero frame, so the
+                video edge, ticker, rails and page end blend seamlessly.
+   ========================================================================== */
+
+.hp {
+  --hp-ink: #e9eef9;
+  --hp-line: rgba(172, 196, 240, 0.16);
+  --hp-surface: #0d1424; /* card / strip panels */
+  --hp-canvas: #131c31; /* inputs, bright panels, hovers */
+  --spec-ink: #e9eef9; /* stray direct --spec-* uses inside .hp */
+  --spec-canvas: #131c31;
+  --spec-surface: #0d1424;
+  --spec-border: rgba(172, 196, 240, 0.16);
+
+  background-color: #04060d;
+  background-image:
+    radial-gradient(1.5px 1.5px at 7% 6%, rgba(255, 255, 255, 0.32), transparent 60%),
+    radial-gradient(1px 1px at 23% 14%, rgba(255, 255, 255, 0.24), transparent 60%),
+    radial-gradient(1.5px 1.5px at 61% 9%, rgba(255, 255, 255, 0.28), transparent 60%),
+    radial-gradient(1px 1px at 84% 17%, rgba(255, 255, 255, 0.2), transparent 60%),
+    radial-gradient(1.5px 1.5px at 14% 31%, rgba(255, 255, 255, 0.26), transparent 60%),
+    radial-gradient(1px 1px at 72% 37%, rgba(255, 255, 255, 0.22), transparent 60%),
+    radial-gradient(1.5px 1.5px at 39% 46%, rgba(255, 255, 255, 0.3), transparent 60%),
+    radial-gradient(1px 1px at 91% 52%, rgba(255, 255, 255, 0.2), transparent 60%),
+    radial-gradient(1.5px 1.5px at 11% 61%, rgba(255, 255, 255, 0.24), transparent 60%),
+    radial-gradient(1px 1px at 55% 67%, rgba(255, 255, 255, 0.26), transparent 60%),
+    radial-gradient(1.5px 1.5px at 79% 74%, rgba(255, 255, 255, 0.22), transparent 60%),
+    radial-gradient(1px 1px at 31% 82%, rgba(255, 255, 255, 0.28), transparent 60%),
+    radial-gradient(1.5px 1.5px at 66% 91%, rgba(255, 255, 255, 0.2), transparent 60%),
+    radial-gradient(1100px 520px at 74% 3%, rgba(26, 50, 108, 0.4), transparent 72%),
+    radial-gradient(900px 600px at 18% 58%, rgba(20, 38, 86, 0.28), transparent 70%);
+  background-repeat: no-repeat;
+}
+
+/* Light gallery tile so multiply-blended product shots stay true on dark */
+.hp .hp-card__media {
+  background: #f0ede4;
+  border-radius: 2px;
+}
+
+/* Promo art is a transparent PNG — no blend needed over dark panels.
+   The Godiva shot has a baked white background → give it a light chip so
+   it reads as an intentional photo tile instead of a white box. */
+.hp .hp-promo__img {
+  mix-blend-mode: normal;
+}
+
+.hp .hp-promo__img--chip {
+  background: #f0ede4;
+  border-radius: 2px;
+  padding: 6px;
+}
+
+.hp .hp-search__input::placeholder {
+  color: rgba(233, 238, 249, 0.42);
 }

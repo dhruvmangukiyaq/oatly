@@ -79,7 +79,9 @@
   }
 
   body {
-    background-color: var(--color-cream);
+    /* Deep-space base: matches the home hero frame (#04060d) so nothing
+       flashes white on load; routes paint their own surfaces on top. */
+    background-color: #04060d;
     color: var(--color-black);
     overflow-x: hidden;
     font-family: 'Outfit', 'Space Grotesk', sans-serif;

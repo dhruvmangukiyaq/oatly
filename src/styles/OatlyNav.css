@@ -483,3 +483,29 @@
     transition: none;
   }
 }
+
+/* ═══ HOME ROUTE: the floating header sits over the space hero ═════════════
+   Applied as .oatly-header--space by Navbar.jsx when pathname === '/'.
+   The token flip on the header root re-themes EVERY descendant (icons,
+   labels, hover fills, mobile drawer chips) through var(--spec-*) — layout
+   and markup untouched. The frosted sheet itself turns dark glass so the
+   pill melts into the film instead of clashing with it. */
+.oatly-header--space {
+  --spec-ink: #eef2fb;
+  --spec-canvas: #0a1122;
+  --spec-surface: #17223c;
+  --spec-border: rgba(172, 196, 240, 0.2);
+
+  background: rgba(6, 10, 20, 0.78);
+  border-color: rgba(210, 226, 255, 0.16);
+  box-shadow: 0 18px 44px -24px rgba(0, 0, 0, 0.9);
+  color: var(--spec-ink);
+}
+
+/* The dropdown sheet would stay milky-white once the ink flips light —
+   it becomes dark glass too (text stays readable, same structure). */
+.oatly-header--space .oatly-drop {
+  background: rgba(8, 13, 26, 0.93);
+  border-color: rgba(210, 226, 255, 0.18);
+  box-shadow: 0 22px 50px -22px rgba(0, 0, 0, 0.85);
+}

@@ -85,7 +85,9 @@ export default function Navbar({ onCartOpen }) {
   if (!navItems) return null;
 
   return (
-    <header className="oatly-header">
+    <header
+      className={`oatly-header${location.pathname === '/' ? ' oatly-header--space' : ''}`}
+    >
       {/* ── Toolbar row: Home (left) | spacer | Globe X (right) ── */}
       <div className="oatly-toolbar">
         <Link to="/" className="oatly-toolbar__home" aria-label="Home">

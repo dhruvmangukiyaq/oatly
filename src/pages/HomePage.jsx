@@ -548,7 +548,7 @@ export default function HomePage() {
                 alt=""
                 aria-hidden="true"
                 loading="lazy"
-                className="hp-promo__img"
+                className="hp-promo__img hp-promo__img--chip"
               />
               <span className="hp-promo__body">
                 <span className="hp-promo__kicker">Gifting</span>
