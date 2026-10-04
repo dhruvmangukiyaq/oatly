@@ -12,7 +12,8 @@ import {
   Headphones,
 } from 'lucide-react';
 // ─── MVC: View ──────────────────────────────────────────────────────────────
-// Storefront home: ticker → hero (search) → deals rail → brand roster →
+// Storefront home: ticker → scroll-scrubbed video hero → hero (search)
+// → deals rail → brand roster →
 // wardrobe rail (ZARA & MUFTI) → oat-drink rail → scent rail →
 // promos → service strip. Category/product data comes from
 // the Model (one call to /products/categories), the same payload /products
@@ -25,6 +26,11 @@ import { applyAdminVisibility, getProductOverrides } from '../models/adminStore.
 import { BRAND_HOUSE } from '../utils/productSearch.js';
 import { useShop } from '../hooks/useShop.js';
 import '../styles/HomeShop.css';
+import '../styles/VideoHero.css';
+
+// Scroll-scrubbed video intro (HTML5 MP4) — lazy so the main bundle stays
+// light; the .hp-video wrapper reserves its height up front (no layout shift).
+const VideoHero = React.lazy(() => import('../components/VideoHero.jsx'));
 
 // Product photo with a quiet fallback (remote asset missing → plain tile)
 function ShopImg({ src, alt }) {
@@ -350,7 +356,15 @@ export default function HomePage() {
         </div>
       </div>
 
-      {/* ── 2. HERO — the counter, nothing else ── */}
+      {/* ── 2. VIDEO HERO — scroll scrubs the MP4 timeline; the sticky stage
+             releases at the end and the shop flows in (no shift, no flash) ── */}
+      <div className="hp-video">
+        <React.Suspense fallback={null}>
+          <VideoHero />
+        </React.Suspense>
+      </div>
+
+      {/* ── 3. HERO — the counter, nothing else ── */}
       <section className="hp-hero">
         <div className="hp-hero__copy">
           {/* The counter: type here and press Enter → /search results page */}
@@ -372,7 +386,7 @@ export default function HomePage() {
       </section>
 
       <div className="hp-wrap">
-        {/* ── 3. DEALS RAIL ── */}
+        {/* ── 4. DEALS RAIL ── */}
         {deals.length > 0 && (
           <section className="hp-section">
             <SectionHead
@@ -398,7 +412,7 @@ export default function HomePage() {
           </section>
         )}
 
-        {/* ── 4. BRANDS — every house, real counts, photo thumbs ── */}
+        {/* ── 5. BRANDS — every house, real counts, photo thumbs ── */}
         {roster.length > 0 && (
           <section className="hp-section">
             <SectionHead
@@ -430,7 +444,7 @@ export default function HomePage() {
           </section>
         )}
 
-        {/* ── 5. WARDROBE RAIL — ZARA & MUFTI, the clothes off the search path ── */}
+        {/* ── 6. WARDROBE RAIL — ZARA & MUFTI, the clothes off the search path ── */}
         {wardrobe.length > 0 && (
           <section className="hp-section">
             <SectionHead
@@ -457,7 +471,7 @@ export default function HomePage() {
           </section>
         )}
 
-        {/* ── 6. OAT DRINK RAIL — the shelf the brand is named after ── */}
+        {/* ── 7. OAT DRINK RAIL — the shelf the brand is named after ── */}
         <section className="hp-section">
           <SectionHead
             title="The oat drink aisle"
@@ -478,7 +492,7 @@ export default function HomePage() {
           </div>
         </section>
 
-        {/* ── 7. SCENT RAIL — Chanel's lines interleaved with ZARA parfums ── */}
+        {/* ── 8. SCENT RAIL — Chanel's lines interleaved with ZARA parfums ── */}
         {scent.length > 0 && (
           <section className="hp-section">
             <SectionHead
@@ -505,7 +519,7 @@ export default function HomePage() {
           </section>
         )}
 
-        {/* ── 8. PROMOS ── */}
+        {/* ── 9. PROMOS ── */}
         <section className="hp-section">
           <div className="hp-promos">
             <Link to="/products/item/cold-foam-barista-1l" className="hp-promo hp-promo--surface">
@@ -550,7 +564,7 @@ export default function HomePage() {
           </div>
         </section>
 
-        {/* ── 9. SERVICE STRIP ── */}
+        {/* ── 10. SERVICE STRIP ── */}
         <ul className="hp-service">
           {services.map(({ icon: Icon, title, text }) => (
             <li key={title} className="hp-service__item">
