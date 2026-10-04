@@ -122,7 +122,12 @@ function SiteChrome({
 
   return (
     <div
-      className={`app-shell ${isHome ? 'bg-[#04060d]' : 'bg-graph-paper'} border-0 sm:border-[4px] md:border-[6px] lg:border-[8px] border-[#466874] text-oatly-black selection:bg-oatly-yellow selection:text-oatly-black font-sans p-0 sm:p-2 md:p-2.5 lg:p-3.5`}
+      className={`app-shell ${
+        isHome
+          ? // full-bleed hero: no frame padding/border — the film touches every edge
+            'bg-[#04060d] border-0 p-0'
+          : 'bg-graph-paper border-0 sm:border-[4px] md:border-[6px] lg:border-[8px] border-[#466874] p-0 sm:p-2 md:p-2.5 lg:p-3.5'
+      } text-oatly-black selection:bg-oatly-yellow selection:text-oatly-black font-sans`}
     >
       <div
         data-app-scroll

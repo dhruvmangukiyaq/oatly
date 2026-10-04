@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useEffect, useLayoutEffect, useRef, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import {
   Search,
@@ -161,6 +161,7 @@ export default function HomePage() {
   const [addedKey, setAddedKey] = useState(null);
   const rails = useRef({});
   const addedTimer = useRef(null);
+  const tickerRef = useRef(null);
 
   // Search bar → /search?q=… (a real page with the results + filters, not a popup)
   const submitSearch = (e) => {
@@ -171,6 +172,64 @@ export default function HomePage() {
 
   // MODEL (async API — the storefront renders once the catalogue arrives)
   const categories = useApiData(() => ProductModel.getProductCategories(), []);
+
+  // FULL-BLEED HERO: --hero-pull lifts the video journey to the very top of
+  // the viewport so the film runs BEHIND the navbar and ticker (both float
+  // over it). pull = header margin-top + header height + ticker height.
+  // HomePage renders `null` until categories arrive, so the effect re-runs
+  // when the markup commits (deps [categories] → set before paint, no snap);
+  // next-frame retry covers the navbar, which also arrives async (nav items
+  // come from the API). A ResizeObserver keeps it exact afterwards (mobile
+  // drawer, font swap, resize).
+  useLayoutEffect(() => {
+    const html = document.documentElement;
+    let ro = null;
+    let raf = 0;
+    let tries = 0;
+    let alive = true;
+
+    const parts = () => {
+      const header = document.querySelector('.oatly-header');
+      const ticker = tickerRef.current || document.querySelector('.hp-ticker');
+      return header && ticker ? { header, ticker } : null;
+    };
+
+    const apply = () => {
+      const p = parts();
+      if (!p) return false;
+      const marginTop = parseFloat(getComputedStyle(p.header).marginTop) || 0;
+      // subpixel-accurate heights (offsetHeight truncates to integers)
+      const { height: headerH } = p.header.getBoundingClientRect();
+      const { height: tickerH } = p.ticker.getBoundingClientRect();
+      html.style.setProperty('--hero-pull', `${marginTop + headerH + tickerH}px`);
+      return true;
+    };
+
+    const watch = () => {
+      const p = parts();
+      if (p && typeof ResizeObserver !== 'undefined') {
+        ro = new ResizeObserver(apply);
+        ro.observe(p.header);
+        ro.observe(p.ticker);
+      }
+      window.addEventListener('resize', apply);
+    };
+
+    const tryApply = () => {
+      if (!alive) return;
+      if (apply()) watch();
+      else if (tries++ < 600) raf = requestAnimationFrame(tryApply); // ~10s cap
+    };
+    tryApply();
+
+    return () => {
+      alive = false;
+      if (raf) cancelAnimationFrame(raf);
+      if (ro) ro.disconnect();
+      window.removeEventListener('resize', apply);
+      html.style.removeProperty('--hero-pull');
+    };
+  }, [categories]);
 
   const handleAdd = (key) => {
     add(key, 1);
@@ -341,7 +400,7 @@ export default function HomePage() {
       />
 
       {/* ── 1. TICKER — the one moving thing on the page ── */}
-      <div className="hp-ticker" role="region" aria-label="Store announcements">
+      <div className="hp-ticker" ref={tickerRef} role="region" aria-label="Store announcements">
         <div className="hp-ticker__track">
           {[0, 1].map((group) => (
             <span className="hp-ticker__group" key={group} aria-hidden={group === 1 ? 'true' : undefined}>

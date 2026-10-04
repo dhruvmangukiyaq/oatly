@@ -89,6 +89,22 @@
     -moz-osx-font-smoothing: grayscale;
   }
 
+  /* Scrollbar CHROME hidden cross-browser (Chrome/Safari/Firefox/legacy).
+     Scrolling is untouched: only the scrollbar UI is removed — no overflow
+     value is changed, wheel/touch/keyboard scrolling keeps working. */
+  html,
+  body {
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+  }
+
+  html::-webkit-scrollbar,
+  body::-webkit-scrollbar {
+    width: 0;
+    height: 0;
+    display: none;
+  }
+
   h1, h2, h3, h4, h5, h6 {
     font-family: 'Space Grotesk', 'Outfit', sans-serif;
     font-weight: 900;
@@ -564,6 +580,8 @@
 }
 
 .app-frame::-webkit-scrollbar {
+  width: 0;
+  height: 0;
   display: none;
 }
 

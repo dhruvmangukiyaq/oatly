@@ -21,7 +21,7 @@ import { useEffect, useRef, useState } from 'react';
 //   scroll → target progress → time-constant smoothing (70ms, frame-rate
 //   independent) → desired time → chained currentTime seeks (sub-frame
 //   epsilon, immediate re-issue on 'seeked', 55ms stall grace) → frame.
-// Zero React state on the scroll path; hint/hairline styled directly;
+// Zero React state on the scroll path; the hint is styled directly;
 // the loop parks itself while the journey is off-screen (IO gate).
 
 const clamp01 = (v) => (v < 0 ? 0 : v > 1 ? 1 : v);
@@ -33,7 +33,6 @@ export default function VideoHero() {
   const rootRef = useRef(null);
   const videoRef = useRef(null);
   const hintRef = useRef(null);
-  const lineRef = useRef(null);
   const [ready, setReady] = useState(false);
   const [failed, setFailed] = useState(false);
   const [reduced] = useState(
@@ -97,8 +96,7 @@ export default function VideoHero() {
     let seekIssuedAt = 0;
     let lastIssued = -1;
     let pending = -1; // freshest desired time while a seek is in flight
-    let lastLine = -1; // last written hairline value (skip no-op DOM writes)
-    let lastHint = -1;
+    let lastHint = -1; // last written hint opacity (skip no-op DOM writes)
 
     const measure = () => {
       dirty = false;
@@ -168,10 +166,6 @@ export default function VideoHero() {
         }
       }
 
-      if (value !== lastLine && lineRef.current) {
-        lineRef.current.style.transform = `scaleY(${value.toFixed(4)})`;
-        lastLine = value;
-      }
       if (value !== lastHint && hintRef.current) {
         hintRef.current.style.opacity = String(Math.max(0, 1 - value * 16));
         lastHint = value;
@@ -262,9 +256,6 @@ export default function VideoHero() {
           <div className="hp-video__orbit" />
         </div>
 
-        <div className="hp-video__line" aria-hidden="true">
-          <i ref={lineRef} />
-        </div>
         <div className="hp-video__hint" ref={hintRef} aria-hidden="true">
           <span>Scroll to explore</span>
           <svg
