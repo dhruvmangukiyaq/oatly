@@ -12,7 +12,7 @@ import {
   Headphones,
 } from 'lucide-react';
 // ─── MVC: View ──────────────────────────────────────────────────────────────
-// Storefront home: ticker → scroll-scrubbed video hero → hero (search)
+// Storefront home: scroll-scrubbed video hero → hero (search)
 // → deals rail → brand roster →
 // wardrobe rail (ZARA & MUFTI) → oat-drink rail → scent rail →
 // promos → service strip. Category/product data comes from
@@ -161,7 +161,6 @@ export default function HomePage() {
   const [addedKey, setAddedKey] = useState(null);
   const rails = useRef({});
   const addedTimer = useRef(null);
-  const tickerRef = useRef(null);
 
   // Search bar → /search?q=… (a real page with the results + filters, not a popup)
   const submitSearch = (e) => {
@@ -174,8 +173,8 @@ export default function HomePage() {
   const categories = useApiData(() => ProductModel.getProductCategories(), []);
 
   // FULL-BLEED HERO: --hero-pull lifts the video journey to the very top of
-  // the viewport so the film runs BEHIND the navbar and ticker (both float
-  // over it). pull = header margin-top + header height + ticker height.
+  // the viewport so the film runs BEHIND the navbar (which floats
+  // over it). pull = header margin-top + header height.
   // HomePage renders `null` until categories arrive, so the effect re-runs
   // when the markup commits (deps [categories] → set before paint, no snap);
   // next-frame retry covers the navbar, which also arrives async (nav items
@@ -190,8 +189,7 @@ export default function HomePage() {
 
     const parts = () => {
       const header = document.querySelector('.oatly-header');
-      const ticker = tickerRef.current || document.querySelector('.hp-ticker');
-      return header && ticker ? { header, ticker } : null;
+      return header ? { header } : null;
     };
 
     const apply = () => {
@@ -200,8 +198,7 @@ export default function HomePage() {
       const marginTop = parseFloat(getComputedStyle(p.header).marginTop) || 0;
       // subpixel-accurate heights (offsetHeight truncates to integers)
       const { height: headerH } = p.header.getBoundingClientRect();
-      const { height: tickerH } = p.ticker.getBoundingClientRect();
-      html.style.setProperty('--hero-pull', `${marginTop + headerH + tickerH}px`);
+      html.style.setProperty('--hero-pull', `${marginTop + headerH}px`);
       return true;
     };
 
@@ -210,7 +207,6 @@ export default function HomePage() {
       if (p && typeof ResizeObserver !== 'undefined') {
         ro = new ResizeObserver(apply);
         ro.observe(p.header);
-        ro.observe(p.ticker);
       }
       window.addEventListener('resize', apply);
     };
@@ -346,11 +342,6 @@ export default function HomePage() {
   const oatAisle = items.filter((i) => i.__cat === 'oat-drink' || i.__cat === 'chilled-oat-drink');
   const oatRail = oatAisle.slice(0, 12);
 
-  const pints = items.filter((i) => i.__cat === 'ice-cream' && Number(i.price) > 0);
-  const pintFrom = pints.length
-    ? `${currency}${Math.min(...pints.map((p) => Number(p.price))).toFixed(2)}`
-    : null;
-
   // Brand roster — real counts, three thumbs spread across each house's range
   const roster = BRAND_ROSTER.map((b) => {
     const own = items.filter((p) => brandOf(p) === b.key);
@@ -376,15 +367,6 @@ export default function HomePage() {
   const scent = interleave(chanel, zaraScent).slice(0, 14);
   const scentTotal = chanel.length + zaraScent.length;
 
-  const ticker = [
-    `Free shipping over ${currency}${Number(settings.freeShipThreshold ?? 40)}`,
-    'New — Cold Foam Barista, 1 L',
-    `${total} products in stock`,
-    pintFrom ? `Frozen treats from ${pintFrom}` : 'Frozen treats in stock',
-    'ZARA & MUFTI clothing in stock',
-    'Godiva gift boxes in stock',
-  ];
-
   const services = [
     { icon: Truck, title: 'Free shipping', text: `Orders over ${currency}${Number(settings.freeShipThreshold ?? 40)} ship free.` },
     { icon: RefreshCw, title: 'Easy returns', text: 'Send it back within 7 days if it is not your thing.' },
@@ -399,23 +381,7 @@ export default function HomePage() {
         description="A site filled with everything you could possibly think of, and also probably not think of, related to an oat drink company called Oatara."
       />
 
-      {/* ── 1. TICKER — the one moving thing on the page ── */}
-      <div className="hp-ticker" ref={tickerRef} role="region" aria-label="Store announcements">
-        <div className="hp-ticker__track">
-          {[0, 1].map((group) => (
-            <span className="hp-ticker__group" key={group} aria-hidden={group === 1 ? 'true' : undefined}>
-              {ticker.map((line) => (
-                <span className="hp-ticker__item" key={line}>
-                  {line}
-                  <i className="hp-ticker__sep" aria-hidden="true" />
-                </span>
-              ))}
-            </span>
-          ))}
-        </div>
-      </div>
-
-      {/* ── 2. VIDEO HERO — scroll scrubs the MP4 timeline; the sticky stage
+      {/* ── 1. VIDEO HERO — scroll scrubs the MP4 timeline; the sticky stage
              releases at the end and the shop flows in (no shift, no flash) ── */}
       <div className="hp-video">
         <React.Suspense fallback={null}>
@@ -423,7 +389,7 @@ export default function HomePage() {
         </React.Suspense>
       </div>
 
-      {/* ── 3. HERO — the counter, nothing else ── */}
+      {/* ── 2. HERO — the counter, nothing else ── */}
       <section className="hp-hero">
         <div className="hp-hero__copy">
           {/* The counter: type here and press Enter → /search results page */}

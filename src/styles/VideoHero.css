@@ -21,9 +21,9 @@
   height: 450vh; /* 350vh of travel ≈ the whole 8s film — slow, cinematic */
   background: #04060d;
   /* FULL-BLEED: pull the journey up over the header's flow space + the
-     ticker, so the film starts at the very top of the viewport (y=0) and
-     the navbar/ticker float ON TOP of it. --hero-pull = header margin-top
-     + header height + ticker height, measured in HomePage's layout effect
+     chrome, so the film starts at the very top of the viewport (y=0) and
+     the navbar floats ON TOP of it. --hero-pull = header margin-top
+     + header height, measured in HomePage's layout effect
      (before first paint) and kept in sync by a ResizeObserver. */
   margin-top: calc(-1 * var(--hero-pull, 0px));
 }
@@ -39,7 +39,7 @@
   height: var(--video-vh, 100vh);
   overflow: hidden;
   background: #04060d;
-  /* stacking: video (1) < ticker (3) < navbar (50) — the film is the
+  /* stacking: video (1) < navbar (50) — the film is the
      background layer, the chrome floats above it */
   z-index: 1;
 }
@@ -181,7 +181,7 @@
    3. SPACE   — one deep-space wash + sparse hand-placed star dust over the
                 whole page (subtle: never over the video, never noisy).
    4. MATCH   — every surface shares #04060d with the hero frame, so the
-                video edge, ticker, rails and page end blend seamlessly.
+                video edge, rails and page end blend seamlessly.
    ========================================================================== */
 
 .hp {
@@ -212,16 +212,6 @@
     radial-gradient(1100px 520px at 74% 3%, rgba(26, 50, 108, 0.4), transparent 72%),
     radial-gradient(900px 600px at 18% 58%, rgba(20, 38, 86, 0.28), transparent 70%);
   background-repeat: no-repeat;
-}
-
-/* Ticker floats OVER the film — the pulled journey overlaps its flow slot,
-   so it gets its own layer + translucent glass (never a separate strip) */
-.hp-ticker {
-  position: relative;
-  z-index: 3;
-  background: rgba(6, 10, 20, 0.55);
-  -webkit-backdrop-filter: blur(14px) saturate(1.3);
-  backdrop-filter: blur(14px) saturate(1.3);
 }
 
 /* Light gallery tile so multiply-blended product shots stay true on dark */

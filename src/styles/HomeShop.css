@@ -1,7 +1,7 @@
 /* ==========================================================================
    HOME — storefront front page ("the counter")
    --------------------------------------------------------------------------
-   Section plan comes from marketplace homepages (ticker → hero → deal rail
+   Section plan comes from marketplace homepages (hero → deal rail
    → brand roster → wardrobe rail → oat/scent rails → promos
    → service strip); the VISUAL LANGUAGE
    is the product page's, not a separate theme:
@@ -12,7 +12,7 @@
      - shapes     → 1px hairlines, 2px radius, no hard shadows, no colour badges
      - cards      → borderless like .plist-card: transparent media with
                     multiply-blended product shots, quiet text actions
-   BEM: .hp, .hp-ticker__*, .hp-hero__*, .hp-head__*, .hp-rail,
+   BEM: .hp, .hp-hero__*, .hp-head__*, .hp-rail,
         .hp-card__*, .hp-brand__*, .hp-promo__*, .hp-service__*
    TOKENS: --font-ui / --font-chunky / --spec-* / --space-* (src/styles/index.css)
    ========================================================================== */
@@ -38,56 +38,7 @@
   padding: 0 var(--space-24);
 }
 
-/* --- 1. TICKER — quiet announcement strip (product-page greys) ------------ */
-.hp-ticker {
-  overflow: hidden;
-  background: var(--hp-surface);
-  border-bottom: var(--hp-hair);
-}
-
-.hp-ticker__track {
-  display: flex;
-  width: max-content;
-  animation: hp-marquee 34s linear infinite;
-}
-
-.hp-ticker__group {
-  display: flex;
-}
-
-.hp-ticker__item {
-  display: inline-flex;
-  align-items: center;
-  gap: 16px;
-  padding: 8px 16px;
-  font-family: var(--font-ui);
-  font-weight: 400;
-  font-size: 0.72rem;
-  letter-spacing: 0.06em;
-  text-transform: uppercase;
-  white-space: nowrap;
-}
-
-.hp-ticker__sep {
-  width: 6px;
-  height: 6px;
-  background: var(--hp-line);
-  transform: rotate(45deg);
-  flex: none;
-}
-
-@keyframes hp-marquee {
-  from { transform: translateX(0); }
-  to { transform: translateX(-50%); }
-}
-
-@media (prefers-reduced-motion: reduce) {
-  .hp-ticker__track {
-    animation: none;
-  }
-}
-
-/* --- 2. HERO — the search counter, nothing else -------------------------- */
+/* --- 1. HERO — the search counter, nothing else -------------------------- */
 .hp-hero {
   display: block;
   max-width: var(--max-width);
