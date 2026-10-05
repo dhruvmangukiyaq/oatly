@@ -25,11 +25,11 @@ import { applyAdminVisibility, getProductOverrides } from '../models/adminStore.
 import { BRAND_HOUSE } from '../utils/productSearch.js';
 import { useShop } from '../hooks/useShop.js';
 import '../styles/HomeShop.css';
-import '../styles/VideoHero.css';
+import '../styles/StoreHero.css';
 
-// Scroll-scrubbed video intro (HTML5 MP4) — lazy so the main bundle stays
+// Scroll-built 3D boutique (three.js / r3f) — lazy so the main bundle stays
 // light; the .hp-video wrapper reserves its height up front (no layout shift).
-const VideoHero = React.lazy(() => import('../components/VideoHero.jsx'));
+const StoreHero = React.lazy(() => import('../components/StoreHero.jsx'));
 
 // Product photo with a quiet fallback (remote asset missing → plain tile)
 function ShopImg({ src, alt }) {
@@ -162,8 +162,8 @@ export default function HomePage() {
   // MODEL (async API — the storefront renders once the catalogue arrives)
   const categories = useApiData(() => ProductModel.getProductCategories(), []);
 
-  // FULL-BLEED HERO: --hero-pull lifts the video journey to the very top of
-  // the viewport so the film runs BEHIND the navbar (which floats
+  // FULL-BLEED HERO: --hero-pull lifts the store journey to the very top of
+  // the viewport so the scene runs BEHIND the navbar (which floats
   // over it). pull = header margin-top + header height.
   // HomePage renders `null` until categories arrive, so the effect re-runs
   // when the markup commits (deps [categories] → set before paint, no snap);
@@ -371,11 +371,11 @@ export default function HomePage() {
         description="A site filled with everything you could possibly think of, and also probably not think of, related to an oat drink company called Oatara."
       />
 
-      {/* ── 1. VIDEO HERO — scroll scrubs the MP4 timeline; the sticky stage
-             releases at the end and the shop flows in (no shift, no flash) ── */}
+      {/* ── 1. STORE HERO — scroll builds the boutique (walls → lights → racks
+             → clothes) and the sticky stage releases into the shop (no shift) ── */}
       <div className="hp-video">
         <React.Suspense fallback={null}>
-          <VideoHero />
+          <StoreHero items={items} currency={currency} />
         </React.Suspense>
       </div>
 
