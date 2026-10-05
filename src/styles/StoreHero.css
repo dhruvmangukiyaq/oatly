@@ -89,6 +89,94 @@
   }
 }
 
+/* ── Editorial captions ───────────────────────────────────────────────────
+   One serif line + one small paragraph per build stage. Opacity and
+   translateY are written straight from StoreHero's rAF loop off the shared
+   CAPTIONS config, so the copy sits on exactly the timeline the 3D builds on.
+   The room is bright cream throughout, so the type is ink-on-light with a
+   soft scrim that travels inside the caption's own opacity. */
+.hp-video__caps {
+  position: absolute;
+  inset: 0;
+  z-index: 3;
+  pointer-events: none;
+}
+
+.hp-video__cap {
+  position: absolute;
+  left: clamp(20px, 5.5vw, 76px);
+  bottom: clamp(74px, 15vh, 150px);
+  max-width: min(34ch, 46vw);
+  opacity: 0;
+  will-change: opacity, transform;
+}
+
+.hp-video__cap::before {
+  content: '';
+  position: absolute;
+  /* the box is deliberately far larger than the type so the radial can reach
+     zero *inside* it — a scrim that ends at the box edge reads as a pale
+     rectangle laid over the room */
+  inset: -190px -230px;
+  background: radial-gradient(
+    ellipse 46% 42% at 50% 50%,
+    rgba(250, 248, 242, 0.86) 0%,
+    rgba(250, 248, 242, 0.5) 55%,
+    rgba(250, 248, 242, 0) 100%
+  );
+}
+
+.hp-video__cap p {
+  position: relative;
+  margin: 0;
+}
+
+.hp-video__cap-title {
+  font-family: var(--font-serif);
+  font-size: clamp(1.7rem, 4.2vw, 3.4rem);
+  font-weight: 400;
+  line-height: 1.03;
+  letter-spacing: -0.015em;
+  color: #17150f;
+  text-shadow: 0 1px 0 rgba(255, 255, 255, 0.4);
+}
+
+.hp-video__cap-sub {
+  margin-top: 0.75em;
+  font-family: var(--font-ui);
+  font-size: clamp(0.72rem, 1.1vw, 0.87rem);
+  line-height: 1.55;
+  letter-spacing: 0.045em;
+  color: rgba(23, 21, 15, 0.72);
+}
+
+/* the opening beat sits centre-stage over the empty room */
+.hp-video__cap--center {
+  left: 0;
+  right: 0;
+  bottom: auto;
+  top: 38%;
+  max-width: none;
+  padding: 0 clamp(24px, 8vw, 96px);
+  text-align: center;
+}
+
+.hp-video__cap--center::before {
+  inset: -190px -16vw;
+  background: radial-gradient(
+    ellipse 46% 42% at 50% 50%,
+    rgba(250, 248, 242, 0.84) 0%,
+    rgba(250, 248, 242, 0.46) 55%,
+    rgba(250, 248, 242, 0) 100%
+  );
+}
+
+.hp-video__cap--center .hp-video__cap-sub {
+  max-width: 44ch;
+  margin-left: auto;
+  margin-right: auto;
+}
+
 /* Load veil — dark, minimal spinner; lifts once the scene renders */
 .hp-video__veil {
   position: absolute;
@@ -245,6 +333,42 @@
     font-size: 0.6rem;
   }
 
+  /* captions stay on screen but drop to a compact lower band so they never
+     sit on top of the merchandised centre of the room */
+  .hp-video__cap {
+    left: 18px;
+    right: 18px;
+    bottom: clamp(62px, 12vh, 92px);
+    max-width: none;
+  }
+
+  .hp-video__cap::before {
+    inset: -120px -56px;
+    background: radial-gradient(
+      ellipse 46% 42% at 46% 50%,
+      rgba(250, 248, 242, 0.92) 0%,
+      rgba(250, 248, 242, 0.62) 58%,
+      rgba(250, 248, 242, 0) 100%
+    );
+  }
+
+  .hp-video__cap-title {
+    font-size: clamp(1.45rem, 7.2vw, 2.1rem);
+  }
+
+  .hp-video__cap-sub {
+    font-size: 0.72rem;
+  }
+
+  .hp-video__cap--center {
+    top: 34%;
+    padding: 0 20px;
+  }
+
+  .hp-video__cap--center::before {
+    inset: -140px -18vw;
+  }
+
   .store-hot__label {
     display: none; /* taps go straight to the product page */
   }
@@ -264,6 +388,19 @@
 
   .hp-video__hint {
     display: none;
+  }
+
+  /* The scrub loop never runs under reduced motion, so the captions would all
+     sit at their inline default of opacity 1. Collapse them to the closing
+     beat only — it describes the finished store the fallback is showing. */
+  .hp-video__cap {
+    display: none;
+  }
+
+  .hp-video__caps.is-static .hp-video__cap:last-child {
+    display: block;
+    opacity: 1;
+    transform: none;
   }
 }
 

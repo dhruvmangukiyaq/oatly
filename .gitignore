@@ -2,3 +2,6 @@ node_modules/
 dist/
 .env
 .env.local
+# frames pulled from the reference clip while studying its interaction
+# pattern — study material only, never shipped
+.refframes/

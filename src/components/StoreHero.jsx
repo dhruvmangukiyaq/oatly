@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import StoreStage from '../three/StoreStage.jsx';
-import { PROG, STORE_IDS } from '../three/storeConfig.js';
+import { PROG, CAPTIONS, STORE_IDS } from '../three/storeConfig.js';
 
 // ─── STORE HERO — scroll-built premium boutique ─────────────────────────────
 // The Home Page opens on a bare, empty floor lit by one construction lamp.
@@ -28,6 +28,19 @@ import { PROG, STORE_IDS } from '../three/storeConfig.js';
 
 const clamp01 = (v) => (v < 0 ? 0 : v > 1 ? 1 : v);
 const SMOOTH_TAU = 0.07; // seconds — 95% of the way in ~210ms: smooth, not laggy
+
+// Caption envelope: rise + fade in, hold, drift up + fade out. Two smoothsteps
+// on the same window so the copy breathes instead of blinking at the edges.
+// The fade is deliberately short (~3% of the journey ≈ 95px of scroll) so a
+// beat reads as fully present rather than half-dimmed for half the stage.
+const smooth = (t) => t * t * (3 - 2 * t);
+function capState(p, w) {
+  const [a, b] = w;
+  const fade = Math.min(0.03, (b - a) * 0.22);
+  const eIn = smooth(clamp01((p - a) / fade));
+  const eOut = smooth(clamp01((b - p) / fade));
+  return { alpha: Math.min(eIn, eOut), y: 18 * (1 - eIn) - 14 * (1 - eOut) };
+}
 
 // Build the staged display list once from the enriched catalogue.
 function buildStaged(items) {
@@ -57,6 +70,7 @@ function buildStaged(items) {
 export default function StoreHero({ items, currency = '$' }) {
   const rootRef = useRef(null);
   const hintRef = useRef(null);
+  const capRefs = useRef([]); // one node per caption, driven straight from rAF
   const readyRef = useRef(false);
   const navigate = useNavigate();
   const [webgl] = useState(() => {
@@ -168,6 +182,16 @@ export default function StoreHero({ items, currency = '$' }) {
         PROG.p = value;
         window.__storeP = Math.round(value * 1e4) / 1e4;
         PROG.invalidate?.();
+        // editorial captions — same progress value, written straight to the
+        // DOM (no React state on the scroll path, no re-render per frame)
+        const caps = capRefs.current;
+        for (let i = 0; i < caps.length; i += 1) {
+          const el = caps[i];
+          if (!el) continue;
+          const st = capState(value, CAPTIONS[i].w);
+          el.style.opacity = st.alpha.toFixed(3);
+          el.style.transform = `translate3d(0,${st.y.toFixed(2)}px,0)`;
+        }
       } else if (!readyRef.current) {
         // keep frames coming while the veil is still up (textures loading)
         PROG.invalidate?.();
@@ -240,6 +264,24 @@ export default function StoreHero({ items, currency = '$' }) {
 
         <div className={`hp-video__veil${ready ? ' is-ready' : ''}`} aria-hidden={ready}>
           <div className="hp-video__orbit" />
+        </div>
+
+        {/* editorial captions — the storytelling beats, swapped by the very
+            same progress value that drives the 3D build (shared CAPTIONS
+            config, so copy and choreography can never drift apart) */}
+        <div className={`hp-video__caps${reduced ? ' is-static' : ''}`}>
+          {CAPTIONS.map((c, i) => (
+            <div
+              key={c.title}
+              className={`hp-video__cap hp-video__cap--${c.align}`}
+              ref={(el) => {
+                capRefs.current[i] = el;
+              }}
+            >
+              <p className="hp-video__cap-title">{c.title}</p>
+              <p className="hp-video__cap-sub">{c.sub}</p>
+            </div>
+          ))}
         </div>
 
         <div className="hp-video__hint" ref={hintRef} aria-hidden="true">
