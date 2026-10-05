@@ -497,7 +497,11 @@
   --spec-border: rgba(172, 196, 240, 0.2);
 
   background: rgba(6, 10, 20, 0.78);
-  border-color: rgba(210, 226, 255, 0.16);
+  /* No visible border: the 1px light border read as a stray hairline under
+     the pill over the film (bright against the dark glass interior). The 1px
+     stays in layout as transparent so header height — and the hero's
+     --hero-pull measurement — never shifts. */
+  border-color: transparent;
   box-shadow: 0 18px 44px -24px rgba(0, 0, 0, 0.9);
   color: var(--spec-ink);
 }
