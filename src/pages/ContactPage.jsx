@@ -50,7 +50,7 @@ export default function ContactPage() {
         </p>
       </div>
 
-      <div className="bg-white border-4 border-oatly-black p-8 shadow-brutal space-y-6">
+      <div className="bg-[#0d1424] border-4 border-[#3a4f78] p-8 shadow-brutal space-y-6">
         
         {submitted ? (
           <div className="p-8 bg-oatly-mint text-oatly-black border-4 border-oatly-black shadow-brutal text-center space-y-4">
@@ -74,7 +74,7 @@ export default function ContactPage() {
                   value={formData.name}
                   onChange={(e) => setFormData({ ...formData, name: e.target.value })}
                   placeholder="HUMAN NAME"
-                  className="w-full px-4 py-3 bg-oatly-cream border-2 border-oatly-black font-bold text-sm uppercase placeholder:text-gray-400 focus:outline-none focus:bg-white"
+                  className="w-full px-4 py-3 bg-oatly-cream border-2 border-oatly-black font-bold text-sm uppercase placeholder:text-gray-400 focus:outline-none focus:bg-white text-oatly-black"
                 />
                 {errors.name && <div className="text-red-600 text-xs font-bold mt-1">{errors.name}</div>}
               </div>
@@ -86,7 +86,7 @@ export default function ContactPage() {
                   value={formData.email}
                   onChange={(e) => setFormData({ ...formData, email: e.target.value })}
                   placeholder="HUMAN@EMAIL.COM"
-                  className="w-full px-4 py-3 bg-oatly-cream border-2 border-oatly-black font-bold text-sm uppercase placeholder:text-gray-400 focus:outline-none focus:bg-white"
+                  className="w-full px-4 py-3 bg-oatly-cream border-2 border-oatly-black font-bold text-sm uppercase placeholder:text-gray-400 focus:outline-none focus:bg-white text-oatly-black"
                 />
                 {errors.email && <div className="text-red-600 text-xs font-bold mt-1">{errors.email}</div>}
               </div>
@@ -97,7 +97,7 @@ export default function ContactPage() {
               <select
                 value={formData.subject}
                 onChange={(e) => setFormData({ ...formData, subject: e.target.value })}
-                className="w-full px-4 py-3 bg-oatly-cream border-2 border-oatly-black font-extrabold text-sm uppercase focus:outline-none focus:bg-white cursor-pointer"
+                className="w-full px-4 py-3 bg-oatly-cream border-2 border-oatly-black font-extrabold text-sm uppercase focus:outline-none focus:bg-white cursor-pointer text-oatly-black"
               >
                 <option value="General Question">General Question / Love Letter</option>
                 <option value="Product Availability">Product Availability at Supermarket</option>
@@ -113,7 +113,7 @@ export default function ContactPage() {
                 value={formData.message}
                 onChange={(e) => setFormData({ ...formData, message: e.target.value })}
                 placeholder="TYPE YOUR MESSAGE HERE..."
-                className="w-full px-4 py-3 bg-oatly-cream border-2 border-oatly-black font-medium text-sm placeholder:text-gray-400 focus:outline-none focus:bg-white"
+                className="w-full px-4 py-3 bg-oatly-cream border-2 border-oatly-black font-medium text-sm placeholder:text-gray-400 focus:outline-none focus:bg-white text-oatly-black"
               />
               {errors.message && <div className="text-red-600 text-xs font-bold mt-1">{errors.message}</div>}
             </div>

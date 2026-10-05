@@ -445,15 +445,15 @@
   color: var(--spec-ink);
 }
 
-/* ── Primary action: site button (black, hard shadow) ── */
+/* ── Primary action: site button (light chip on dark, hard shadow) ── */
 .ns-modal__back {
   display: block;
   width: 100%;
   margin-top: var(--space-24);
   padding: var(--space-12) var(--space-24);
-  background: #111111;
-  color: #ffffff;
-  border: 2px solid #111111;
+  background: var(--spec-ink);
+  color: #0a1122;
+  border: 2px solid var(--spec-ink);
   font-family: var(--font-ui);
   font-size: 0.875rem;
   font-weight: 700;
@@ -462,13 +462,14 @@
   text-transform: uppercase;
   text-align: center;
   cursor: pointer;
-  box-shadow: 4px 4px 0 0 rgba(17, 17, 17, 1);
+  box-shadow: 4px 4px 0 0 rgba(4, 6, 13, 1);
   transition: background-color 0.15s ease, color 0.15s ease, transform 0.1s ease,
     box-shadow 0.1s ease;
 }
 
 .ns-modal__back:hover {
-  background: var(--spec-canvas);
+  background: var(--spec-harvest);
+  border-color: var(--spec-harvest);
   color: #111111;
 }
 

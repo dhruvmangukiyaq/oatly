@@ -1,10 +1,9 @@
 /* ==========================================================================
-   LOGIN / SIGNUP — home page jevu light UI.
+   LOGIN / SIGNUP — deep-space theme (site-wide space palette).
    --------------------------------------------------------------------------
-   Home ni j bhasha: oat-gold wash background, white borderless cards
-   (rounded 2px, soft shadow), quiet type (--font-ui), square buttons
-   (white, black border, 2px offset shadow). Dark fills + hard shadows
-   hatavya — keval text j ink black.
+   Dark navy wash (soft ember glows over #04060d), dark glass card,
+   quiet type (--font-ui), light square CTA (was white/black — inverted
+   so the button pops on the dark card). Labels/ink follow --spec-ink.
    ========================================================================== */
 
 .login-page {
@@ -15,10 +14,10 @@
   justify-content: center;
   padding: clamp(32px, 6vw, 72px) 20px 64px;
   background:
-    radial-gradient(900px 500px at 4% 0%, rgba(245, 210, 150, 0.25), transparent 70%),
-    radial-gradient(820px 520px at 100% 18%, rgba(182, 222, 242, 0.24), transparent 70%),
-    radial-gradient(1000px 620px at 50% 100%, rgba(182, 222, 172, 0.22), transparent 70%),
-    linear-gradient(180deg, #FFFBF2 0%, #FFFDF9 40%, #F5F9F2 100%);
+    radial-gradient(900px 500px at 4% 0%, rgba(245, 210, 150, 0.10), transparent 70%),
+    radial-gradient(820px 520px at 100% 18%, rgba(182, 222, 242, 0.10), transparent 70%),
+    radial-gradient(1000px 620px at 50% 100%, rgba(182, 222, 172, 0.08), transparent 70%),
+    linear-gradient(180deg, #04060d 0%, #070b18 40%, #04060d 100%);
 }
 
 /* Login route: main ne flex column jetlo wash bottom sudhi bhare */
@@ -33,9 +32,9 @@
 
 .login-card {
   width: min(100%, 480px);
-  background: #ffffff;
+  background: #0d1424;
   border-radius: 2px;
-  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.10);
+  box-shadow: 0 12px 32px rgba(0, 0, 0, 0.55);
   padding: clamp(24px, 4vw, 36px);
 }
 
@@ -54,10 +53,10 @@
   flex-direction: column;
   justify-content: center;
   background:
-    radial-gradient(420px 260px at 10% 0%, rgba(245, 210, 150, 0.5), transparent 70%),
-    radial-gradient(380px 280px at 95% 20%, rgba(182, 222, 242, 0.45), transparent 70%),
-    radial-gradient(480px 320px at 50% 110%, rgba(182, 222, 172, 0.45), transparent 70%),
-    linear-gradient(135deg, #FFF6E6 0%, #FFFDF9 45%, #F3F8F0 100%);
+    radial-gradient(420px 260px at 10% 0%, rgba(245, 210, 150, 0.16), transparent 70%),
+    radial-gradient(380px 280px at 95% 20%, rgba(182, 222, 242, 0.14), transparent 70%),
+    radial-gradient(480px 320px at 50% 110%, rgba(140, 215, 169, 0.12), transparent 70%),
+    linear-gradient(135deg, #131c31 0%, #0d1424 45%, #131c31 100%);
 }
 
 .login-brand h1 {
@@ -84,7 +83,7 @@
   font-size: 0.95rem;
   letter-spacing: 0.02em;
   text-transform: uppercase;
-  color: #000000;
+  color: var(--spec-ink);
 }
 
 .login-dot {
@@ -134,7 +133,7 @@
   line-height: 1.1;
   letter-spacing: -0.01em;
   font-size: clamp(2.2rem, 5vw, 3rem);
-  color: #000000;
+  color: var(--spec-ink);
 }
 
 .login-sub {
@@ -153,7 +152,7 @@
   gap: 4px;
   margin-bottom: 20px;
   padding: 4px;
-  background: #F5F5F5;
+  background: #131c31;
   border-radius: 2px;
 }
 
@@ -176,10 +175,10 @@
 }
 
 .login-tabs button.is-active {
-  background: #ffffff;
+  background: #e9eef9;
   color: #000000;
   opacity: 1;
-  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.10);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.35);
 }
 
 .login-field { display: block; margin-bottom: 14px; }
@@ -201,7 +200,7 @@
   padding: 12px 14px;
   border: 1px solid var(--spec-border);
   border-radius: 2px;
-  background: #ffffff;
+  background: #131c31;
   font-family: var(--font-ui);
   font-size: 1rem;
   color: var(--spec-ink);

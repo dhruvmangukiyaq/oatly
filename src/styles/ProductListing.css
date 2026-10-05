@@ -186,7 +186,10 @@ button.plist-card {
   position: relative;
   aspect-ratio: 1 / 1;
   overflow: hidden;
-  background: transparent;
+  /* Light gallery tile (home .hp-card__media jevu): multiply product shots
+     need a warm paper ground or they vanish into the dark page. */
+  background: #f0ede4;
+  border-radius: 2px;
   display: flex;
   align-items: center;
   justify-content: center;

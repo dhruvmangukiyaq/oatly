@@ -82,7 +82,7 @@
     /* Deep-space base: matches the home hero frame (#04060d) so nothing
        flashes white on load; routes paint their own surfaces on top. */
     background-color: #04060d;
-    color: var(--color-black);
+    color: var(--spec-ink);
     overflow-x: hidden;
     font-family: 'Outfit', 'Space Grotesk', sans-serif;
     -webkit-font-smoothing: antialiased;
@@ -153,26 +153,27 @@
     height: 8px;
   }
   ::-webkit-scrollbar-track {
-    background: var(--color-cream);
-    border-left: 2px solid var(--color-black);
+    background: #0d1424;
+    border-left: 2px solid var(--spec-border);
   }
   ::-webkit-scrollbar-thumb {
-    background: var(--color-black);
+    background: #3a4a6b;
   }
   ::-webkit-scrollbar-thumb:hover {
-    background: var(--color-teal-frame);
+    background: var(--spec-focus);
   }
 }
 
-/* Former graph-paper background — checks removed site-wide; plain surface. */
+/* Former graph-paper background — checks removed site-wide; plain surface
+   (deep-space so the shell never flashes light on any route). */
 .bg-graph-paper {
-  background-color: #FFFEF6;
+  background-color: #04060d;
   background-image: none;
 }
 
 /* Former polka-dot pattern — dots removed site-wide; plain surface. */
 .bg-polka-dots {
-  background-color: var(--color-cream);
+  background-color: #04060d;
   background-image: none;
   opacity: 1;
 }
@@ -219,15 +220,15 @@
 
 /* Brutalist Button Styles */
 .btn-oatly {
-  @apply inline-flex items-center justify-center gap-2 font-extrabold uppercase px-5 py-2.5 border-2 border-[#111111] bg-[#111111] text-white shadow-[4px_4px_0px_0px_rgba(17,17,17,1)] hover:bg-white hover:text-[#111111] transition-all active:translate-x-[2px] active:translate-y-[2px] active:shadow-[2px_2px_0px_0px_rgba(17,17,17,1)] cursor-pointer;
+  @apply inline-flex items-center justify-center gap-2 font-extrabold uppercase px-5 py-2.5 border-2 border-[#e9eef9] bg-[#e9eef9] text-[#0a1122] shadow-[4px_4px_0px_0px_rgba(4,6,13,1)] hover:bg-[#F5D26B] hover:border-[#F5D26B] hover:text-[#111111] transition-all active:translate-x-[2px] active:translate-y-[2px] active:shadow-[2px_2px_0px_0px_rgba(4,6,13,1)] cursor-pointer;
 }
 
 .btn-oatly-secondary {
-  @apply inline-flex items-center justify-center gap-2 font-extrabold uppercase px-5 py-2.5 border-2 border-[#111111] bg-white text-[#111111] shadow-[4px_4px_0px_0px_rgba(17,17,17,1)] hover:bg-[#F5D26B] transition-all active:translate-x-[2px] active:translate-y-[2px] active:shadow-[2px_2px_0px_0px_rgba(17,17,17,1)] cursor-pointer;
+  @apply inline-flex items-center justify-center gap-2 font-extrabold uppercase px-5 py-2.5 border-2 border-[#e9eef9] bg-transparent text-[#e9eef9] shadow-[4px_4px_0px_0px_rgba(4,6,13,1)] hover:bg-[#F5D26B] hover:border-[#F5D26B] hover:text-[#111111] transition-all active:translate-x-[2px] active:translate-y-[2px] active:shadow-[2px_2px_0px_0px_rgba(4,6,13,1)] cursor-pointer;
 }
 
 .btn-oatly-outline {
-  @apply inline-flex items-center justify-center gap-2 font-bold uppercase px-4 py-2 border-2 border-[#111111] bg-white text-[#111111] hover:bg-[#F5D26B] transition-all active:translate-x-[1px] active:translate-y-[1px] cursor-pointer;
+  @apply inline-flex items-center justify-center gap-2 font-bold uppercase px-4 py-2 border-2 border-[#e9eef9] bg-transparent text-[#e9eef9] hover:bg-[#F5D26B] hover:border-[#F5D26B] hover:text-[#111111] transition-all active:translate-x-[1px] active:translate-y-[1px] cursor-pointer;
 }
 
 /* Badge Sticker */
@@ -237,7 +238,7 @@
 
 /* Focus Styles */
 *:focus-visible {
-  @apply outline-none ring-2 ring-[#111111] ring-offset-2 ring-offset-white;
+  @apply outline-none ring-2 ring-[#111111] ring-offset-2 ring-offset-[#04060d];
 }
 
 /* Search fields stay EXACTLY as they look unfocused when clicked: the global
@@ -457,11 +458,12 @@
    - Usage          → OatlyNav.css (header/nav/dropdowns) + card components
    ========================================================================== */
 :root {
-  /* --- Spec color palette (exact HEX — do not change) --- */
-  --spec-ink: #000000;        /* nav items, hero, headlines, body */
-  --spec-canvas: #ffffff;     /* page + header background, most surfaces */
-  --spec-border: #c6c6c6;     /* header bottom border, subtle card borders */
-  --spec-surface: #f5f5f5;    /* elevated surface: panels, subtle cards */
+  /* --- Spec color palette — deep-space theme (home palette is the site
+         default now: dark navy surfaces + light ink everywhere) --- */
+  --spec-ink: #e9eef9;        /* nav items, hero, headlines, body (light) */
+  --spec-canvas: #131c31;     /* cards, inputs, panels (page base #04060d) */
+  --spec-border: rgba(172, 196, 240, 0.16); /* light hairline borders */
+  --spec-surface: #0d1424;    /* elevated surface: panels, subtle cards */
   --spec-focus: #98c5d3;      /* focus outlines + active/selected states */
   --spec-blush: #f8c8d8;      /* accent pastel — sparing, tags/cards */
   --spec-harvest: #fdcf85;    /* accent pastel — NEWS badges (consistent gold) */
@@ -496,12 +498,12 @@
   --font-didone: 'Playfair Display', Georgia, 'Times New Roman', serif;
   /* Oatara card title face (things-we-do teasers; bundled locally) */
   --font-toni: 'Toni Noveau Pro', 'Girdo Black Pro', Georgia, serif;
-  /* Warm newsprint paper for the whole news section (things-we-do) */
-  --news-paper: #FEFCF5;
+  /* Deep-space page washes (news / info sections) — same #04060d family */
+  --news-paper: #04060d;
   /* Per-section signature backgrounds (first-impression theming) */
-  --theme-sustainability-bg: #E4F2E1;
-  --theme-health-bg: #E1EEFA;
-  --theme-info-bg: #F0F0E9;
+  --theme-sustainability-bg: #04140e;
+  --theme-health-bg: #0a1122;
+  --theme-info-bg: #070b18;
   /* Clean hero face (homepage mission statement; Google Fonts, medium) */
   --font-funky: 'Outfit', 'Futura', 'Arial', sans-serif;
   /* Geometric nav face (navbar menu labels; Google Fonts, 700 only) */

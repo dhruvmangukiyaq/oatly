@@ -15,6 +15,21 @@ import '../styles/IceCreamGrid.css';
 
 const FORMAT_ORDER = ['Tubs', 'Bars', 'Cones', 'Cups', 'Kulfi', 'Sandwich', 'Sundae'];
 
+// Brand accents from product data are tuned for light cards — dark browns
+// vanish on the dark card, so lift them toward a readable tint (hue kept).
+function readableAccent(hex) {
+  const m = /^#?([0-9a-f]{6})$/i.exec(String(hex || '').trim());
+  if (!m) return hex;
+  const n = parseInt(m[1], 16);
+  const r = (n >> 16) & 255;
+  const g = (n >> 8) & 255;
+  const b = n & 255;
+  const lum = (0.2126 * r + 0.7152 * g + 0.0722 * b) / 255;
+  if (lum >= 0.55) return hex;
+  const t = (v) => Math.round(v + (255 - v) * 0.62);
+  return `rgb(${t(r)}, ${t(g)}, ${t(b)})`;
+}
+
 function formatFallbackImage() {
   return (
     <svg viewBox="0 0 640 640" className="ice-card__img" aria-hidden="true" focusable="false">
@@ -50,7 +65,7 @@ function IceCreamCard({ item, onSelect, onAdded }) {
 
   return (
     <li className="ice-grid__item">
-      <article className="ice-card" style={item.accent ? { '--ice-accent': item.accent } : undefined}>
+      <article className="ice-card" style={item.accent ? { '--ice-accent': readableAccent(item.accent) } : undefined}>
         <button
           type="button"
           className="ice-card__main"

@@ -84,7 +84,7 @@
   width: 52px;
   height: 52px;
   padding: 0;
-  background: var(--spec-canvas);
+  background: #f0ede4;
   border: 1px solid var(--spec-border);
   border-radius: 2px;
   overflow: hidden;
@@ -115,7 +115,9 @@
   min-width: 0;
   aspect-ratio: 1 / 1;
   overflow: hidden;
-  background: transparent;
+  /* warm gallery tile so the multiply shot reads on the dark page */
+  background: #f0ede4;
+  border-radius: 2px;
   cursor: zoom-in;
 }
 
@@ -425,7 +427,7 @@
 }
 
 .pdetail-related .plist-card__media {
-  background: #fff;
+  background: #f0ede4;
   border: 1px solid var(--spec-border);
   border-radius: 2px;
   aspect-ratio: 1 / 1;

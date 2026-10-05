@@ -103,10 +103,6 @@ function SiteChrome({
   const [cartOpen, setCartOpen] = useState(false);
   const { pathname } = useLocation();
   const isAdminPage = pathname.startsWith('/admin');
-  // Home rides the space hero: the shell + scroller behind every section go
-  // deep-space (no cream/white anywhere around the film). Other routes keep
-  // the classic cream frame.
-  const isHome = pathname === '/';
 
   // Admin page: potano full-width layout (Seller Hub top bar + sidebar).
   // Storefront shell (cream frame + padding + teal border) is NOT here —
@@ -120,18 +116,15 @@ function SiteChrome({
     );
   }
 
+  // Storefront shell is the deep-space theme on EVERY route: dark base,
+  // no cream frame, no teal border — same palette the home hero established.
   return (
     <div
-      className={`app-shell ${
-        isHome
-          ? // full-bleed hero: no frame padding/border — the film touches every edge
-            'bg-[#04060d] border-0 p-0'
-          : 'bg-graph-paper border-0 sm:border-[4px] md:border-[6px] lg:border-[8px] border-[#466874] p-0 sm:p-2 md:p-2.5 lg:p-3.5'
-      } text-oatly-black selection:bg-oatly-yellow selection:text-oatly-black font-sans`}
+      className={`app-shell bg-[#04060d] border-0 p-0 selection:bg-oatly-yellow selection:text-oatly-black font-sans`}
     >
       <div
         data-app-scroll
-        className={`app-frame ${isHome ? 'bg-[#04060d]' : 'bg-[#FFFEF8]'} flex flex-col w-full h-full max-w-full`}
+        className="app-frame bg-[#04060d] flex flex-col w-full h-full max-w-full"
       >
       {/* Navigation Bar — admin page par NAI */}
       {!isAdminPage && <Navbar onCartOpen={() => setCartOpen(true)} />}

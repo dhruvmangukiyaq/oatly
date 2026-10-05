@@ -61,10 +61,10 @@
 }
 
 .ice-tabs__btn--active {
-  background: #111111;
-  border-color: #111111;
-  color: #ffffff;
-  box-shadow: 0 6px 16px -8px rgba(17, 17, 17, 0.5);
+  background: var(--spec-ink);
+  border-color: var(--spec-ink);
+  color: #0a1122;
+  box-shadow: 0 6px 16px -8px rgba(0, 0, 0, 0.6);
 }
 
 .ice-tabs__count {
@@ -201,18 +201,18 @@
 
 /* --- Card: rounded, subtle shadow, hover lift --- */
 .ice-card {
-  --ice-accent: #111111;
+  --ice-accent: #e9eef9;
   flex: 1;
   min-width: 0;
   display: flex;
   flex-direction: column;
   background: var(--spec-canvas);
-  border: 1px solid rgba(17, 17, 17, 0.08);
+  border: 1px solid rgba(172, 196, 240, 0.16);
   border-radius: 20px;
   overflow: hidden;
   box-shadow:
-    0 1px 2px rgba(17, 17, 17, 0.06),
-    0 12px 32px -16px rgba(17, 17, 17, 0.22);
+    0 1px 2px rgba(4, 6, 13, 0.5),
+    0 12px 32px -16px rgba(0, 0, 0, 0.55);
   transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
 }
 
@@ -241,8 +241,10 @@
   display: block;
   aspect-ratio: 1 / 1;
   overflow: hidden;
-  background: transparent;
-  border-bottom: 1px solid rgba(17, 17, 17, 0.06);
+  /* warm gallery tile — the pint renders are transparent PNGs (dark flavours
+     vanished on the dark card); same #f0ede4 paper as the other product tiles */
+  background: #f0ede4;
+  border-bottom: 1px solid rgba(172, 196, 240, 0.16);
 }
 
 .ice-card__img {
@@ -365,10 +367,10 @@
   flex: 1;
   min-width: 0;
   padding: 11px 14px;
-  border: 2px solid #111111;
+  border: 2px solid var(--spec-ink);
   border-radius: 999px;
-  background: #111111;
-  color: #ffffff;
+  background: var(--spec-ink);
+  color: #0a1122;
   font-family: var(--font-ui);
   font-size: 0.75rem;
   font-weight: 700;
@@ -382,7 +384,8 @@
 }
 
 .ice-card__add:hover:not(:disabled) {
-  background: #ffffff;
+  background: #F5D26B;
+  border-color: #F5D26B;
   color: #111111;
 }
 
@@ -413,9 +416,9 @@
 }
 
 .ice-card__wish.is-active {
-  background: #111111;
-  border-color: #111111;
-  color: #ffffff;
+  background: var(--spec-ink);
+  border-color: var(--spec-ink);
+  color: #0a1122;
 }
 
 /* --- Empty state --- */
@@ -448,8 +451,8 @@
 }
 
 .ice-empty__clear:hover {
-  background: #111111;
-  color: #ffffff;
+  background: var(--spec-ink);
+  color: #0a1122;
 }
 
 /* --- Focus visibility (keyboard + a11y) --- */

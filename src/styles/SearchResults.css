@@ -88,7 +88,7 @@
 }
 
 .sres__input::placeholder {
-  color: rgba(0, 0, 0, 0.45);
+  color: rgba(233, 238, 249, 0.45);
 }
 
 .sres__input::-webkit-search-cancel-button {

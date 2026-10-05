@@ -9,12 +9,12 @@
    ========================================================================== */
 
 .lb3 {
-  /* Warm café-glow wash: soft peach light from top, cream base.
-     Very light so marker text + photos stay crisp. */
+  /* Deep-space wash: the old warm café-glow is dimmed to faint embers over
+     the site-wide #04060d base so the look book matches the space theme. */
   background:
-    radial-gradient(900px 420px at 50% -80px, rgba(245, 210, 150, 0.15), transparent 70%),
-    radial-gradient(700px 500px at 100% 30%, rgba(182, 222, 242, 0.1), transparent 70%),
-    linear-gradient(180deg, #FFFDF9 0%, #FFFEFB 60%, #FFFDF9 100%);
+    radial-gradient(900px 420px at 50% -80px, rgba(245, 210, 150, 0.10), transparent 70%),
+    radial-gradient(700px 500px at 100% 30%, rgba(182, 222, 242, 0.08), transparent 70%),
+    linear-gradient(180deg, #04060d 0%, #070b18 60%, #04060d 100%);
   color: var(--spec-ink);
 }
 
@@ -69,6 +69,8 @@
   width: 100%;
   height: auto;
   margin: var(--space-32) 0 var(--space-48);
+  /* Logo artwork is near-black — flip it light over the dark wash */
+  filter: invert(1);
 }
 
 /* --- Intro: handwritten text (left) + hero drink photo (right) --- */
@@ -87,7 +89,7 @@
   font-size: clamp(1.65rem, 1.1rem + 1.6vw, 2.5rem);
   line-height: 1.18;
   letter-spacing: 0.005em;
-  color: #141414;
+  color: #e9eef9;
   transform: rotate(-0.6deg);
   padding: clamp(0.5rem, 2vw, 1.5rem) clamp(0.25rem, 1.5vw, 1rem);
 }
@@ -102,7 +104,7 @@
   font-weight: 800;
   letter-spacing: 0.22em;
   text-transform: uppercase;
-  color: #6b6259;
+  color: rgba(233, 238, 249, 0.65);
   margin-bottom: 1em;
 }
 
@@ -131,7 +133,7 @@
   font-size: 0.52rem;
   font-weight: 800;
   letter-spacing: 0.24em;
-  color: #6b6259;
+  color: rgba(233, 238, 249, 0.65);
 }
 
 .lb3-intro__photo {
@@ -163,14 +165,14 @@
   line-height: 1;
   letter-spacing: 0.02em;
   text-transform: uppercase;
-  color: var(--spec-canvas);
+  color: #ffffff;
   margin-bottom: var(--space-16);
 }
 
 /* Oatara collection theme colors (secondaryRed / primaryBlue on oatara.com) */
 .lb3-tag--red { background: #ed1c24; }
 .lb3-tag--blue { background: #0050ff; }
-.lb3-tag--black { background: var(--spec-ink); }
+.lb3-tag--black { background: var(--spec-ink); color: var(--spec-canvas); }
 
 .lb3-coltitle {
   margin: 0 0 var(--space-16);
