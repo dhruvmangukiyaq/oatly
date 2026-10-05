@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { Link, useLocation } from 'react-router-dom';
-import { Home, Globe, X, Menu, ChevronRight, User as UserIcon, ShoppingCart, Heart } from 'lucide-react';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
+import { Home, Globe, X, Menu, ChevronRight, User as UserIcon, ShoppingCart, Heart, Search } from 'lucide-react';
 // ─── MVC: View ──────────────────────────────────────────────────────────────
 // Item order/labels come from the Model (navigationModel.js); this file only
 // renders. NOTE: react-router <Link> outputs a semantic <a href> in the DOM,
@@ -8,6 +8,7 @@ import { Home, Globe, X, Menu, ChevronRight, User as UserIcon, ShoppingCart, Hea
 // STRUCTURE:
 //   toolbar: Home icon (left) | current-page breadcrumb | spacer | Globe X (right)
 //   nav row: PRODUCTS TASTEBUDS NEWS SUSTAINABILITY HEALTH (same order)
+//            with the product search field centred between them
 import NavigationModel from '../models/navigationModel.js';
 import LanguageMenu from './LanguageMenu.jsx';
 import { getStoredLanguage, storeLanguage, findLanguage } from '../models/languageModel.js';
@@ -22,7 +23,18 @@ export default function Navbar({ onCartOpen }) {
   const [, setExpandedSection] = useState(null); // kept for nav-reset (no sublist UI)
   const closeTimer = useRef(null);
   const location = useLocation();
+  const navigate = useNavigate();
   const { user } = useAuth();
+  // Header search (moved here from the home hero). Uncontrolled input keyed
+  // on the URL: navigating re-mounts it with the current ?q= as its value,
+  // so the field mirrors the query without any state/effect.
+  const urlQ = new URLSearchParams(location.search).get('q') || '';
+  const qKey = location.pathname + location.search;
+  const submitSearch = (e) => {
+    e.preventDefault();
+    const v = String(new FormData(e.currentTarget).get('q') || '').trim();
+    if (v) navigate(`/search?q=${encodeURIComponent(v)}`);
+  };
   const { count: cartCount, wishlist } = useShop();
   const showAdmin = checkIsAdmin(user);
   // MODEL (async API — header renders once items arrive)
@@ -213,37 +225,67 @@ export default function Navbar({ onCartOpen }) {
           Hover dropdown REMOVED — plain links only, no hover list. */}
       <nav className="oatly-navrow" aria-label="Primary">
         <ul className="oatly-navrow__list" onMouseLeave={scheduleClose}>
-          {navItems.map((item) => {
+          {navItems.map((item, i) => {
             const slug = item.name.toLowerCase().replace(/[^a-z]+/g, '-');
             return (
-              <li
-                key={item.name}
-                className={`oatly-navrow__item oatly-navrow__item--${slug}`}
-                onMouseEnter={() => {
-                  cancelClose();
-                  setOpenMenu(null);
-                }}
-              >
-                <Link
-                  to={item.path}
-                  className="oatly-navrow__link"
-                  onFocus={() => setOpenMenu(null)}
-                  onBlur={scheduleClose}
+              <React.Fragment key={item.name}>
+                {/* Search sits dead-centre in the row (mid-list insert) */}
+                {i === Math.floor(navItems.length / 2) && (
+                  <li className="oatly-navrow__item oatly-navrow__item--searchcell">
+                    <form className="oatly-navsearch" role="search" onSubmit={submitSearch}>
+                      <Search size={15} aria-hidden="true" />
+                      <input
+                        type="search"
+                        name="q"
+                        key={qKey}
+                        className="oatly-navsearch__input"
+                        defaultValue={urlQ}
+                        placeholder="Search products…"
+                        aria-label="Search products"
+                      />
+                    </form>
+                  </li>
+                )}
+                <li
+                  className={`oatly-navrow__item oatly-navrow__item--${slug}`}
+                  onMouseEnter={() => {
+                    cancelClose();
+                    setOpenMenu(null);
+                  }}
                 >
-                  {item.name}
-                </Link>
-              </li>
+                  <Link
+                    to={item.path}
+                    className="oatly-navrow__link"
+                    onFocus={() => setOpenMenu(null)}
+                    onBlur={scheduleClose}
+                  >
+                    {item.name}
+                  </Link>
+                </li>
+              </React.Fragment>
             );
           })}
         </ul>
       </nav>
 
-      {/* ── Mobile drawer: same 5 items, direct links (no sublist) ── */}
+      {/* ── Mobile drawer: same 5 items, direct links (no sublist) + search ── */}
       <nav
         id="oatly-mobile-menu"
         className={`oatly-mobile${mobileOpen ? ' oatly-mobile--open' : ''}`}
         aria-label="Mobile"
       >
+        <form className="oatly-navsearch oatly-navsearch--mobile" role="search" onSubmit={submitSearch}>
+          <Search size={15} aria-hidden="true" />
+          <input
+            type="search"
+            name="q"
+            key={qKey}
+            className="oatly-navsearch__input"
+            defaultValue={urlQ}
+            placeholder="Search products…"
+            aria-label="Search products"
+          />
+        </form>
         <ul className="oatly-mobile__list">
           {navItems.map((item) => (
             <li key={item.name} className="oatly-mobile__section">

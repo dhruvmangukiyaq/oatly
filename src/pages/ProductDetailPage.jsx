@@ -80,7 +80,9 @@ export default function ProductDetailPage() {
   const buyNow = () => {
     if (out) return;
     add(pid, qty);
-    navigate('/checkout');
+    // BUY GATE — no session, no checkout: park the item and send the guest
+    // to /login with the return path (the item is already in the cart).
+    navigate(getSession() ? '/checkout' : '/login?next=/checkout');
   };
 
   return (

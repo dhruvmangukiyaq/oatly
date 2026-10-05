@@ -3,12 +3,15 @@ import { Link } from 'react-router-dom';
 import { X } from 'lucide-react';
 import { useShop } from '../hooks/useShop.js';
 import { useCatalog, findProduct } from '../hooks/useCatalog.js';
+import { useAuth } from '../hooks/useAuth.js';
 import { calcTotals } from '../models/shopStore.js';
 import '../styles/Shop.css';
 
 export default function CartDrawer({ open, onClose }) {
   const { cart, updateQty, remove, couponCode, setCouponCode, settings } = useShop();
   const { products } = useCatalog();
+  // BUY GATE — guests go to /login (with ?next=) instead of /checkout.
+  const { user } = useAuth();
   const [localCoupon, setLocalCoupon] = useState('');
 
   const lines = Object.entries(cart)
@@ -78,7 +81,7 @@ export default function CartDrawer({ open, onClose }) {
             <div className="shop-row shop-row--total"><span>Total</span><span>{settings.currency}{totals.total.toFixed(2)}</span></div>
             <div className="shop-actions">
               <Link to="/cart" className="shop-btn shop-btn--ghost shop-btn--small" onClick={onClose}>View cart</Link>
-              <Link to="/checkout" className="shop-btn shop-btn--small" onClick={onClose}>Checkout →</Link>
+              <Link to={user ? '/checkout' : '/login?next=/checkout'} className="shop-btn shop-btn--small" onClick={onClose}>Checkout →</Link>
             </div>
           </div>
         )}

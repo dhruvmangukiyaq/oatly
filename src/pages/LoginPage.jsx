@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link, useNavigate, useSearchParams } from 'react-router-dom';
 import { Eye, EyeOff, Mail, Lock, User as UserIcon, LogIn, UserPlus } from 'lucide-react';
 import SEO from '../components/SEO';
 import { useAuth, getSession, isAdmin } from '../hooks/useAuth.js';
@@ -16,6 +16,13 @@ const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 export default function LoginPage() {
   const { login, signup, logout } = useAuth();
   const navigate = useNavigate();
+  // Buy-gate return path: /login?next=/checkout sends people back after they
+  // sign in. Same-site paths only (never //evil.com, never /admin).
+  const [searchParams] = useSearchParams();
+  const rawNext = searchParams.get('next');
+  const next = rawNext && rawNext.startsWith('/') && !rawNext.startsWith('//') && !rawNext.startsWith('/admin')
+    ? rawNext
+    : null;
   const [mode, setMode] = useState('login'); // 'login' | 'signup'
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
@@ -39,6 +46,8 @@ export default function LoginPage() {
           <div className="login-actions">
             {admin ? (
               <Link to="/admin" className="login-btn">Seller Hub</Link>
+            ) : next ? (
+              <Link to={next} className="login-btn">Continue →</Link>
             ) : (
               <Link to="/products" className="login-btn">Shop now</Link>
             )}
@@ -69,13 +78,14 @@ export default function LoginPage() {
       setError('Password needs at least 6 characters.');
       return;
     }
-    // ADMIN email + password OK → direct /admin. Customer → /products.
+    // ADMIN email + password OK → direct /admin. Customer → next (buy-gate
+    // return path) or /products.
     const res = mode === 'login' ? await login(email, password) : signup(name, email, password);
     if (!res.ok) {
       setError(res.error);
       return;
     }
-    navigate(res.role === 'admin' ? '/admin' : '/products');
+    navigate(res.role === 'admin' ? '/admin' : next || '/products');
   };
 
   return (

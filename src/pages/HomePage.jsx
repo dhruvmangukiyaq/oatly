@@ -1,7 +1,6 @@
 import React, { useEffect, useLayoutEffect, useRef, useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import {
-  Search,
   ChevronLeft,
   ChevronRight,
   ArrowRight,
@@ -154,20 +153,11 @@ const interleave = (a, b) => {
 };
 
 export default function HomePage() {
-  const navigate = useNavigate();
   const { add } = useShop();
   const settings = getSettings();
-  const [searchTerm, setSearchTerm] = useState('');
   const [addedKey, setAddedKey] = useState(null);
   const rails = useRef({});
   const addedTimer = useRef(null);
-
-  // Search bar → /search?q=… (a real page with the results + filters, not a popup)
-  const submitSearch = (e) => {
-    e.preventDefault();
-    const v = String(searchTerm || '').trim();
-    if (v) navigate(`/search?q=${encodeURIComponent(v)}`);
-  };
 
   // MODEL (async API — the storefront renders once the catalogue arrives)
   const categories = useApiData(() => ProductModel.getProductCategories(), []);
@@ -388,27 +378,6 @@ export default function HomePage() {
           <VideoHero />
         </React.Suspense>
       </div>
-
-      {/* ── 2. HERO — the counter, nothing else ── */}
-      <section className="hp-hero">
-        <div className="hp-hero__copy">
-          {/* The counter: type here and press Enter → /search results page */}
-          <div className="hp-hero__actions">
-            <form className="hp-search" role="search" onSubmit={submitSearch}>
-              <Search size={20} aria-hidden="true" />
-              <input
-                type="search"
-                name="q"
-                className="hp-search__input"
-                value={searchTerm}
-                onChange={(e) => setSearchTerm(e.target.value)}
-                placeholder="Search products…"
-                aria-label="Search products"
-              />
-            </form>
-          </div>
-        </div>
-      </section>
 
       <div className="hp-wrap">
         {/* ── 4. DEALS RAIL ── */}

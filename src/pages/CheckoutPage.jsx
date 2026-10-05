@@ -1,9 +1,9 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import SEO from '../components/SEO';
 import { useShop } from '../hooks/useShop.js';
 import { useCatalog, findProduct } from '../hooks/useCatalog.js';
-import { getSession } from '../hooks/useAuth.js';
+import { getSession, useAuth } from '../hooks/useAuth.js';
 import { calcTotals, markCouponUsed, validateCoupon } from '../models/shopStore.js';
 import { saveOrder } from '../models/adminStore.js';
 import '../styles/Shop.css';
@@ -56,6 +56,9 @@ export default function CheckoutPage() {
   const { products } = useCatalog();
   const navigate = useNavigate();
   const session = getSession();
+  // LOGIN GATE — no account, no order. Reactive user bounces guests to
+  // /login (which returns them here via ?next=) and clears on logout too.
+  const { user } = useAuth();
 
   const [form, setForm] = useState({
     name: session?.name || '', email: session?.email || '', phone: '',
@@ -64,6 +67,11 @@ export default function CheckoutPage() {
   const [pay, setPay] = useState('cod');
   const [note, setNote] = useState('');
   const [error, setError] = useState('');
+
+  useEffect(() => {
+    if (!user) navigate('/login?next=/checkout', { replace: true });
+  }, [user, navigate]);
+  if (!user) return null;
 
   const lines = Object.entries(cart)
     .map(([id, qty]) => {

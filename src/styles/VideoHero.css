@@ -232,7 +232,3 @@
   border-radius: 2px;
   padding: 6px;
 }
-
-.hp .hp-search__input::placeholder {
-  color: rgba(233, 238, 249, 0.42);
-}

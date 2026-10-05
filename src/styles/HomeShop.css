@@ -12,7 +12,7 @@
      - shapes     → 1px hairlines, 2px radius, no hard shadows, no colour badges
      - cards      → borderless like .plist-card: transparent media with
                     multiply-blended product shots, quiet text actions
-   BEM: .hp, .hp-hero__*, .hp-head__*, .hp-rail,
+   BEM: .hp, .hp-head__*, .hp-rail,
         .hp-card__*, .hp-brand__*, .hp-promo__*, .hp-service__*
    TOKENS: --font-ui / --font-chunky / --spec-* / --space-* (src/styles/index.css)
    ========================================================================== */
@@ -38,73 +38,7 @@
   padding: 0 var(--space-24);
 }
 
-/* --- 1. HERO — the search counter, nothing else -------------------------- */
-.hp-hero {
-  display: block;
-  max-width: var(--max-width);
-  margin: 0 auto;
-  padding: clamp(28px, 4vw, 52px) var(--space-24);
-  border-bottom: var(--hp-hair);
-}
-
-.hp-hero__actions {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 12px;
-}
-
-/* The counter: type + Enter → the /search results page (no popup).
-   Same control styling as the product page's search input (white, 1px
-   hairline, 2px radius, Margo). */
-.hp-search {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  width: 100%;
-  min-height: 60px;
-  padding: 0 16px;
-  background: var(--hp-canvas);
-  border: var(--hp-hair);
-  border-radius: 2px;
-  cursor: text;
-  transition: background 120ms ease, border-color 120ms ease;
-}
-
-.hp-search:hover {
-  background: var(--hp-surface);
-}
-
-/* Focus never changes the border (no black outline — the bar stays the same
-   quiet hairline); the caret + grey surface carry the affordance. */
-.hp-search:focus-within {
-  background: var(--hp-surface);
-}
-
-.hp-search__input {
-  flex: 1;
-  min-width: 0;
-  padding: 0;
-  background: transparent;
-  border: none;
-  outline: none;
-  font-family: var(--font-ui);
-  font-weight: 400;
-  font-size: 1.0625rem;
-  line-height: 1;
-  color: var(--hp-ink);
-}
-
-.hp-search__input::placeholder {
-  color: rgba(0, 0, 0, 0.45);
-}
-
-/* Chrome's ✕ affordance would break the quiet field */
-.hp-search__input::-webkit-search-cancel-button {
-  -webkit-appearance: none;
-  appearance: none;
-}
-
-/* --- 3. AISLE CHIPS — same control type as the product filter bar --------- */
+/* --- 1. AISLE CHIPS — same control type as the product filter bar --------- */
 /* --- SECTION HEAD — hairline rule, chunky heading (ProcessBand face) ----- */
 .hp-section {
   padding-top: clamp(28px, 3.6vw, 44px);
@@ -200,7 +134,6 @@
 }
 
 .hp-railbtn:focus-visible,
-.hp-search:focus-visible,
 .hp-card__add:focus-visible,
 .hp-card__wish:focus-visible,
 .hp-brand:focus-visible,

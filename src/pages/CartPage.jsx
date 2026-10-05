@@ -3,12 +3,15 @@ import { Link } from 'react-router-dom';
 import SEO from '../components/SEO';
 import { useShop } from '../hooks/useShop.js';
 import { useCatalog, findProduct } from '../hooks/useCatalog.js';
+import { useAuth } from '../hooks/useAuth.js';
 import { calcTotals, validateCoupon } from '../models/shopStore.js';
 import '../styles/Shop.css';
 
 export default function CartPage() {
   const { cart, updateQty, remove, clear, couponCode, setCouponCode, settings } = useShop();
   const { products } = useCatalog();
+  // BUY GATE — guests go to /login (with ?next=) instead of /checkout.
+  const { user } = useAuth();
   const [input, setInput] = useState(couponCode);
   const [msg, setMsg] = useState('');
 
@@ -77,7 +80,7 @@ export default function CartPage() {
               <div className="shop-row"><span>Tax ({Math.round(settings.taxRate * 100)}%)</span><span>{settings.currency}{totals.tax.toFixed(2)}</span></div>
               <div className="shop-row shop-row--total"><span>Total</span><span>{settings.currency}{totals.total.toFixed(2)}</span></div>
               <div className="shop-actions">
-                <Link to="/checkout" className="shop-btn shop-btn--big">Checkout →</Link>
+                <Link to={user ? '/checkout' : '/login?next=/checkout'} className="shop-btn shop-btn--big">Checkout →</Link>
                 <Link to="/products" className="shop-btn shop-btn--ghost shop-btn--big">Continue shopping</Link>
               </div>
             </div>

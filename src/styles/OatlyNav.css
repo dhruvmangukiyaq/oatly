@@ -300,6 +300,69 @@
   background: var(--spec-surface);
 }
 
+/* --- Header search: compact glass field centred in the nav row -----------
+   (moved here from the home hero's standalone strip). Sized to sit inside
+   the row's 48px min-height so the hero's --hero-pull never shifts. */
+.oatly-navrow__item--searchcell {
+  display: flex;
+  align-items: center;
+  flex: none;
+  padding: 0 var(--space-12);
+}
+
+.oatly-navsearch {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  width: clamp(170px, 22vw, 300px);
+  padding: 7px 14px;
+  background: rgba(6, 10, 20, 0.55);
+  border: 1px solid rgba(172, 196, 240, 0.22);
+  border-radius: 999px;
+  color: var(--spec-ink);
+  cursor: text;
+  transition: background 120ms ease, border-color 120ms ease;
+}
+
+.oatly-navsearch:hover {
+  background: rgba(6, 10, 20, 0.78);
+}
+
+.oatly-navsearch:focus-within {
+  background: rgba(6, 10, 20, 0.9);
+  border-color: rgba(172, 196, 240, 0.55);
+}
+
+.oatly-navsearch__input {
+  flex: 1;
+  min-width: 0;
+  padding: 0;
+  background: transparent;
+  border: none;
+  outline: none;
+  font-family: var(--font-ui);
+  font-weight: 400;
+  font-size: 0.8125rem;
+  line-height: 1;
+  color: var(--spec-ink);
+}
+
+.oatly-navsearch__input::placeholder {
+  color: rgba(233, 238, 249, 0.45);
+}
+
+/* Chrome's ✕ affordance would break the quiet field */
+.oatly-navsearch__input::-webkit-search-cancel-button {
+  -webkit-appearance: none;
+  appearance: none;
+}
+
+/* Focus never draws a ring — the glass carries the affordance */
+.oatly-navsearch__input:focus-visible {
+  outline: none;
+  box-shadow: none;
+}
+
 /* --- Per-section hover glass: light pastel tint + frosted pill ---------
    Each tab glows in its own light tint on hover (and while its dropdown
    is open). The dropdown panel itself turns to real frosted glass over
@@ -393,6 +456,12 @@
 }
 
 .oatly-mobile--open { display: block; }
+
+/* Header search inside the drawer (navrow is hidden under 900px) */
+.oatly-navsearch--mobile {
+  width: auto;
+  margin: var(--space-12) var(--space-24) var(--space-4, 4px);
+}
 
 .oatly-mobile__list {
   list-style: none;

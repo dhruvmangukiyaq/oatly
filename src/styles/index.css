@@ -245,7 +245,6 @@
    black ring above would otherwise draw a hard box around the input (text
    inputs match :focus-visible on mouse click too). The caret and the grey
    surface carry the affordance; every button/link keeps the ring. */
-.hp-search__input:focus-visible,
 .sres__input:focus-visible,
 .plist-tools__search:focus-visible {
   outline: none;
