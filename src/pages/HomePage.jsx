@@ -1,4 +1,4 @@
-import React, { useEffect, useLayoutEffect, useRef, useState } from 'react';
+import React, { useLayoutEffect, useRef, useState } from 'react';
 import { Link } from 'react-router-dom';
 import {
   ChevronLeft,
@@ -230,73 +230,9 @@ export default function HomePage() {
     el.scrollBy({ left: dir * Math.round(el.clientWidth * 0.8), behavior: 'smooth' });
   };
 
-  // AUTO-SLIDE: every product rail (deals, wardrobe, oat drink, scent)
-  // advances ONE
-  // CARD PER SECOND and wraps back to the start at the end. It pauses while
-  // the pointer or keyboard focus is on the rail (so clicking a product is
-  // never a moving target), while the rail is off-screen or the tab is
-  // hidden, and it is off entirely for prefers-reduced-motion. The ‹ ›
-  // buttons still work on top of it.
-  useEffect(() => {
-    if (!categories) return undefined;
-    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return undefined;
-
-    const railsList = () => Object.values(rails.current).filter(Boolean);
-    const held = new Set(); // pointer/focus/touch inside the rail
-    const visible = new Set(); // rail at least a quarter on screen
-
-    const wire = [];
-    railsList().forEach((el) => {
-      const hold = () => held.add(el);
-      const release = () => held.delete(el);
-      el.addEventListener('mouseenter', hold);
-      el.addEventListener('mouseleave', release);
-      el.addEventListener('focusin', hold);
-      el.addEventListener('focusout', release);
-      el.addEventListener('touchstart', hold, { passive: true });
-      el.addEventListener('touchend', release);
-      wire.push([el, hold, release]);
-    });
-
-    // Only slide what the visitor can actually see
-    const io = new IntersectionObserver(
-      (entries) =>
-        entries.forEach((entry) => {
-          if (entry.isIntersecting) visible.add(entry.target);
-          else visible.delete(entry.target);
-        }),
-      { threshold: 0.25 },
-    );
-    railsList().forEach((el) => io.observe(el));
-
-    const tick = () => {
-      if (document.hidden) return;
-      railsList().forEach((el) => {
-        if (held.has(el) || !visible.has(el)) return;
-        if (el.scrollWidth <= el.clientWidth + 4) return; // nothing to slide
-        const gap = parseFloat(getComputedStyle(el).columnGap) || 0;
-        const step = (el.firstElementChild?.getBoundingClientRect().width || 0) + gap;
-        if (!step) return;
-        const atEnd = el.scrollLeft + el.clientWidth >= el.scrollWidth - 4;
-        el.scrollTo({ left: atEnd ? 0 : el.scrollLeft + step, behavior: 'smooth' });
-      });
-    };
-
-    const id = setInterval(tick, 1000);
-    return () => {
-      clearInterval(id);
-      io.disconnect();
-      wire.forEach(([el, hold, release]) => {
-        el.removeEventListener('mouseenter', hold);
-        el.removeEventListener('mouseleave', release);
-        el.removeEventListener('focusin', hold);
-        el.removeEventListener('focusout', release);
-        el.removeEventListener('touchstart', hold);
-        el.removeEventListener('touchend', release);
-      });
-    };
-  }, [categories]);
-
+  // No auto-slide: the rails only move when the visitor drags them or presses
+  // the ‹ › buttons. A rail that creeps on its own makes every product a
+  // moving target.
   if (!categories || categories.length === 0) return null;
 
   // Catalogue → same enrichment the /products page uses (admin visibility +
