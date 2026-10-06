@@ -72,7 +72,7 @@ export const CAPTIONS = [
     w: [0.66, 0.86],
     align: 'left',
     title: 'Then the shelves fill',
-    sub: 'Carton by carton, tub by tub — the whole range, at last.',
+    sub: 'Carton by carton, tub by tub — then the watch wall fills.',
   },
   {
     w: [0.875, 1.08],
@@ -111,6 +111,30 @@ export const STORE_IDS = {
     'magnum-almond-80ml',
     'soft-serve-1l',
     'oatgurt-strawberry-400g',
+  ],
+  // the feature shelving under the sign — the watch wall. All 214 Titan
+  // models are in the catalogue; these 18 are the ones whose packshot keys
+  // cleanly into a cutout, so what stands on these shelves is genuinely stock
+  // you can buy. Straight on to the storefront, so square photos read square.
+  wall: [
+    'titan-1584ym02',
+    'titan-77146wl01',
+    'titan-90197ap01k',
+    'titan-7930pp24w',
+    'titan-10063bm01',
+    'titan-3278sm03',
+    'titan-1802sl02',
+    'titan-1595sl06',
+    'titan-sp70007sl01',
+    'titan-77163ym07w',
+    'titan-77083sm01',
+    'titan-38159wl01',
+    'titan-3291sm02',
+    'titan-1805wl03',
+    'titan-1805wm02',
+    'titan-679yl01',
+    'titan-3273nm01',
+    'titan-1843ym05',
   ],
   // the island table — house range alongside the guest brands
   table: [

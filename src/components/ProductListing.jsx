@@ -368,8 +368,11 @@ function StandardListing({
 
   const toggleSpec = (k, v) => setSpecSel((prev) => ({ ...prev, [k]: toggleIn(prev[k] || [], v) }));
 
-  const facet = (title, body) => (
-    <details className="pf-group" open>
+  // `key` only earns its keep when facet() is the return value of a .map() —
+  // the spec groups — where React needs a stable identity for each array child.
+  // The static facets pass nothing and stay exactly as they were.
+  const facet = (title, body, key) => (
+    <details className="pf-group" open key={key}>
       <summary className="pf-title">{title}</summary>
       <div className="pf-opts">{body}</div>
     </details>
@@ -485,6 +488,7 @@ function StandardListing({
                   () => toggleSpec(g.key, o.v),
                   o.v, o.n, `${g.key}-${o.v}`,
                 )),
+                g.key,
               ))}
             </aside>
 

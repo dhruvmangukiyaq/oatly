@@ -64,6 +64,7 @@ function buildStaged(items) {
   return {
     bay: pick(STORE_IDS.bay),
     shelf: pick(STORE_IDS.shelf),
+    wall: pick(STORE_IDS.wall),
     table: pick(STORE_IDS.table),
     plinth: pick(STORE_IDS.plinth),
   };

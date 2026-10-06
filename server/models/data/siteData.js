@@ -12,6 +12,7 @@ import { EXCLUSIFS_CATEGORIES } from './exclusifsCatalog.js';
 import { CHANEL_COLLECTION_CATEGORIES } from './chanelCollections.js';
 import { ZARA_CATEGORIES } from './zaraCatalog.js';
 import { MUFTI_CATEGORIES } from './muftiCatalog.js';
+import { TITAN_CATEGORIES } from './titanWatches.js';
 import { applyIceCreamPresentation } from './iceCreamPresentation.js';
 // NOTE: Amedei range shows ONLY user-photo-backed products (see
 // AMEDEI_PHOTO_IDS below) — bare-SVG entries stay hidden until photos arrive.
@@ -1679,6 +1680,14 @@ const mergeCatalogs = (incoming) => {
 };
 ZARA_CATEGORIES.forEach(mergeCatalogs);
 MUFTI_CATEGORIES.forEach(mergeCatalogs);
+
+// ─── TITAN WATCHES (user-provided photos) ────────────────────────────────────
+// 214 timepieces, also merged after the keepProduct filter above so the whole
+// range survives the Oatara/Chanel whitelist. Names, copy and prices are
+// generated deterministically from each photo's model code — see the header in
+// titanWatches.js. Falls through the same helper as Zara/Mufti, so the brand
+// facet picks "Titan" up from the items themselves.
+TITAN_CATEGORIES.forEach(mergeCatalogs);
 
 // ─── BRANDS: only brands present in the catalog (no dead brand filters) ─────
 // Brands missing from the master list (e.g. Magnum) still surface here.

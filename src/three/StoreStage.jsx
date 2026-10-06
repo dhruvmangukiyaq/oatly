@@ -1241,6 +1241,7 @@ function Scene({ staged, currency, onOpen, onReady, shadows }) {
     () => [
       ...(staged.bay || []),
       ...(staged.shelf || []),
+      ...(staged.wall || []),
       ...(staged.table || []),
       ...(staged.plinth || []),
     ],
@@ -1346,7 +1347,8 @@ function Scene({ staged, currency, onOpen, onReady, shadows }) {
         );
       })}
 
-      <WallShelves items={staged.bay || []} texs={texs} range={TL.goods} />
+      {/* ── WATCH WALL — the feature shelving under the sign ─────────────── */}
+      <WallShelves items={staged.wall || staged.bay || []} texs={texs} range={TL.goods} />
       <Goods staged={staged} texs={texs} />
       <Fixtures />
 
