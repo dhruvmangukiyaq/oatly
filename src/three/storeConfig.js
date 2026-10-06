@@ -22,11 +22,11 @@ export const TL = {
   frame: [0.22, 0.38],
   // 0.38–0.50  cabinets, drawers, wall panels, trays, shelving
   storage: [0.38, 0.5],
-  // 0.50–0.63  bare rails rise, furniture lands, dress forms stand up
+  // 0.50–0.63  bare shelving rises, furniture lands, plinths stand up
   rails: [0.5, 0.63],
-  // 0.63–0.78  garments drop onto the rails, rack by rack
+  // 0.63–0.78  product lands on the bays, shelf by shelf
   clothes: [0.63, 0.78],
-  // 0.78–0.88  shelf stock, folded stacks, garments on the forms
+  // 0.78–0.88  island table, back shelf and the plinth pieces
   goods: [0.78, 0.88],
   // 0.88–0.96  downlights, track heads, pendant — the room warms up
   light: [0.88, 0.96],
@@ -65,14 +65,14 @@ export const CAPTIONS = [
   {
     w: [0.55, 0.645],
     align: 'left',
-    title: 'Rails, before anything hangs',
-    sub: 'Bare metal comes up out of the floor and the furniture lands.',
+    title: 'Shelves, before anything lands',
+    sub: 'Bare bronze and oak come up out of the floor, and the furniture settles.',
   },
   {
     w: [0.66, 0.86],
     align: 'left',
-    title: 'Then the rails fill',
-    sub: 'Garment by garment, from the collection you can actually shop.',
+    title: 'Then the shelves fill',
+    sub: 'Carton by carton, tub by tub — the whole range, at last.',
   },
   {
     w: [0.875, 1.08],
@@ -82,44 +82,45 @@ export const CAPTIONS = [
   },
 ];
 
-// Staged catalogue ids for the display set (must match the cutout WebPs in
-// public/images/store/<id>.webp, built from the real catalogue images).
+// Staged catalogue ids for the display set — every one is a real product in
+// the catalogue, and each has a cutout WebP in public/images/store/<id>.webp
+// built from that product's own photography, so what stands on the shelf is
+// genuinely stock you can buy. Six guest brands anchor the premium end.
 export const STORE_IDS = {
-  // left rack — men's pieces, back to front
-  men: [
-    'zara-oversized-leather-look-shirt',
-    'zara-corduroy-shirt-jacket',
-    'zara-grey-tailored-blazer',
-    'zara-ringer-neck-t-shirt',
-    'zara-ribbed-knit-sweater',
-    'zara-worker-jacket',
-    'zara-distressed-straight-jeans',
-    'zara-oxford-button-down-shirt',
-    'zara-striped-embroidered-shirt',
-    'mufti-plum-chevron-slim-fit-flatknit',
-    'mufti-rust-viscose-floral-print-shirt',
-    'zara-wide-leg-brown-trousers',
-    'mufti-peach-flow-linen-solid-shirt',
-  ],
-  // right rack — women's pieces
-  women: [
-    'zara-animal-print-tulle-dress',
-    'zara-mini-dress-with-tulle-cape-detail',
-    'zara-striped-shirt',
-    'zara-oversized-double-breasted-blazer',
-    'zara-velvet-jacket-with-embroidery',
-    'zara-balloon-pleat-trousers',
-    'zara-midi-dress-with-draped-detail',
-    'zara-contrast-stripe-soft-sweatshirt',
-    'zara-pleated-short-dress',
-    'zara-z1975-high-waist-regular-long-length-jeans',
-    'zara-satin-midi-skirt',
-  ],
-  // back-wall shelf products
-  shelf: [
+  // side bays — the house oat range, cartons and tubs, mixed by shelf level
+  bay: [
+    'chilled-oat-drink-barista-edition-1l',
+    'oat-drink-matcha-1l',
+    'oat-drink-barista-coconut-flavour-1l',
     'cold-foam-barista-1l',
     'soft-serve-1l',
+    'creamy-oat-1l',
     'creamy-oat-spread-garden-herbs-150g',
     'creamy-oat-spread-tomato-basil-150g',
+    'creamy-oat-spread-plain-150g',
+    'oatgurt-strawberry-400g',
+    'oat-drink-baristamatic-1-5l',
+    'vanilla-custard-250ml',
+    'oat-drink-matcha-strawberry-flavour-250ml',
+    'oat-drink-matcha-250ml',
   ],
+  // back-wall shelf unit, seen square on from the storefront
+  shelf: [
+    'chilled-oat-drink-barista-edition-1l',
+    'cold-foam-barista-1l',
+    'magnum-almond-80ml',
+    'soft-serve-1l',
+    'oatgurt-strawberry-400g',
+  ],
+  // the island table — house range alongside the guest brands
+  table: [
+    'chilled-oat-drink-barista-edition-1l',
+    'godiva-truffles-15pc',
+    'oat-drink-matcha-1l',
+    'amedei-porcelana-50g',
+    'creamy-oat-spread-garden-herbs-150g',
+    'zara-vibrant-leather-eau-de-toilette',
+  ],
+  // two plinths at the front of the room, one guest piece each
+  plinth: ['bleu-edt-spray-34', 'godiva-gold-15pc'],
 };

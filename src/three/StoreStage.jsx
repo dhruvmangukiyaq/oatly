@@ -1,6 +1,7 @@
 import { Suspense, useEffect, useMemo, useRef } from 'react';
 import { Canvas, useFrame, useThree } from '@react-three/fiber';
 import { Environment, Html, Lightformer, useTexture } from '@react-three/drei';
+import { Bloom, EffectComposer, SSAO, Vignette } from '@react-three/postprocessing';
 import * as THREE from 'three';
 import { PROG, TL } from './storeConfig.js';
 
@@ -50,18 +51,39 @@ const stag = (range, i, n, durFrac = 0.45) => {
 // ── room layout constants (metres) ──────────────────────────────────────────
 const HALF_W = 7.1; // inner face of the side walls
 const BACK_Z = -11.0; // inner face of the back wall
-const FRONT_Z = 1.9; // shop threshold
+// Where the boards stop. Runs well past the entrance line on purpose: portrait
+// phones finish on a 72° lens and look down on the ground in front of the shop,
+// so ending the oak at the threshold left the bottom 40% of the phone frame as
+// one blank limestone plane. Desktop's narrower lens never reaches this far.
+const FRONT_Z = 6.6;
 const ROOM_H = 4.6; // floor → ceiling
-const RAIL_Y = 2.0;
 const RACK_L = { x: -5.55, z0: -10.0, z1: -3.6, n: 10 };
 const RACK_R = { x: 5.55, z0: -9.6, z1: -4.0, n: 9 };
 const TABLE_POS = [0, 0, -6.2];
 const SHELF_POS = [3.6, 0, -10.5];
 const MIRROR_POS = [-4.2, 1.35, -10.9]; // flush panel on the back wall
-const MANNS = [
-  { pos: [2.7, 0, -3.3], dress: '#d8cfbf', win: [0.54, 0.63], dw: [0.8, 0.865] },
-  { pos: [-2.45, 0, -2.0], dress: '#6b6154', win: [0.56, 0.63], dw: [0.815, 0.875] },
+// Island table planogram: six positions on the top (relative to TABLE_POS).
+// One row only — a second row would sit behind the first at this camera angle
+// and all but disappear. Small z jitter keeps it from reading as a printed grid.
+const TABLE_Y = 0.755; // table top surface (slab centre 0.72 + half thickness)
+const TABLE_SLOTS = [
+  [-1.0, -0.05],
+  [-0.6, 0.1],
+  [-0.2, -0.1],
+  [0.2, 0.08],
+  [0.6, -0.06],
+  [1.0, 0.06],
 ];
+
+// Two plinths where the dress forms used to stand — each carries one guest
+// brand piece at the front of the room, where the camera finishes.
+const PLINTHS = [
+  { pos: [2.7, 0, -3.3], win: [0.54, 0.63] },
+  { pos: [-2.45, 0, -2.0], win: [0.56, 0.63] },
+];
+const PLINTH_Y = 0.94; // pedestal top surface
+const BAY_SHELVES = [0.5, 1.04, 1.58]; // shelf board heights in each bay
+const BAY_PER = 7; // products per shelf level
 
 // Vertical framework uprights, floor to ceiling, along both side walls.
 // Cabinets sit BETWEEN them (in z), so nothing intersects.
@@ -202,7 +224,7 @@ function Rig() {
       camera.updateProjectionMatrix();
     }
     // exposure lifts with the final lighting beat
-    Object.assign(gl, { toneMappingExposure: lerp(0.98, 1.06, win(p, 0.84, 1)) });
+    Object.assign(gl, { toneMappingExposure: lerp(0.95, 1.03, win(p, 0.84, 1)) });
     // gentle haze for depth — never heavy enough to grey out the back wall
     if (scene.fog) Object.assign(scene.fog, { near: lerp(8, 16, t), far: lerp(42, 66, t) });
     // the baked environment warms up as the store fills, then again with the
@@ -210,7 +232,7 @@ function Rig() {
     // The baked env is an omnidirectional fill: every unit of it subtracts a
     // unit of shadow contrast, so it stays low and the directional key carries
     // the room instead.
-    Object.assign(scene, { environmentIntensity: lerp(0.42, 0.62, win(p, 0.6, 0.96)) });
+    Object.assign(scene, { environmentIntensity: lerp(0.54, 0.74, win(p, 0.6, 0.96)) });
     // QA hook: rendered-frame counter (lets tests wait for an actual frame
     // instead of guessing how long software GL takes)
     window.__frames = (window.__frames || 0) + 1;
@@ -248,10 +270,14 @@ const baseMat = new THREE.MeshStandardMaterial({
   envMapIntensity: 0.55,
 });
 // board seams read as dark lines between the oak strips
-const seamMat = new THREE.MeshStandardMaterial({ color: '#6d5c47', roughness: 0.9 });
-// three oak tones so the floor doesn't read as one flat sheet
-const OAK = ['#c7a173', '#bb9468', '#d0ab7d'].map(
-  (c) => new THREE.MeshStandardMaterial({ color: c, roughness: 0.5, metalness: 0, envMapIntensity: 0.75 }),
+// Plank joints: warm and light rather than a dark rule on every board. The
+// hard dark seam was most of what made the floor read as printed stripes.
+const seamMat = new THREE.MeshStandardMaterial({ color: '#8a7a62', roughness: 0.92 });
+// three oak tones so the floor doesn't read as one flat sheet. Kept a good
+// step darker than the walls: at a lighter value the planks clipped to white
+// under the shopfront wash and the whole floor read as a blank sheet.
+const OAK = ['#a9814f', '#9c7648', '#b48d5c'].map(
+  (c) => new THREE.MeshStandardMaterial({ color: c, roughness: 0.58, metalness: 0, envMapIntensity: 0.5 }),
 );
 const bronzeMat = new THREE.MeshStandardMaterial({
   color: '#a87a44',
@@ -306,13 +332,18 @@ function Lighting({ shadows }) {
   useFrame(() => {
     const p = PROG.p;
     const lit = win(p, TL.light[0], TL.light[1]); // 0.88 → 0.96, the fixture beat
-    // ambient stays deliberately low so the daylight key can draw a gradient
-    // across the room — a uniform fill is what made the opening frame read flat
-    if (amb.current) amb.current.intensity = 0.165 + 0.15 * lit;
+    // The reference showroom is lit soft and warm: almost no hard shadow bands,
+    // detail alive inside every shadow. That means a gentler directional and a
+    // much fuller ambient/environment fill than a daylight exterior would take
+    // — the sun still draws the shapes, it just no longer crushes everything
+    // it isn't touching.
+    if (amb.current) amb.current.intensity = 0.21 + 0.15 * lit;
     // soft daylight through the open shopfront — present from 0% so the empty
-    // room already reads as premium, then eases back as the fixtures take over
-    if (key.current) key.current.intensity = 200 * (1 - 0.35 * lit);
-    if (sun.current) sun.current.intensity = 2.45 * (1 - 0.32 * lit);
+    // room already reads as premium, then eases back as the fixtures take over.
+    // Kept below the old value so the floor stops pooling into a blown white
+    // hotspot in the middle of the room.
+    if (key.current) key.current.intensity = 180 * (1 - 0.3 * lit);
+    if (sun.current) sun.current.intensity = 2.3 * (1 - 0.3 * lit);
     if (spotA.current) spotA.current.intensity = 480 * lit;
     if (spotB.current) spotB.current.intensity = 380 * lit;
     if (pend.current) pend.current.intensity = 34 * lit;
@@ -324,7 +355,7 @@ function Lighting({ shadows }) {
   });
   return (
     <>
-      <ambientLight ref={amb} intensity={0.13} color="#fff0dc" />
+      <ambientLight ref={amb} intensity={0.26} color="#ffe9d1" />
       {/* Shape light. A directional key rakes in from high front-right so
           every built piece throws a shadow the camera can actually see — a
           light sat in line with the camera hides its own shadows behind the
@@ -428,96 +459,139 @@ function useSignTexture() {
   }, []);
 }
 
-// ── one garment hanging from a rail (aspect preserved, width capped) ────────
-function fitGarment(tex, long) {
+// ── soft contact pool under anything standing on the floor ──────────────────
+// The directional throws its shadow away from the storefront, so without this
+// every plinth and shelf unit read as floating a centimetre above the boards.
+// One shared radial gradient, drawn once, reused by every decal.
+let _aoTex = null;
+function aoTexture() {
+  if (_aoTex) return _aoTex;
+  const c = document.createElement('canvas');
+  c.width = c.height = 128;
+  const g = c.getContext('2d');
+  const grd = g.createRadialGradient(64, 64, 0, 64, 64, 64);
+  grd.addColorStop(0, 'rgba(0,0,0,0.62)');
+  grd.addColorStop(0.45, 'rgba(0,0,0,0.34)');
+  grd.addColorStop(1, 'rgba(0,0,0,0)');
+  g.fillStyle = grd;
+  g.fillRect(0, 0, 128, 128);
+  _aoTex = new THREE.CanvasTexture(c);
+  _aoTex.colorSpace = THREE.SRGBColorSpace;
+  return _aoTex;
+}
+
+function AO({ pos, w, d, o = 1 }) {
+  return (
+    <mesh position={[pos[0], 0.014, pos[2]]} rotation={[-Math.PI / 2, 0, 0]}>
+      <planeGeometry args={[w, d]} />
+      <meshBasicMaterial
+        map={aoTexture()}
+        transparent
+        opacity={o}
+        depthWrite={false}
+        toneMapped={false}
+      />
+    </mesh>
+  );
+}
+
+// ── one product standing on a surface ──────────────────────────────────────
+// The catalogue cutouts are already photographed in three-quarter view with
+// their own highlights and contact shadow, so a single aspect-correct plane
+// reads as a solid object — and unlike a box, the transparent surround stays
+// transparent instead of showing the pack's interior.
+function PackShot({ tex, x, y, z, face, maxW = 0.34, maxH = 0.46, start, span, drop = 0.4 }) {
   const iw = tex && tex.image ? tex.image.width : 512;
-  const ih = tex && tex.image ? tex.image.height : 760;
-  let h = long ? 1.15 : 0.95;
+  const ih = tex && tex.image ? tex.image.height : 560;
+  let h = maxH;
   let w = (h * iw) / ih;
-  const maxW = 0.62;
   if (w > maxW) {
     h *= maxW / w;
     w = maxW;
   }
-  return { w, h };
-}
-
-function Garment({ tex, x, z, face, start, span, long }) {
-  const { w, h } = fitGarment(tex, long);
   return (
-    <group position={[x, RAIL_Y, z]} rotation={[0, face, 0]}>
-      {/* drops onto the hanger from just above, with a small settle */}
-      <Enter p={[start, start + span]} d={[0, 0.5, 0]} s={0.72} r={[0, 0, 0.05]} fade>
-        <mesh position={[0, -(0.075 + h / 2), 0]}>
+    <Enter p={[start, start + span]} d={[0, drop, 0]} s={0.72} r={[0, 0, 0.045]} fade>
+      <group position={[x, y, z]} rotation={[0, face, 0]}>
+        <mesh position={[0, h / 2, 0]} castShadow>
           <planeGeometry args={[w, h]} />
           <meshStandardMaterial
             map={tex}
             transparent
-            alphaTest={0.32}
-            roughness={0.92}
+            alphaTest={0.3}
+            roughness={0.66}
             metalness={0}
-            envMapIntensity={0.3}
+            envMapIntensity={0.55}
             side={THREE.DoubleSide}
           />
         </mesh>
-        <mesh position={[0, -0.05, 0]}>
-          <boxGeometry args={[w * 0.8, 0.022, 0.03]} />
-          <meshStandardMaterial color="#8b6a49" roughness={0.6} />
-        </mesh>
-        <mesh>
-          <torusGeometry args={[0.042, 0.0075, 8, 20]} />
-          <meshStandardMaterial color="#2a2c30" metalness={0.9} roughness={0.3} />
-        </mesh>
-      </Enter>
-    </group>
+      </group>
+    </Enter>
   );
 }
 
-// ── a rack: feet, posts, rail (rises out of the floor) + its garments ───────
-function Rack({ side, spec, items, texs, enter, clothRange }) {
+// ── a shelving bay: bronze uprights, three oak shelves, then the stock lands ─
+// Products are yawed to face the storefront rather than the side wall. A plane
+// square to the wall would be seen almost edge-on from where the camera
+// finishes, and every carton would collapse into a sliver.
+function ShelfBay({ side, spec, items, texs, enter, stockRange, offset = 0 }) {
   const x = side < 0 ? RACK_L.x : RACK_R.x;
-  const face = side < 0 ? Math.PI / 2 : -Math.PI / 2;
-  const zs = rackSlots(items.length, spec.z0, spec.z1);
   const mid = (spec.z0 + spec.z1) / 2;
   const len = spec.z1 - spec.z0;
-  const metal = '#8d6337'; // bronze, in step with the wall framework — black
-  // tube against a cream room read as a drawn wireframe, not a fixture
+  const face = Math.atan2(-x, CAM_B[2] - mid);
+  const zs = rackSlots(BAY_PER, spec.z0 + 0.42, spec.z1 - 0.42);
+  const metal = '#8d6337'; // bronze, in step with the wall framework
+  const slots = [];
+  BAY_SHELVES.forEach((sy, si) => {
+    zs.forEach((z, zi) => {
+      const item = items.length ? items[(si * BAY_PER + zi + offset) % items.length] : null;
+      if (item) slots.push({ item, key: `${si}-${zi}`, y: sy + 0.022, z });
+    });
+  });
+  const n = Math.max(1, slots.length);
   return (
     <group>
+      <AO pos={[x, 0, mid]} w={1.0} d={len + 0.5} o={0.85} />
       <Enter p={enter} sy={0}>
-        <mesh position={[x, 0.03, spec.z0]} castShadow>
-          <boxGeometry args={[0.5, 0.06, 0.22]} />
-          <meshStandardMaterial color={metal} metalness={0.3} roughness={0.45} envMapIntensity={1.1} />
+        {[spec.z0, spec.z1].map((z) => (
+          <group key={z}>
+            <mesh position={[x, 0.03, z]} castShadow>
+              <boxGeometry args={[0.52, 0.06, 0.22]} />
+              <meshStandardMaterial color={metal} metalness={0.3} roughness={0.45} envMapIntensity={1.1} />
+            </mesh>
+            <mesh position={[x, 1.04, z]} castShadow>
+              <cylinderGeometry args={[0.03, 0.03, 2.04, 14]} />
+              <meshStandardMaterial color={metal} metalness={0.35} roughness={0.4} envMapIntensity={1.1} />
+            </mesh>
+            <mesh position={[x, 2.07, z]} castShadow>
+              <boxGeometry args={[0.5, 0.05, 0.16]} />
+              <meshStandardMaterial color="#a8783f" metalness={0.85} roughness={0.28} envMapIntensity={1.1} />
+            </mesh>
+          </group>
+        ))}
+        {/* cross rail across the top, keeping the bay visually tied together */}
+        <mesh position={[x, 2.07, mid]} rotation={[Math.PI / 2, 0, 0]}>
+          <cylinderGeometry args={[0.024, 0.024, len + 0.2, 14]} />
+          <meshStandardMaterial color="#a8783f" metalness={0.85} roughness={0.26} envMapIntensity={1.1} />
         </mesh>
-        <mesh position={[x, 0.03, spec.z1]} castShadow>
-          <boxGeometry args={[0.5, 0.06, 0.22]} />
-          <meshStandardMaterial color={metal} metalness={0.3} roughness={0.45} envMapIntensity={1.1} />
-        </mesh>
-        <mesh position={[x, RAIL_Y / 2 + 0.03, spec.z0]} castShadow>
-          <cylinderGeometry args={[0.03, 0.03, RAIL_Y, 14]} />
-          <meshStandardMaterial color={metal} metalness={0.35} roughness={0.4} envMapIntensity={1.1} />
-        </mesh>
-        <mesh position={[x, RAIL_Y / 2 + 0.03, spec.z1]} castShadow>
-          <cylinderGeometry args={[0.03, 0.03, RAIL_Y, 14]} />
-          <meshStandardMaterial color={metal} metalness={0.35} roughness={0.4} envMapIntensity={1.1} />
-        </mesh>
-        <mesh position={[x, RAIL_Y, mid]} rotation={[Math.PI / 2, 0, 0]}>
-          <cylinderGeometry args={[0.026, 0.026, len + 0.2, 14]} />
-          <meshStandardMaterial color="#a8783f" metalness={0.9} roughness={0.24} envMapIntensity={1.1} />
-        </mesh>
+        {BAY_SHELVES.map((sy) => (
+          <mesh key={sy} position={[x, sy, mid]} castShadow receiveShadow>
+            <boxGeometry args={[0.5, 0.044, len]} />
+            <meshStandardMaterial color="#c3a177" roughness={0.55} envMapIntensity={0.5} />
+          </mesh>
+        ))}
       </Enter>
-      {items.map((item, i) => {
-        const w = stag(clothRange, i, items.length, 0.4);
+      {slots.map((s, i) => {
+        const w = stag(stockRange, i, n, 0.42);
         return (
-          <Garment
-            key={item.id}
-            tex={texs[item.id]}
+          <PackShot
+            key={s.key}
+            tex={texs[s.item.id]}
             x={x}
-            z={zs[i]}
+            y={s.y}
+            z={s.z}
             face={face}
             start={w[0]}
             span={w[1] - w[0]}
-            long={item.long}
           />
         );
       })}
@@ -525,60 +599,37 @@ function Rack({ side, spec, items, texs, enter, clothRange }) {
   );
 }
 
-// ── dress form (torso on a pole) ────────────────────────────────────────────
-function Mannequin({ cfg }) {
-  const formPts = useMemo(
-    () =>
-      // read bottom-up: a dress form is a flat-bottomed torso with a real
-      // shoulder line and a defined waist — the previous smooth profile
-      // lathe-turned into a featureless egg
-      [
-        [0.062, 1.47], [0.078, 1.44], [0.11, 1.40], [0.152, 1.345],
-        [0.178, 1.27], [0.188, 1.17], [0.176, 1.06], [0.152, 0.985],
-        [0.144, 0.93], [0.158, 0.86], [0.182, 0.76], [0.186, 0.66],
-        [0.15, 0.56], [0.09, 0.5],
-      ].map(([x, y]) => new THREE.Vector2(x, y)),
-    [],
-  );
-  const dressPts = useMemo(
-    () =>
-      [
-        [0.2, 1.34], [0.215, 1.2], [0.185, 1.04], [0.165, 0.94], [0.205, 0.78],
-        [0.26, 0.6], [0.3, 0.44], [0.31, 0.4],
-      ].map(([x, y]) => new THREE.Vector2(x, y)),
-    [],
-  );
+// ── display plinth — a pedestal carrying one guest-brand hero piece ─────────
+// Takes the two spots the dress forms held, so the front of the room keeps its
+// vertical anchors, but what stands on them is now real, shoppable stock.
+function Plinth({ cfg, item, tex, start, span }) {
+  if (!item) return null;
+  const face = Math.atan2(-cfg.pos[0], CAM_B[2] - cfg.pos[2]);
   return (
     <group position={cfg.pos}>
+      <AO pos={[0, 0, 0]} w={1.15} d={1.15} />
       <Enter p={cfg.win} sy={0}>
-        <mesh position={[0, 0.013, 0]} castShadow>
-          <cylinderGeometry args={[0.19, 0.21, 0.026, 32]} />
-          <meshStandardMaterial color="#1b1d21" metalness={0.6} roughness={0.4} />
+        <mesh position={[0, (PLINTH_Y - 0.04) / 2, 0]} castShadow receiveShadow>
+          <boxGeometry args={[0.48, PLINTH_Y - 0.04, 0.48]} />
+          <meshStandardMaterial color="#ece6da" roughness={0.72} envMapIntensity={0.5} />
         </mesh>
-        <mesh position={[0, 0.27, 0]}>
-          <cylinderGeometry args={[0.02, 0.02, 0.52, 12]} />
-          <meshStandardMaterial color="#6b5a44" metalness={0.7} roughness={0.35} />
-        </mesh>
-        {/* linen dress form — a near-black body read as a featureless blob
-            against the bright room, so it takes the same warm neutral as the
-            walls and lets the garment colours carry the contrast */}
-        <mesh castShadow>
-          <latheGeometry args={[formPts, 40]} />
-          <meshStandardMaterial color="#c6b79e" roughness={0.78} metalness={0} envMapIntensity={0.5} />
+        <mesh position={[0, PLINTH_Y - 0.02, 0]} castShadow receiveShadow>
+          <boxGeometry args={[0.56, 0.04, 0.56]} />
+          <meshStandardMaterial color="#cbbfa8" roughness={0.5} envMapIntensity={0.6} />
         </mesh>
       </Enter>
-      <Enter p={cfg.dw} d={[0, 1.25, 0]} r={[0, 0, 0.05]} fade>
-        <mesh castShadow>
-          <latheGeometry args={[dressPts, 40]} />
-          <meshStandardMaterial
-            color={cfg.dress}
-            roughness={0.82}
-            metalness={0}
-            side={THREE.DoubleSide}
-            envMapIntensity={0.4}
-          />
-        </mesh>
-      </Enter>
+      <PackShot
+        tex={tex}
+        x={0}
+        y={PLINTH_Y}
+        z={0}
+        face={face}
+        maxW={0.4}
+        maxH={0.54}
+        start={start}
+        span={span}
+        drop={0.5}
+      />
     </group>
   );
 }
@@ -637,8 +688,8 @@ function Shell({ signTex }) {
         <planeGeometry args={[26, 26]} />
         <primitive object={baseMat} attach="material" />
       </mesh>
-      {/* front lip — marks the shop edge as the camera clears it */}
-      <mesh position={[0, 0.035, 2.02]} receiveShadow>
+      {/* front lip — caps the boards where the oak gives way to stone */}
+      <mesh position={[0, 0.035, FRONT_Z]} receiveShadow>
         <boxGeometry args={[14.2, 0.07, 0.24]} />
         <meshStandardMaterial color="#8f897d" roughness={0.7} />
       </mesh>
@@ -951,6 +1002,7 @@ function RailsAndFurniture() {
       {/* centre table drops in */}
       <Enter p={stag(TL.rails, 1, 3, 0.5)} d={[0, 2.6, 0]} fade>
         <group position={TABLE_POS}>
+          <AO pos={[0, 0, 0]} w={3.5} d={2.1} />
           <mesh position={[0, 0.72, 0]} castShadow receiveShadow>
             <boxGeometry args={[2.5, 0.07, 1.2]} />
             <meshStandardMaterial color="#b3936b" roughness={0.55} envMapIntensity={0.5} />
@@ -985,63 +1037,115 @@ function RailsAndFurniture() {
   );
 }
 
-// ── STAGE 6: goods — shelf stock, folded stacks on the table ────────────────
-function Goods({ staged, texs }) {
-  const stacks = [
-    { x: -0.78, z: -0.18, colors: ['#e8e2d6', '#26282c'] },
-    { x: 0.02, z: 0.2, colors: ['#a89b88', '#d9cfc0', '#3a3f46'] },
-    { x: 0.8, z: -0.14, colors: ['#2c2e33', '#cfc6b6'] },
-  ];
-  // explicit prefix indices — no mutable render-time counter, so a re-render
-  // (or StrictMode double-invoke) can never shift the choreography
-  let nStack = 0;
-  const flat = [];
-  stacks.forEach((stack, si) => {
-    stack.colors.forEach((col, ci) => {
-      flat.push({ si, ci, col, stack, i: nStack });
-      nStack += 1;
+// ── wall shelving on the back wall, running under the sign ──────────────────
+// Three tiers across five metres. The reference showroom dresses every wall,
+// and this was the last big blank surface in the wide shot — five metres of
+// bare plaster behind the island is most of what made it read as a set.
+const WALL = { x0: -2.7, x1: 2.5, z: BACK_Z + 0.17, ys: [0.62, 1.34, 2.06] };
+const WALL_PER = 6;
+
+function WallShelves({ items, texs, range }) {
+  const len = WALL.x1 - WALL.x0;
+  const mid = (WALL.x0 + WALL.x1) / 2;
+  const xs = Array.from(
+    { length: WALL_PER },
+    (_, i) => WALL.x0 + 0.46 + (i * (len - 0.92)) / (WALL_PER - 1),
+  );
+  const slots = [];
+  WALL.ys.forEach((sy, si) => {
+    xs.forEach((x, xi) => {
+      const item = items.length ? items[(si * WALL_PER + xi) % items.length] : null;
+      if (item) slots.push({ item, key: `${si}-${xi}`, y: sy + 0.03, x });
     });
   });
-  const nTotal = nStack + staged.shelf.length;
+  // square to the storefront: this wall faces the camera head-on, so no yaw
+  const face = Math.atan2(0, CAM_B[2] - WALL.z);
+  const n = Math.max(1, slots.length);
   return (
     <group>
-      {flat.map((f) => (
-        <Enter
-          key={`st${f.si}-${f.ci}`}
-          p={stag(TL.goods, f.i, nTotal, 0.45)}
-          d={[0, 0.35, 0]}
-          s={0.4}
-          fade
-        >
-          <mesh
-            position={[TABLE_POS[0] + f.stack.x, 0.755 + 0.0375 + f.ci * 0.076, TABLE_POS[2] + f.stack.z]}
-            castShadow
-          >
-            <boxGeometry args={[0.46, 0.075, 0.34]} />
-            <meshStandardMaterial color={f.col} roughness={0.88} />
+      <Enter p={[0.4, 0.47]} sy={0}>
+        {WALL.ys.map((sy) => (
+          <mesh key={sy} position={[mid, sy, WALL.z]} castShadow receiveShadow>
+            <boxGeometry args={[len, 0.055, 0.34]} />
+            <meshStandardMaterial color="#c3a177" roughness={0.55} envMapIntensity={0.5} />
           </mesh>
-        </Enter>
-      ))}
-
-      {/* real catalogue stock on the back shelf */}
-      {staged.shelf.map((item, i) => {
-        const w = stag(TL.goods, nStack + i, nTotal, 0.45);
-        const shelfY = [0.34, 0.98, 1.62][i % 3] + 0.0275;
-        const h = 0.46;
-        const t = texs[item.id];
-        const iw = t && t.image ? t.image.width : 512;
-        const ih = t && t.image ? t.image.height : 560;
-        const wd = Math.min(0.5, (h * iw) / ih);
+        ))}
+        {/* bronze standards carrying the shelves */}
+        {[WALL.x0 + 0.06, mid, WALL.x1 - 0.06].map((x) => (
+          <mesh key={x} position={[x, 1.1, WALL.z + 0.1]} castShadow>
+            <boxGeometry args={[0.05, 2.2, 0.05]} />
+            <meshStandardMaterial color="#8d6337" metalness={0.35} roughness={0.4} envMapIntensity={1.1} />
+          </mesh>
+        ))}
+      </Enter>
+      {slots.map((s, i) => {
+        const w = stag(range, i, n, 0.42);
         return (
-          <Enter key={item.id} p={w} d={[0, 0.3, 0]} s={0.5} fade>
-            <mesh
-              position={[SHELF_POS[0] - 0.72 + i * 0.48, SHELF_POS[1] + shelfY + h / 2, SHELF_POS[2] + 0.06]}
-              rotation={[0, (i - 1.5) * 0.14, 0]}
-            >
-              <planeGeometry args={[wd, h]} />
-              <meshStandardMaterial map={t} transparent alphaTest={0.32} roughness={0.7} envMapIntensity={0.4} />
-            </mesh>
-          </Enter>
+          <PackShot
+            key={s.key}
+            tex={texs[s.item.id]}
+            x={s.x}
+            y={s.y}
+            z={WALL.z}
+            face={face}
+            maxW={0.36}
+            maxH={0.5}
+            start={w[0]}
+            span={w[1] - w[0]}
+          />
+        );
+      })}
+    </group>
+  );
+}
+
+// ── STAGE 6: goods — the island table planogram + the back-wall shelf ───────
+function Goods({ staged, texs }) {
+  const tableItems = staged.table || [];
+  const shelfItems = staged.shelf || [];
+  const n = Math.max(1, tableItems.length + shelfItems.length);
+  const shelfYs = [0.34, 0.98, 1.62];
+  return (
+    <group>
+      {/* island table — one row, each pack angled to the storefront */}
+      {tableItems.map((item, i) => {
+        const slot = TABLE_SLOTS[i % TABLE_SLOTS.length];
+        const wx = TABLE_POS[0] + slot[0];
+        const wz = TABLE_POS[2] + slot[1];
+        const w = stag(TL.goods, i, n, 0.45);
+        return (
+          <PackShot
+            key={item.id}
+            tex={texs[item.id]}
+            x={wx}
+            y={TABLE_Y}
+            z={wz}
+            face={Math.atan2(-wx, CAM_B[2] - wz)}
+            maxW={0.32}
+            maxH={0.44}
+            start={w[0]}
+            span={w[1] - w[0]}
+          />
+        );
+      })}
+
+      {/* back-wall shelf unit, square on to the storefront */}
+      {shelfItems.map((item, j) => {
+        const sy = shelfYs[j % shelfYs.length];
+        const w = stag(TL.goods, tableItems.length + j, n, 0.45);
+        return (
+          <PackShot
+            key={item.id}
+            tex={texs[item.id]}
+            x={SHELF_POS[0] - 0.8 + j * 0.4}
+            y={SHELF_POS[1] + sy + 0.0275}
+            z={SHELF_POS[2] + 0.06}
+            face={0}
+            maxW={0.4}
+            maxH={0.5}
+            start={w[0]}
+            span={w[1] - w[0]}
+          />
         );
       })}
     </group>
@@ -1135,10 +1239,16 @@ function Fixtures() {
 // ── the room + everything in it (suspends on textures, then signals ready) ──
 function Scene({ staged, currency, onOpen, onReady, shadows }) {
   // textures: every staged cutout, loaded once, keyed by product id
-  const urls = useMemo(() => {
-    const all = [...staged.left, ...staged.right, ...staged.shelf];
-    return Array.from(new Set(all.map((s) => s.tex)));
-  }, [staged]);
+  const all = useMemo(
+    () => [
+      ...(staged.bay || []),
+      ...(staged.shelf || []),
+      ...(staged.table || []),
+      ...(staged.plinth || []),
+    ],
+    [staged],
+  );
+  const urls = useMemo(() => Array.from(new Set(all.map((s) => s.tex))), [all]);
   const loaded = useTexture(urls);
   const texs = useMemo(() => {
     const byUrl = {};
@@ -1146,7 +1256,7 @@ function Scene({ staged, currency, onOpen, onReady, shadows }) {
       byUrl[u] = loaded[i];
     });
     const byId = {};
-    [...staged.left, ...staged.right, ...staged.shelf].forEach((s) => {
+    all.forEach((s) => {
       const t = byUrl[s.tex];
       if (t) {
         t.colorSpace = THREE.SRGBColorSpace;
@@ -1157,7 +1267,7 @@ function Scene({ staged, currency, onOpen, onReady, shadows }) {
       }
     });
     return byId;
-  }, [urls, loaded, staged]);
+  }, [urls, loaded, all]);
 
   // veil lifts on the first frame after the whole set mounted
   const readySent = useRef(false);
@@ -1170,24 +1280,25 @@ function Scene({ staged, currency, onOpen, onReady, shadows }) {
 
   const signTex = useSignTexture();
 
-  // hotspot entries on real merchandise (guarded by slot existence)
+  // hotspot entries pinned to real merchandise — three island-table pieces and
+  // both plinths (a pin on all six table packs would just be a cluster)
   const hotspots = useMemo(() => {
     const out = [];
     const add = (item, pos) => {
       if (item) out.push({ id: item.id, name: item.name, price: item.price, pos, slot: out.length });
     };
-    const l = staged.left;
-    const r = staged.right;
-    const lZ = rackSlots(l.length, RACK_L.z0, RACK_L.z1);
-    const rZ = rackSlots(r.length, RACK_R.z0, RACK_R.z1);
-    // sit the pin just in front of the garment face (0.2m off the rail), at
-    // the garment's own centre height (long pieces hang lower)
-    const gy = (item) => (item && item.long ? 1.42 : 1.52);
-    add(l[0], [RACK_L.x + 0.2, gy(l[0]), lZ[0]]);
-    add(l[6], [RACK_L.x + 0.2, gy(l[6]), lZ[6]]);
-    add(r[0], [RACK_R.x - 0.2, gy(r[0]), rZ[0]]);
-    add(r[4], [RACK_R.x - 0.2, gy(r[4]), rZ[4]]);
-    add(staged.shelf[0], [SHELF_POS[0] - 0.72, 0.6, SHELF_POS[2] + 0.18]);
+    const table = staged.table || [];
+    [0, 2, 4].forEach((i) => {
+      const item = table[i];
+      const slot = TABLE_SLOTS[i % TABLE_SLOTS.length];
+      if (!item || !slot) return;
+      add(item, [TABLE_POS[0] + slot[0], TABLE_Y + 0.3, TABLE_POS[2] + slot[1] + 0.14]);
+    });
+    (staged.plinth || []).forEach((item, i) => {
+      const c = PLINTHS[i];
+      if (!c) return;
+      add(item, [c.pos[0], PLINTH_Y + 0.36, c.pos[2] + 0.12]);
+    });
     return out;
   }, [staged]);
 
@@ -1200,29 +1311,44 @@ function Scene({ staged, currency, onOpen, onReady, shadows }) {
       <Storage />
       <RailsAndFurniture />
 
-      {/* ── RACKS — rise out of the floor, then garments land rail by rail ── */}
-      <Rack
+      {/* ── BAYS — bronze standards and oak shelves rise, then stock lands ── */}
+      <ShelfBay
         side={-1}
         spec={RACK_L}
-        items={staged.left}
+        items={staged.bay || []}
         texs={texs}
         enter={[0.5, 0.575]}
-        clothRange={[TL.clothes[0], 0.715]}
+        stockRange={[TL.clothes[0], 0.715]}
+        offset={0}
       />
-      <Rack
+      <ShelfBay
         side={1}
         spec={RACK_R}
-        items={staged.right}
+        items={staged.bay || []}
         texs={texs}
         enter={[0.52, 0.6]}
-        clothRange={[0.705, TL.clothes[1]]}
+        stockRange={[0.705, TL.clothes[1]]}
+        offset={5}
       />
 
-      {/* ── MANNEQUINS — stand up with the rails, dress with the goods ───── */}
-      {MANNS.map((cfg) => (
-        <Mannequin key={cfg.pos[0]} cfg={cfg} />
-      ))}
+      {/* ── PLINTHS — stand up with the bays, take their piece with the goods */}
+      {(staged.plinth || []).map((item, i) => {
+        const cfg = PLINTHS[i];
+        if (!cfg) return null;
+        const w = stag(TL.goods, i, Math.max(1, (staged.plinth || []).length), 0.5);
+        return (
+          <Plinth
+            key={item.id}
+            cfg={cfg}
+            item={item}
+            tex={texs[item.id]}
+            start={w[0]}
+            span={w[1] - w[0]}
+          />
+        );
+      })}
 
+      <WallShelves items={staged.bay || []} texs={texs} range={TL.goods} />
       <Goods staged={staged} texs={texs} />
       <Fixtures />
 
@@ -1278,26 +1404,27 @@ export default function StoreStage({ staged, currency, onOpen, onReady, isMobile
         />
         <Lightformer
           form="rect"
-          intensity={0.8}
-          color="#cfe0ff"
+          intensity={0.85}
+          color="#dee4ee"
           position={[7, 2.5, 5]}
           rotation-y={-Math.PI / 2}
           scale={[6, 4, 1]}
         />
         <Lightformer
           form="rect"
-          intensity={0.6}
-          color="#ffe2c4"
+          intensity={0.7}
+          color="#ffdfbe"
           position={[-7, 2.5, 2]}
           rotation-y={Math.PI / 2}
           scale={[5, 4, 1]}
         />
-        {/* frontal fill — lights the faces of garments/mannequins and gives
-            the back-wall mirror something soft to reflect */}
+        {/* frontal fill — lights the faces of the stock on the bays and the
+            island table, and gives the back-wall mirror something soft to
+            reflect. Warm, because the showroom reads amber end to end. */}
         <Lightformer
           form="rect"
-          intensity={1.1}
-          color="#e8eeff"
+          intensity={1.25}
+          color="#f7ead6"
           position={[0, 2.6, 8]}
           rotation-y={Math.PI}
           scale={[9, 5, 1]}
@@ -1313,6 +1440,23 @@ export default function StoreStage({ staged, currency, onOpen, onReady, isMobile
           shadows={shadows}
         />
       </Suspense>
+      {/* Post pass, desktop only. SSAO is what stops a clean CG interior reading
+          as a set: it darkens corners, shelf undersides and the gaps between
+          stock — the occlusion real rooms have and flat fills never fake.
+          Bloom lets the fixtures glow. multisampling keeps the canvas MSAA that
+          a composer would otherwise bypass. */}
+      {!isMobile && (
+        <EffectComposer multisampling={4} enableNormalPass>
+          <SSAO samples={9} radius={0.35} intensity={1.1} luminanceInfluence={0.35} />
+          <Bloom
+            intensity={0.16}
+            luminanceThreshold={0.92}
+            luminanceSmoothing={0.18}
+            mipmapBlur
+          />
+          <Vignette offset={0.3} darkness={0.45} />
+        </EffectComposer>
+      )}
     </Canvas>
   );
 }

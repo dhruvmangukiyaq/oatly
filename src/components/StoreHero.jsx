@@ -42,11 +42,13 @@ function capState(p, w) {
   return { alpha: Math.min(eIn, eOut), y: 18 * (1 - eIn) - 14 * (1 - eOut) };
 }
 
-// Build the staged display list once from the enriched catalogue.
+// Build the staged display list once from the enriched catalogue. Only ids
+// that actually resolve to a catalogue product survive, so a removed product
+// can never leave a hole in the set (or a broken texture request).
 function buildStaged(items) {
   const byId = new Map();
   (items || []).forEach((p) => byId.set(String(p.id ?? p.slug ?? p.name), p));
-  const pick = (ids, longRe) =>
+  const pick = (ids) =>
     ids
       .map((id) => {
         const p = byId.get(id);
@@ -56,14 +58,14 @@ function buildStaged(items) {
           name: p.name,
           price: Number(p.price) || 0,
           tex: `/images/store/${id}.webp`,
-          long: longRe ? longRe.test(id) : false,
         };
       })
       .filter(Boolean);
   return {
-    left: pick(STORE_IDS.men, /trouser|jean/),
-    right: pick(STORE_IDS.women, /trouser|jean|dress|skirt/),
+    bay: pick(STORE_IDS.bay),
     shelf: pick(STORE_IDS.shelf),
+    table: pick(STORE_IDS.table),
+    plinth: pick(STORE_IDS.plinth),
   };
 }
 
