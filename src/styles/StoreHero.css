@@ -240,6 +240,11 @@
   pointer-events: none; /* JS flips this on as the final beat arrives */
 }
 
+/* The dot markers are gone — they sat on the merchandise and read as UI
+   plastered over a photograph rather than stock in a room. The button stays
+   as an invisible 22px hit target, so the product behind it is still
+   clickable and its name/price still arrives on hover; at rest the frame is
+   clean. */
 .store-hot__dot {
   position: relative;
   flex: none;
@@ -247,40 +252,12 @@
   height: 22px;
   padding: 0;
   border-radius: 50%;
-  border: 1px solid rgba(255, 255, 255, 0.9);
-  background: rgba(10, 12, 18, 0.5);
-  backdrop-filter: blur(4px);
+  border: 0;
+  background: transparent;
+  backdrop-filter: none;
   display: grid;
   place-items: center;
   cursor: pointer;
-}
-
-.store-hot__dot::after {
-  content: '';
-  width: 6px;
-  height: 6px;
-  border-radius: 50%;
-  background: #fff;
-}
-
-.store-hot__ring {
-  position: absolute;
-  inset: -7px;
-  border-radius: 50%;
-  border: 1px solid rgba(255, 255, 255, 0.55);
-  animation: store-hot-pulse 2.2s ease-out infinite;
-}
-
-@keyframes store-hot-pulse {
-  0% {
-    transform: scale(0.7);
-    opacity: 0.9;
-  }
-  70%,
-  100% {
-    transform: scale(1.55);
-    opacity: 0;
-  }
 }
 
 .store-hot__label {
@@ -381,8 +358,7 @@
   }
 
   .hp-video__hint,
-  .hp-video__orbit,
-  .store-hot__ring {
+  .hp-video__orbit {
     animation: none;
   }
 

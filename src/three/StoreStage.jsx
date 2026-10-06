@@ -663,9 +663,7 @@ function Hotspots({ entries, currency, onOpen }) {
           className="store-hot__dot"
           aria-label={`View ${e.name}`}
           onClick={() => onOpen(e.id)}
-        >
-          <span className="store-hot__ring" />
-        </button>
+        />
         <span className="store-hot__label">
           <b>{e.name}</b>
           <i>
